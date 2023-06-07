@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditorInternal.ReorderableList;
 using static UnityEngine.Rendering.DebugUI;
 
 public class Shark : MonoBehaviour
@@ -12,41 +13,86 @@ public class Shark : MonoBehaviour
 
     [Header("----------------------Shark Jump----------------------")]
     [SerializeField] private Transform bezierPoint;
-    [SerializeField] private bool isAttack = false;
+    [SerializeField] private bool isAttack = false; // 테스트 위해 SerializeField 함
     [SerializeField] private float jumpTime = 2f;
 
     [Header("----------------------Shark Look At Player----------------------")]
     [SerializeField] private Transform playerPos;
+    [SerializeField] private bool isLookingPlayer = false; // 테스트 위해 SerializeField 함
 
-    
-    
-    
+    [SerializeField] private float ySpinTime = 1f;
+    [SerializeField] private float zSpinTime = 1f;
+
+
 
     private void Start()
     {
         RotateAroundIsland().Forget();
-        WaitUntilJump().Forget();
+        SharkLookAtPlayer().Forget();
     }
 
-    private Vector3 initialPosition;
-    private float elapsedTime = 0f;
-    private async UniTaskVoid WaitUntilJump()
+    
+    private float defaultX = 0f; // 이 각도가 상어가 회전하는 각도임.. Quaternion.LookRotation()이 안먹혀... 쏴리...
+    private float defaultY = -110f;
+    private float defaultZ = 23f;
+
+
+    private async UniTaskVoid SharkLookAtPlayer()
     {
         await UniTask.WaitUntil(() => isAttack == true);
 
+        //await SpinYaxis(defaultY);
+        
+        //await SpinZaxis(defaultZ);
+
+        isLookingPlayer = true;
+
+        await SharkWaitJump();
+
+        //await SpinYaxis(defaultY);
+        
+        //await SpinZaxis(defaultZ + 10f);
+
+        isAttack = false;
+
+        SharkLookAtPlayer().Forget();
+    }
+    
+    private async UniTask<bool> SharkWaitJump()
+    {
+        await UniTask.WaitUntil(() => isLookingPlayer == true);
+        
+        isLookingPlayer = false;
+
+        float elapsedTime = 0f;
+
+
         oppositePosition = GetOppositePosition(transform.position, sharkIslandTransform.position);
-        initialPosition = transform.position;
+        Vector3 initialPosition = transform.position;
+        
+
+        float initialZAngle = transform.rotation.eulerAngles.z;
+        float targetZAngle = -transform.rotation.eulerAngles.z;
+        float changeZAngle = 0f;
+        Vector3 sharkRotation = transform.rotation.eulerAngles;
+
         while (elapsedTime <= jumpTime)
         {
             elapsedTime += Time.deltaTime;
+
             transform.position = SharkJumpTowardsOpposite(initialPosition, bezierPoint.position, oppositePosition, elapsedTime / jumpTime);
+
+            //changeZAngle = Lerp(initialZAngle, targetZAngle, elapsedTime / jumpTime);
+            //sharkRotation.Set(sharkRotation.x, sharkRotation.y, changeZAngle);
+            //transform.rotation = Quaternion.Euler(sharkRotation);
+
             await UniTask.Yield();
         }
 
-        elapsedTime = 0f;
-        isAttack = false;
+        //isAttack = false;
 
-        WaitUntilJump().Forget(); // 또 호출하면, 또 isAttack 이 true가 될떄까지 기다린다
+        return true;
+        //SharkLookAtPlayer().Forget();
     }
 
 
@@ -82,4 +128,55 @@ public class Shark : MonoBehaviour
         return PrimaryBezierCurve(firstMiddle, secondMiddle, t);
     }
     private Vector3 PrimaryBezierCurve(Vector3 start, Vector3 end, float t) => Vector3.Lerp(start, end, t);
+
+    private float Lerp(float start, float end, float t)
+    {
+        return start + (end - start) * t;
+    }
+
+    private async UniTask<bool> SpinYaxis(float _defaultY)
+    {
+        float elapsedTime = 0f;
+
+        float initialYAngle = transform.rotation.eulerAngles.y;
+        float targetYAngle = transform.rotation.eulerAngles.y + _defaultY;
+
+        float changeYAngle = 0f;
+
+        Vector3 sharkRotation = transform.rotation.eulerAngles;
+
+        while (elapsedTime <= ySpinTime)
+        {
+            elapsedTime += Time.deltaTime;
+            changeYAngle = Lerp(initialYAngle, targetYAngle, elapsedTime / ySpinTime);
+            sharkRotation.Set(sharkRotation.x, changeYAngle, sharkRotation.z);
+            transform.rotation = Quaternion.Euler(sharkRotation);
+            await UniTask.Yield();
+        }
+
+        return true;
+    }
+
+    private async UniTask<bool> SpinZaxis(float _defaultZ)
+    {
+        float elapsedTime = 0f;
+
+        float initialZAngle = transform.rotation.eulerAngles.z;
+        float targetZAngle = transform.rotation.eulerAngles.z + _defaultZ;
+
+        float changeZAngle = 0f;
+
+        Vector3 sharkRotation = transform.rotation.eulerAngles;
+
+        while (elapsedTime <= zSpinTime)
+        {
+            elapsedTime += Time.deltaTime;
+            changeZAngle = Lerp(initialZAngle, targetZAngle, elapsedTime / ySpinTime);
+            sharkRotation.Set(sharkRotation.x, sharkRotation.y, changeZAngle);
+            transform.rotation = Quaternion.Euler(sharkRotation);
+            await UniTask.Yield();
+        }
+
+        return true;
+    }
 }
