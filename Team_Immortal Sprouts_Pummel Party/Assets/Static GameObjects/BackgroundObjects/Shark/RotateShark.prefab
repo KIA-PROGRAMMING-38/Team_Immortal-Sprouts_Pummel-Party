@@ -1836,6 +1836,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e06d3e4ad4f15748990e8b3bbaffaec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpSharkMaterials: []
+  baseShark: {fileID: 0}
+  sharkIsland: {fileID: 0}
+  bezierPoint: {fileID: 0}
+  jumpTime: 2
+  downSpeed: 10
 --- !u!1 &5574676843113098922
 GameObject:
   m_ObjectHideFlags: 0
@@ -7857,8 +7863,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6173950319447275895}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.17618537, y: -0.20298144, z: -0.32064033}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.003097, y: -0.21, z: -0.38831}
+  m_LocalScale: {x: 1.8334656, y: 1.8334656, z: 1.8334656}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6173950318527944275}
