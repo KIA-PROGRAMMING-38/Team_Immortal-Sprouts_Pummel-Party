@@ -26,7 +26,13 @@ public class MultiGameCanvas : MonoBehaviour
     public void OnClick_CreateRoom()
     {
         _lobbyCanvases.CreateRoomCanvas.Active();
-        _canvasGroup.blocksRaycasts = false;
+        TurnOffRaycast();
+    }
+
+    public void OnClick_FindRoom()
+    {
+        _lobbyCanvases.FindRoomCanvas.Active();
+        TurnOffRaycast();
     }
 
     /// <summary>
