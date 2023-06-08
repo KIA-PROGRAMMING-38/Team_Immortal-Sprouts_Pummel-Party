@@ -8,6 +8,7 @@ using UnityEngine.InputSystem.EnhancedTouch;
 
 public class Title : MonoBehaviour
 {
+    [SerializeField] private GameObject MultiPlayerCanvas;
     private PlayerInput playerInput;
     private InputAction touchAction;
 
@@ -31,6 +32,7 @@ public class Title : MonoBehaviour
     private void TouchTitle(InputAction.CallbackContext value)
     {
         gameObject.transform.parent.gameObject.SetActive(false);
+        MultiPlayerCanvas.SetActive(true);
         Debug.Log("Touch Title");
     }
 }

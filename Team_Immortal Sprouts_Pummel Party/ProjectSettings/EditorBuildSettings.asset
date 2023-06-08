@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/EunSu/Lobby Scene ES.unity
+    guid: 64b1e8091ed22264f94df5d8fb4e8294
   m_configObjects: {}
