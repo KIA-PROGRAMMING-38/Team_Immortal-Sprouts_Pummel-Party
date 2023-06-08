@@ -2039,7 +2039,6 @@ Transform:
   m_Children:
   - {fileID: 1656681770}
   - {fileID: 1472273278}
-  - {fileID: 1807516325}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2683,11 +2682,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8926263107349846052, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
   m_PrefabInstance: {fileID: 8926263108050066053}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &1807516325 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8926263107349846048, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
-  m_PrefabInstance: {fileID: 8926263108050066053}
-  m_PrefabAsset: {fileID: 0}
 --- !u!223 &1807516328 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 8926263107349846049, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
@@ -3079,7 +3073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3998255936705922919, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3998255937271690484, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: MultiPlayerCanvas
@@ -3149,7 +3143,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1479480273}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8926263107349846048, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
       propertyPath: m_Pivot.x
@@ -3161,7 +3155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8926263107349846048, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8926263107349846048, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
       propertyPath: m_AnchorMax.x
