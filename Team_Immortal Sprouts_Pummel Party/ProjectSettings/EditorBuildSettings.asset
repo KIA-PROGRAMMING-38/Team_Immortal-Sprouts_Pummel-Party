@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/ChangYeon/RoterRace Scene.unity
+    guid: a60ede4d6b6dd134cb6549a2a7c521b2
   m_configObjects: {}
