@@ -72,8 +72,7 @@ public class PlayerController : MonoBehaviour
             await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
             if (Accelerometer.current.acceleration.value.x - positionX > 0.2 || Accelerometer.current.acceleration.value.x - positionX < -0.2)
             {
-                virtualCamera.m_Lens.Dutch = (Accelerometer.current.acceleration.value.x - positionX) * 100;
-                
+                virtualCamera.m_Lens.Dutch = (Accelerometer.current.acceleration.value.x - positionX) * 10;
             }
             else
             {
