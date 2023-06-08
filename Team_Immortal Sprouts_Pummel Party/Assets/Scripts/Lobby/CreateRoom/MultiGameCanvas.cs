@@ -28,4 +28,20 @@ public class MultiGameCanvas : MonoBehaviour
         _lobbyCanvases.CreateRoomCanvas.Active();
         _canvasGroup.blocksRaycasts = false;
     }
+
+    /// <summary>
+    /// MultiGame Canvas에 raycast 입력을 차단
+    /// </summary>
+    public void TurnOffRaycast()
+    {
+        _canvasGroup.blocksRaycasts = false;
+    }
+
+    /// <summary>
+    /// MultiGame Canvas에 raycast 입력을 받을 수 있도록 설정
+    /// </summary>
+    public void TurnOnRaycast()
+    {
+        _canvasGroup.blocksRaycasts = true;
+    }
 }

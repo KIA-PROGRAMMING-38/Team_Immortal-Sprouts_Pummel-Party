@@ -650,7 +650,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 542762601}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1656681772}
+        m_TargetAssemblyTypeName: CreateRoomCanvas, Assembly-CSharp
+        m_MethodName: OnClick_OK
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &542762601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1665,7 +1677,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1334964204}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1656681772}
+        m_TargetAssemblyTypeName: CreateRoomCanvas, Assembly-CSharp
+        m_MethodName: OnClick_Cancel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1334964204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2000,6 +2024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _multiGameCanvas: {fileID: 1472273279}
   _createRoomCanvas: {fileID: 1656681772}
+  _waitingRoomCanvas: {fileID: 1807516328}
 --- !u!4 &1479480273
 Transform:
   m_ObjectHideFlags: 0
@@ -2194,7 +2219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1656681770
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2240,6 +2265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 095233833592fcc46ad1e4ff23846987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _roomName: {fileID: 589487220}
 --- !u!114 &1656681773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2660,6 +2686,11 @@ GameObject:
 --- !u!224 &1807516325 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8926263107349846048, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
+  m_PrefabInstance: {fileID: 8926263108050066053}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &1807516328 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 8926263107349846049, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
   m_PrefabInstance: {fileID: 8926263108050066053}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1853266550
