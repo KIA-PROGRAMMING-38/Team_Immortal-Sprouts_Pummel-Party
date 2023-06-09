@@ -1667,7 +1667,7 @@ GameObject:
   m_Component:
   - component: {fileID: 832399634027178072}
   - component: {fileID: 4622146797714083667}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trophy Island
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1715,9 +1715,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db291f9a46ecbd844aba1f17a72531dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextIsland: {fileID: 0}
-  PrevIsland: {fileID: 0}
+  nextPlayerSpot: {fileID: 0}
+  prevPlayerSpot: {fileID: 0}
   currentPlayerSpot: {fileID: 832399634964067145}
+  isPlayerPresent: 0
+  nextPosition: {x: 0, y: 0, z: 0}
+  prevPosition: {x: 0, y: 0, z: 0}
+  currentPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &832399634277446848
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,9 +1735,9 @@ GameObject:
   - component: {fileID: 832399634277446850}
   - component: {fileID: 832399634277446851}
   - component: {fileID: 832399634277446879}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BasicTile
-  m_TagString: Untagged
+  m_TagString: TrophyIsland
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13398,7 +13402,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832399634964067150}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.08, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
