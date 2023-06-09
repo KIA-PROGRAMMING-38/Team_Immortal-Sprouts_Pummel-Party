@@ -33,7 +33,7 @@ public class GameStartButton : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        FailedJoinRoomCanvas.SetActive(true);
+        FailedJoinRoomCanvas.gameObject.SetActive(true);
         Debug.Log($"{message}의 이유로 방 입장에 실패하였습니다");
     }
 
