@@ -13234,6 +13234,8 @@ MonoBehaviour:
   nextPosition: {x: 0, y: 0, z: 0}
   prevPosition: {x: 0, y: 0, z: 0}
   currentPosition: {x: 0, y: 0, z: 0}
+  virtualCam: {fileID: 0}
+  rotateTime: 1.5
 --- !u!1 &6074687522982690016
 GameObject:
   m_ObjectHideFlags: 0

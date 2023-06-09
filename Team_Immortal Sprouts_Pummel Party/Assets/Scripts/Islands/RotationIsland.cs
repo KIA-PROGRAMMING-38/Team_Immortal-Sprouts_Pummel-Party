@@ -6,8 +6,12 @@ using UnityEngine;
 
 public class RotationIsland : Island
 {
-    [SerializeField] CinemachineVirtualCamera virtualCam;
     [SerializeField] [Range(1f, 2f)] private float rotateTime = 1.5f;
+    private CinemachineBasicMultiChannelPerlin virtualCamProperty;
+
+    [Header("---------------------------------------Camera Shake---------------------------------------")]
+    [SerializeField] CinemachineVirtualCamera virtualCam;
+    [SerializeField] [Range(1f, 10f)] private float shakeIntensity = 5f;
     private Transform playerTransform; // 플레이어를 함께 회전시켜주기 위한 변수
     private Quaternion defaultRotation;
     private bool isRotationFinished;
@@ -16,6 +20,7 @@ public class RotationIsland : Island
     {
         InitPositionSettings().Forget();
         SaveInitialRotation();
+        virtualCamProperty = virtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
 
@@ -72,6 +77,8 @@ public class RotationIsland : Island
         }
 
         float elapsedTime = 0f;
+        
+        ActivateCameraShake();
 
         if (playerTransform == null) // 플레이어가 섬위에 없다면
         {
@@ -92,6 +99,8 @@ public class RotationIsland : Island
                 await UniTask.Yield();
             }
         }
+
+        DeactivateCameraShake();
         
 
         if (isResetting == false) // 화살표 방향을 누르고, 회전이 끝나면 isRotationFinished를 true로 만들어준다
@@ -112,5 +121,15 @@ public class RotationIsland : Island
     private void ResetPlayerTransform()
     {
         playerTransform = null;
+    }
+
+    private void ActivateCameraShake()
+    {
+        virtualCamProperty.m_AmplitudeGain = shakeIntensity;
+    }
+
+    private void DeactivateCameraShake()
+    {
+        virtualCamProperty.m_AmplitudeGain = 0f;
     }
 }

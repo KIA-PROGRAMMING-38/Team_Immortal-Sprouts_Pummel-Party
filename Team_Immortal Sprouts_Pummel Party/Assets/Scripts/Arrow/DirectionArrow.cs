@@ -6,17 +6,7 @@ public class DirectionArrow : MonoBehaviour
 {
     [SerializeField] private Island nextIsland;
     [SerializeField] private RotationIsland curIsland;
-
     
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 
     private void OnMouseUpAsButton() // 게임뷰에서 이 스크립트를 들고 있는 게임오브젝트를 터치했을 때
     {
