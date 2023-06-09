@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class RotationIsland : Island
 {
+    [SerializeField] private ArrowSwitch arrowSwitch;
     [SerializeField] [Range(1f, 2f)] private float rotateTime = 1.5f;
     private CinemachineBasicMultiChannelPerlin virtualCamProperty;
 
@@ -23,6 +24,13 @@ public class RotationIsland : Island
         virtualCamProperty = virtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
+    /// <summary>
+    /// 방향 화살표를 띄우는 함수
+    /// </summary>
+    public void PopUpDirectionArrow()
+    {
+        arrowSwitch.TurnOnSwitch();
+    }
 
     /// <summary>
     /// 섬과 함께 회전시킬 플레이어를 설정하는 함수
@@ -132,4 +140,6 @@ public class RotationIsland : Island
     {
         virtualCamProperty.m_AmplitudeGain = 0f;
     }
+
+    
 }
