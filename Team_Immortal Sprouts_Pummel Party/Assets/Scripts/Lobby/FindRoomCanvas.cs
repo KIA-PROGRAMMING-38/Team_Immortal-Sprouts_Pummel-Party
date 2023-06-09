@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
-using Photon.Realtime;
 
-public class CreateRoomCanvas : MonoBehaviourPunCallbacks
+public class FindRoomCanvas : MonoBehaviourPunCallbacks
 {
     private LobbyCanvases _lobbyCanvases;
 
@@ -18,7 +17,7 @@ public class CreateRoomCanvas : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Create Room Canvas를 활성화
+    /// Find Room Canvas를 활성화
     /// </summary>
     public void Active()
     {
@@ -26,7 +25,7 @@ public class CreateRoomCanvas : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Create Room Canvas를 비활성화
+    /// Find Room Canvas를 비활성화
     /// </summary>
     public void Deactive()
     {
@@ -34,43 +33,26 @@ public class CreateRoomCanvas : MonoBehaviourPunCallbacks
     }
 
     [SerializeField] private TMP_Text _roomName;
-
-    /// <summary>
-    /// Create Room Canvas의 OK 버튼 입력 이벤트
-    /// </summary>
     public void OnClick_OK()
     {
-        if(!PhotonNetwork.IsConnected)
-        {
-            return;
-        }
-
-        RoomOptions option = new RoomOptions();
-        option.BroadcastPropsChangeToAll = true;
-        option.PublishUserId = true;
-        option.MaxPlayers = 4;
-
-        PhotonNetwork.CreateRoom(_roomName.text, option, TypedLobby.Default);
+        PhotonNetwork.JoinRoom(_roomName.text);
     }
 
-    /// <summary>
-    /// Create Room Canvas의 Cancel 버튼 입력 이벤트
-    /// </summary>
     public void OnClick_Cancel()
     {
         _lobbyCanvases.MultiGameCanvas.TurnOnRaycast();
         Deactive();
     }
 
-    public override void OnCreatedRoom()
+    public override void OnJoinedRoom()
     {
-        Debug.Log("방 생성 완료");
+        Debug.Log($"방 {PhotonNetwork.CurrentRoom.Name}에 입장했습니다. ");
         _lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
         _lobbyCanvases.DeactiveLobbyCanvases();
     }
 
-    public override void OnCreateRoomFailed(short returnCode, string message)
+    public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.Log($"방 생성 실패 {message}");
+        Debug.Log($"방 입장에 실패하였습니다. {message}");
     }
 }
