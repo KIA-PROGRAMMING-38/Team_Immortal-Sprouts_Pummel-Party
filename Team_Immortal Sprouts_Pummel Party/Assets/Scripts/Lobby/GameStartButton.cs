@@ -1,20 +1,47 @@
+using JetBrains.Annotations;
+using Photon.Pun;
+using Photon.Pun.Demo.Asteroids;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Realtime;
 
-public class GameStartButton : MonoBehaviour
+public class GameStartButton : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject WaitingRoomCanvas;
+    [SerializeField] private GameObject FailedJoinRoomCanvas;
 
     public void OnClickGameStartButton()
     {
-        gameObject.transform.parent.gameObject.SetActive(false);
+        OnJoinRandomRoom();
+        Debug.Log("GameStart 버튼이 클릭됨");
+    }
+
+    //public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    //{
+    //    if (roomList.Count == 0)
+    //    {
+    //        FailedJoinRoomCanvas.SetActive(true);
+    //    }
+    //}
+
+    public override void OnJoinedRoom()
+    {
         WaitingRoomCanvas.gameObject.SetActive(true);
-        Debug.Log("GameStart 버튼이 클리됨");
+        Debug.Log("방에 입장하였습니다.");
+    }
 
-        // 방이 없다면 방장으로 방을 생성해서 대기실로 이동
-        // 방이 있다면 그 방으로 입장
-        // 여기서 생성되는 방은 랜덤 방임
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        FailedJoinRoomCanvas.SetActive(true);
+        Debug.Log($"{message}의 이유로 방 입장에 실패하였습니다");
+    }
 
+    private void OnJoinRandomRoom()
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.JoinRandomRoom();
+        }
     }
 }
