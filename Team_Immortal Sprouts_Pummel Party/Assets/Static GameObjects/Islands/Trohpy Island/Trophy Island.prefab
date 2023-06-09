@@ -1666,6 +1666,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 832399634027178072}
+  - component: {fileID: 4622146797714083667}
   m_Layer: 0
   m_Name: Trophy Island
   m_TagString: Untagged
@@ -1702,6 +1703,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4622146797714083667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832399634027178073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db291f9a46ecbd844aba1f17a72531dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextIsland: {fileID: 0}
+  PrevIsland: {fileID: 0}
+  currentPlayerSpot: {fileID: 832399634964067145}
 --- !u!1 &832399634277446848
 GameObject:
   m_ObjectHideFlags: 0

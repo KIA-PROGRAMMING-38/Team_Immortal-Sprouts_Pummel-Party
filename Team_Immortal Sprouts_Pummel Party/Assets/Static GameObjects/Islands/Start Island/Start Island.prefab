@@ -1818,6 +1818,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1214957365165647812}
+  - component: {fileID: 2939949677933529724}
   m_Layer: 0
   m_Name: Start Island
   m_TagString: Untagged
@@ -1859,6 +1860,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2939949677933529724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214957365165647813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6250551db057dcd4c83d6cbf428abed0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextIsland: {fileID: 0}
+  PrevIsland: {fileID: 0}
+  currentPlayerSpot: {fileID: 1214957363951910101}
 --- !u!1 &1214957365417098076
 GameObject:
   m_ObjectHideFlags: 0

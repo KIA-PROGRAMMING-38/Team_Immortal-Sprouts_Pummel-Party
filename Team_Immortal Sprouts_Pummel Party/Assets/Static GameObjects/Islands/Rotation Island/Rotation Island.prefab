@@ -12226,6 +12226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6074687522912286424}
+  - component: {fileID: 5333172633288108911}
   m_Layer: 0
   m_Name: Rotation Island
   m_TagString: Untagged
@@ -12254,6 +12255,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5333172633288108911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074687522912286427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6e43f238b3a4284baf7e98a0d10992b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextIsland: {fileID: 0}
+  PrevIsland: {fileID: 0}
+  currentPlayerSpot: {fileID: 6074687522472636593}
 --- !u!1 &6074687522982690016
 GameObject:
   m_ObjectHideFlags: 0

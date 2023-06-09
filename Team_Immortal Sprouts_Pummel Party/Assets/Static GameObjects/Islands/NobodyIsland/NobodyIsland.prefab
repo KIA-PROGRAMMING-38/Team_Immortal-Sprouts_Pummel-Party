@@ -11872,6 +11872,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8894908746579259446}
+  - component: {fileID: 4395700557875070959}
   m_Layer: 0
   m_Name: NobodyIsland
   m_TagString: Untagged
@@ -11920,6 +11921,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4395700557875070959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8894908746579259447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b78bce222a2d194ab7a0abe58e21c13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextIsland: {fileID: 0}
+  PrevIsland: {fileID: 0}
+  currentPlayerSpot: {fileID: 0}
+  nobodyIslandPlayerSpots:
+  - {fileID: 5732703351473953721}
+  - {fileID: 8038493473788522338}
+  - {fileID: 4503474382154004549}
+  - {fileID: 2895960133355851638}
 --- !u!1001 &2595910147173409553
 PrefabInstance:
   m_ObjectHideFlags: 0

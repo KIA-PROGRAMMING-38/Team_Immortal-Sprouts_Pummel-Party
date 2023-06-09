@@ -11696,6 +11696,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4437895306776950435}
+  - component: {fileID: 4955731318740838938}
   m_Layer: 0
   m_Name: Item Island
   m_TagString: Untagged
@@ -11730,6 +11731,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4955731318740838938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4437895306776950434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce3f3506313f424897fc42b81e9fe88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextIsland: {fileID: 0}
+  PrevIsland: {fileID: 0}
+  currentPlayerSpot: {fileID: 4437895306552378014}
 --- !u!1001 &3723929062624960711
 PrefabInstance:
   m_ObjectHideFlags: 0
