@@ -333,10 +333,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FailedJoinRoomCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 7037197974935718767, guid: 065474e4a65865c469d44d410bfb2224, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 7037197976329230805, guid: 065474e4a65865c469d44d410bfb2224, type: 3}
+      propertyPath: MultiGameCanvas
+      value: 
+      objectReference: {fileID: 1591320725}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 065474e4a65865c469d44d410bfb2224, type: 3}
 --- !u!1001 &445462016
@@ -531,10 +531,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TitleCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 3998255936705922919, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3998255937271690484, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: MultiPlayerCanvas
       value: 
@@ -605,14 +601,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5527714053850879144, guid: cb984150341bbb34593c09b27e285b45, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5527714054527570238, guid: cb984150341bbb34593c09b27e285b45, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5527714054793255307, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: m_Name
       value: LobbyCanvases

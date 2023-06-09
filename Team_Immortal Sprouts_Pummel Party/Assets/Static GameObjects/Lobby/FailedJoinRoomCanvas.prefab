@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7037197974935718763
 RectTransform:
   m_ObjectHideFlags: 0
@@ -324,7 +324,7 @@ PrefabInstance:
     - target: {fileID: 3499752201602474721, guid: e4e344b78d0d00540ab315df751cd932, type: 3}
       propertyPath: MultiGameCanvas
       value: 
-      objectReference: {fileID: 1730301091074246110, guid: c8a41173d77f1fd49bc0dba7588c2580, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 3499752201602474730, guid: e4e344b78d0d00540ab315df751cd932, type: 3}
       propertyPath: m_Name
       value: Ok

@@ -58,17 +58,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5527714054793255317}
     m_Modifications:
-    - target: {fileID: 1025117756, guid: de0064106e43bcf4f95198e6d99fd290, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7348526285982402112, guid: de0064106e43bcf4f95198e6d99fd290, type: 3}
       propertyPath: m_Name
       value: MultiGameCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 7348526285982402112, guid: de0064106e43bcf4f95198e6d99fd290, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7348526285982402116, guid: de0064106e43bcf4f95198e6d99fd290, type: 3}
       propertyPath: m_Pivot.x
@@ -152,10 +144,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7348526285982402116, guid: de0064106e43bcf4f95198e6d99fd290, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8427756757881672334, guid: de0064106e43bcf4f95198e6d99fd290, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
