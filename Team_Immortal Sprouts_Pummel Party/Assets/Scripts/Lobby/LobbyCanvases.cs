@@ -25,4 +25,14 @@ public class LobbyCanvases : MonoBehaviour
         CreateRoomCanvas.CanvasInitialize(this);
         FindRoomCanvas.CanvasInitialize(this);
     }
+
+    /// <summary>
+    /// Lobby Canvas들을 모두 비활성화
+    /// </summary>
+    public void DeactiveLobbyCanvases()
+    {
+        MultiGameCanvas.Deactive();
+        CreateRoomCanvas.Deactive();
+        FindRoomCanvas.Deactive();
+    }
 }

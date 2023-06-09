@@ -66,7 +66,7 @@ public class CreateRoomCanvas : MonoBehaviourPunCallbacks
     {
         Debug.Log("방 생성 완료");
         _lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
-        Deactive();
+        _lobbyCanvases.DeactiveLobbyCanvases();
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

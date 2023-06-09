@@ -142,7 +142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8036077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10242be917dc75468039cb662dd5e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roomName: {fileID: 0}
+  _roomName: {fileID: 1314549670}
 --- !u!114 &8036078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1077,8 +1077,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1656681772}
-        m_TargetAssemblyTypeName: CreateRoomCanvas, Assembly-CSharp
+      - m_Target: {fileID: 8036077}
+        m_TargetAssemblyTypeName: FindRoomCanvas, Assembly-CSharp
         m_MethodName: OnClick_Cancel
         m_Mode: 1
         m_Arguments:
@@ -2292,7 +2292,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 750145318}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1472273279}
+        m_TargetAssemblyTypeName: MultiGameCanvas, Assembly-CSharp
+        m_MethodName: OnClick_FindRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &750145318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3061,8 +3073,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1656681772}
-        m_TargetAssemblyTypeName: CreateRoomCanvas, Assembly-CSharp
+      - m_Target: {fileID: 8036077}
+        m_TargetAssemblyTypeName: FindRoomCanvas, Assembly-CSharp
         m_MethodName: OnClick_OK
         m_Mode: 1
         m_Arguments:
@@ -3344,7 +3356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1472273275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4574,7 +4586,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3998255936705922919, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3998255937271690484, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: MultiPlayerCanvas

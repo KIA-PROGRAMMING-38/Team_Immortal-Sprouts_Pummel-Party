@@ -38,6 +38,19 @@ public class FindRoomCanvas : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom(_roomName.text);
     }
 
+    public void OnClick_Cancel()
+    {
+        _lobbyCanvases.MultiGameCanvas.TurnOnRaycast();
+        Deactive();
+    }
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log($"방 {PhotonNetwork.CurrentRoom.Name}에 입장했습니다. ");
+        _lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
+        _lobbyCanvases.DeactiveLobbyCanvases();
+    }
+
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Debug.Log($"방 입장에 실패하였습니다. {message}");

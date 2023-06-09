@@ -29,6 +29,9 @@ public class MultiGameCanvas : MonoBehaviour
         TurnOffRaycast();
     }
 
+    /// <summary>
+    /// Find Room 버튼 입력했을 때의 이벤트
+    /// </summary>
     public void OnClick_FindRoom()
     {
         _lobbyCanvases.FindRoomCanvas.Active();
@@ -49,5 +52,21 @@ public class MultiGameCanvas : MonoBehaviour
     public void TurnOnRaycast()
     {
         _canvasGroup.blocksRaycasts = true;
+    }
+
+    /// <summary>
+    /// MultiGame Canvas를 활성화
+    /// </summary>
+    public void Active()
+    {
+        gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// MultiGame Canvas를 비활성화
+    /// </summary>
+    public void Deactive()
+    {
+        gameObject.SetActive(false);
     }
 }
