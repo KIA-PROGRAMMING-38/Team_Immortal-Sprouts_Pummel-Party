@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/WooSeok/Lobby Scene 1.unity
-    guid: 6038df21fe8dfbe4ab3dfa10e3ffe067
+    path: Assets/Scenes/MinYeong/Lobby Scene 2.unity
+    guid: 9c2c0102da9f1464c9b34f0a965ed92e
   m_configObjects: {}

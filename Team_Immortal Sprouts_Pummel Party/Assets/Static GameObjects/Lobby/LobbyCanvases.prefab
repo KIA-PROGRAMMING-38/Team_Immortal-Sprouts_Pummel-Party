@@ -62,6 +62,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MultiGameCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7348526285982402112, guid: de0064106e43bcf4f95198e6d99fd290, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7348526285982402116, guid: de0064106e43bcf4f95198e6d99fd290, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -215,22 +219,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5527714054793255317}
     m_Modifications:
-    - target: {fileID: 6955919097264046267, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919097264046267, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_MatchWidthOrHeight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919097264046267, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 1080
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919097264046267, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 2340
-      objectReference: {fileID: 0}
     - target: {fileID: 6955919097264046268, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
       propertyPath: m_Name
       value: CreateRoomCanvas
@@ -317,50 +305,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6955919097264046271, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919097369468515, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_fontSize
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919097369468515, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919097473626458, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_fontSize
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919097473626458, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919098286705535, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_fontSize
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919098286705535, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919098347497953, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_fontSize
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919098347497953, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919098450546138, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_fontSize
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919098450546138, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955919098450546139, guid: 9424ed7f80727264195c1ab2eb4bc6c6, type: 3}
-      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

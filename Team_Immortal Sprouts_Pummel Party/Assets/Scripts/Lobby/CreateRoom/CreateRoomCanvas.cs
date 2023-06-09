@@ -69,8 +69,19 @@ public class CreateRoomCanvas : MonoBehaviourPunCallbacks
         _lobbyCanvases.DeactiveLobbyCanvases();
     }
 
+    private const short EXISTS_ROOM_NAME = 32766;
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log($"방 생성 실패 {message}");
+        if(returnCode == EXISTS_ROOM_NAME)
+        {
+            ActiveFailedPanel();
+        }
+    }
+
+    [SerializeField] private CreateRoomFailedPanel _createRoomFailedPanel;
+    private void ActiveFailedPanel()
+    {
+        _createRoomFailedPanel.Active();
     }
 }
