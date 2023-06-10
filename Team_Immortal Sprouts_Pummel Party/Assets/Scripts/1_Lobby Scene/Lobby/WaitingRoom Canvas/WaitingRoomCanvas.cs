@@ -29,6 +29,7 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
         Vector3 spawnPosition = positionData._LobbyPositions[playerActorNumber].position;
         Quaternion rotationValue = positionData._LobbyPositions[playerActorNumber].rotation;
 
+        Debug.Log($"actornumber = {playerActorNumber}");
         PhotonNetwork.Instantiate($"{modelPrefabPath}{player.name}", spawnPosition, rotationValue);
     }
 
