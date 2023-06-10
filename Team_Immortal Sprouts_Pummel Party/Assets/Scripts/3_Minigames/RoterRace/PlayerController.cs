@@ -11,9 +11,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody planeBody;
-    private Vector3 movePosition;
     [SerializeField] private GameObject playerCamera;
-    private CinemachineVirtualCamera virtualCamera;
     private float upVector;
     private float downVector;
     private float leftYVector;
@@ -25,13 +23,12 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         planeBody = GetComponent<Rigidbody>();
-        virtualCamera = playerCamera.GetComponent<CinemachineVirtualCamera>();
+        explosion = explosionObj.GetComponent<ParticleSystem>();
 
         if (Accelerometer.current != null)
         {
             InputSystem.EnableDevice(Accelerometer.current);
         }
-        movePosition = new Vector3(0.0f, 0.0f, 1.0f);
     }
 
     private void Start()
@@ -46,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    #region move
 
     private bool isStart;
     private Quaternion controllVector;
@@ -67,9 +65,6 @@ public class PlayerController : MonoBehaviour
             isStart = true;
         }
 
-
-
-
         planeBody.velocity = transform.forward * speed;
 
         smoothAngleY = Mathf.Lerp(upVector, downVector, (Accelerometer.current.acceleration.value.y - positionY + 1) / 2f);
@@ -77,7 +72,6 @@ public class PlayerController : MonoBehaviour
         smoothAngleZ = Mathf.Lerp(leftZVector, rightZVector, (Accelerometer.current.acceleration.value.x - positionX + 1) / 2f);
 
         controllVector = Quaternion.Euler(smoothAngleY, smoothAngleX, smoothAngleZ);
-
 
         transform.rotation = Quaternion.Slerp(transform.rotation, controllVector, smoothFactor);
     }
@@ -88,6 +82,25 @@ public class PlayerController : MonoBehaviour
         positionX = Accelerometer.current.acceleration.value.x;
         positionY = Accelerometer.current.acceleration.value.y;
     }
+    #endregion
+
+
+    #region collision
+
+    [SerializeField] private GameObject explosionObj;
+    private ParticleSystem explosion;
+    [SerializeField] private Transform spawnPosition;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        gameObject.SetActive(false);
+        speed = 0;
+        explosionObj.transform.position = transform.position;
+        explosion.Play();
+
+        Spawn().Forget();
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -97,4 +110,14 @@ public class PlayerController : MonoBehaviour
         }
         speed += 10;
     }
+
+    private async UniTaskVoid Spawn()
+    {
+        await UniTask.Delay(3000);
+        transform.position = spawnPosition.position;
+        speed = 60;
+        gameObject.SetActive(true);
+    }
+    #endregion
+
 }
