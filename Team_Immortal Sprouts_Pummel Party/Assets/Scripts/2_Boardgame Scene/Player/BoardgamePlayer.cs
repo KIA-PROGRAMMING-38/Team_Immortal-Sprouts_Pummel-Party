@@ -6,11 +6,13 @@ public class BoardgamePlayer : MonoBehaviour
 {
     private Dice _dice;
     private Rigidbody _rigidbody;
+    private Animator _animator;
 
     private void Awake()
     {
         _dice = new Dice();
         _rigidbody = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -66,6 +68,8 @@ public class BoardgamePlayer : MonoBehaviour
             return;
         }
 
+        _animator.SetBool("isMoving", true);
+
         while (_moveCount >= 1)
         {
             float elapsedTime = 0f;
@@ -89,6 +93,8 @@ public class BoardgamePlayer : MonoBehaviour
             CheckReachableIsland();
             await UniTask.Yield();
         }
+
+        _animator.SetBool("isMoving", false);
 
         await LookForward();
     }
