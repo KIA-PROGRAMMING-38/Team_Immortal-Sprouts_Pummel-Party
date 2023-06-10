@@ -333,6 +333,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FailedJoinRoomCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7037197974935718767, guid: 065474e4a65865c469d44d410bfb2224, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7037197976329230805, guid: 065474e4a65865c469d44d410bfb2224, type: 3}
       propertyPath: MultiGameCanvas
       value: 
@@ -433,6 +437,10 @@ PrefabInstance:
     - target: {fileID: 8926263107349846052, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
       propertyPath: m_Name
       value: WaitingRoomCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8926263107349846052, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
@@ -601,9 +609,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3187986916053830715, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5527714053850879144, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5527714054527570238, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5527714054554004844, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5527714054793255307, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: m_Name
       value: LobbyCanvases
+      objectReference: {fileID: 0}
+    - target: {fileID: 5527714054793255307, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5527714054793255316, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: _waitingRoomCanvas
@@ -661,6 +689,14 @@ PrefabInstance:
       propertyPath: FailedJoinRoomCanvas
       value: 
       objectReference: {fileID: 1615769845}
+    - target: {fileID: 5527714055423475565, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866225416418683830, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb984150341bbb34593c09b27e285b45, type: 3}
 --- !u!1 &1591320725 stripped
