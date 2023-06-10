@@ -3,12 +3,21 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Bullet
+  - StartIsland
+  - TrophyIsland
+  - BasicIsland
+  - ItemIsland
+  - HealIsland
+  - SharkIsland
+  - RotationIsland
+  - NobodyIsland
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Island
   - Water
   - UI
   - 
