@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
         planeBody.velocity = transform.forward * speed;
 
-        smoothAngleY = Mathf.Lerp(downVector, upVector, (Accelerometer.current.acceleration.value.y - positionY + 1) / 2f);
+        smoothAngleY = Mathf.Lerp(upVector, downVector, (Accelerometer.current.acceleration.value.y - positionY + 1) / 2f);
         smoothAngleX = Mathf.Lerp(leftYVector, rightYVector, (Accelerometer.current.acceleration.value.x - positionX + 1) / 2f);
         smoothAngleZ = Mathf.Lerp(leftZVector, rightZVector, (Accelerometer.current.acceleration.value.x - positionX + 1) / 2f);
 
