@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviour
     private float positionX;
     private float positionY;
     [SerializeField] private float speed;
-    [SerializeField] private float angleSpeed;
     private float smoothAngleY;
     private float smoothAngleX;
     private float smoothAngleZ;
