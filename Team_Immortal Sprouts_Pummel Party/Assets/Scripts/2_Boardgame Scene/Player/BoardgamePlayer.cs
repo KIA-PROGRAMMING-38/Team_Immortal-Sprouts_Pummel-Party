@@ -18,16 +18,16 @@ public class BoardgamePlayer : MonoBehaviour
         UpdateCurrentIsland();
     }
 
-    public bool CanRoll = false;  // 프레임워크랑 연결하기 전에 테스트하려고 열어둠
+    [SerializeField] private bool _canRoll = false;  // 프레임워크랑 연결하기 전에 테스트하려고 열어둠
     private int _moveCount;
     private void OnRollDice()
     {
-        if (CanRoll == false)
+        if (_canRoll == false)
         {
             return;
         }
 
-        CanRoll = false;
+        _canRoll = false;
 
         _moveCount = _dice.Roll();
         HelpMoveAsync().Forget();
@@ -47,7 +47,7 @@ public class BoardgamePlayer : MonoBehaviour
             }
         }
 
-        CheckGetatableIsland();
+        CheckReachableIsland();
 
         await UniTask.Delay(WAIT_TIME_BEFORE_MOVE);
         Move().Forget();
@@ -86,7 +86,7 @@ public class BoardgamePlayer : MonoBehaviour
             }
 
             UpdateCurrentIsland();
-            CheckGetatableIsland();
+            CheckReachableIsland();
             await UniTask.Yield();
         }
 
@@ -125,7 +125,7 @@ public class BoardgamePlayer : MonoBehaviour
     private Vector3 GetReverseVector(Vector3 vec) { return vec * -1f; }
     private async UniTask<bool> LookForward()
     {
-        Vector3 lookDir = GetReverseVector(transform.forward);
+        Vector3 lookDir = GetReverseVector(Vector3.forward);
         lookDir = lookDir.normalized;
 
         Quaternion start = transform.rotation;
@@ -180,7 +180,7 @@ public class BoardgamePlayer : MonoBehaviour
     }
 
     private Vector3 _destIslandPosition;
-    private void CheckGetatableIsland()
+    private void CheckReachableIsland()
     {
         if (_moveCount >= 1)
         {
@@ -190,6 +190,10 @@ public class BoardgamePlayer : MonoBehaviour
         {
             _destIslandPosition = _currentIsland.GetPrevPosition();
             _moveCount = 1;
+        }
+        else
+        {
+            _destIslandPosition = _currentIsland.GetCurrentPosition();
         }
     }
 }
