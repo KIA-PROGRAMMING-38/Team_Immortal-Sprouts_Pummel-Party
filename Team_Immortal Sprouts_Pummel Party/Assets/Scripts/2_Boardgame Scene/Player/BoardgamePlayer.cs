@@ -68,7 +68,7 @@ public class BoardgamePlayer : MonoBehaviour
             return;
         }
 
-        _animator.SetBool("isMoving", true);
+        _animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
 
         while (_moveCount >= 1)
         {
@@ -94,7 +94,7 @@ public class BoardgamePlayer : MonoBehaviour
             await UniTask.Yield();
         }
 
-        _animator.SetBool("isMoving", false);
+        _animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false);
 
         await LookForward();
     }
