@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 466918d1939540c478c1167be9cb17bd
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Nanum DaHaengCe
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 20ce7899beb65e342b9137df5ce7429b, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
