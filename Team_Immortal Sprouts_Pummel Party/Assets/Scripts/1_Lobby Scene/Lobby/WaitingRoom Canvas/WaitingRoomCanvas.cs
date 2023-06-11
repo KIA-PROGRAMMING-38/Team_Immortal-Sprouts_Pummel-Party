@@ -16,7 +16,6 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject[] lobbyPlayerModels; // 테스트 위해 serializeFiled 부착
 
     [SerializeField] private int playerPositionIndex = 1; // 테스트 위해 serializeFiled 부착
-    private int readyCount = 0;
     private Dictionary<string, int> playerDictionary = new Dictionary<string, int>();
 
     private const string modelPrefabPath = "Prefabs/Lobby/WaitingRoomCanvas/";
@@ -44,7 +43,7 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
             Debug.Log("방장 들어옴?");
             lobbyPlayerModels = new GameObject[PhotonNetwork.CurrentRoom.MaxPlayers + 1]; // 0번째 인덱스 안씀
             SummonPlayerModel(playerPositionIndex);
-            AddPlayerData(PhotonNetwork.LocalPlayer.UserId, playerPositionIndex);
+            AddPlayerData(PhotonNetwork.LocalPlayer.UserId, playerPositionIndex, PhotonNetwork.MasterClient);
         }
 
         roomName.text = $"Room{PhotonNetwork.CurrentRoom.Name}";
@@ -64,7 +63,7 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
             PlayerSlot newPlayerSlot = playerSlots[playerPositionIndex];
             PhotonView newPlayerSlotPhotonView = PhotonView.Get(newPlayerSlot);
             newPlayerSlotPhotonView.RPC("EnableSelectCanvasButtons", RpcTarget.AllBuffered);
-            AddPlayerData(newPlayer.UserId, playerPositionIndex);
+            AddPlayerData(newPlayer.UserId, playerPositionIndex, newPlayer);
         }
     }
 
@@ -80,11 +79,14 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
 
     #endregion
 
-    private void AddPlayerData(string userID, int positionIndex)
+    private void AddPlayerData(string userID, int positionIndex, Player newPlayer)
     {
         playerDictionary.Add(userID, positionIndex);
+        playerSlots[positionIndex].GetPhotonView().TransferOwnership(newPlayer);
         ++playerPositionIndex;
     }
+
+
     private void DeletePlayerData(string userID)
     {
         playerDictionary.Remove(userID);
@@ -93,12 +95,25 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
 
     private void LeaveCurrentRoom()
     {
-        PhotonNetwork.LeaveRoom();
         gameObject.SetActive(false);
         _lobbyCanvases.MultiGameCanvas.Active();
         _lobbyCanvases.MultiGameCanvas.TurnOnRaycast();
         playerPositionIndex = 1; // 1로 초기화해준다
         playerDictionary.Clear();
+        playerSlots[1].ResetReadyCount();
+        ResetReadyStatus();
+        PhotonNetwork.LeaveRoom();
+    }
+
+    private void ResetReadyStatus()
+    {
+        for (int i = 2; i < playerSlots.Length; ++i)
+        {
+            playerSlots[i].GetSelectCanvas().ResetReadyStatus();
+            playerSlots[i].SetNotReadyColor();
+        }
+
+        playerSlots[1].GetSelectCanvas().ResetStartButton(); // 방장의 StartButton interactable 을 false로 초기화
     }
 
     private void DestroyPlayerModel(int positionIndex)
