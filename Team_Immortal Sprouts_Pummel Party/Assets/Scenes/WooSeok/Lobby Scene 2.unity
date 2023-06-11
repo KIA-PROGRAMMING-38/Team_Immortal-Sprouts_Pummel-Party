@@ -1090,6 +1090,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1615769845}
     - target: {fileID: 5527714055423475560, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: roomName
+      value: 
+      objectReference: {fileID: 1285166179}
+    - target: {fileID: 5527714055423475560, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: _findRoomFailedPanel
       value: 
       objectReference: {fileID: 420989697}
@@ -1117,6 +1121,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3306257414995360855, guid: 10b9e6512416c3344ab02839367b68a5, type: 3}
   m_PrefabInstance: {fileID: 3306257416199736574}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1285166179 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5527714054341072432, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+  m_PrefabInstance: {fileID: 1001361728}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1324178386
 GameObject:
   m_ObjectHideFlags: 0
@@ -1259,7 +1274,7 @@ Transform:
   - {fileID: 1593222088}
   - {fileID: 1038027983}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1591320725 stripped
 GameObject:
@@ -1406,6 +1421,17 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1773552890 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2487228348500914723, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
+  m_PrefabInstance: {fileID: 2487228348873077568}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1792621247 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5527714054793255317, guid: cb984150341bbb34593c09b27e285b45, type: 3}
@@ -1444,7 +1470,7 @@ Transform:
   - {fileID: 662439876}
   - {fileID: 772900479}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2115222623 stripped
 GameObject:
@@ -1463,6 +1489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b6af19112026241956bd54c2782536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomName: {fileID: 1773552890}
   playerSlots:
   - {fileID: 0}
   - {fileID: 0}
@@ -1537,7 +1564,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2487228348873077568
 PrefabInstance:
@@ -1572,7 +1599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2487228349300163905, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2487228349300163905, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
       propertyPath: m_AnchorMax.x

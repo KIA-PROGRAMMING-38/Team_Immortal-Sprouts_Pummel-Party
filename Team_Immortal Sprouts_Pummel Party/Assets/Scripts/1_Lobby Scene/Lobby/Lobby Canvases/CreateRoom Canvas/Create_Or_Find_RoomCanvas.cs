@@ -35,7 +35,8 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
 
     #region OnClick 이벤트 함수
 
-    [SerializeField] private TMP_Text _roomName;
+    [SerializeField] private TMP_Text roomName;
+    private const int defaultLength = 1; 
     /// <summary>
     /// Create Room Canvas의 OK 버튼 입력 이벤트
     /// </summary>
@@ -53,13 +54,29 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             option.PublishUserId = true;
             option.MaxPlayers = 4;
 
-            PhotonNetwork.CreateRoom(_roomName.text, option, TypedLobby.Default); // 방을 만든다
-            Debug.Log($"{_roomName.text}방을 만들었습니다");
+            string ActualRoomName;
+
+            if (roomName.text.Length == defaultLength) // 아무것도 입력하지 않았을때, text.Length == 1이 나온다는걸 디버깅을 통해서 확인하였음
+            {
+                // 랜덤한 넘버를 준다
+                int randomNumber = Random.Range(0, 10000);
+                ActualRoomName = randomNumber.ToString();
+            }
+            else // 코드를 입력했다면
+            {
+                ActualRoomName = roomName.text;
+            }
+
+            
+            PhotonNetwork.CreateRoom(ActualRoomName, option, TypedLobby.Default); // 방을 만든다
+            Debug.Log($"{ActualRoomName}방을 만들었습니다");
         }
         else // 방 찾기 버튼을 눌렀다면
         {
-            PhotonNetwork.JoinRoom(_roomName.text); // 방을 찾는다
-            Debug.Log($"{_roomName.text}방에 들어왔습니다");
+            PhotonNetwork.JoinRoom(roomName.text); // 입력된 코드의 방을 들어간다
+            Debug.Log($"{roomName.text}방에 들어왔습니다");
+            _lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
+            _lobbyCanvases.DeactiveLobbyCanvases();
         }
         
     }
