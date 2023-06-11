@@ -7,7 +7,7 @@ public class MultiGameCanvas : MonoBehaviour
 {
     private LobbyCanvases _lobbyCanvases;
     private CanvasGroup _canvasGroup;
-    public bool isCreatingRoom { get; private set; }
+    [SerializeField] private bool isCreatingRoom; // 테스트 위해 SerializeField 입력
 
     /// <summary>
     /// Lobby를 구성하는 Canvas들이 서로 참조할 수 있도록 초기 세팅
@@ -99,6 +99,10 @@ public class MultiGameCanvas : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public bool GetIsCreatingRoom()
+    {
+        return isCreatingRoom;
+    }
 
     private void OnJoinRandomRoom()
     {

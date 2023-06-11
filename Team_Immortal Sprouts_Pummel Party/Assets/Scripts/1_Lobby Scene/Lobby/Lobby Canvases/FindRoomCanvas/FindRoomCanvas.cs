@@ -53,15 +53,15 @@ public class FindRoomCanvas : MonoBehaviourPunCallbacks
     }
 
 
-    private const short NOT_EXIST_ROOM_CODE = 32758;
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        Debug.Log($"방 입장에 실패하였습니다. {message}");
-        if(returnCode == NOT_EXIST_ROOM_CODE)
-        {
-            ActiveFailedPanel();
-        }
-    }
+    //private const short NOT_EXIST_ROOM_CODE = 32758;
+    //public override void OnJoinRoomFailed(short returnCode, string message)
+    //{
+    //    Debug.Log($"방 입장에 실패하였습니다. {message}");
+    //    if(returnCode == NOT_EXIST_ROOM_CODE)
+    //    {
+    //        ActiveFailedPanel();
+    //    }
+    //}
 
     [SerializeField] private FindRoomFailedPanel _findRoomFailedPanel;
     private void ActiveFailedPanel()

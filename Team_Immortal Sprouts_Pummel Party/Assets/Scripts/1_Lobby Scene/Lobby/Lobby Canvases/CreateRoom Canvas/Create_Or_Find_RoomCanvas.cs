@@ -40,21 +40,21 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
     /// <summary>
     /// Create Room Canvas의 OK 버튼 입력 이벤트
     /// </summary>
-    public void OnClick_OK()
+    public void OnClick_From_Room_OK()
     {
-        if (_lobbyCanvases.MultiGameCanvas.isCreatingRoom == true) // 방 만들기 버튼을 눌렀다면
+        if (!PhotonNetwork.IsConnected)
         {
-            if (!PhotonNetwork.IsConnected)
-            {
-                return;
-            }
+            return;
+        }
 
+        string ActualRoomName;
+
+        if (_lobbyCanvases.MultiGameCanvas.GetIsCreatingRoom() == true) // 방 만들기 버튼을 눌렀다면
+        {
             RoomOptions option = new RoomOptions();
             option.BroadcastPropsChangeToAll = true;
             option.PublishUserId = true;
             option.MaxPlayers = 4;
-
-            string ActualRoomName;
 
             if (roomName.text.Length == defaultLength) // 아무것도 입력하지 않았을때, text.Length == 1이 나온다는걸 디버깅을 통해서 확인하였음
             {
@@ -66,20 +66,21 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             {
                 ActualRoomName = roomName.text;
             }
-
             
             PhotonNetwork.CreateRoom(ActualRoomName, option, TypedLobby.Default); // 방을 만든다
             Debug.Log($"{ActualRoomName}방을 만들었습니다");
         }
         else // 방 찾기 버튼을 눌렀다면
         {
-            PhotonNetwork.JoinRoom(roomName.text); // 입력된 코드의 방을 들어간다
-            Debug.Log($"{roomName.text}방에 들어왔습니다");
+            ActualRoomName= roomName.text;
+            PhotonNetwork.JoinRoom(ActualRoomName); // 입력된 코드의 방을 들어간다
+            Debug.Log($"{ActualRoomName}방에 들어왔습니다");
             _lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
             _lobbyCanvases.DeactiveLobbyCanvases();
         }
         
     }
+
 
     /// <summary>
     /// Create Room Canvas의 Cancel 버튼 입력 이벤트
@@ -100,15 +101,7 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
         _lobbyCanvases.DeactiveLobbyCanvases();
     }
 
-    private const short EXISTS_ROOM_NAME = 32766;
-    public override void OnCreateRoomFailed(short returnCode, string message)
-    {
-        Debug.Log($"방 생성 실패 {message}");
-        if(returnCode == EXISTS_ROOM_NAME)
-        {
-            ActiveFailedPanel();
-        }
-    }
+
 
     private const short NOT_EXIST_ROOM_CODE = 32758;
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -120,13 +113,24 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
         }
     }
 
+    private const short EXISTS_ROOM_NAME = 32766;
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        Debug.Log($"방 생성 실패 {message}");
+        if (returnCode == EXISTS_ROOM_NAME)
+        {
+            ActiveFailedPanel();
+        }
+    }
+
+
     #endregion
 
     [SerializeField] private CreateRoomFailedPanel _createRoomFailedPanel;
     [SerializeField] private FindRoomFailedPanel _findRoomFailedPanel;
     private void ActiveFailedPanel()
     {
-        if (_lobbyCanvases.MultiGameCanvas.isCreatingRoom == true) // 방 만들기를 눌렀다면
+        if (_lobbyCanvases.MultiGameCanvas.GetIsCreatingRoom() == true) // 방 만들기를 눌렀다면
         {
             _createRoomFailedPanel.Active();
         }
@@ -135,6 +139,5 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             _findRoomFailedPanel.Active();
         }
     }
-
 
 }
