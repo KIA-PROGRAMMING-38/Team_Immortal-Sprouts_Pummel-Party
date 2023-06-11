@@ -6893,6 +6893,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2487228348521646355}
+  - component: {fileID: 6154809476056295626}
   m_Layer: 5
   m_Name: PlayerSlot 4
   m_TagString: Untagged
@@ -6924,6 +6925,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6154809476056295626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487228348521646354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d5014ddd76b31499ffafa505ada709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectCanvas: {fileID: 0}
+  customizeCanvas: {fileID: 0}
 --- !u!1 &2487228348547854515
 GameObject:
   m_ObjectHideFlags: 0
@@ -7849,6 +7864,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2487228348694700233}
+  - component: {fileID: 2952804268364930601}
   m_Layer: 5
   m_Name: PlayerSlot 3
   m_TagString: Untagged
@@ -7880,6 +7896,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2952804268364930601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487228348694700232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d5014ddd76b31499ffafa505ada709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectCanvas: {fileID: 0}
+  customizeCanvas: {fileID: 0}
 --- !u!1 &2487228348716713270
 GameObject:
   m_ObjectHideFlags: 0
@@ -8011,6 +8041,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2487228348723070874}
+  - component: {fileID: 9045882790504448092}
   m_Layer: 5
   m_Name: PlayerSlot 2
   m_TagString: Untagged
@@ -8042,6 +8073,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &9045882790504448092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487228348723070873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d5014ddd76b31499ffafa505ada709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectCanvas: {fileID: 0}
+  customizeCanvas: {fileID: 0}
 --- !u!1 &2487228348725635825
 GameObject:
   m_ObjectHideFlags: 0
@@ -10670,6 +10715,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2487228349291878709}
+  - component: {fileID: 2531449964329644939}
   m_Layer: 5
   m_Name: PlayerSlot 1
   m_TagString: Untagged
@@ -10701,6 +10747,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2531449964329644939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487228349291878708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d5014ddd76b31499ffafa505ada709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectCanvas: {fileID: 0}
+  customizeCanvas: {fileID: 0}
 --- !u!1 &2487228349318154028
 GameObject:
   m_ObjectHideFlags: 0

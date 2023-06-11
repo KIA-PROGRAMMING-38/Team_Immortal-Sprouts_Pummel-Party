@@ -9,9 +9,13 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
 {
     private LobbyCanvases _lobbyCanvases;
     [SerializeField] private TMP_Text roomName;
-    [SerializeField] private GameObject[] playerSlots;
     [SerializeField] private ModelData modelData;
     [SerializeField] private PositionData positionData;
+    [SerializeField] private PlayerSlot[] playerSlots;
+
+    private GameObject[] lobbyPlayerModels;
+
+    private int readyCount = 0;
 
     private const string modelPrefabPath = "Prefabs/Lobby/WaitingRoomCanvas/";
 
@@ -28,6 +32,7 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient) // 방장일 경우에만 플레이어 소환
         {
             Debug.Log("방장 들어옴?");
+            lobbyPlayerModels = new GameObject[PhotonNetwork.CurrentRoom.MaxPlayers + 1]; // 0번째 인덱스 안씀
             SummonPlayerModel(PhotonNetwork.LocalPlayer.ActorNumber);
         }
 
@@ -40,10 +45,23 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
         {
             Debug.Log($"다른 플레이어가 들어옴 = {newPlayer.ActorNumber}");
             SummonPlayerModel(newPlayer.ActorNumber);
+            PlayerSlot newPlayerSlot = playerSlots[newPlayer.ActorNumber];
+            PhotonView newPlayerSlotPhotonView = PhotonView.Get(newPlayerSlot);
+            newPlayerSlotPhotonView.RPC("EnableSelectCanvasButtons", RpcTarget.AllBuffered);
         }
     }
 
     #endregion
+
+
+
+
+
+
+
+
+
+
 
     private void SummonPlayerModel(int playerActorNumber)
     {
@@ -52,7 +70,8 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
         Quaternion rotationValue = positionData._LobbyPositions[playerActorNumber].rotation; // 소환할 각도 받아옴
 
         Debug.Log($"actornumber = {playerActorNumber}");
-        PhotonNetwork.Instantiate($"{modelPrefabPath}{player.name}", spawnPosition, rotationValue);
+        GameObject summonedPlayer = PhotonNetwork.Instantiate($"{modelPrefabPath}{player.name}", spawnPosition, rotationValue);
+        lobbyPlayerModels[playerActorNumber] = summonedPlayer; // 생성한 아이를 담아준다
     }
 
 }
