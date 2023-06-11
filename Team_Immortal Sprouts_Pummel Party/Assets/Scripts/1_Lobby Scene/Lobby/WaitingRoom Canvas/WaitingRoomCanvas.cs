@@ -6,11 +6,18 @@ using UnityEngine;
 
 public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
 {
+    private LobbyCanvases _lobbyCanvases;
     [SerializeField] private GameObject[] playerSlots;
     [SerializeField] private ModelData modelData;
     [SerializeField] private PositionData positionData;
 
     private const string modelPrefabPath = "Prefabs/Lobby/WaitingRoomCanvas/";
+
+
+    public void CanvasInitialize(LobbyCanvases canvases)
+    {
+        _lobbyCanvases = canvases;
+    }
 
     private void OnEnable() // FindRoomCanvas 에서 이미 OnJoinedRoom()을 사용하기 때문에 OnEnable로 대체함
     {

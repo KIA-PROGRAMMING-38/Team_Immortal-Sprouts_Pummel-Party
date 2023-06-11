@@ -147,7 +147,6 @@ GameObject:
   - component: {fileID: 1025117761}
   - component: {fileID: 1025117760}
   - component: {fileID: 1025117759}
-  - component: {fileID: 1025117758}
   m_Layer: 5
   m_Name: Leave Game
   m_TagString: Untagged
@@ -258,8 +257,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1025117758}
-        m_TargetAssemblyTypeName: LeaveGame, Assembly-CSharp
+      - m_Target: {fileID: 7348526285982402117}
+        m_TargetAssemblyTypeName: MultiGameCanvas, Assembly-CSharp
         m_MethodName: OnClickLeaveGameButton
         m_Mode: 1
         m_Arguments:
@@ -270,18 +269,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1025117758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1025117756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f7ab57874f316946a018359a2441112, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7348526285982402112
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,7 +289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7348526285982402116
 RectTransform:
   m_ObjectHideFlags: 0
@@ -425,7 +412,6 @@ GameObject:
   - component: {fileID: 7348526286214197106}
   - component: {fileID: 7348526286214197117}
   - component: {fileID: 7348526286214197116}
-  - component: {fileID: 7348526286214197107}
   m_Layer: 5
   m_Name: GameStart
   m_TagString: Untagged
@@ -536,8 +522,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7348526286214197107}
-        m_TargetAssemblyTypeName: GameStartButton, Assembly-CSharp
+      - m_Target: {fileID: 7348526285982402117}
+        m_TargetAssemblyTypeName: MultiGameCanvas, Assembly-CSharp
         m_MethodName: OnClickGameStartButton
         m_Mode: 1
         m_Arguments:
@@ -548,20 +534,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7348526286214197107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7348526286214197118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a42b7bf63e83ff4c843078bbaa88877, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WaitingRoomCanvas: {fileID: 0}
-  FailedJoinRoomCanvas: {fileID: 0}
 --- !u!1 &7348526286394722124
 GameObject:
   m_ObjectHideFlags: 0

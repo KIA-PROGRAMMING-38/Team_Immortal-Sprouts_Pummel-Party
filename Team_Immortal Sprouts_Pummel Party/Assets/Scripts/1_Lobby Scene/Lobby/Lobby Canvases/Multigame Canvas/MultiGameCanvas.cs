@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -68,5 +69,31 @@ public class MultiGameCanvas : MonoBehaviour
     public void Deactive()
     {
         gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 게임종료 버튼 누를시 작동하는 함수
+    /// </summary>
+    public void OnClickLeaveGameButton()
+    {
+        Application.Quit();
+        Debug.Log("게임을 떠났습니다.");
+    }
+
+    /// <summary>
+    /// 게임스타트 버튼 누를시 작동하는 함수
+    /// </summary>
+    public void OnClickGameStartButton()
+    {
+        OnJoinRandomRoom();
+        Debug.Log("GameStart 버튼이 클릭됨");
+    }
+
+    private void OnJoinRandomRoom()
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.JoinRandomRoom();
+        }
     }
 }
