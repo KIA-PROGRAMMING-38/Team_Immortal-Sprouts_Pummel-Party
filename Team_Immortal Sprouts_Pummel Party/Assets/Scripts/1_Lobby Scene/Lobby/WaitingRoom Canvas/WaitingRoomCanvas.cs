@@ -15,11 +15,28 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
 
     [SerializeField] private GameObject[] lobbyPlayerModels; // 테스트 위해 serializeFiled 부착
 
-    [SerializeField] private int playerPositionIndex = 1; // 테스트 위해 serializeFiled 부착
+    [SerializeField] private int playerPositionIndex;// 테스트 위해 serializeFiled 부착
     private Dictionary<string, int> playerDictionary = new Dictionary<string, int>();
+    [SerializeField] private bool[] isPlayerPresent = new bool[5]; // 테스트 위해 SerializeField 부착
 
     private const string modelPrefabPath = "Prefabs/Lobby/WaitingRoomCanvas/";
 
+
+    private int CheckEmptySlot()
+    {
+        int positionIndex = 0;
+
+        for (int i = 1; i < playerSlots.Length ;++i)
+        {
+            if (isPlayerPresent[i] == false)
+            {
+                positionIndex = i;
+                break;
+            }
+        }
+
+        return positionIndex;
+    }
 
     public void CanvasInitialize(LobbyCanvases canvases)
     {
@@ -40,8 +57,8 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient) // 방장일 경우에만 플레이어 소환
         {
-            Debug.Log("방장 들어옴?");
             lobbyPlayerModels = new GameObject[PhotonNetwork.CurrentRoom.MaxPlayers + 1]; // 0번째 인덱스 안씀
+            playerPositionIndex = CheckEmptySlot();
             SummonPlayerModel(playerPositionIndex);
             AddPlayerData(PhotonNetwork.LocalPlayer.UserId, playerPositionIndex, PhotonNetwork.MasterClient);
         }
@@ -59,10 +76,11 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient) // 방장만 소환해줄수 있는 권한을 줌
         {
-            SummonPlayerModel(playerPositionIndex);
             PlayerSlot newPlayerSlot = playerSlots[playerPositionIndex];
             PhotonView newPlayerSlotPhotonView = PhotonView.Get(newPlayerSlot);
             newPlayerSlotPhotonView.RPC("EnableSelectCanvasButtons", RpcTarget.AllBuffered);
+            playerPositionIndex = CheckEmptySlot();
+            SummonPlayerModel(playerPositionIndex);
             AddPlayerData(newPlayer.UserId, playerPositionIndex, newPlayer);
         }
     }
@@ -72,7 +90,9 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            DestroyPlayerModel(playerDictionary[otherPlayer.UserId]);
+            // otherPlayer에서 쓸만한게 userID밖에 없음
+            // userID는 고정이라, 여기에 해당하는 포지션 인덱스의 게임오브젝트를 파괴한다
+            DestroyPlayerModel(playerDictionary[otherPlayer.UserId]); 
             DeletePlayerData(otherPlayer.UserId);
         }
     }
@@ -83,14 +103,12 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
     {
         playerDictionary.Add(userID, positionIndex);
         playerSlots[positionIndex].GetPhotonView().TransferOwnership(newPlayer);
-        ++playerPositionIndex;
     }
 
 
     private void DeletePlayerData(string userID)
     {
         playerDictionary.Remove(userID);
-        --playerPositionIndex;
     }
 
     private void LeaveCurrentRoom()
@@ -101,8 +119,17 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
         playerPositionIndex = 1; // 1로 초기화해준다
         playerDictionary.Clear();
         playerSlots[1].ResetReadyCount();
+        ResetPlayerPresentData();
         ResetReadyStatus();
         PhotonNetwork.LeaveRoom();
+    }
+
+    private void ResetPlayerPresentData()
+    {
+        for (int i = 0; i < isPlayerPresent.Length ;++i)
+        {
+            isPlayerPresent[i] = false;
+        }
     }
 
     private void ResetReadyStatus()
@@ -122,6 +149,7 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.Destroy(lobbyPlayerModels[positionIndex]);
             lobbyPlayerModels[positionIndex] = null; // 나간 플레이어의 모델의 위치에 null을 할당해준다
+            isPlayerPresent[positionIndex] = false; // 플레이어가 나갔다는것을 표시한다
         }
     }
 
@@ -133,6 +161,7 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
 
         GameObject summonedPlayer = PhotonNetwork.Instantiate($"{modelPrefabPath}{player.name}", spawnPosition, rotationValue);
         lobbyPlayerModels[positionIndex] = summonedPlayer; // 생성한 아이를 담아준다
+        isPlayerPresent[positionIndex] = true; // 플레이어가 존재한다는 것을 표시한다
     }
 
 }
