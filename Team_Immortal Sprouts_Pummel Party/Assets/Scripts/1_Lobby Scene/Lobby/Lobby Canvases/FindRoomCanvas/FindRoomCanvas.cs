@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class FindRoomCanvas : MonoBehaviourPunCallbacks
 {
@@ -50,6 +51,7 @@ public class FindRoomCanvas : MonoBehaviourPunCallbacks
         _lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
         _lobbyCanvases.DeactiveLobbyCanvases();
     }
+
 
     private const short NOT_EXIST_ROOM_CODE = 32758;
     public override void OnJoinRoomFailed(short returnCode, string message)

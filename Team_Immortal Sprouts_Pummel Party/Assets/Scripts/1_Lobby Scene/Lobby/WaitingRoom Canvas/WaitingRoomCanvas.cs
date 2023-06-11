@@ -35,6 +35,7 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        Debug.Log($"다른 플레이어가 들어옴 = {newPlayer.ActorNumber}");
         SummonPlayerModel(newPlayer.ActorNumber);
     }
 
