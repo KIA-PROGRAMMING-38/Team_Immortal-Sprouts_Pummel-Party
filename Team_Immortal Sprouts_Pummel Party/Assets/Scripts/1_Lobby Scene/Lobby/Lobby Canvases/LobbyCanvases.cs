@@ -5,13 +5,15 @@ using UnityEngine;
 public class LobbyCanvases : MonoBehaviour
 {
     [SerializeField] private MultiGameCanvas _multiGameCanvas;
-    [SerializeField] private CreateRoomCanvas _createRoomCanvas;
-    [SerializeField] private FindRoomCanvas _findRoomCanvas;
+    [SerializeField] private Create_Or_Find_RoomCanvas _create_Or_Find_RoomCanvas;
+    //[SerializeField] private FindRoomCanvas _findRoomCanvas;
+    [SerializeField] private FailedJoinRoomCanvas _failedJoinRoomCanvas;
     [SerializeField] private WaitingRoomCanvas _waitingRoomCanvas;
 
     public MultiGameCanvas MultiGameCanvas { get { return _multiGameCanvas; } }
-    public CreateRoomCanvas CreateRoomCanvas { get { return _createRoomCanvas; } }
-    public FindRoomCanvas FindRoomCanvas { get { return _findRoomCanvas; } }
+    public Create_Or_Find_RoomCanvas Create_Or_Find_RoomCanvas { get { return _create_Or_Find_RoomCanvas; } }
+    //public FindRoomCanvas FindRoomCanvas { get { return _findRoomCanvas; } }
+    public FailedJoinRoomCanvas FailedJoinRoomCanvas { get { return _failedJoinRoomCanvas; } }
     public WaitingRoomCanvas WaitingRoomCanvas { get { return _waitingRoomCanvas; } }
 
     private void Awake()
@@ -22,8 +24,9 @@ public class LobbyCanvases : MonoBehaviour
     private void CanvasInitialize()
     {
         MultiGameCanvas.CanvasInitialize(this);
-        CreateRoomCanvas.CanvasInitialize(this);
-        FindRoomCanvas.CanvasInitialize(this);
+        Create_Or_Find_RoomCanvas.CanvasInitialize(this);
+        //FindRoomCanvas.CanvasInitialize(this);
+        FailedJoinRoomCanvas.CanvasInitialize(this);
         WaitingRoomCanvas.CanvasInitialize(this);
     }
 
@@ -33,7 +36,7 @@ public class LobbyCanvases : MonoBehaviour
     public void DeactiveLobbyCanvases()
     {
         MultiGameCanvas.Deactive();
-        CreateRoomCanvas.Deactive();
-        FindRoomCanvas.Deactive();
+        Create_Or_Find_RoomCanvas.Deactive();
+        //FindRoomCanvas.Deactive();
     }
 }

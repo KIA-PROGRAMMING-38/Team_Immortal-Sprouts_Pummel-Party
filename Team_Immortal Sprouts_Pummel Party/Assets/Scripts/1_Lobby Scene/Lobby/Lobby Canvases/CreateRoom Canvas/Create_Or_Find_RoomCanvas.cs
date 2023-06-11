@@ -5,7 +5,7 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class CreateRoomCanvas : MonoBehaviourPunCallbacks
+public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
 {
     private LobbyCanvases _lobbyCanvases;
 
@@ -33,24 +33,35 @@ public class CreateRoomCanvas : MonoBehaviourPunCallbacks
         gameObject.SetActive(false);
     }
 
-    [SerializeField] private TMP_Text _roomName;
+    #region OnClick 이벤트 함수
 
+    [SerializeField] private TMP_Text _roomName;
     /// <summary>
     /// Create Room Canvas의 OK 버튼 입력 이벤트
     /// </summary>
     public void OnClick_OK()
     {
-        if(!PhotonNetwork.IsConnected)
+        if (_lobbyCanvases.MultiGameCanvas.isCreatingRoom == true) // 방 만들기 버튼을 눌렀다면
         {
-            return;
+            if (!PhotonNetwork.IsConnected)
+            {
+                return;
+            }
+
+            RoomOptions option = new RoomOptions();
+            option.BroadcastPropsChangeToAll = true;
+            option.PublishUserId = true;
+            option.MaxPlayers = 4;
+
+            PhotonNetwork.CreateRoom(_roomName.text, option, TypedLobby.Default); // 방을 만든다
+            Debug.Log($"{_roomName.text}방을 만들었습니다");
         }
-
-        RoomOptions option = new RoomOptions();
-        option.BroadcastPropsChangeToAll = true;
-        option.PublishUserId = true;
-        option.MaxPlayers = 4;
-
-        PhotonNetwork.CreateRoom(_roomName.text, option, TypedLobby.Default);
+        else // 방 찾기 버튼을 눌렀다면
+        {
+            PhotonNetwork.JoinRoom(_roomName.text); // 방을 찾는다
+            Debug.Log($"{_roomName.text}방에 들어왔습니다");
+        }
+        
     }
 
     /// <summary>
@@ -62,6 +73,9 @@ public class CreateRoomCanvas : MonoBehaviourPunCallbacks
         Deactive();
     }
 
+    #endregion
+
+    #region Photon Callback 이벤트 함수
     public override void OnCreatedRoom()
     {
         Debug.Log("방 생성 완료");
@@ -79,9 +93,31 @@ public class CreateRoomCanvas : MonoBehaviourPunCallbacks
         }
     }
 
+    private const short NOT_EXIST_ROOM_CODE = 32758;
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.Log($"방 입장에 실패하였습니다. {message}");
+        if (returnCode == NOT_EXIST_ROOM_CODE)
+        {
+            ActiveFailedPanel();
+        }
+    }
+
+    #endregion
+
     [SerializeField] private CreateRoomFailedPanel _createRoomFailedPanel;
+    [SerializeField] private FindRoomFailedPanel _findRoomFailedPanel;
     private void ActiveFailedPanel()
     {
-        _createRoomFailedPanel.Active();
+        if (_lobbyCanvases.MultiGameCanvas.isCreatingRoom == true) // 방 만들기를 눌렀다면
+        {
+            _createRoomFailedPanel.Active();
+        }
+        else // 방 찾기를 눌렀다면
+        {
+            _findRoomFailedPanel.Active();
+        }
     }
+
+
 }
