@@ -13,6 +13,7 @@ TagManager:
   - SharkIsland
   - RotationIsland
   - NobodyIsland
+  - Stone
   layers:
   - Default
   - TransparentFX

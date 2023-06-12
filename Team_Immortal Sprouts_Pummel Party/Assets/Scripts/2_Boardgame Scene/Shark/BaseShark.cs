@@ -2,7 +2,10 @@ using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
 using static UnityEngine.Rendering.DebugUI;
+
 
 public class BaseShark : MonoBehaviour
 {
@@ -15,7 +18,7 @@ public class BaseShark : MonoBehaviour
     [SerializeField][Range(30f, 150f)] private float rotateSpeed = 40f;
     [SerializeField] private float disappearTime = 2f;
 
-    private bool isAttack = false; // Å×½ºÆ® À§ÇØ SerializeField ÇÔ
+    private bool isAttack = false; // í…ŒìŠ¤íŠ¸ ìœ„í•´ SerializeField í•¨
     private bool isAttackFinished = false;
 
     private void Start()
@@ -25,7 +28,7 @@ public class BaseShark : MonoBehaviour
 
 
     /// <summary>
-    /// »ó¾îÀÇ °ø°İÀ» È°¼ºÈ­ÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù
+    /// ìƒì–´ì˜ ê³µê²©ì„ í™œì„±í™”í•˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤
     /// </summary>
     public void JumpAttack()
     {
@@ -98,7 +101,7 @@ public class BaseShark : MonoBehaviour
     }
 
     /// <summary>
-    /// »ó¾îÀÇ °ø°İÀÌ ³¡³²À» º£ÀÌ½º »ó¾î¿¡°Ô ¾Ë·ÁÁÖ°í, Á¡ÇÁ»ó¾î¸¦ ²¨ÁØ´Ù
+    /// ìƒì–´ì˜ ê³µê²©ì´ ëë‚¨ì„ ë² ì´ìŠ¤ ìƒì–´ì—ê²Œ ì•Œë ¤ì£¼ê³ , ì í”„ìƒì–´ë¥¼ êº¼ì¤€ë‹¤
     /// </summary>
     public void LetBaseSharkKnowAttackFinished()
     {
