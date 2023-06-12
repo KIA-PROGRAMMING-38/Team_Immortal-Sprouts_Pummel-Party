@@ -11,5 +11,7 @@ public class PositionData : ScriptableObject
 
     public Transform[] _InFightPositions;
 
+    public Transform[] _RoterRacePositions;
+
 
 }

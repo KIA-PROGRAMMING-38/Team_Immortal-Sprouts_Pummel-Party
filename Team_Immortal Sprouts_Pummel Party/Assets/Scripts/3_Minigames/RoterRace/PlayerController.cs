@@ -35,10 +35,10 @@ public class PlayerController : MonoBehaviour
     {
         upVector = -90f;
         downVector = 90;
-        rightYVector = 45;
-        rightZVector = -45;
-        leftYVector = -45;
-        leftZVector = 45;
+        rightYVector = 90;
+        rightZVector = -90;
+        leftYVector = -90;
+        leftZVector = 90;
         smoothFactor = 0.1f;
 
     }
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
     private ParticleSystem explosion;
     [SerializeField] private Transform spawnPosition;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter()
     {
         gameObject.SetActive(false);
         speed = 0;
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        speed += 10;
+        speed += 5;
     }
 
     private async UniTaskVoid Spawn()
@@ -116,6 +116,8 @@ public class PlayerController : MonoBehaviour
         await UniTask.Delay(3000);
         transform.position = spawnPosition.position;
         speed = 60;
+        explosion.Stop();
+        InitSencer();
         gameObject.SetActive(true);
     }
     #endregion

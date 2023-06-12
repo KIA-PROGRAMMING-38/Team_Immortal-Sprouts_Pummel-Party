@@ -30,3 +30,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  _RoterRacePositions:
+  - {fileID: 0}
+  - {fileID: 4949481939938531177, guid: 52c14624d9c9d394981f68585ff468ce, type: 3}
+  - {fileID: 359317938194155367, guid: a4de0514a2d307a4aa7c9ae7fac54887, type: 3}
+  - {fileID: 7469383340329359866, guid: f1ed9c9761b1c7e4c90ee0e308aa4c10, type: 3}
+  - {fileID: 188483464147443044, guid: 46beadfc31d7c3b4ea8c8410b085f9ca, type: 3}
