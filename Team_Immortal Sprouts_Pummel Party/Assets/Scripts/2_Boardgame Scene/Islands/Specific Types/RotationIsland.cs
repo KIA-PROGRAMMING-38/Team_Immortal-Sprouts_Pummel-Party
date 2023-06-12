@@ -25,6 +25,7 @@ public class RotationIsland : Island
     }
 
     /// <summary>
+    /// TODO: 플레이어가 턴 시작할 때 호출
     /// 방향 화살표를 띄우는 함수
     /// </summary>
     public void PopUpDirectionArrow()
@@ -51,6 +52,7 @@ public class RotationIsland : Island
     }
 
     /// <summary>
+    /// TODO: 플레이어가 떠날 때 호출
     /// 섬을 다시 원상복구 회전시키는 함수
     /// </summary>
     public void ActivateResetRotation()
