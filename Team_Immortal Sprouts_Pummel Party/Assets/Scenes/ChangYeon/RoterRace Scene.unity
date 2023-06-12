@@ -4221,7 +4221,7 @@ GameObject:
   - component: {fileID: 1411273966}
   - component: {fileID: 1411273965}
   m_Layer: 0
-  m_Name: RoterRace
+  m_Name: RoterRaceController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
