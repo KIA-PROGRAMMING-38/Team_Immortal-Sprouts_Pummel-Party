@@ -1,0 +1,34 @@
+{
+    "name": "InputOnBoard",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "e1bf4480-00ea-4237-ab3e-0bdfef7ff028",
+            "actions": [
+                {
+                    "name": "RollDice",
+                    "type": "Button",
+                    "id": "bbe5cb70-c7b6-4fac-b01e-62306a6be361",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0233eeb7-65d8-4381-9a39-fd3fcf4567f9",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RollDice",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

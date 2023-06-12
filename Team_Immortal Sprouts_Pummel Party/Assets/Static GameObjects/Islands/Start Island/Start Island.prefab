@@ -1873,7 +1873,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextPlayerSpot: {fileID: 0}
-  prevPlayerSpot: {fileID: 0}
+  prevPlayerSpot: {fileID: 2939949677933529724}
   currentPlayerSpot: {fileID: 1214957363951910101}
   isPlayerPresent: 0
   nextPosition: {x: 0, y: 0, z: 0}

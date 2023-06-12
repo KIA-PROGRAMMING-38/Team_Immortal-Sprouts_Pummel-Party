@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ChangYeon/RoterRace Scene.unity
-    guid: a60ede4d6b6dd134cb6549a2a7c521b2
+    path: Assets/Scenes/WooSeok/Lobby Scene 2.unity
+    guid: 29035bec7cd96c64784cf655006708b1
   m_configObjects: {}
