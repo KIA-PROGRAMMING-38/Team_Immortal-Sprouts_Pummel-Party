@@ -14,12 +14,20 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
     [SerializeField] private PlayerSlot[] playerSlots;
 
     [SerializeField] private GameObject[] lobbyPlayerModels; // 테스트 위해 serializeFiled 부착
+    [SerializeField] private Texture2D[] modelBodyTextures;
+    
+    private PlayerModelChanger[] playerModelChangers;
 
     private int playerPositionIndex;
     private Dictionary<string, int> playerDictionary = new Dictionary<string, int>();
     private bool[] isPlayerPresent = new bool[5]; 
 
     private const string modelPrefabPath = "Prefabs/Lobby/WaitingRoomCanvas/";
+
+    public PlayerModelChanger GetPlayerModelChanger(int playerIndex)
+    {
+        return playerModelChangers[playerIndex];
+    }
 
     public void CanvasInitialize(LobbyCanvases canvases)
     {
@@ -41,6 +49,7 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient) // 방장일 경우에만 플레이어 소환
         {
             lobbyPlayerModels = new GameObject[PhotonNetwork.CurrentRoom.MaxPlayers + 1]; // 0번째 인덱스 안씀
+            playerModelChangers = new PlayerModelChanger[lobbyPlayerModels.Length];
             playerPositionIndex = CheckEmptySlot();
             SummonPlayerModel(playerPositionIndex, PhotonNetwork.MasterClient);
             AddPlayerData(PhotonNetwork.LocalPlayer.UserId, playerPositionIndex, PhotonNetwork.MasterClient);
@@ -161,6 +170,10 @@ public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
         lobbyPlayerModels[positionIndex] = summonedPlayer; // 생성한 아이를 담아준다
         isPlayerPresent[positionIndex] = true; // 플레이어가 존재한다는 것을 표시한다
         PhotonView.Get(summonedPlayer).TransferOwnership(newPlayer);
+        playerSlots[positionIndex].GetCustomizeCanvas().SetCustomizeCanvasPlayerIndex(positionIndex);
+        PlayerModelChanger playerModelChanger = summonedPlayer.GetComponent<PlayerModelChanger>();
+        playerModelChangers[positionIndex] = playerModelChanger;
+        playerSlots[positionIndex].GetCustomizeCanvas().SetPlayerModelChanger(playerModelChanger);
     }
 
 }
