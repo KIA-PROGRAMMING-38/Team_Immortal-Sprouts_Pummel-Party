@@ -9,9 +9,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody planeBody;
     [SerializeField] private GameObject playerCamera;
     [SerializeField] private GameObject boostObj;
-    [SerializeField] private GameObject goalInObj;
-    private ParticleSystem boostEffect;
-    private ParticleSystem goalInEffect;
+    public GameObject goalInObj;
+    public ParticleSystem boostEffect;
+    public ParticleSystem goalInEffect;
     private float upVector;
     private float downVector;
     private float leftYVector;
@@ -46,11 +46,12 @@ public class PlayerController : MonoBehaviour
 
     #region move
 
+    public float speed;
+
     private bool isStart;
     private Quaternion controllVector;
     private float positionX;
     private float positionY;
-    [SerializeField] private float speed;
     private float smoothAngleY;
     private float smoothAngleX;
     private float smoothAngleZ;
@@ -96,21 +97,6 @@ public class PlayerController : MonoBehaviour
         explosion.Play();
 
         Spawn().Forget();
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        switch (other.tag)
-        {
-            case "Area":
-                boostEffect.Play();
-                speed += 15;
-                break;
-            case "Goal":
-                goalInEffect.Play();
-                goalInObj.transform.SetParent(null);
-                gameObject.SetActive(false);
-                break;
-        }
     }
 
     private async UniTaskVoid Spawn()
