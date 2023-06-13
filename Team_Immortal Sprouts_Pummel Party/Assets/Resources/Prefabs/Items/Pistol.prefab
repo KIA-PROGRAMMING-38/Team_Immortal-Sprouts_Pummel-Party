@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2268709913833931002}
   - component: {fileID: 2268709913833931003}
   - component: {fileID: 588033772552586847}
+  - component: {fileID: 2372441458120128991}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -342,7 +343,7 @@ MeshCollider:
   m_GameObject: {fileID: 2268709913833931000}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -361,6 +362,68 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemData: {fileID: 0}
   MoveDir: {x: 0, y: 0}
+--- !u!114 &2372441458120128991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2268709913833931000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 3725761cd4c675f4bbce282e4773504e, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 588033772552586847}
+        m_TargetAssemblyTypeName: ControllItem, Assembly-CSharp
+        m_MethodName: OnJoystickInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9dff7c55-631f-4c40-a6b5-51293292316b
+    m_ActionName: Item/Joystick
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 588033772552586847}
+        m_TargetAssemblyTypeName: ControllItem, Assembly-CSharp
+        m_MethodName: OnUseButtonInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f492e365-5473-4cda-b544-cb297762df21
+    m_ActionName: Item/UseButton
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Item
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &2268709914812324846
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,7 +517,7 @@ BoxCollider:
   m_GameObject: {fileID: 2268709914812324846}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -551,7 +614,7 @@ BoxCollider:
   m_GameObject: {fileID: 2268709914877243918}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1560,7 +1623,7 @@ MeshCollider:
   m_GameObject: {fileID: 2268709915839351608}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -1906,7 +1969,7 @@ MeshCollider:
   m_GameObject: {fileID: 2268709915924607621}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30

@@ -107,11 +107,11 @@ public class BoardgamePlayer : MonoBehaviour
             _moveCount -= 1;
 
             await LookNextDestIsland((end - start).normalized);
-
+            
             while (elapsedTime <= MOVE_TIME)
             {
                 elapsedTime += Time.deltaTime;
-                _rigidbody.MovePosition(SecondaryBezierCurve(start, mid, end, elapsedTime * 2));
+                _rigidbody.MovePosition(SecondaryBezierCurve(start, mid, end, elapsedTime / MOVE_TIME));
 
                 await UniTask.Yield();
             }
