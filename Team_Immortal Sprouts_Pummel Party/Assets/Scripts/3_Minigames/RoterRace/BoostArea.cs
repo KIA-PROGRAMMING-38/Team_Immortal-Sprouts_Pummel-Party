@@ -5,7 +5,7 @@ using UnityEngine;
 public class BoostArea : MonoBehaviour
 {
     private float addedSpeed;
-    private PlayerController playerBody;
+    private PlayerController player;
 
     private void Start()
     {
@@ -14,9 +14,9 @@ public class BoostArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        playerBody = other.GetComponent<PlayerController>();
+        player = other.GetComponent<PlayerController>();
 
-        playerBody.boostEffect.Play();
-        playerBody.speed += addedSpeed;
+        player.boostEffect.Play();
+        player.speed += addedSpeed;
     }
 }

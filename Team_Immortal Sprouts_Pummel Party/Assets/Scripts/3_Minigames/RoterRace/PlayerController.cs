@@ -6,12 +6,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody planeBody;
-    [SerializeField] private GameObject playerCamera;
-    [SerializeField] private GameObject boostObj;
     public GameObject goalInObj;
     public ParticleSystem boostEffect;
     public ParticleSystem goalInEffect;
+
+    [SerializeField] private GameObject playerCamera;
+    [SerializeField] private GameObject boostObj;
+    private Rigidbody planeBody;
     private float upVector;
     private float downVector;
     private float leftYVector;
@@ -48,8 +49,8 @@ public class PlayerController : MonoBehaviour
 
     public float speed;
 
-    private bool isStart;
     private Quaternion controllVector;
+    private bool isStart;
     private float positionX;
     private float positionY;
     private float smoothAngleY;
@@ -86,8 +87,8 @@ public class PlayerController : MonoBehaviour
     #region collision
 
     [SerializeField] private GameObject explosionObj;
-    private ParticleSystem explosion;
     [SerializeField] private Transform spawnPosition;
+    private ParticleSystem explosion;
 
     private void OnCollisionEnter()
     {
