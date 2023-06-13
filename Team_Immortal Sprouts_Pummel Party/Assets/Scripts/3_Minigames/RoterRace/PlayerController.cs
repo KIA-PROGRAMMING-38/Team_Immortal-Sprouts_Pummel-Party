@@ -1,10 +1,6 @@
-using Cinemachine;
 using Cysharp.Threading.Tasks;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +9,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody planeBody;
     [SerializeField] private GameObject playerCamera;
     [SerializeField] private GameObject boostObj;
+    [SerializeField] private GameObject goalInObj;
     private ParticleSystem boostEffect;
+    private ParticleSystem goalInEffect;
     private float upVector;
     private float downVector;
     private float leftYVector;
@@ -27,7 +25,7 @@ public class PlayerController : MonoBehaviour
         planeBody = GetComponent<Rigidbody>();
         explosion = explosionObj.GetComponent<ParticleSystem>();
         boostEffect = boostObj.GetComponent<ParticleSystem>();
-
+        goalInEffect = goalInObj.GetComponent<ParticleSystem>();
 
         if (Accelerometer.current != null)
         {
@@ -44,7 +42,6 @@ public class PlayerController : MonoBehaviour
         leftYVector = -90;
         leftZVector = 90;
         smoothFactor = 0.1f;
-
     }
 
     #region move
@@ -57,8 +54,6 @@ public class PlayerController : MonoBehaviour
     private float smoothAngleY;
     private float smoothAngleX;
     private float smoothAngleZ;
-
-
 
     private void Update()
     {
@@ -80,14 +75,12 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, controllVector, smoothFactor);
     }
 
-
     public void InitSencer()
     {
         positionX = Accelerometer.current.acceleration.value.x;
         positionY = Accelerometer.current.acceleration.value.y;
     }
     #endregion
-
 
     #region collision
 
@@ -104,16 +97,20 @@ public class PlayerController : MonoBehaviour
 
         Spawn().Forget();
     }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Area"))
+        switch (other.tag)
         {
-            return;
+            case "Area":
+                boostEffect.Play();
+                speed += 15;
+                break;
+            case "Goal":
+                goalInEffect.Play();
+                goalInObj.transform.SetParent(null);
+                gameObject.SetActive(false);
+                break;
         }
-        Debug.Log("Ãæµ¹");
-        boostEffect.Play();
-        speed += 10;
     }
 
     private async UniTaskVoid Spawn()
