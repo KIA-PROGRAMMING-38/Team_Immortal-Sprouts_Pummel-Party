@@ -9,7 +9,7 @@ public class ModelData : ScriptableObject
 
     public GameObject[] _BoardModels;
 
-    public GameObject[] _MiniModels;
+    public GameObject[] _RoterRaceModel;
 
     public GameObject[] _AwardModels;
 
