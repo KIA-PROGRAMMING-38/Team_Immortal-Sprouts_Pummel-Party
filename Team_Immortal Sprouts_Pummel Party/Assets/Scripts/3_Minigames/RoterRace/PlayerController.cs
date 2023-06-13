@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody planeBody;
     [SerializeField] private GameObject playerCamera;
+    [SerializeField] private GameObject boostObj;
+    private ParticleSystem boostEffect;
     private float upVector;
     private float downVector;
     private float leftYVector;
@@ -24,6 +26,8 @@ public class PlayerController : MonoBehaviour
     {
         planeBody = GetComponent<Rigidbody>();
         explosion = explosionObj.GetComponent<ParticleSystem>();
+        boostEffect = boostObj.GetComponent<ParticleSystem>();
+
 
         if (Accelerometer.current != null)
         {
@@ -101,14 +105,15 @@ public class PlayerController : MonoBehaviour
         Spawn().Forget();
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Area"))
         {
             return;
         }
-        speed += 5;
+        Debug.Log("Ãæµ¹");
+        boostEffect.Play();
+        speed += 10;
     }
 
     private async UniTaskVoid Spawn()
