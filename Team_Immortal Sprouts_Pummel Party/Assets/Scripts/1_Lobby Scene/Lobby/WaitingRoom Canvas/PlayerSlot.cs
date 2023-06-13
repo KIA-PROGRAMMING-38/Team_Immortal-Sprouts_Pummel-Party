@@ -14,10 +14,14 @@ public class PlayerSlot : MonoBehaviourPunCallbacks
     private Color readyColor = Color.green;
     private Color notReadyColor = Color.red;
 
-    
+    public DefaultPool defaultPrefabPool { get; private set; }
     public CustomizeCanvas GetCustomizeCanvas() => customizeCanvas;
     public SelectCanvas GetSelectCanvas() => selectCanvas;
 
+    private void Start()
+    {
+        defaultPrefabPool = PhotonNetwork.PrefabPool as DefaultPool;
+    }
 
     /// <summary>
     /// 매개변수에 따라 플레이어의 Customize Canvas를 키고, Select Canvas를 꺼준다

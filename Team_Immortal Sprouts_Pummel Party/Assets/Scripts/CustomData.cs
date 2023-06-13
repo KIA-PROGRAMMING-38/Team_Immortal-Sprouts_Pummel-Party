@@ -16,15 +16,6 @@ public class CustomData : ScriptableObject
     /// <returns></returns>
     public GameObject GetHatFromData(int index)
     {
-        if (hats.Length <= index)
-        {
-            index = 0;
-        }
-        else if (index < 0)
-        {
-            index = hats.Length - 1;
-        }
-
         return hats[index];
     }
 
@@ -35,15 +26,6 @@ public class CustomData : ScriptableObject
     /// <returns></returns>
     public Texture2D GetBodyColorFromData(int index)
     {
-        if (hats.Length <= index)
-        {
-            index = 0;
-        }
-        else if (index < 0)
-        {
-            index = hats.Length - 1;
-        }
-
         return bodyColors[index];   
     }
 }

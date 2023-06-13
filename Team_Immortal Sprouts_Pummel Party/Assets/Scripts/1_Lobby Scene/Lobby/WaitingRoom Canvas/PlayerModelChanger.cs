@@ -21,8 +21,24 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
         
     }
 
-    public void SetHatOnPlayer(GameObject selectedHat = null)
+    public GameObject GetCurrentHat()
     {
-        selectedHat.transform.parent = hatTransform;
+        if (currentHat != null)
+        {
+            return currentHat;
+        }
+
+        return null;
+    }
+
+    public void SetHatOnPlayer(GameObject selectedHat)
+    {
+        if (selectedHat != null)
+        {
+            selectedHat.transform.parent = hatTransform;
+            selectedHat.SetActive(true);
+        }
+        
+        currentHat = selectedHat;
     }
 }
