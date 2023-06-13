@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WooSeok/Lobby Scene 2.unity
     guid: 29035bec7cd96c64784cf655006708b1
+  - enabled: 0
+    path: Assets/Scenes/WooSeok/Lobby Scene 3.unity
+    guid: dea2563b861d5e84f88d7cc8d7d537d0
+  - enabled: 1
+    path: Assets/Scenes/WooSeok/WaitingRoomScene.unity
+    guid: 2dbfbdf26bcdc054f9e406a5b85f37c7
   m_configObjects: {}

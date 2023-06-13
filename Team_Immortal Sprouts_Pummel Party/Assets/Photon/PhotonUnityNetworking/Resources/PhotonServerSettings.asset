@@ -58,6 +58,10 @@ MonoBehaviour:
   - ChangeBodyColor
   - ChangeHat
   - TurnOnPlayerModel
+  - SetPlayerReady
+  - SetEnterOrder
+  - TurnOffModel
+  - TurnOnModel
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

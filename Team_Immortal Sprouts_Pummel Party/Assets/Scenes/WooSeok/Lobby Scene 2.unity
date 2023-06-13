@@ -1026,7 +1026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3998255936705922919, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3998255937271690484, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: MultiPlayerCanvas
@@ -3294,7 +3294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2487228347764952863, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2487228347764952866, guid: afa6786cc3197624c8891889a2f98d32, type: 3}
       propertyPath: m_RenderMode

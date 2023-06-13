@@ -68,6 +68,7 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             }
             
             PhotonNetwork.CreateRoom(ActualRoomName, option, TypedLobby.Default); // 방을 만든다
+            PhotonNetwork.LoadLevel("WaitingRoomScene");
             Debug.Log($"{ActualRoomName}방을 만들었습니다");
         }
         else // 방 찾기 버튼을 눌렀다면
@@ -75,8 +76,9 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             ActualRoomName= roomName.text;
             PhotonNetwork.JoinRoom(ActualRoomName); // 입력된 코드의 방을 들어간다
             Debug.Log($"{ActualRoomName}방에 들어왔습니다");
-            _lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
-            _lobbyCanvases.DeactiveLobbyCanvases();
+            //_lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
+            //_lobbyCanvases.DeactiveLobbyCanvases();
+            PhotonNetwork.LoadLevel("WaitingRoomScene");
         }
         
     }
