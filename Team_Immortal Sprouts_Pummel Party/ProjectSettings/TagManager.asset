@@ -14,6 +14,7 @@ TagManager:
   - RotationIsland
   - NobodyIsland
   - Stone
+  - LobbyPlayer
   layers:
   - Default
   - TransparentFX

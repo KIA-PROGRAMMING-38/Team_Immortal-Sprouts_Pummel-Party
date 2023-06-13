@@ -4,9 +4,21 @@ using UnityEngine.UI;
 
 public class PlayerSlot : MonoBehaviourPunCallbacks
 {
+    // WaitingRoomCanvas OnJoined, OnPlayerEntered, OnPlayerLeft, OnMasterSwitched
+
+    // PlayerSlot
+    // View(UI) : StatusBar / Select Canvas -> 닉네임, 커스터마이즈 버튼, 스타트 버튼 / Customize Canvas -> 플레이어닉네임 인풋필드, 몸색변경 버튼, 모자 변경 버튼, 확정 버튼, 몸색, 모자
+    // Presenter(중간매개체) : WaitingRoomCanvas 가 중간 매개체 역할, Model 한테서 정보를 받아서 View를 컨트롤 한다
+    // Model(Data) : LobbyPlayerData 플레이어 정보, 몇번째 플레이어? , 플레이어 닉네임, 현재 몸 색깔 정보, 현재 모자 정보
+
+
+
     [SerializeField] Image statusBar;
     [SerializeField] SelectCanvas selectCanvas;
+    [SerializeField] Canvas selectCanvasPower;
     [SerializeField] CustomizeCanvas customizeCanvas;
+    [SerializeField] Canvas customizeCanvasPower;
+    
 
     [SerializeField] private int readyCount; // 테스트 위해 SerializeField 추가함
     [SerializeField] private PhotonView photonView;
@@ -14,15 +26,26 @@ public class PlayerSlot : MonoBehaviourPunCallbacks
     private Color readyColor = Color.green;
     private Color notReadyColor = Color.red;
 
-    public DefaultPool defaultPrefabPool { get; private set; }
+    
     public CustomizeCanvas GetCustomizeCanvas() => customizeCanvas;
     public SelectCanvas GetSelectCanvas() => selectCanvas;
 
-    private void Start()
+    [SerializeField] private PlayerModelChanger playerModelChanger; // 테스트 위해 SerializeField
+
+    
+
+    
+
+
+    public void SetPlayerModelChanger(PlayerModelChanger modelChanger)
     {
-        defaultPrefabPool = PhotonNetwork.PrefabPool as DefaultPool;
+        playerModelChanger = modelChanger;
     }
 
+    public PlayerModelChanger GetPlayerModelChanger()
+    {
+        return playerModelChanger;
+    }
     /// <summary>
     /// 매개변수에 따라 플레이어의 Customize Canvas를 키고, Select Canvas를 꺼준다
     /// </summary>
@@ -30,35 +53,15 @@ public class PlayerSlot : MonoBehaviourPunCallbacks
     {
         if (isTurnOn)
         {
-            customizeCanvas.gameObject.SetActive(true);
-            selectCanvas.gameObject.SetActive(false);
+            customizeCanvasPower.enabled = true;
+            selectCanvasPower.enabled = false;
         }
         else
         {
-            customizeCanvas.gameObject.SetActive(false);
-            selectCanvas.gameObject.SetActive(true);
+            customizeCanvasPower.enabled = false;
+            selectCanvasPower.enabled = true;
         }
     }
-
-    /// <summary>
-    /// 매개변수에 따라 플레이어의 Select Canvas를 키고, Customize Canvas를 꺼준다 
-    /// </summary>
-    /// <param name="isTurnOn"></param>
-    public void ActivateSelectCanvas(bool isTurnOn)
-    {
-        if (isTurnOn)
-        {
-            selectCanvas.gameObject.SetActive(true);
-            customizeCanvas.gameObject.SetActive(false);
-        }
-        else
-        {
-            selectCanvas.gameObject.SetActive(false);
-            customizeCanvas.gameObject.SetActive(true);
-        }
-    }
-
-
 
 
     /// <summary>

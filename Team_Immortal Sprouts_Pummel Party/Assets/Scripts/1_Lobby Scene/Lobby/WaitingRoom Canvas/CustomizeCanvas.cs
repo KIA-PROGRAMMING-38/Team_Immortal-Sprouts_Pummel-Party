@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class CustomizeCanvas : MonoBehaviourPunCallbacks
 {
+    [SerializeField] private WaitingRoomCanvas waitingRoomCanvas;
     [SerializeField] private PlayerSlot playerSlot;
     [SerializeField] private TMP_Text nicknameInputField;
     [SerializeField] private Image bodyColor;
@@ -16,53 +17,78 @@ public class CustomizeCanvas : MonoBehaviourPunCallbacks
     [SerializeField] private Button hatLeftButton;
     [SerializeField] private Button hatRightButton;
     [SerializeField] private Button confirmButton;
-
-    [SerializeField] private int playerIndex; // 테스트 위해 SerializeField 추가함
     [SerializeField] private CustomData customData;
-    private PlayerModelChanger playerModelChanger;
+    //[SerializeField] private int playerPositionIndex; 
+    //[SerializeField] private CustomData customData;
+
 
     [SerializeField] private int bodyColorIndex = 0;// 테스트 위해 SerializeField 추가함
     [SerializeField] private int hatIndex = 0;// 테스트 위해 SerializeField 추가함
+    [SerializeField] private int playerPositionIndex;// 테스트 위해 SerializeField 추가함
 
+    private PhotonView customizeCanvasPhotonView;
     private const string hatPrefabPath = "Prefabs/Hats/";
 
-    public void SetPlayerModelChanger(PlayerModelChanger modelChanger)
+
+    private void Start()
     {
-        playerModelChanger = modelChanger;
+        customizeCanvasPhotonView = PhotonView.Get(gameObject);
     }
 
-    /// <summary>
-    /// Customize Canvas의 플레이어 Index를 설정해준다
-    /// </summary>
-    /// <param name="playerPositionIndex"></param>
+    [PunRPC]
     public void SetCustomizeCanvasPlayerIndex(int playerPositionIndex)
     {
-        playerIndex = playerPositionIndex;
+        this.playerPositionIndex = playerPositionIndex;
     }
 
-    private void SetBodyColor(int index)
+    public void SetMasterCustomizeCanvasPlayerIndex(int playerPositionIndex)
     {
-        Texture2D bodyColor = customData.GetBodyColorFromData(index);
-        playerModelChanger.SetBodyColor(bodyColor);
+        this.playerPositionIndex = playerPositionIndex;
     }
 
-    private void SetHat(int index)
+    ///// <summary>
+    ///// Customize Canvas의 플레이어 Index를 설정해준다
+    ///// </summary>
+    ///// <param name="playerPositionIndex"></param>
+    //public void SetCustomizeCanvasPlayerIndex(int playerPositionIndex)
+    //{
+    //    this.playerPositionIndex = playerPositionIndex;
+    //}
+
+
+    [PunRPC]
+    private void AskMasterClientToChangeBodyColor(int playerPositionIndex, int bodyIndex)
     {
-        if (playerModelChanger.GetCurrentHat() != null)
-        {
-            playerSlot.defaultPrefabPool.Destroy(playerModelChanger.GetCurrentHat());
-        }
-
-        GameObject newHat = null;
-        GameObject hat = customData.GetHatFromData(index);
-        if (customData.GetHatFromData(index) != null)
-        {
-            newHat = playerSlot.defaultPrefabPool.Instantiate(hat.name, playerModelChanger.GetHatPosition(), Quaternion.identity);
-        }
-        
-        playerModelChanger.SetHatOnPlayer(newHat);
-        
+        PlayerModelChanger askedPlayerModelChanger = waitingRoomCanvas.GetPlayerModelChanger(playerPositionIndex);
+        PhotonView askedPhotonView = PhotonView.Get(askedPlayerModelChanger);
+        askedPhotonView.RPC("SetBodyColor", RpcTarget.All, bodyIndex) ;
     }
+
+
+    [PunRPC]
+    private void AskMasterClientToChangeHat(int playerPositionIndex, int hatIndex)
+    {
+        PlayerModelChanger askedPlayerModelChanger = waitingRoomCanvas.GetPlayerModelChanger(playerPositionIndex);
+        PhotonView askedPhotonView = PhotonView.Get(askedPlayerModelChanger);
+        askedPhotonView.RPC("SetHatOnPlayer", RpcTarget.All, hatIndex);
+    }
+
+    [PunRPC]
+    private void ChangeBodyColor(int playerPositionIndex, int bodyIndex)
+    {
+        PlayerModelChanger askedPlayerModelChanger = waitingRoomCanvas.GetPlayerModelChanger(playerPositionIndex);
+        PhotonView askedPhotonView = PhotonView.Get(askedPlayerModelChanger);
+        askedPhotonView.RPC("SetBodyColor", RpcTarget.All, bodyIndex);
+    }
+
+    [PunRPC]
+    private void ChangeHat(int playerPositionIndex, int hatIndex)
+    {
+        PlayerModelChanger askedPlayerModelChanger = waitingRoomCanvas.GetPlayerModelChanger(playerPositionIndex);
+        PhotonView askedPhotonView = PhotonView.Get(askedPlayerModelChanger);
+        askedPhotonView.RPC("SetHatOnPlayer", RpcTarget.All, hatIndex);
+    }
+
 
     private int SetButtonIndex(bool isRightButton, int index, int length) // 모자 7개(6), 몸색 8개(7)
     {
@@ -93,31 +119,69 @@ public class CustomizeCanvas : MonoBehaviourPunCallbacks
 
     public void OnClick_Body_LeftButton()
     {
-        bodyColorIndex = SetButtonIndex(false, bodyColorIndex, customData.bodyColors.Length);
-        SetBodyColor(bodyColorIndex);
+        if (customizeCanvasPhotonView.IsMine)
+        {
+            bodyColorIndex = SetButtonIndex(false, bodyColorIndex, customData.bodyColors.Length);
+
+            if (!PhotonNetwork.IsMasterClient) // 방장이 아니라면 방장에게 부탁한다
+            {
+                customizeCanvasPhotonView.RPC("AskMasterClientToChangeBodyColor", RpcTarget.MasterClient, playerPositionIndex, bodyColorIndex);
+            }
+            else // 방장이라면 
+            {
+                customizeCanvasPhotonView.RPC("ChangeBodyColor", RpcTarget.All, playerPositionIndex ,bodyColorIndex);
+            }
+        }
     }
 
     public void OnClick_Body_RightButton()
     {
-        bodyColorIndex = SetButtonIndex(true, bodyColorIndex, customData.bodyColors.Length);
-        SetBodyColor(bodyColorIndex);
+        if (customizeCanvasPhotonView.IsMine)
+        {
+            bodyColorIndex = SetButtonIndex(true, bodyColorIndex, customData.bodyColors.Length);
+
+            if (!PhotonNetwork.IsMasterClient) // 방장이 아니라면 방장에게 부탁한다
+            {
+                customizeCanvasPhotonView.RPC("AskMasterClientToChangeBodyColor", RpcTarget.MasterClient, playerPositionIndex, bodyColorIndex);
+            }
+            else // 방장이라면 
+            {
+                customizeCanvasPhotonView.RPC("ChangeBodyColor", RpcTarget.All, playerPositionIndex, bodyColorIndex);
+            }
+        }
     }
 
     public void OnClick_Hat_LeftButton()
     {
         hatIndex = SetButtonIndex(false, hatIndex, customData.hats.Length);
-        SetHat(hatIndex);
+
+        if (!PhotonNetwork.IsMasterClient) // 방장이 아니라면 방장에게 부탁한다
+        {
+            customizeCanvasPhotonView.RPC("AskMasterClientToChangeHat", RpcTarget.MasterClient, playerPositionIndex, hatIndex);
+        }
+        else // 방장이라면 
+        {
+            customizeCanvasPhotonView.RPC("ChangeHat", RpcTarget.All, playerPositionIndex , hatIndex);
+        }
     }
 
     public void OnClick_Hat_RightButton()
     {
         hatIndex = SetButtonIndex(true, hatIndex, customData.hats.Length);
-        SetHat(hatIndex);
+
+        if (!PhotonNetwork.IsMasterClient) // 방장이 아니라면 방장에게 부탁한다
+        {
+            customizeCanvasPhotonView.RPC("AskMasterClientToChangeHat", RpcTarget.MasterClient, playerPositionIndex, hatIndex);
+        }
+        else // 방장이라면 
+        {
+            customizeCanvasPhotonView.RPC("ChangeHat", RpcTarget.All, playerPositionIndex, hatIndex);
+        }
     }
 
     public void OnClick_ConfirmButton()
     {
-        playerSlot.ActivateSelectCanvas(true);
+        playerSlot.ActivateCustomizeCanvas(false);
         SetPlayerNickname(nicknameInputField.text);
     }
 

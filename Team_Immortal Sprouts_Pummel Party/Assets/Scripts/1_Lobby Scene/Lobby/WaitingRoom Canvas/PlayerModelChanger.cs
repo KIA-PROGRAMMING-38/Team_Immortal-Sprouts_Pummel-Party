@@ -8,17 +8,17 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject currentHat; // 테스트 위해 SerializeField 추가함
     [SerializeField] private Transform hatTransform;
     [SerializeField] private Material bodyMaterial;
-    
+    [SerializeField] private CustomData customData;
+    public DefaultPool defaultPrefabPool { get; private set; }
+
+    private void Start()
+    {
+        defaultPrefabPool = PhotonNetwork.PrefabPool as DefaultPool;
+    }
 
     public Vector3 GetHatPosition()
     {
         return hatTransform.position;
-    }
-
-    public void SetBodyColor(Texture2D selectedTexture)
-    {
-        bodyMaterial.mainTexture = selectedTexture;
-        
     }
 
     public GameObject GetCurrentHat()
@@ -31,14 +31,32 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
         return null;
     }
 
-    public void SetHatOnPlayer(GameObject selectedHat)
+    [PunRPC]
+    private void SetBodyColor(int bodyColorIndex)
     {
-        if (selectedHat != null)
+        Texture2D bodyColor = customData.GetBodyColorFromData(bodyColorIndex);
+        bodyMaterial.mainTexture = bodyColor;
+    }
+
+    [PunRPC]
+    public void SetHatOnPlayer(int hatIndex)
+    {
+        if (currentHat != null)
         {
-            selectedHat.transform.parent = hatTransform;
-            selectedHat.SetActive(true);
+            defaultPrefabPool.Destroy(currentHat);
+        }
+
+        GameObject newHat = customData.GetHatFromData(hatIndex);
+        if (newHat != null)
+        {
+            newHat = defaultPrefabPool.Instantiate(newHat.name, GetHatPosition(), Quaternion.identity);
+            newHat.transform.parent = hatTransform;
+            newHat.SetActive(true);
         }
         
-        currentHat = selectedHat;
+        currentHat = newHat;
     }
+
+
+
 }

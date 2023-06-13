@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 7996714020191567170}
   m_Layer: 7
   m_Name: RoomWait 1
-  m_TagString: Player
+  m_TagString: LobbyPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -449,6 +449,7 @@ MonoBehaviour:
   currentHat: {fileID: 0}
   hatTransform: {fileID: 3554150895002548621}
   bodyMaterial: {fileID: 2100000, guid: 502698f9b3c10f34c80594bb438653a3, type: 2}
+  customData: {fileID: 11400000, guid: dfa5577dec2b2b042aa0836b6583e052, type: 2}
 --- !u!1 &4055261834927489082
 GameObject:
   m_ObjectHideFlags: 0
