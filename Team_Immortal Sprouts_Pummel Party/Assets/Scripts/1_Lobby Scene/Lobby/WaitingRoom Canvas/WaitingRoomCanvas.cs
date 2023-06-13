@@ -8,9 +8,13 @@ using UnityEngine;
 public class WaitingRoomCanvas : MonoBehaviourPunCallbacks
 {
     private LobbyCanvases _lobbyCanvases;
-    [SerializeField] private TMP_Text roomName;
+    [Header("Data Scriptable Object")]
     [SerializeField] private ModelData modelData;
     [SerializeField] private PositionData positionData;
+
+
+    [Header("-------------------------------------------------------------------------------")]
+    [SerializeField] private TMP_Text roomName;
     [SerializeField] private PlayerSlot[] playerSlots;
 
     [SerializeField] private GameObject[] lobbyPlayerModels; // 테스트 위해 serializeFiled 부착
