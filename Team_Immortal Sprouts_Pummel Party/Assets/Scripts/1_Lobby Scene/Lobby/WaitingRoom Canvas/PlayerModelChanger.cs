@@ -8,6 +8,7 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject currentHat; // 테스트 위해 SerializeField 추가함
     [SerializeField] private Transform hatTransform;
     [SerializeField] private Material bodyMaterial;
+    
 
     public Vector3 GetHatPosition()
     {

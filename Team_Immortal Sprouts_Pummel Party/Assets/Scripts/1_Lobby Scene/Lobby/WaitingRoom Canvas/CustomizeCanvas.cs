@@ -18,7 +18,7 @@ public class CustomizeCanvas : MonoBehaviourPunCallbacks
     [SerializeField] private Button confirmButton;
 
     [SerializeField] private int playerIndex; // 테스트 위해 SerializeField 추가함
-
+    [SerializeField] private CustomData customData;
     private PlayerModelChanger playerModelChanger;
     // WaitingRoomCanvas에 있는 GetPlayerModelChanger()함수를 통해서 스크립트를 받아와야함
     // 좀 자고 일어나서 하자
