@@ -7,67 +7,82 @@ using UnityEngine.InputSystem;
 
 public class Dice : MonoBehaviour
 {
-    private float rotateSpeed = 1000f;
-    private bool isClickedScreen = false;
+    [SerializeField] private GameObject dice;
+    private float rotateZSpeed = 800f;
+    private float rotateYSpeed = 800f;
+    private bool isClickedBoardGameScreen = false;
     private PlayerInput playerInput;
     private InputAction touchPressAction;
 
     private void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
-        touchPressAction = playerInput.actions["ScreenTouch"];
+        //playerInput = GetComponent<PlayerInput>();
+        //touchPressAction = playerInput.actions["ScreenTouch"];
     }
 
-    private void OnTouchBoardGameScreen(InputAction.CallbackContext context)
+    public void OnTouchRollDicePanel()
     {
+        isClickedBoardGameScreen = true;
         Debug.Log("터치됨");
-        isClickedScreen = true;
     }
 
-    private void OnEnable()
-    {
-        touchPressAction.performed -= OnTouchBoardGameScreen;
-        touchPressAction.performed += OnTouchBoardGameScreen;
-    }
+    //private void OnEnable()
+    //{
+    //    touchPressAction.performed -= OnTouchBoardGameScreen;
+    //    touchPressAction.performed += OnTouchBoardGameScreen;
+    //}
 
-    private void OnDisable()
-    {
-        touchPressAction.performed -= OnTouchBoardGameScreen;
-    }
+    //private void OnDisable()
+    //{
+    //    touchPressAction.performed -= OnTouchBoardGameScreen;
+    //}
 
     float elapsedTime = 0;
-    int diceResult = 0;
+    float rotationTime = 10f;
+
     /// <summary>
     /// 임시 기능.. 화면 터치 입력 발생했을 때 주사위 굴릴 수 있도록..
     /// </summary>
     public int Roll()
     {
-        elapsedTime += Time.deltaTime;
-        Debug.Log("roll 함수 들어옴");
-        Debug.Log($"elapsedTime = {elapsedTime}");
+        //int diceResult = 0;
+        //elapsedTime += Time.deltaTime;
 
-        // 주사위 회전
-        // 임시 조건 지정
-        while (elapsedTime > 5f)
+        //// 주사위 회전
+        //// 임시 조건 지정
+        //while (elapsedTime <= rotationTime)
+        //{
+        //    OnAppearDice();
+        //    dice.transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
+
+        //    if (isClickedBoardGameScreen == true)
+        //    {
+        //        Debug.Log("if문 들어옴");
+        //        diceResult = Random.Range(-1, 8);
+        //        dice.transform.rotation = GetRotationValue(diceResult);
+        //        Debug.Log($"주사위 결과: {diceResult}");
+
+        //        break;
+        //    }
+        //}
+        int diceResult = 0;
+
+        if (isClickedBoardGameScreen == false)
         {
-            Debug.Log("while문 들어옴");
-            gameObject.transform.GetChild(1).gameObject.SetActive(true);
-            gameObject.transform.GetChild(1).gameObject.transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
-
-            if (/*isClickedScreen == true && */ elapsedTime > 10f)
-            {
-                Debug.Log("if문 들어옴");
-                diceResult = Random.Range(-1, 8);
-                gameObject.transform.GetChild(1).gameObject.transform.rotation = GetRotationValue(diceResult);
-                Debug.Log($"주사위 결과: {diceResult}");
-                gameObject.transform.GetChild(1).gameObject.SetActive(true);
-
-                break;
-            }
-
-            // elapsedTime = 0;
+            OnAppearDice();
+            dice.transform.Rotate(0, rotateYSpeed * Time.deltaTime, rotateZSpeed * Time.deltaTime);
         }
 
+        else
+        {
+            diceResult = Random.Range(-1, 8);
+            dice.transform.rotation = GetRotationValue(diceResult);
+            Debug.Log($"주사위 결과: {diceResult}");
+        }
+
+        //OnDisappearDice();
+
+        // elapsedTime = 0;
         return diceResult;
     }
 
@@ -124,18 +139,18 @@ public class Dice : MonoBehaviour
     }
 
     /// <summary>
-    /// 주사위를 활성화해주는 함수입니다.
+    /// 주사위를 비활성화해주는 함수입니다.
     /// </summary>
     public void OnDisappearDice()
     {
-        gameObject.transform.GetChild(1).gameObject.SetActive(false);
+        dice.gameObject.SetActive(false);
     }
 
     /// <summary>
-    /// 주사위를 비활성화해주는 함수입니다. 
+    /// 주사위를 활성화해주는 함수입니다. 
     /// </summary>
     public void OnAppearDice()
     {
-        gameObject.transform.GetChild(1).gameObject.SetActive(true);
+        dice.gameObject.SetActive(true);
     }
 }
