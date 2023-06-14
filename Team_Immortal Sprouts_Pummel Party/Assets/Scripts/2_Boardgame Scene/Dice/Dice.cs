@@ -1,9 +1,11 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 public class Dice : MonoBehaviour
 {
@@ -43,10 +45,11 @@ public class Dice : MonoBehaviour
 
         else if (isClickedBoardGameScreen == true && isRollDice == false)
         {
-            diceResult = Random.Range(-1, 0);
+            diceResult = Random.Range(-1, 8);
             dice.transform.rotation = GetRotationValue(diceResult);
             isRollDice = true;
             Debug.Log($"주사위 결과: {diceResult}");
+            WaitFor2SecondsDisappearDice();
         }
 
         player.SetMoveCount(diceResult);
@@ -58,16 +61,16 @@ public class Dice : MonoBehaviour
         Roll();
     }
 
-    Quaternion minusoneRotateValue = Quaternion.Euler(128, -24, 166);
-    Quaternion zeroRotateValue = Quaternion.Euler(-21, 420, 142);
-    Quaternion oneRotateValue = Quaternion.Euler(18, 116, 145);
-    Quaternion twoRotateValue = Quaternion.Euler(-37, 338, 195);
-    Quaternion threeRotateValue = Quaternion.Euler(1, 265, 219);
-    Quaternion fourRotateValue = Quaternion.Euler(-25, 293, 40);
-    Quaternion fiveRotateValue = Quaternion.Euler(27, 199, -168);
-    Quaternion sixRotateValue = Quaternion.Euler(-37, 25, -18);
-    Quaternion sevenRotateValue = Quaternion.Euler(0, 94, -38);
-    Quaternion errorRotateValue = Quaternion.Euler(24, -124, 4); // 아무 숫자도 없는 면
+    Quaternion minusoneRotateValue = Quaternion.Euler(128, 156, 166);
+    Quaternion zeroRotateValue = Quaternion.Euler(-21, 600, 142);
+    Quaternion oneRotateValue = Quaternion.Euler(18, 296, 145);
+    Quaternion twoRotateValue = Quaternion.Euler(-37, 518, 195);
+    Quaternion threeRotateValue = Quaternion.Euler(1, 445, 219);
+    Quaternion fourRotateValue = Quaternion.Euler(-25, 473, 40);
+    Quaternion fiveRotateValue = Quaternion.Euler(27, 379, -168);
+    Quaternion sixRotateValue = Quaternion.Euler(-37, 205, -18);
+    Quaternion sevenRotateValue = Quaternion.Euler(0, 274, -38);
+    Quaternion errorRotateValue = Quaternion.Euler(149, -109, 231); // 아무 숫자도 없는 면
 
     private Quaternion GetRotationValue(int diceResult)
     {
@@ -103,6 +106,12 @@ public class Dice : MonoBehaviour
             default:
                 return errorRotateValue;
         }
+    }
+
+    async UniTask WaitFor2SecondsDisappearDice()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(2f));
+        OnDisappearDice();
     }
 
     /// <summary>
