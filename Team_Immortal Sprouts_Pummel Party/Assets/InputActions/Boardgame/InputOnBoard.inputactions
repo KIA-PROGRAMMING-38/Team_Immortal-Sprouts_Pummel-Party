@@ -28,6 +28,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "PlayerTouch",
+            "id": "251371d0-e733-47e7-ab1b-8ae90622bf04",
+            "actions": [
+                {
+                    "name": "ScreenTouch",
+                    "type": "Button",
+                    "id": "2f29eb6f-53c4-4774-a3c0-ecf8e7b953a4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bc560a96-ebf6-47cc-9fb5-0146b36d0d16",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScreenTouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
