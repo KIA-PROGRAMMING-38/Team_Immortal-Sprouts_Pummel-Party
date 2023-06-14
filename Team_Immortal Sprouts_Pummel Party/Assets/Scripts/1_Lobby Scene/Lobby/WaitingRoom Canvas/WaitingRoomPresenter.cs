@@ -207,6 +207,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             waitingViews[leftPlayerEnterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, false);
             --readyCount;
             CheckIfStartable(readyCount);
+            waitingViews[enterOrder].GetViewPV().RPC("ShowPlayerNickName", RpcTarget.AllBuffered, $"Player {enterOrder}");
         }
     }
     
@@ -295,7 +296,12 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         LeaveRoom();
     }
 
-
-
+    [PunRPC]
+    public void SetPlayerNickName(int enterOrder, string newNickName)
+    {
+        Player updatePlayer = players[enterOrder];
+        playerData.UpdateNickName(updatePlayer, newNickName);
+        waitingViews[enterOrder].GetViewPV().RPC("ShowPlayerNickName", RpcTarget.AllBuffered, newNickName);
+    }
 
 }

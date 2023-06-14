@@ -123,22 +123,28 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     {
         return playerNameDictionary[player];
     }
+
+    public void UpdateNickName(Player updatePlayer, String newNickName)
+    {
+        playerNameDictionary[updatePlayer] = newNickName;
+    }
+
+
     // 플레이어의 몸 색깔을 담을 Dictionary
     private Dictionary<Player, int> playerBodyColorDictionary = new Dictionary<Player, int>();
-    public void UpdateBodyIndex(Player updatePlayer, int newBodyIndex)
-    {
-        playerBodyColorDictionary[updatePlayer] = newBodyIndex;
-    }
 
     public int GetPlayerBodyColorIndex(Player player)
     {
         return playerBodyColorDictionary[player];
     }
+    public void UpdateBodyIndex(Player updatePlayer, int newBodyIndex)
+    {
+        playerBodyColorDictionary[updatePlayer] = newBodyIndex;
+    }
 
 
 
 
-    
 
     // 플레이어가 착용하고 있는 모자를 담을 Dictionary
     private Dictionary<Player, int> playerHatDictionary = new Dictionary<Player, int>();

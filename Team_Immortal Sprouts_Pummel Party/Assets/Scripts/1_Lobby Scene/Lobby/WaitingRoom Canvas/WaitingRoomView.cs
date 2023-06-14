@@ -11,12 +11,17 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 {
     [SerializeField] private WaitingRoomPresenter presenter;
 
-    [SerializeField] private Button startButton;
-    [SerializeField] private Image readyBar;
+    [Header("----------------------Select Canvas----------------------")]
     [SerializeField] private Canvas selectCanvas;
+    [SerializeField] private Image readyBar;
+    [SerializeField] private TMP_Text playerNickName;
+    [SerializeField] private Button startButton;
+
+    [Header("----------------------Customize Canvas----------------------")]
     [SerializeField] private Canvas customizeCanvas;
+    [SerializeField] private TMP_Text nickNameInputField;
 
-
+    [Header("----------------------Editor Mode----------------------")]
     PhotonView viewPV;
     [SerializeField] private int enterOrder;
 
@@ -174,19 +179,28 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
         }
     }
 
+
+    private string setNickName;
     public void OnClick_ConfirmButton()
     {
         if (GetViewPV().IsMine)
         {
             selectCanvas.enabled = true;
             customizeCanvas.enabled = false;
+            setNickName = nickNameInputField.text;
+            presenter.GetPresenterPV().RPC("SetPlayerNickName", RpcTarget.MasterClient, enterOrder, setNickName);
         }
     }
 
-    
+
 
     #endregion
 
+    [PunRPC]
+    private void ShowPlayerNickName(string setNickName)
+    {
+        playerNickName.text = setNickName;
+    }
     
 
 }
