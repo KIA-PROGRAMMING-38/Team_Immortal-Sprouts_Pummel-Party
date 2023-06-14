@@ -34,7 +34,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
 
     public int hatTypeCount { get; private set; }
     public int bodyColorCount { get; private set; }
-
+    private bool amIOriginalMaster = false;
 
     public void ResetBodyColor(int enterOrder) // 마스터가 해줌
     {
@@ -140,6 +140,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
         bodyColorCount = playerData.GetBodyColorCount();
         roomName = PhotonNetwork.CurrentRoom.Name;
         roomNameText.text = roomName;
+        amIOriginalMaster = PhotonNetwork.IsMasterClient;
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -169,9 +170,9 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    public override void OnPlayerLeftRoom(Player otherPlayer) 
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (amIOriginalMaster && PhotonNetwork.IsMasterClient) // 마스터가해줘야 할 일들
         {
             int leftPlayerEnterOrder = playerData.GetPlayerEnterOrder(otherPlayer);
             Debug.Log($"플레이어가 나갈때 GetPlayerEnterOrder에서의 값 = {leftPlayerEnterOrder}");
@@ -179,11 +180,9 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
             DestroyOtherPlayer(leftPlayerEnterOrder);
             isPlayerPresent[playerData.GetPlayerEnterOrder(otherPlayer)] = false; // 나감 표시
             playerData.RemovePlayerData(otherPlayer); // MoDEL 업데이트
-            //GetPresenterPV().RPC("ResetBodyColor", RpcTarget.MasterClient, enterOrder);
-            //PhotonNetwork.Destroy(modelPVs[playerData.GetPlayerEnterOrder(otherPlayer)]); // 게임캐릭터 제거
         }
     }
-
+    
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         // 마스터가 바뀌었다 -> 방이 폭파된다 -> 다 나가
@@ -211,6 +210,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
 
     public void LeaveRoom()
     {
+        Debug.Log("LeaveRoom");
         PhotonNetwork.LeaveRoom();
     }
 
