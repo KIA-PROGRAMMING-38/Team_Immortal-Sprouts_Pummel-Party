@@ -15,10 +15,18 @@ public class ItemUseTest : MonoBehaviour
     {
         OnTimeOut = new UnityEvent();
 
-        IUsable item = Instantiate(prefab).GetComponent<IUsable>();
-        item.SetForUse(player);
+        // 아이템 사용 테스트
+        //IUsable item = Instantiate(prefab).GetComponent<IUsable>();
+        //item.SetForUse(player);
 
-        Invoke(nameof(CallTimeOut), 1f);
+        // 아이템 추가 테스트
+        Invoke(nameof(GetTest), 5f);
+
+    }
+
+    private void GetTest()
+    {
+        prefab.GetComponent<Item>().Get(player);
     }
 
     private void CallTimeOut()

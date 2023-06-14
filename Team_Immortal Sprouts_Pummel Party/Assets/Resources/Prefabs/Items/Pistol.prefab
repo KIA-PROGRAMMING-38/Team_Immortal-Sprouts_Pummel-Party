@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7b6a673149c80f42a84cfd9727d7510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemData: {fileID: 0}
+  ItemData: {fileID: 11400000, guid: c481bb4fc1effbb4ca2b70aa40e7fca1, type: 2}
   MoveDir: {x: 0, y: 0}
   _shootPoint: {fileID: 2268709914812324850}
 --- !u!114 &2372441458120128991
