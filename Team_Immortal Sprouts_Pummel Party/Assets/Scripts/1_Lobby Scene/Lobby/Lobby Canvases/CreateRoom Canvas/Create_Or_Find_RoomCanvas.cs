@@ -98,9 +98,9 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
     #region Photon Callback 이벤트 함수
     public override void OnCreatedRoom()
     {
-        Debug.Log("방 생성 완료");
-        _lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
-        _lobbyCanvases.DeactiveLobbyCanvases();
+        //Debug.Log("방 생성 완료");
+        //_lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
+        //_lobbyCanvases.DeactiveLobbyCanvases();
     }
 
 

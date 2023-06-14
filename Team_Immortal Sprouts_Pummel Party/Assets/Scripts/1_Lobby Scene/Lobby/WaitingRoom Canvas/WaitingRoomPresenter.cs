@@ -292,6 +292,19 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
             players[enterOrder] = newPlayer;
             AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true); // ªˆ¿ª πŸ≤„¡‹
+            EnableRoomOpen();
+        }
+    }
+
+    private void EnableRoomOpen()
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+        }
+        else
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = true;
         }
     }
 
@@ -311,6 +324,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             --readyCount;
             CheckIfStartable(readyCount);
             waitingViews[enterOrder].GetViewPV().RPC("ShowPlayerNickName", RpcTarget.AllBuffered, GetDefualtName(enterOrder));
+            EnableRoomOpen();
         }
     }
     
@@ -322,7 +336,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        PhotonNetwork.LoadLevel("Lobby Scene 2");
+        PhotonNetwork.LoadLevel("Lobby Scene 3");
     }
 
     #endregion

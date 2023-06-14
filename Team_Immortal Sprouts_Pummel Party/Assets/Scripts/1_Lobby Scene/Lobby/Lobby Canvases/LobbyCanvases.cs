@@ -8,13 +8,13 @@ public class LobbyCanvases : MonoBehaviour
     [SerializeField] private Create_Or_Find_RoomCanvas _create_Or_Find_RoomCanvas;
     //[SerializeField] private FindRoomCanvas _findRoomCanvas;
     [SerializeField] private FailedJoinRoomCanvas _failedJoinRoomCanvas;
-    [SerializeField] private WaitingRoomCanvas _waitingRoomCanvas;
+    //[SerializeField] private WaitingRoomCanvas _waitingRoomCanvas;
 
     public MultiGameCanvas MultiGameCanvas { get { return _multiGameCanvas; } }
     public Create_Or_Find_RoomCanvas Create_Or_Find_RoomCanvas { get { return _create_Or_Find_RoomCanvas; } }
     //public FindRoomCanvas FindRoomCanvas { get { return _findRoomCanvas; } }
     public FailedJoinRoomCanvas FailedJoinRoomCanvas { get { return _failedJoinRoomCanvas; } }
-    public WaitingRoomCanvas WaitingRoomCanvas { get { return _waitingRoomCanvas; } }
+    //public WaitingRoomCanvas WaitingRoomCanvas { get { return _waitingRoomCanvas; } }
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class LobbyCanvases : MonoBehaviour
         Create_Or_Find_RoomCanvas.CanvasInitialize(this);
         //FindRoomCanvas.CanvasInitialize(this);
         FailedJoinRoomCanvas.CanvasInitialize(this);
-        WaitingRoomCanvas.CanvasInitialize(this);
+        //WaitingRoomCanvas.CanvasInitialize(this);
     }
 
     /// <summary>
