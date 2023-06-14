@@ -65,11 +65,11 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (isReady == true)
         {
-            readyBar.color = notReadyColor;
+            readyBar.color = readyColor;
         }
         else
         {
-            readyBar.color = readyColor;
+            readyBar.color = notReadyColor;
         }
     }
 

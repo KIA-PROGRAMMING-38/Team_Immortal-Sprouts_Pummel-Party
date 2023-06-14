@@ -180,6 +180,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
             DestroyOtherPlayer(leftPlayerEnterOrder);
             isPlayerPresent[playerData.GetPlayerEnterOrder(otherPlayer)] = false; // 나감 표시
             playerData.RemovePlayerData(otherPlayer); // MoDEL 업데이트
+            isReady[leftPlayerEnterOrder] = false;
         }
     }
     
