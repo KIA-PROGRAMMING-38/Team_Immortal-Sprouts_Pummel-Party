@@ -5,8 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 {
@@ -31,6 +33,8 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     [SerializeField] private PhotonView[] modelPVs = new PhotonView[5];
 
     [SerializeField] private Player[] players = new Player[5];
+    
+    
 
     public int hatTypeCount { get; private set; }
     public int bodyColorCount { get; private set; }
@@ -51,7 +55,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     [PunRPC]
     public void AskBodyColorUpdate(int enterOrder, int lastIndex, int wantBodyIndex, bool isRightButton) // 마스터 클라이언트에서 실행될 함수
     {
-        Debug.Log($"Ask에서 EnterOrder = {enterOrder}");
         wantBodyIndex = playerData.GetCapableBodyIndex(lastIndex, wantBodyIndex, isRightButton);
         
         UpdateBodyData(enterOrder, wantBodyIndex); // 플레이어의 몸색깔 데이터를 갱신해줌
@@ -70,7 +73,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
     private void UpdateBodyData(int enterOrder, int bodyIndex) // 데이터를 갱신하기 위해 마스터 클라이언트만 접근할 함수
     {
-        Debug.Log($"UpdateBodyData에서의 enterOrder = {enterOrder}");
         Player updatePlayer = players[enterOrder];
 
         playerData.UpdateBodyIndex(updatePlayer, bodyIndex);
@@ -178,6 +180,51 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         roomName = PhotonNetwork.CurrentRoom.Name;
         roomNameText.text = roomName;
         amIOriginalMaster = PhotonNetwork.IsMasterClient;
+
+        InitializeHashTable(); // 플레이어 커스텀 프로퍼티를 사용하기 위한 초기화 과정
+    }
+
+    Hashtable[] playerProperties = new Hashtable[5];
+    
+    private void InitializeHashTable()
+    {
+        for (int i = 1; i < playerProperties.Length; ++i)
+        {
+            playerProperties[i] = new Hashtable();
+        }
+    }
+
+    private string nameKey = "nickName";
+    private string colorKey = "ColorIndex";
+    private string hatKey = "HatIndex";
+    public void LoadBoardGame()
+    {
+        SavePlayerProperties().Forget(); // 혹시 메인씬으로 로드하다가 고장날까봐 비동기로 처리
+    }
+
+    private async UniTaskVoid SavePlayerProperties()
+    {
+        for (int enterOrder = 1; enterOrder < players.Length; ++enterOrder)
+        {
+            Player player = players[enterOrder];
+            if (player != null) // 혹시 모를 널 체크
+            {
+                string savedNickName = playerData.GetPlayerNickName(player);
+                int savedColorIndex = playerData.GetPlayerBodyColorIndex(player);
+                int savedHatIndex = playerData.GetPlayerHatIndex(player);
+
+                playerProperties[enterOrder].Add(nameKey, savedNickName);
+                playerProperties[enterOrder].Add(colorKey, savedColorIndex);
+                playerProperties[enterOrder].Add(hatKey, savedHatIndex);
+            }
+        }
+
+        MoveToBoardGame();
+    }
+
+    private void MoveToBoardGame()
+    {
+        PhotonNetwork.LoadLevel("BoardGame");
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

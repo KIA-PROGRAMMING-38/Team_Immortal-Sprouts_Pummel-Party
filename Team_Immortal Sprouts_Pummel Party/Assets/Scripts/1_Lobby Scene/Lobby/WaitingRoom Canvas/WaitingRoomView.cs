@@ -108,7 +108,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("BoardGame");
+            presenter.LoadBoardGame();
         }
     }
 
