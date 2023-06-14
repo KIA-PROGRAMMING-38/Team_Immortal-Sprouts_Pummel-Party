@@ -30,4 +30,26 @@ public class InventoryManager : MonoBehaviour
             InventorySlots[i].DrawSlot(inventory[i]);
         }
     }
+
+    public void CloseInventory()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void OpenInventory()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void OnClick_InventoryButton()
+    {
+        if(gameObject.activeSelf)
+        {
+            CloseInventory();
+        }
+        else
+        {
+            OpenInventory();
+        }
+    }
 }

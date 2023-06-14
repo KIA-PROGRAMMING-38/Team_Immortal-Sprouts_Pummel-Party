@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Inventory : MonoBehaviour
 {
     public UnityEvent<List<InventoryItem>> OnInventoryUpdate;
+    public UnityEvent OnInventoryInit;
 
     public List<InventoryItem> PlayerInventory = new List<InventoryItem>();
     private Dictionary<ItemData, InventoryItem> _itemDictionary = new Dictionary<ItemData, InventoryItem>();
@@ -26,6 +27,7 @@ public class Inventory : MonoBehaviour
             }
 
             OnInventoryUpdate?.Invoke(PlayerInventory);
+            OnInventoryInit?.Invoke();
         }
     }
 
