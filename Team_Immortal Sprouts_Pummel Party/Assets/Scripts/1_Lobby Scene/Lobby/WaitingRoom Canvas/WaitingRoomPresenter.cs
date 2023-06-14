@@ -8,7 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
+public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 {
     private string roomName;
     [SerializeField] private TMP_Text roomNameText;
@@ -269,24 +269,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
         LeaveRoom();
     }
 
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            for (int i = 1; i < isPlayerPresent.Length; ++i)
-            {
-                stream.SendNext(isPlayerPresent[i]);
-            }
-        }
-        else if (stream.IsReading)
-        {
-            for (int i = 1; i < isPlayerPresent.Length; ++i)
-            {
-                isPlayerPresent[i] = (bool)stream.ReceiveNext();
-            }
-        }
-    }
 
 
 
