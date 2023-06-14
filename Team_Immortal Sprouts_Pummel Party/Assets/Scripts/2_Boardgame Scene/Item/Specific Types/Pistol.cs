@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Pistol : ControllItem
 {
+
     private Transform _playerTransform;
     private Rigidbody _playerRigidbody;
     public override void SetForUse(BoardgamePlayer usePlayer)
@@ -15,11 +16,18 @@ public class Pistol : ControllItem
         gameObject.transform.SetParent(_playerTransform, false);
     }
 
+    [SerializeField] private Transform _shootPoint;
     public override void Use()
     {
         base.Use();
-        // 회전은 알아서 움직이고 쏜 순간에 타겟을 맞춰야 함 회전 따라가는 거 따라서 그.. 판정하는 것도 바뀌지 말고
-        // 회전하는 움직임 자체는 매 프레임 진행할 수 있도록..
+
+        RaycastHit hit;
+        Physics.Raycast(_shootPoint.position, transform.forward * -1, out hit, int.MaxValue);
+
+        if(hit.collider != null && hit.collider.CompareTag("Player"))
+        {
+            Debug.Log($"맞은 플레이어: {hit.collider.name}");
+        }
 
         Recoil().Forget();
     }
@@ -64,7 +72,6 @@ public class Pistol : ControllItem
 
     public override void OnUseButtonInput(InputAction.CallbackContext context)
     {
-
         if(!context.performed)
         {
             return;
@@ -77,6 +84,6 @@ public class Pistol : ControllItem
 
     public override void OnTimeOut()
     {
-
+        Destroy(gameObject);
     }
 }
