@@ -596,7 +596,7 @@ PrefabInstance:
     - target: {fileID: 2289954121839324902, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: MultiPlayerCanvas
       value: 
-      objectReference: {fileID: 1591320725}
+      objectReference: {fileID: 1591320735}
     - target: {fileID: 3998255936705922915, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1025,6 +1025,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5527714054341072432, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5527714054385445932, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1037,9 +1041,17 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Create_Or_Find_RoomCanvas, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 5527714054527570233, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5527714054527570235, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: failedJoinRoomCanvas
+      value: 
+      objectReference: {fileID: 1615769845}
     - target: {fileID: 5527714054527570238, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5527714054793255307, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: m_Name
@@ -1104,6 +1116,10 @@ PrefabInstance:
     - target: {fileID: 5527714054793255317, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5527714055382120450, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClick_GameStartButton
       objectReference: {fileID: 0}
     - target: {fileID: 5527714055382120461, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: WaitingRoomCanvas
@@ -1316,6 +1332,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c35eeea2adce54fa4a82e6b618f757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!223 &1591320735 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 5527714054527570233, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+  m_PrefabInstance: {fileID: 1001361728}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1593222088 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2685056636359204670, guid: b96e1ae569bbac84786577cfdc840808, type: 3}

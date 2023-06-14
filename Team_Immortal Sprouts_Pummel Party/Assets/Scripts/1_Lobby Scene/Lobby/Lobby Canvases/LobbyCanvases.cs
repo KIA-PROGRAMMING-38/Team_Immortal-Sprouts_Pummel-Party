@@ -38,7 +38,8 @@ public class LobbyCanvases : MonoBehaviourPunCallbacks
     }
 
 
-
+    public int GetRoomCount() => entireRooms.Count;
+    
 
     private Dictionary<string, RoomInfo> entireRooms = new Dictionary<string, RoomInfo>();
 
