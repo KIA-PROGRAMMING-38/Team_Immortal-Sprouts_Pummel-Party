@@ -77,7 +77,7 @@ public class RacePlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, controllVector, smoothFactor);
     }
 
-    public void InitSencer()
+    private void InitSencer()
     {
         positionX = Accelerometer.current.acceleration.value.x;
         positionY = Accelerometer.current.acceleration.value.y;

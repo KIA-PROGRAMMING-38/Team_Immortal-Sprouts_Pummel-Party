@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Main Camera Profile
+  m_Name: Global Volume Profile
   m_EditorClassIdentifier: 
   components:
-  - {fileID: 6726396766518745473}
---- !u!114 &6726396766518745473
+  - {fileID: 4921857989781770408}
+--- !u!114 &4921857989781770408
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -38,13 +38,13 @@ MonoBehaviour:
     m_Value: 0
   gaussianMaxRadius:
     m_OverrideState: 0
-    m_Value: 1.5
+    m_Value: 1
   highQualitySampling:
     m_OverrideState: 0
     m_Value: 0
   focusDistance:
-    m_OverrideState: 1
-    m_Value: 0.3
+    m_OverrideState: 0
+    m_Value: 10
   aperture:
     m_OverrideState: 0
     m_Value: 5.6
