@@ -20,7 +20,7 @@ public class ItemUseTest : MonoBehaviour
         //item.SetForUse(player);
 
         // 아이템 추가 테스트
-        // Invoke(nameof(GetTest), 5f);
+        Invoke(nameof(GetTest), 5f);
 
     }
 
