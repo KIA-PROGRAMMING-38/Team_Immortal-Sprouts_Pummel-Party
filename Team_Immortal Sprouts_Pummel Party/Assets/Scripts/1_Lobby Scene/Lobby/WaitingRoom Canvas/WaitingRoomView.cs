@@ -103,7 +103,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
             else if (presenter.bodyColorCount <= wantBodyIndex)
                 wantBodyIndex = 0;
 
-
+            Debug.Log($"UI ´­·¶À»¶§ EnterOrder = {enterOrder}");
             presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, true);
         }
     }
@@ -163,22 +163,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnClick_LeaveRoom()
-    {
-        if (GetViewPV().IsMine)
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                presenter.GetPresenterPV().RPC("KickEveryeoneOut", RpcTarget.MasterClient);
-            }
-            else
-            {
-                presenter.GetPresenterPV().RPC("MakePlayerLeave", RpcTarget.MasterClient, enterOrder);
-            }
-            
-            presenter.LeaveRoom();
-        }
-    }
+    
 
     #endregion
 

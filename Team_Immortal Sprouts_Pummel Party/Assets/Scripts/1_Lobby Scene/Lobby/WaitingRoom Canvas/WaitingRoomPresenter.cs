@@ -36,12 +36,23 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
     public int bodyColorCount { get; private set; }
 
 
+    public void ResetBodyColor(int enterOrder) // 마스터가 해줌
+    {
+        Debug.Log($"ResetBodyColor에서 enterOrder = {enterOrder}");
+        if (modelPVs[enterOrder] != null)
+        {
+            modelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, enterOrder); // 바디 칼라 리셋
+        }
+
+    }
+
 
     [PunRPC]
     public void AskBodyColorUpdate(int enterOrder, int lastIndex, int wantBodyIndex, bool isRightButton) // 마스터 클라이언트에서 실행될 함수
     {
+        Debug.Log($"Ask에서 EnterOrder = {enterOrder}");
         wantBodyIndex = playerData.GetCapableBodyIndex(lastIndex, wantBodyIndex, isRightButton);
-            
+        
         UpdateBodyData(enterOrder, wantBodyIndex); // 플레이어의 몸색깔 데이터를 갱신해줌
 
         modelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, wantBodyIndex); // 플레이어의 몸색깔을 바꿔줌
@@ -58,6 +69,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
 
     private void UpdateBodyData(int enterOrder, int bodyIndex) // 데이터를 갱신하기 위해 마스터 클라이언트만 접근할 함수
     {
+        Debug.Log($"UpdateBodyData에서의 enterOrder = {enterOrder}");
         Player updatePlayer = players[enterOrder];
 
         playerData.UpdateBodyIndex(updatePlayer, bodyIndex);
@@ -123,8 +135,8 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
             players[enterOrder] = PhotonNetwork.LocalPlayer;
         }
 
-        hatTypeCount = customData.hats.Length;
-        bodyColorCount = customData.bodyColors.Length;
+        hatTypeCount = playerData.GetHatTypeCount();
+        bodyColorCount = playerData.GetBodyColorCount();
         roomName = PhotonNetwork.CurrentRoom.Name;
         roomNameText.text = roomName;
     }
@@ -135,12 +147,13 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
         {
             enterOrder = GetEmptySlot(); // 빈자리를 찾아서, 입장순서를 정해줌
             isPlayerPresent[enterOrder] = true; // 존재함 체크
+            Debug.Log($"들어온 순서 = {enterOrder}");
             playerData.AddPlayerData(newPlayer, enterOrder, $"Player {enterOrder}", enterOrder, 0); // Model 업데이트
             playerData.UpdateColorIndexing(enterOrder);
 
             // 플레이어 생성
             GameObject model = PhotonNetwork.Instantiate($"Prefabs/Lobby/WaitingRoomCanvas/RoomWait {enterOrder}", positionData._LobbyPositions[enterOrder].position, positionData._LobbyPositions[enterOrder].rotation);
-
+            
             PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // 모델 체인저 뽑아옴
             modelChangers[enterOrder] = modelChanger; // 모델체인저 저장해둠 --> 마스터가 다 조종할라고
             modelPVs[enterOrder] = PhotonView.Get(model); // 모델체인저와 연동된 포톤뷰 저장해둠 -> 마스터가 다 컨트롤하라구
@@ -151,6 +164,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
             waitingViews[enterOrder].GetViewPV().TransferOwnership(newPlayer); // 소유권 양도해줌
 
             players[enterOrder] = newPlayer;
+            AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true); // 색을 바꿔줌
         }
     }
 
@@ -158,8 +172,13 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            int leftPlayerEnterOrder = playerData.GetPlayerEnterOrder(otherPlayer);
+            Debug.Log($"플레이어가 나갈때 GetPlayerEnterOrder에서의 값 = {leftPlayerEnterOrder}");
+            ResetBodyColor(leftPlayerEnterOrder);
+            DestroyOtherPlayer(leftPlayerEnterOrder);
             isPlayerPresent[playerData.GetPlayerEnterOrder(otherPlayer)] = false; // 나감 표시
             playerData.RemovePlayerData(otherPlayer); // MoDEL 업데이트
+            //GetPresenterPV().RPC("ResetBodyColor", RpcTarget.MasterClient, enterOrder);
             //PhotonNetwork.Destroy(modelPVs[playerData.GetPlayerEnterOrder(otherPlayer)]); // 게임캐릭터 제거
         }
     }
@@ -178,20 +197,16 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
 
     #endregion
 
-    [PunRPC]
+    
     public void KickEveryeoneOut()
     {
-        for (int enterOrder = isPlayerPresent.Length -1; 0 < enterOrder ;--enterOrder)
+        for (int enterOrder = isPlayerPresent.Length - 1; 0 < enterOrder; --enterOrder)
         {
             DestroyOtherPlayer(enterOrder);
         }
     }
 
-    [PunRPC]
-    public void MakePlayerLeave(int enterOrder)
-    {
-        DestroyOtherPlayer(enterOrder);
-    }
+    
 
     public void LeaveRoom()
     {
@@ -200,10 +215,10 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
 
 
 
-    
+
     public void DestroyOtherPlayer(int enterOrder) // 마스터만 접근할 함수
     {
-        PhotonView photonView= modelPVs[enterOrder];
+        PhotonView photonView = modelPVs[enterOrder];
         if (photonView != null)
         {
             PhotonNetwork.Destroy(photonView); // 게임캐릭터 제거
@@ -212,7 +227,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
         if (modelChangers[enterOrder] != null)
         {
             GameObject hat = modelChangers[enterOrder].GetCurrentHat();
-            
+
             if (hat != null)
             {
                 PhotonNetwork.Destroy(PhotonView.Get(hat));
@@ -235,6 +250,24 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
 
         return emptyIndex;
     }
+
+
+    public void OnClick_LeaveRoom()
+    {
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("방장이 누름");
+            for (int enterOrder = 1; enterOrder <= PhotonNetwork.CurrentRoom.PlayerCount; ++enterOrder)
+            {
+                ResetBodyColor(enterOrder);
+            }
+            KickEveryeoneOut();
+        }
+        
+        LeaveRoom();
+    }
+
 
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
