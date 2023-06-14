@@ -7302,8 +7302,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8485,8 +8485,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8758,12 +8758,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presenter: {fileID: 2487228348658635229}
-  playerNickName: {fileID: 2487228349313975657}
-  nickNameInputField: {fileID: 2487228347736721607}
-  startButton: {fileID: 2487228349224554917}
-  readyBar: {fileID: 2487228348808806525}
   selectCanvas: {fileID: 2487228348425094674}
+  readyBar: {fileID: 2487228348808806525}
+  playerNickName: {fileID: 2487228349313975657}
+  startButton: {fileID: 2487228349224554917}
   customizeCanvas: {fileID: 2487228349149363125}
+  nickNameInputField: {fileID: 2487228347736721607}
+  colorBackground: {fileID: 2487228347912340524}
+  hatShowText: {fileID: 2487228348619864919}
   enterOrder: 0
   wantBodyIndex: 0
   hatIndex: 0
@@ -9427,8 +9429,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9516,8 +9518,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10752,12 +10754,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presenter: {fileID: 2487228348658635229}
-  playerNickName: {fileID: 2487228348712720208}
-  nickNameInputField: {fileID: 2487228349124737641}
-  startButton: {fileID: 0}
-  readyBar: {fileID: 2487228347894971301}
   selectCanvas: {fileID: 2487228349253380351}
+  readyBar: {fileID: 2487228347894971301}
+  playerNickName: {fileID: 2487228348712720208}
+  startButton: {fileID: 0}
   customizeCanvas: {fileID: 2487228348979528226}
+  nickNameInputField: {fileID: 2487228349124737641}
+  colorBackground: {fileID: 2487228349278346238}
+  hatShowText: {fileID: 2487228348713992027}
   enterOrder: 0
   wantBodyIndex: 0
   hatIndex: 0
@@ -12440,12 +12444,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presenter: {fileID: 2487228348658635229}
-  playerNickName: {fileID: 2487228347306379640}
-  nickNameInputField: {fileID: 2487228347232363435}
-  startButton: {fileID: 0}
-  readyBar: {fileID: 2487228348618435514}
   selectCanvas: {fileID: 2487228349074663194}
+  readyBar: {fileID: 2487228348618435514}
+  playerNickName: {fileID: 2487228347306379640}
+  startButton: {fileID: 0}
   customizeCanvas: {fileID: 2487228348810497336}
+  nickNameInputField: {fileID: 2487228347232363435}
+  colorBackground: {fileID: 2487228349186437029}
+  hatShowText: {fileID: 2487228348257181533}
   enterOrder: 0
   wantBodyIndex: 0
   hatIndex: 0
@@ -12781,12 +12787,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presenter: {fileID: 2487228348658635229}
-  playerNickName: {fileID: 2487228348106109397}
-  nickNameInputField: {fileID: 2487228348183399135}
-  startButton: {fileID: 0}
-  readyBar: {fileID: 2487228347711912215}
   selectCanvas: {fileID: 2487228348609516461}
+  readyBar: {fileID: 2487228347711912215}
+  playerNickName: {fileID: 2487228348106109397}
+  startButton: {fileID: 0}
   customizeCanvas: {fileID: 2487228348817311035}
+  nickNameInputField: {fileID: 2487228348183399135}
+  colorBackground: {fileID: 2487228347276170685}
+  hatShowText: {fileID: 2487228348729137784}
   enterOrder: 0
   wantBodyIndex: 0
   hatIndex: 0

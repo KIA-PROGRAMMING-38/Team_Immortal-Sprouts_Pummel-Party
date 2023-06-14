@@ -20,6 +20,9 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     [Header("----------------------Customize Canvas----------------------")]
     [SerializeField] private Canvas customizeCanvas;
     [SerializeField] private TMP_Text nickNameInputField;
+    [SerializeField] private Image colorBackground;
+    [SerializeField] private TMP_Text hatShowText;
+
 
     [Header("----------------------Editor Mode----------------------")]
     PhotonView viewPV;
@@ -32,7 +35,21 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 
     [SerializeField] private bool isChangable = true;
 
+
+
     #region Public ÇÔ¼öµé
+
+    [PunRPC]
+    public void SetBackgroundColor(int colorIndex)
+    {
+        colorBackground.color = presenter.GetBackgroundColor(colorIndex);
+    }
+
+    [PunRPC]
+    public void SetHatText(int hatIndex)
+    {
+        hatShowText.text = presenter.GetBackgroundHatText(hatIndex);    
+    }
 
     [PunRPC]
     public void ActivateStartButton(bool isAllReady)

@@ -33,8 +33,9 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     [SerializeField] private PhotonView[] modelPVs = new PhotonView[5];
 
     [SerializeField] private Player[] players = new Player[5];
-    
-    
+
+    private Color[] colors;
+    private string[] hatTexts;
 
     public int hatTypeCount { get; private set; }
     public int bodyColorCount { get; private set; }
@@ -48,9 +49,40 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         {
             modelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, enterOrder); // 바디 칼라 리셋
         }
-
     }
 
+    private void InitBackgrounds()
+    {
+        colors = new Color[bodyColorCount];
+        colors[0] = Color.black;
+        colors[1] = Color.white;
+        colors[2] = new Color(255f / 255f, 160f / 255f, 219f / 255f); // 핑크
+        colors[3] = Color.green;
+        colors[4] = Color.red;
+        colors[5] = Color.blue;
+        colors[6] = new Color(210f / 255f, 122f / 255f, 79f / 255f); // 연갈색
+        colors[7] = Color.yellow;
+
+        hatTexts = new string[hatTypeCount];
+        hatTexts[0] = "None";
+        hatTexts[1] = "Ribbon";
+        hatTexts[2] = "BirthDay";
+        hatTexts[3] = "Cap";
+        hatTexts[4] = "Flower";
+        hatTexts[5] = "Magic";
+        hatTexts[6] = "Beach";
+        hatTexts[7] = "Ribbon 2";
+    }
+
+    public Color GetBackgroundColor(int colorIndex)
+    {
+        return colors[colorIndex];
+    }
+
+    public string GetBackgroundHatText(int hatIndex)
+    {
+        return hatTexts[hatIndex];
+    }
 
     [PunRPC]
     public void AskBodyColorUpdate(int enterOrder, int lastIndex, int wantBodyIndex, bool isRightButton) // 마스터 클라이언트에서 실행될 함수
@@ -61,6 +93,9 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
         modelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, wantBodyIndex); // 플레이어의 몸색깔을 바꿔줌
         waitingViews[enterOrder].GetViewPV().RPC("UpdateBodyIndex", RpcTarget.AllBuffered, wantBodyIndex);
+
+        Player askPlayer = players[enterOrder];
+        waitingViews[enterOrder].GetViewPV().RPC("SetBackgroundColor", askPlayer, wantBodyIndex);
     }
 
     [PunRPC]
@@ -69,6 +104,9 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         UpdateHatData(enterOrder, hatIndex); // 플레이어의 모자 데이터를 갱신해줌
 
         modelPVs[enterOrder].RPC("SetHatOnPlayer", RpcTarget.AllBuffered, hatIndex); // 플레이어 모자를 바꿔줌
+
+        Player askPlayer = players[enterOrder];
+        waitingViews[enterOrder].GetViewPV().RPC("SetHatText", askPlayer, hatIndex);
     }
 
     private void UpdateBodyData(int enterOrder, int bodyIndex) // 데이터를 갱신하기 위해 마스터 클라이언트만 접근할 함수
@@ -155,6 +193,15 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     #region Photon 콜백 함수들
     public override void OnJoinedRoom()
     {
+        hatTypeCount = playerData.GetHatTypeCount();
+        bodyColorCount = playerData.GetBodyColorCount();
+        InitBackgrounds();
+        roomName = PhotonNetwork.CurrentRoom.Name;
+        roomNameText.text = roomName;
+        amIOriginalMaster = PhotonNetwork.IsMasterClient;
+
+        InitializeHashTable(); // 플레이어 커스텀 프로퍼티를 사용하기 위한 초기화 과정
+
         if (PhotonNetwork.IsMasterClient)
         {
             SetDefualtNames();
@@ -175,13 +222,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true); // 색을 바꿔줌
         }
 
-        hatTypeCount = playerData.GetHatTypeCount();
-        bodyColorCount = playerData.GetBodyColorCount();
-        roomName = PhotonNetwork.CurrentRoom.Name;
-        roomNameText.text = roomName;
-        amIOriginalMaster = PhotonNetwork.IsMasterClient;
-
-        InitializeHashTable(); // 플레이어 커스텀 프로퍼티를 사용하기 위한 초기화 과정
+        
     }
 
     Hashtable[] playerProperties = new Hashtable[5];
