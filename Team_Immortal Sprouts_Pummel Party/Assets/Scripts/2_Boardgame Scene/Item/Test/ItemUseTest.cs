@@ -20,8 +20,13 @@ public class ItemUseTest : MonoBehaviour
         //item.SetForUse(player);
 
         // 아이템 추가 테스트
-        prefab.GetComponent<Item>().Get(player);
+        // Invoke(nameof(GetTest), 5f);
 
+    }
+
+    private void GetTest()
+    {
+        prefab.GetComponent<Item>().Get(player);
     }
 
     private void CallTimeOut()
