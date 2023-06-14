@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
-    private PlayerController player;
+    private RacePlayerController player;
     private void OnTriggerEnter(Collider other)
     {
-        player = other.GetComponent<PlayerController>();
+        player = other.GetComponent<RacePlayerController>();
 
         player.goalInEffect.Play();
         player.goalInObj.transform.SetParent(null);

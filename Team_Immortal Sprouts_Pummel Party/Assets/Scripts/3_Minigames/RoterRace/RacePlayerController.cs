@@ -4,7 +4,7 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class RacePlayerController : MonoBehaviour
 {
     public GameObject goalInObj;
     public ParticleSystem boostEffect;
