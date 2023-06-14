@@ -10,46 +10,45 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 {
     [SerializeField] private WaitingRoomPresenter presenter;
 
-    
+
     [SerializeField] private Image readyBar;
     [SerializeField] private Canvas selectCanvas;
     [SerializeField] private Canvas customizeCanvas;
-    
-    
+
+
     PhotonView viewPV;
     [SerializeField] private int enterOrder;
 
     private Color readyColor = Color.green;
     private Color notReadyColor = Color.red;
-
-    #region Unity 이벤트 
-
-    public UnityEvent<int, Image> OnClickReadyButton;
-    public UnityEvent OnClickStartButton;
-
-
-
-    #endregion
-
+    [SerializeField] private int wantBodyIndex = 0;
+    [SerializeField] private int hatIndex = 0;
 
     #region Public 함수들
     public PhotonView GetViewPV()
     {
         if (viewPV == null)
         {
-            viewPV = GetComponent<PhotonView>();    
+            viewPV = GetComponent<PhotonView>();
         }
 
-        return viewPV;  
+        return viewPV;
     }
-    
+
+    [PunRPC]
+    public void UpdateBodyIndex(int bodyIndex)
+    {
+        wantBodyIndex = bodyIndex;
+    }
+
     [PunRPC]
     public void SetEnterOrder(int enterOrder)
     {
         this.enterOrder = enterOrder;
+        this.wantBodyIndex = enterOrder;
     }
-    
 
+    [PunRPC]
     public void SetReadyColor(bool isReady)
     {
         if (isReady == true)
@@ -69,7 +68,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 
     public void OnClick_CustomizeButton()
     {
-        if (viewPV.IsMine)
+        if (GetViewPV().IsMine)
         {
             selectCanvas.enabled = false;
             customizeCanvas.enabled = true;
@@ -77,9 +76,10 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     }
     public void OnClick_ReadyButton()
     {
-        if(viewPV.IsMine)
+        if (GetViewPV().IsMine)
         {
-            OnClickReadyButton?.Invoke(enterOrder, readyBar); // 들어온 순서와 레디바를 넘겨준다
+            //presenter.GetMasterPV().RPC("SetReady", PhotonNetwork.MasterClient, enterOrder);
+            presenter.GetPresenterPV().RPC("SetReady", PhotonNetwork.MasterClient, enterOrder);
         }
     }
 
@@ -87,12 +87,101 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            OnClickStartButton?.Invoke();
+            PhotonNetwork.LoadLevel("BoardGame");
         }
     }
 
+    public void OnClick_BodyRightButton()
+    {
+        if (GetViewPV().IsMine)
+        {
+            int lastIndex = wantBodyIndex;
+            ++wantBodyIndex;
+
+            if (wantBodyIndex < 0) // 인덱스를 바로잡아줌
+                wantBodyIndex = presenter.bodyColorCount - 1;
+            else if (presenter.bodyColorCount <= wantBodyIndex)
+                wantBodyIndex = 0;
+
+
+            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, true);
+        }
+    }
+
+    public void OnClick_BodyLeftButton()
+    {
+        if (GetViewPV().IsMine)
+        {
+            int lastIndex = wantBodyIndex;
+            --wantBodyIndex;
+
+            if (wantBodyIndex < 0) // 인덱스를 바로잡아줌
+                wantBodyIndex = presenter.bodyColorCount - 1;
+            else if (presenter.bodyColorCount <= wantBodyIndex)
+                wantBodyIndex = 0;
+
+            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, false);
+        }
+    }
+
+    public void OnClick_HatRightButton()
+    {
+        if (GetViewPV().IsMine)
+        {
+            ++hatIndex;
+
+            if (hatIndex < 0) // 인덱스를 바로 잡아줌
+                hatIndex = presenter.hatTypeCount - 1;
+            else if (presenter.hatTypeCount <= hatIndex)
+                hatIndex = 0;
+
+            presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, hatIndex);
+        }
+    }
+
+    public void OnClick_HatLeftButton()
+    {
+        if (GetViewPV().IsMine)
+        {
+            --hatIndex;
+
+            if (hatIndex < 0) // 인덱스를 바로 잡아줌
+                hatIndex = presenter.hatTypeCount - 1;
+            else if (presenter.hatTypeCount <= hatIndex)
+                hatIndex = 0;
+
+            presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, hatIndex);
+        }
+    }
+
+    public void OnClick_ConfirmButton()
+    {
+        if (GetViewPV().IsMine)
+        {
+            selectCanvas.enabled = true;
+            customizeCanvas.enabled = false;
+        }
+    }
+
+    public void OnClick_LeaveRoom()
+    {
+        if (GetViewPV().IsMine)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                presenter.GetPresenterPV().RPC("KickEveryeoneOut", RpcTarget.MasterClient);
+            }
+            else
+            {
+                presenter.GetPresenterPV().RPC("MakePlayerLeave", RpcTarget.MasterClient, enterOrder);
+            }
+            
+            presenter.LeaveRoom();
+        }
+    }
 
     #endregion
 
+    
 
 }

@@ -291,9 +291,45 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: WaitingRoomCanvas, Assembly-CSharp
-        m_MethodName: OnClick_LeaveButton
+      - m_Target: {fileID: 2487228348650474922}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_LeaveRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2487228349222392584}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_LeaveRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2487228349269652566}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_LeaveRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2487228348886883728}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_LeaveRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1780,9 +1816,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Body_RightButton
+      - m_Target: {fileID: 2487228349269652566}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_BodyRightButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2665,9 +2701,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Hat_LeftButton
+      - m_Target: {fileID: 2487228349269652566}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_HatLeftButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2760,8 +2796,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
+      - m_Target: {fileID: 2487228349222392584}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
         m_MethodName: OnClick_ConfirmButton
         m_Mode: 1
         m_Arguments:
@@ -2924,9 +2960,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Body_RightButton
+      - m_Target: {fileID: 2487228349222392584}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_BodyRightButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3027,9 +3063,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Hat_RightButton
+      - m_Target: {fileID: 2487228349269652566}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_HatRightButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3506,9 +3542,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Hat_RightButton
+      - m_Target: {fileID: 2487228348886883728}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_HatRightButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3742,9 +3778,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Hat_LeftButton
+      - m_Target: {fileID: 2487228348886883728}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_HatLeftButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4270,9 +4306,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Body_LeftButton
+      - m_Target: {fileID: 2487228349222392584}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_BodyLeftButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4422,9 +4458,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Body_LeftButton
+      - m_Target: {fileID: 2487228349269652566}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_BodyLeftButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4612,9 +4648,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Hat_RightButton
+      - m_Target: {fileID: 2487228348650474922}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_HatRightButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6639,9 +6675,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Hat_LeftButton
+      - m_Target: {fileID: 2487228348650474922}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_HatLeftButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7026,9 +7062,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Hat_RightButton
+      - m_Target: {fileID: 2487228349222392584}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_HatRightButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7189,9 +7225,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Hat_LeftButton
+      - m_Target: {fileID: 2487228349222392584}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_HatLeftButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7543,9 +7579,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Body_LeftButton
+      - m_Target: {fileID: 2487228348886883728}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_BodyLeftButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7913,8 +7949,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
+      - m_Target: {fileID: 2487228349269652566}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
         m_MethodName: OnClick_ConfirmButton
         m_Mode: 1
         m_Arguments:
@@ -8763,24 +8799,8 @@ MonoBehaviour:
   selectCanvas: {fileID: 2487228348425094674}
   customizeCanvas: {fileID: 2487228349149363125}
   enterOrder: 0
-  OnClickReadyButton:
-    m_PersistentCalls:
-      m_Calls: []
-  OnClickStartButton:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2487228348658635229}
-        m_TargetAssemblyTypeName: WaitingRoomPresenter, Assembly-CSharp
-        m_MethodName: StartGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  wantBodyIndex: 0
+  hatIndex: 0
 --- !u!222 &2487228348655968593
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9032,6 +9052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c483d429dfc8db4895c384ffcb4076f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomNameText: {fileID: 2487228348940986046}
   playerData: {fileID: 2487228348658635230}
   waitingViews:
   - {fileID: 0}
@@ -9039,19 +9060,29 @@ MonoBehaviour:
   - {fileID: 2487228349222392584}
   - {fileID: 2487228349269652566}
   - {fileID: 2487228348886883728}
-  presenterPV: {fileID: 776279276}
   positionData: {fileID: 11400000, guid: bf6421970a8f14d44a5a373be836530b, type: 2}
   customData: {fileID: 11400000, guid: dfa5577dec2b2b042aa0836b6583e052, type: 2}
-  roomNameText: {fileID: 2487228348940986046}
   enterOrder: 1
+  isReady: 0000000000
+  isPlayerPresent: 0000000000
   playerModels:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  isReady: 0000000000
-  isPlayerPresent: 0000000000
+  modelChangers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  modelPVs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &2487228348658635230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9065,6 +9096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presenter: {fileID: 2487228348658635229}
+  customData: {fileID: 11400000, guid: dfa5577dec2b2b042aa0836b6583e052, type: 2}
 --- !u!114 &2487228348712720208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9841,8 +9873,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
+      - m_Target: {fileID: 2487228348650474922}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
         m_MethodName: OnClick_ConfirmButton
         m_Mode: 1
         m_Arguments:
@@ -10083,8 +10115,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
+      - m_Target: {fileID: 2487228348886883728}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
         m_MethodName: OnClick_ConfirmButton
         m_Mode: 1
         m_Arguments:
@@ -10756,24 +10788,8 @@ MonoBehaviour:
   selectCanvas: {fileID: 2487228349253380351}
   customizeCanvas: {fileID: 2487228348979528226}
   enterOrder: 0
-  OnClickReadyButton:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2487228348658635229}
-        m_TargetAssemblyTypeName: WaitingRoomPresenter, Assembly-CSharp
-        m_MethodName: SetPlayerReady
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnClickStartButton:
-    m_PersistentCalls:
-      m_Calls: []
+  wantBodyIndex: 0
+  hatIndex: 0
 --- !u!222 &2487228348917488877
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11186,9 +11202,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Body_RightButton
+      - m_Target: {fileID: 2487228348886883728}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_BodyRightButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11811,9 +11827,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Body_RightButton
+      - m_Target: {fileID: 2487228348650474922}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_BodyRightButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12309,9 +12325,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CustomizeCanvas, Assembly-CSharp
-        m_MethodName: OnClick_Body_LeftButton
+      - m_Target: {fileID: 2487228348650474922}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
+        m_MethodName: OnClick_BodyLeftButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12456,24 +12472,8 @@ MonoBehaviour:
   selectCanvas: {fileID: 2487228349074663194}
   customizeCanvas: {fileID: 2487228348810497336}
   enterOrder: 0
-  OnClickReadyButton:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2487228348658635229}
-        m_TargetAssemblyTypeName: WaitingRoomPresenter, Assembly-CSharp
-        m_MethodName: SetPlayerReady
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnClickStartButton:
-    m_PersistentCalls:
-      m_Calls: []
+  wantBodyIndex: 0
+  hatIndex: 0
 --- !u!114 &2487228349224554916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12548,8 +12548,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SelectCanvas, Assembly-CSharp
+      - m_Target: {fileID: 2487228348650474922}
+        m_TargetAssemblyTypeName: WaitingRoomView, Assembly-CSharp
         m_MethodName: OnClick_StartButton
         m_Mode: 1
         m_Arguments:
@@ -12809,24 +12809,8 @@ MonoBehaviour:
   selectCanvas: {fileID: 2487228348609516461}
   customizeCanvas: {fileID: 2487228348817311035}
   enterOrder: 0
-  OnClickReadyButton:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2487228348658635229}
-        m_TargetAssemblyTypeName: WaitingRoomPresenter, Assembly-CSharp
-        m_MethodName: SetPlayerReady
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnClickStartButton:
-    m_PersistentCalls:
-      m_Calls: []
+  wantBodyIndex: 0
+  hatIndex: 0
 --- !u!222 &2487228349278346233
 CanvasRenderer:
   m_ObjectHideFlags: 0
