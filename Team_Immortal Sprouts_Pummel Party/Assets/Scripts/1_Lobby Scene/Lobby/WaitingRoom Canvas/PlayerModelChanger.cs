@@ -11,10 +11,11 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     [SerializeField] private CustomData customData;
     public DefaultPool defaultPrefabPool { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         defaultPrefabPool = PhotonNetwork.PrefabPool as DefaultPool;
     }
+
 
     public Vector3 GetHatPosition()
     {

@@ -22,6 +22,10 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
         colorIndexing[enterOrder] = true;
     }
 
+    public int GetHatTypeCount() => customData.bodyColors.Length;
+    public int GetBodyColorCount() => customData.bodyColors.Length;
+
+
     public int GetCapableBodyIndex(int lastIndex, int requestedIndex, bool isRightButton)
     {
         colorIndexing[lastIndex] = false; // 현재 갖고 있는 색을 포기한다
@@ -66,7 +70,6 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
         
 
         colorIndexing[targetIndex] = true;
-        Debug.Log($"결과로 나온 인덱스 = {targetIndex}");
         return targetIndex;
     }
 
@@ -122,9 +125,9 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     }
     // 플레이어의 몸 색깔을 담을 Dictionary
     private Dictionary<Player, int> playerBodyColorDictionary = new Dictionary<Player, int>();
-    public void UpdateBodyIndex(Player updatePlayer, int newHatIndex)
+    public void UpdateBodyIndex(Player updatePlayer, int newBodyIndex)
     {
-        playerOrderDictionary[updatePlayer] = newHatIndex;
+        playerBodyColorDictionary[updatePlayer] = newBodyIndex;
     }
 
     public int GetPlayerBodyColorIndex(Player player)

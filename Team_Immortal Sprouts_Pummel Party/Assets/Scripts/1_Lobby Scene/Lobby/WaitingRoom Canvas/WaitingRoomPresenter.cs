@@ -93,26 +93,26 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
         return presenterPV;
     }
 
-    public PhotonView GetMasterPV()
-    {
-        return waitingViews[1].GetViewPV();
-    }
 
     [PunRPC]
-    public void SetReady(int enterOrder)
+    public void SetReady(int enterOrder) // 마스터 클라이언트만 실행시켜줄 함수
     {
-        if (isReady[enterOrder] == true) // 이미 레디한 상태라면
+        if (isPlayerPresent[enterOrder])
         {
-            // 레디를 해제한다
-            isReady[enterOrder] = false;
-            waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.All, isReady[enterOrder]);
+            if (isReady[enterOrder] == true) // 이미 레디한 상태라면
+            {
+                // 레디를 해제한다
+                isReady[enterOrder] = false;
+                waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.All, isReady[enterOrder]);
+            }
+            else
+            {
+                // 레디한다
+                isReady[enterOrder] = true;
+                waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.All, isReady[enterOrder]);
+            }
         }
-        else
-        {
-            // 레디한다
-            isReady[enterOrder] = true;
-            waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.All, isReady[enterOrder]);
-        }
+        
     }
 
     #region Photon 콜백 함수들

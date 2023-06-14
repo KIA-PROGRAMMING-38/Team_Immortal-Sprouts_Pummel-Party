@@ -68,7 +68,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 
     public void OnClick_CustomizeButton()
     {
-        if (GetViewPV().IsMine)
+        if ( enterOrder != 0 && GetViewPV().IsMine)
         {
             selectCanvas.enabled = false;
             customizeCanvas.enabled = true;
@@ -78,7 +78,6 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (GetViewPV().IsMine)
         {
-            //presenter.GetMasterPV().RPC("SetReady", PhotonNetwork.MasterClient, enterOrder);
             presenter.GetPresenterPV().RPC("SetReady", PhotonNetwork.MasterClient, enterOrder);
         }
     }
