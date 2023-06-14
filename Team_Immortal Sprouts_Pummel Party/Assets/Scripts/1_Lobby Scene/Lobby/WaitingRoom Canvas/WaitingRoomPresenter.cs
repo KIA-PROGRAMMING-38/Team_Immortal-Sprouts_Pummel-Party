@@ -94,6 +94,10 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     }
 
 
+    private int readyCount = 0;
+    private const int maxReadyCount = 3;
+    private bool isStartable = false;
+
     [PunRPC]
     public void SetReady(int enterOrder) // 마스터 클라이언트만 실행시켜줄 함수
     {
@@ -103,17 +107,35 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             {
                 // 레디를 해제한다
                 isReady[enterOrder] = false;
-                waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.All, isReady[enterOrder]);
+                waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, isReady[enterOrder]);
+                --readyCount;
             }
-            else
+            else // 레디를 안한 상태라면
             {
                 // 레디한다
                 isReady[enterOrder] = true;
-                waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.All, isReady[enterOrder]);
+                waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, isReady[enterOrder]);
+                ++readyCount;
             }
         }
-        
+
+        CheckIfStartable(readyCount);
     }
+
+    private void CheckIfStartable(int readyCount)
+    {
+        if (maxReadyCount <= readyCount)
+        {
+            isStartable = true;
+        }
+        else
+        {
+            isStartable = false;
+        }
+
+        waitingViews[1].GetViewPV().RPC("ActivateStartButton", RpcTarget.All, isStartable); // 방장의 StartButton 활성화
+    }
+
 
     #region Photon 콜백 함수들
     public override void OnJoinedRoom()
@@ -180,7 +202,11 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             DestroyOtherPlayer(leftPlayerEnterOrder);
             isPlayerPresent[playerData.GetPlayerEnterOrder(otherPlayer)] = false; // 나감 표시
             playerData.RemovePlayerData(otherPlayer); // MoDEL 업데이트
+            
             isReady[leftPlayerEnterOrder] = false;
+            waitingViews[leftPlayerEnterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, false);
+            --readyCount;
+            CheckIfStartable(readyCount);
         }
     }
     

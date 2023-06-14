@@ -359,8 +359,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 1
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 2487228348658635229}
+  ObservedComponents: []
   sceneViewId: 13
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -8759,12 +8758,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presenter: {fileID: 2487228348658635229}
+  startButton: {fileID: 2487228349224554917}
   readyBar: {fileID: 2487228348808806525}
   selectCanvas: {fileID: 2487228348425094674}
   customizeCanvas: {fileID: 2487228349149363125}
   enterOrder: 0
   wantBodyIndex: 0
   hatIndex: 0
+  isChangable: 1
 --- !u!222 &2487228348655968593
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10749,12 +10750,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presenter: {fileID: 2487228348658635229}
+  startButton: {fileID: 0}
   readyBar: {fileID: 2487228347894971301}
   selectCanvas: {fileID: 2487228349253380351}
   customizeCanvas: {fileID: 2487228348979528226}
   enterOrder: 0
   wantBodyIndex: 0
   hatIndex: 0
+  isChangable: 1
 --- !u!222 &2487228348917488877
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12433,12 +12436,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presenter: {fileID: 2487228348658635229}
+  startButton: {fileID: 0}
   readyBar: {fileID: 2487228348618435514}
   selectCanvas: {fileID: 2487228349074663194}
   customizeCanvas: {fileID: 2487228348810497336}
   enterOrder: 0
   wantBodyIndex: 0
   hatIndex: 0
+  isChangable: 1
 --- !u!114 &2487228349224554916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12770,12 +12775,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presenter: {fileID: 2487228348658635229}
+  startButton: {fileID: 0}
   readyBar: {fileID: 2487228347711912215}
   selectCanvas: {fileID: 2487228348609516461}
   customizeCanvas: {fileID: 2487228348817311035}
   enterOrder: 0
   wantBodyIndex: 0
   hatIndex: 0
+  isChangable: 1
 --- !u!222 &2487228349278346233
 CanvasRenderer:
   m_ObjectHideFlags: 0

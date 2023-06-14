@@ -11,7 +11,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 {
     [SerializeField] private WaitingRoomPresenter presenter;
 
-
+    [SerializeField] private Button startButton;
     [SerializeField] private Image readyBar;
     [SerializeField] private Canvas selectCanvas;
     [SerializeField] private Canvas customizeCanvas;
@@ -29,6 +29,11 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 
     #region Public ÇÔ¼öµé
 
+    [PunRPC]
+    public void ActivateStartButton(bool isAllReady)
+    {
+        startButton.interactable = isAllReady;
+    }
     
     private async UniTaskVoid EnableIsChangable()
     {
