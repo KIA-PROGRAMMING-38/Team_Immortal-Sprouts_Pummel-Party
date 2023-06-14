@@ -133,6 +133,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
             waitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder); // View 의 입장순서를 업데이트해줌
 
             players[enterOrder] = PhotonNetwork.LocalPlayer;
+            AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true); // 색을 바꿔줌
         }
 
         hatTypeCount = playerData.GetHatTypeCount();

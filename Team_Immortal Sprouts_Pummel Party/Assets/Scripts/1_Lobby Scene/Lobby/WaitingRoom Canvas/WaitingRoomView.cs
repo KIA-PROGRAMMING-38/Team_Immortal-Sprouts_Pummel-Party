@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 public class WaitingRoomView : MonoBehaviourPunCallbacks
 {
@@ -24,7 +25,18 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     [SerializeField] private int wantBodyIndex = 0;
     [SerializeField] private int hatIndex = 0;
 
+    [SerializeField] private bool isChangable = true;
+
     #region Public 함수들
+
+    
+    private async UniTaskVoid EnableIsChangable()
+    {
+        isChangable = false;
+        await UniTask.Delay(500); // 0.5초의 딜레이
+        isChangable = true;
+    }
+
     public PhotonView GetViewPV()
     {
         if (viewPV == null)
@@ -92,7 +104,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 
     public void OnClick_BodyRightButton()
     {
-        if (GetViewPV().IsMine)
+        if (GetViewPV().IsMine && isChangable)
         {
             int lastIndex = wantBodyIndex;
             ++wantBodyIndex;
@@ -101,15 +113,15 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
                 wantBodyIndex = presenter.bodyColorCount - 1;
             else if (presenter.bodyColorCount <= wantBodyIndex)
                 wantBodyIndex = 0;
-
-            Debug.Log($"UI 눌렀을때 EnterOrder = {enterOrder}");
+            EnableIsChangable().Forget();
             presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, true);
+            
         }
     }
 
     public void OnClick_BodyLeftButton()
     {
-        if (GetViewPV().IsMine)
+        if (GetViewPV().IsMine && isChangable)
         {
             int lastIndex = wantBodyIndex;
             --wantBodyIndex;
@@ -119,13 +131,15 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
             else if (presenter.bodyColorCount <= wantBodyIndex)
                 wantBodyIndex = 0;
 
+            EnableIsChangable().Forget();
             presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, false);
+            
         }
     }
 
     public void OnClick_HatRightButton()
     {
-        if (GetViewPV().IsMine)
+        if (GetViewPV().IsMine && isChangable)
         {
             ++hatIndex;
 
@@ -134,13 +148,14 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
             else if (presenter.hatTypeCount <= hatIndex)
                 hatIndex = 0;
 
+            EnableIsChangable().Forget();
             presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, hatIndex);
         }
     }
 
     public void OnClick_HatLeftButton()
     {
-        if (GetViewPV().IsMine)
+        if (GetViewPV().IsMine && isChangable)
         {
             --hatIndex;
 
@@ -149,6 +164,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
             else if (presenter.hatTypeCount <= hatIndex)
                 hatIndex = 0;
 
+            EnableIsChangable().Forget();
             presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, hatIndex);
         }
     }
