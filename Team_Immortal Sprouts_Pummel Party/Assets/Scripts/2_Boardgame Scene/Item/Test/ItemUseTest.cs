@@ -17,8 +17,6 @@ public class ItemUseTest : MonoBehaviour
 
         IUsable item = Instantiate(prefab).GetComponent<IUsable>();
         item.SetForUse(player);
-
-        Invoke(nameof(CallTimeOut), 1f);
     }
 
     private void CallTimeOut()
