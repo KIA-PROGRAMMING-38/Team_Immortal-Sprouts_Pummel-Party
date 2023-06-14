@@ -150,7 +150,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
 
     public void UpdateHatIndex(Player updatePlayer, int newHatIndex)
     {
-        playerOrderDictionary[updatePlayer] = newHatIndex;
+        playerHatDictionary[updatePlayer] = newHatIndex;
     }
 
 }

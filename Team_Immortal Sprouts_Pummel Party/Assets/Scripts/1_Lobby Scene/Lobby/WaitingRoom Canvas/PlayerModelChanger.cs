@@ -48,6 +48,7 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
         }
 
         GameObject newHat = customData.GetHatFromData(hatIndex);
+        
         if (newHat != null)
         {
             newHat = defaultPrefabPool.Instantiate(newHat.name, GetHatPosition(), Quaternion.identity);
@@ -58,6 +59,10 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
         currentHat = newHat;
     }
 
+    public void RemoveCurrentHat()
+    {
+        defaultPrefabPool.Destroy(currentHat);
+    }
 
 
 }

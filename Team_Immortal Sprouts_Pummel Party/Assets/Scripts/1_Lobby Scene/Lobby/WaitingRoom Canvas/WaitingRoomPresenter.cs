@@ -219,20 +219,20 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
 
     public void DestroyOtherPlayer(int enterOrder) // 마스터만 접근할 함수
     {
-        PhotonView photonView = modelPVs[enterOrder];
-        if (photonView != null)
-        {
-            PhotonNetwork.Destroy(photonView); // 게임캐릭터 제거
-        }
-
         if (modelChangers[enterOrder] != null)
         {
             GameObject hat = modelChangers[enterOrder].GetCurrentHat();
 
             if (hat != null)
             {
-                PhotonNetwork.Destroy(PhotonView.Get(hat));
+                modelChangers[enterOrder].RemoveCurrentHat();
             }
+        }
+
+        PhotonView photonView = modelPVs[enterOrder];
+        if (photonView != null)
+        {
+            PhotonNetwork.Destroy(photonView); // 게임캐릭터 제거
         }
     }
 
@@ -258,7 +258,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
 
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("방장이 누름");
             for (int enterOrder = 1; enterOrder <= PhotonNetwork.CurrentRoom.PlayerCount; ++enterOrder)
             {
                 ResetBodyColor(enterOrder);
@@ -268,7 +267,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks, IPunObservable
         
         LeaveRoom();
     }
-
 
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
