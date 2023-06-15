@@ -24,11 +24,11 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        bulletBody.velocity = moveVector * bulletSpeed;
+        bulletBody.velocity = moveVector.normalized * bulletSpeed;
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        switch (collision.gameObject.tag)
+        switch (other.tag)
         {
             case "HorizonSide":
                 incomingVector = moveVector;
