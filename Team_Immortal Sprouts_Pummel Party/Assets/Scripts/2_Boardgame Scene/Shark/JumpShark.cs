@@ -15,6 +15,8 @@ public class JumpShark : MonoBehaviour
     [SerializeField] private float jumpTime = 2f;
     [SerializeField] private float downSpeed = 10f;
 
+    
+
     private void OnEnable()
     {
         SharkJump().Forget();
@@ -69,6 +71,7 @@ public class JumpShark : MonoBehaviour
         transform.position = initialPosition;
         transform.rotation = initialRotation;
         baseShark.LetBaseSharkKnowAttackFinished();
+        releasePlayer();
     }
 
     private void SharkMoveDown(float downSpeed)
@@ -84,7 +87,7 @@ public class JumpShark : MonoBehaviour
     private Vector3 GetOppositePosition(Vector3 currentPosition, Vector3 sharkIslandPosition)
     {
         Vector3 offSet = sharkIslandPosition - currentPosition;
-        offSet *= 2;
+        offSet *= 1.5f;
         offSet.y = currentPosition.y;
         return offSet + sharkIslandPosition;
     }
@@ -103,5 +106,25 @@ public class JumpShark : MonoBehaviour
         return start + (end - start) * t;
     }
 
+    private Transform playerTransform;
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            playerTransform = collision.gameObject.transform;
+            kidnapPlayer(playerTransform);
+        }
+    }
+
+    private void kidnapPlayer(Transform playerTransform) // 플레이어를 납치하는 함수
+    {
+        playerTransform.SetParent(transform);
+    }
+
+    private void releasePlayer() // 플레이어를 풀어주는 함수 
+    {
+        playerTransform.SetParent(null);
+        playerTransform = null;
+    }
 }
 
