@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _slotPrefab;
     public List<InventorySlot> InventorySlots = new List<InventorySlot>(8);
+    
+    [SerializeField] private GameObject _slotPrefab;
 
     private void Awake()
     {
@@ -21,6 +22,16 @@ public class InventoryManager : MonoBehaviour
 
             InventorySlots.Add(newSlot.GetComponent<InventorySlot>());
         }
+    }
+
+    public void InitInventorySlots(List<InventoryItem> inventory)
+    {
+        for (int i = 0; i < InventorySlots.Capacity; ++i)
+        {
+            InventorySlots[i].SetSlotItem(inventory[i], this);
+        }
+
+        CloseInventory();
     }
 
     public void UpdateInventory(List<InventoryItem> inventory)
@@ -41,6 +52,9 @@ public class InventoryManager : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// 인벤토리 On/Off 버튼을 눌렀을 때의 이벤트를 구독
+    /// </summary>
     public void OnClick_InventoryButton()
     {
         if(gameObject.activeSelf)
@@ -51,5 +65,15 @@ public class InventoryManager : MonoBehaviour
         {
             OpenInventory();
         }
+    }
+
+    private ItemData _selectedItem;
+    /// <summary>
+    /// 인벤토리 슬롯을 터치했을 때 선택된 아이템을 저장
+    /// </summary>
+    public void SetSelectedItem(ItemData selectedSlotItem)
+    {
+        _selectedItem = selectedSlotItem;
+        Debug.Log($"selected item: {_selectedItem}");
     }
 }

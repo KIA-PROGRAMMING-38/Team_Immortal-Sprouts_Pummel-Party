@@ -6,7 +6,8 @@ using UnityEngine.Events;
 public class Inventory : MonoBehaviour
 {
     public UnityEvent<List<InventoryItem>> OnInventoryUpdate;
-    public UnityEvent OnInventoryInit;
+    // public UnityEvent OnInventoryInit;
+    public UnityEvent<List<InventoryItem>> OnInventoryInit;
 
     public List<InventoryItem> PlayerInventory = new List<InventoryItem>();
     private Dictionary<ItemData, InventoryItem> _itemDictionary = new Dictionary<ItemData, InventoryItem>();
@@ -26,8 +27,8 @@ public class Inventory : MonoBehaviour
                 _itemDictionary.Add(itemData, newItem);
             }
 
+            OnInventoryInit?.Invoke(PlayerInventory);
             OnInventoryUpdate?.Invoke(PlayerInventory);
-            OnInventoryInit?.Invoke();
         }
     }
 
@@ -52,8 +53,6 @@ public class Inventory : MonoBehaviour
         {
             item.RemoveFromInventory();
             OnInventoryUpdate?.Invoke(PlayerInventory);
-
-            // TODO: UI 업데이트 Invoke
         }
     }
 }
