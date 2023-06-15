@@ -16,6 +16,17 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
         colorIndexing = new bool[customData.bodyColors.Length];
     }
 
+    public Color GetBackgroundColorData(int colorIndex)
+    {
+        return customData.colors[colorIndex];
+    }
+
+    public string GetBackgroundHatTextData(int hatIndex)
+    {
+        return customData.hatTexts[hatIndex];
+    }
+
+
     public void UpdateColorIndexing(int enterOrder, bool isTakeOver)
     {
         // true면 못가져감

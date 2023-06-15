@@ -21,8 +21,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     [SerializeField] private WaitingRoomView[] waitingViews;
 
     [SerializeField] private PositionData positionData;
-    [SerializeField] private CustomData customData;
-
 
     [SerializeField] private int enterOrder = 1; // 테스트 위해 넣었음
     [SerializeField] private bool[] isReady = new bool[5];
@@ -51,37 +49,15 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         }
     }
 
-    private void InitBackgrounds()
-    {
-        colors = new Color[bodyColorCount];
-        colors[0] = Color.black;
-        colors[1] = Color.white;
-        colors[2] = new Color(255f / 255f, 160f / 255f, 219f / 255f); // 핑크
-        colors[3] = Color.green;
-        colors[4] = Color.red;
-        colors[5] = Color.blue;
-        colors[6] = new Color(210f / 255f, 122f / 255f, 79f / 255f); // 연갈색
-        colors[7] = Color.yellow;
-
-        hatTexts = new string[hatTypeCount];
-        hatTexts[0] = "None";
-        hatTexts[1] = "Ribbon";
-        hatTexts[2] = "BirthDay";
-        hatTexts[3] = "Cap";
-        hatTexts[4] = "Flower";
-        hatTexts[5] = "Magic";
-        hatTexts[6] = "Beach";
-        hatTexts[7] = "Ribbon 2";
-    }
 
     public Color GetBackgroundColor(int colorIndex)
     {
-        return colors[colorIndex];
+        return playerData.GetBackgroundColorData(colorIndex);
     }
 
     public string GetBackgroundHatText(int hatIndex)
     {
-        return hatTexts[hatIndex];
+        return playerData.GetBackgroundHatTextData(hatIndex);
     }
 
     [PunRPC]
@@ -195,7 +171,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         hatTypeCount = playerData.GetHatTypeCount();
         bodyColorCount = playerData.GetBodyColorCount();
-        InitBackgrounds();
         roomName = PhotonNetwork.CurrentRoom.Name;
         roomNameText.text = roomName;
         amIOriginalMaster = PhotonNetwork.IsMasterClient;
@@ -208,7 +183,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
             isPlayerPresent[enterOrder] = true; // 들어옴 체크
             playerData.AddPlayerData(PhotonNetwork.LocalPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model(data) 업데이트
-            //playerData.UpdateColorIndexing(enterOrder, true);
+            
             // 플레이어 생성
             GameObject model = PhotonNetwork.Instantiate($"Prefabs/Lobby/WaitingRoomCanvas/RoomWait {enterOrder}", positionData._LobbyPositions[enterOrder].position, positionData._LobbyPositions[enterOrder].rotation);
 
@@ -312,7 +287,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         if (amIOriginalMaster && PhotonNetwork.IsMasterClient) // 마스터가해줘야 할 일들
         {
             int leftPlayerEnterOrder = playerData.GetPlayerEnterOrder(otherPlayer);
-            Debug.Log($"플레이어가 나갈때 GetPlayerEnterOrder에서의 값 = {leftPlayerEnterOrder}");
             ResetBodyColor(leftPlayerEnterOrder);
             DestroyOtherPlayer(leftPlayerEnterOrder);
             isPlayerPresent[playerData.GetPlayerEnterOrder(otherPlayer)] = false; // 나감 표시

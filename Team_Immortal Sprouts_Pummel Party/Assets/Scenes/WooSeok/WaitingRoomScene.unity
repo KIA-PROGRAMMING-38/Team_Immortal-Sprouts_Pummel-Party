@@ -9030,7 +9030,6 @@ MonoBehaviour:
   - {fileID: 2487228349269652566}
   - {fileID: 2487228348886883728}
   positionData: {fileID: 11400000, guid: bf6421970a8f14d44a5a373be836530b, type: 2}
-  customData: {fileID: 11400000, guid: dfa5577dec2b2b042aa0836b6583e052, type: 2}
   enterOrder: 1
   isReady: 0000000000
   isPlayerPresent: 0000000000
