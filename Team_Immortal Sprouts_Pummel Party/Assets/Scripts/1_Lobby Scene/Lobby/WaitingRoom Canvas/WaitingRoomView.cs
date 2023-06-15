@@ -60,7 +60,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     private async UniTaskVoid EnableIsChangable()
     {
         isChangable = false;
-        await UniTask.Delay(500); // 0.5초의 딜레이
+        await UniTask.Delay(500); // 0.5초의 딜레이로 광클 예방
         isChangable = true;
     }
 
@@ -113,6 +113,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
             customizeCanvas.enabled = true;
         }
     }
+
     public void OnClick_ReadyButton()
     {
         if (GetViewPV().IsMine)
@@ -121,7 +122,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnClick_StartButton()
+    public void OnClick_StartButton() // 방장 버튼에만 할당
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -142,7 +143,6 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
                 wantBodyIndex = 0;
             EnableIsChangable().Forget();
             presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, true, false);
-            
         }
     }
 
@@ -208,8 +208,6 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
             presenter.GetPresenterPV().RPC("SetPlayerNickName", RpcTarget.MasterClient, enterOrder, setNickName);
         }
     }
-
-
 
     #endregion
 
