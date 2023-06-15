@@ -334,12 +334,13 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         }
     }
 
-    private string nameKey = "nickName";
+    private string nameKey = "NickName";
     private string colorKey = "ColorIndex";
     private string hatKey = "HatIndex";
     private string hpKey = "HP";
     private string eggCountKey = "EggCount";
     private string positionKey = "Position";
+    private string enterOrderKey = "EnterOrder";
 
     private int playerMaxHP = 30;
     private Vector3 defualtPosition = Vector3.zero;
@@ -358,10 +359,12 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
                 string savedNickName = playerData.GetPlayerNickName(player);
                 int savedColorIndex = playerData.GetPlayerBodyColorIndex(player);
                 int savedHatIndex = playerData.GetPlayerHatIndex(player);
+                int playerEnterOrder = playerData.GetPlayerEnterOrder(player);
 
                 playerProperties[enterOrder].Add(nameKey, savedNickName);
                 playerProperties[enterOrder].Add(colorKey, savedColorIndex);
                 playerProperties[enterOrder].Add(hatKey, savedHatIndex);
+                playerProperties[enterOrder].Add(enterOrderKey, playerEnterOrder);
                 playerProperties[enterOrder].Add(hpKey, playerMaxHP);
                 playerProperties[enterOrder].Add(eggCountKey, 0);
                 playerProperties[enterOrder].Add(positionKey, defualtPosition);

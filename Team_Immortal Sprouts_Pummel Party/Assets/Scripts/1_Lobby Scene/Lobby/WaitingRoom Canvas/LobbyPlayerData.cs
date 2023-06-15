@@ -115,7 +115,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
 
 
     /// <summary>
-    /// 데이터의 포톤뷰를 반화하는 함수
+    /// 데이터의 포톤뷰를 반환하는 함수
     /// </summary>
     /// <returns></returns>
     public PhotonView GetDataPV()

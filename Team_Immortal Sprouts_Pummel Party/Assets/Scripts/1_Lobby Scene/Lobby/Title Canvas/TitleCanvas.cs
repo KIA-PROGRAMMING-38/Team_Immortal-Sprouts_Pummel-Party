@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.EnhancedTouch;
 
 public class TitleCanvas : MonoBehaviour
 {
-    [SerializeField] private Canvas MultiPlayerCanvas;
+    [SerializeField] private Canvas multiPlayerCanvas;
     [SerializeField] private GameObject touchGuide;
 
     /// <summary>
@@ -18,7 +18,7 @@ public class TitleCanvas : MonoBehaviour
     {
         if (touchGuide.activeSelf)
         {
-            MultiPlayerCanvas.enabled = true;
+            multiPlayerCanvas.enabled = true;
             gameObject.SetActive(false);
         }
     }    
