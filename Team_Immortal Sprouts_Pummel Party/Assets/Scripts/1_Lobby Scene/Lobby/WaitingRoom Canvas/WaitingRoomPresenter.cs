@@ -213,6 +213,12 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     private string nameKey = "nickName";
     private string colorKey = "ColorIndex";
     private string hatKey = "HatIndex";
+    private string hpKey = "HP";
+    private string eggCountKey = "EggCount";
+    private string positionKey = "Position";
+
+    private int playerMaxHP = 30;
+    private Vector3 defualtPosition = Vector3.zero;
     public void LoadBoardGame()
     {
         SavePlayerProperties().Forget(); // 혹시 메인씬으로 로드하다가 고장날까봐 비동기로 처리
@@ -232,6 +238,9 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
                 playerProperties[enterOrder].Add(nameKey, savedNickName);
                 playerProperties[enterOrder].Add(colorKey, savedColorIndex);
                 playerProperties[enterOrder].Add(hatKey, savedHatIndex);
+                playerProperties[enterOrder].Add(hpKey, playerMaxHP);
+                playerProperties[enterOrder].Add(eggCountKey, 0);
+                playerProperties[enterOrder].Add(positionKey, defualtPosition);
             }
         }
 
