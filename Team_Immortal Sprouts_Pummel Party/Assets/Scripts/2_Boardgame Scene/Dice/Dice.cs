@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 public class Dice : MonoBehaviour
 {
     [SerializeField] private GameObject dice;
+    public UnityEvent OnDiceStopped;
     private BoardgamePlayer player;
     private float rotateZSpeed = 800f; 
     private float rotateYSpeed = 800f;
@@ -50,9 +51,10 @@ public class Dice : MonoBehaviour
             isRollDice = true;
             Debug.Log($"주사위 결과: {diceResult}");
             WaitFor2SecondsDisappearDice();
+            player.SetMoveCount(diceResult);
+            OnDiceStopped?.Invoke();
         }
 
-        player.SetMoveCount(diceResult);
         //return diceResult;
     }
 
@@ -120,6 +122,8 @@ public class Dice : MonoBehaviour
     public void OnAppearDice()
     {
         dice.gameObject.SetActive(true);
+        isClickedBoardGameScreen = false;
+        isRollDice = false;
     }
 
     /// <summary>
