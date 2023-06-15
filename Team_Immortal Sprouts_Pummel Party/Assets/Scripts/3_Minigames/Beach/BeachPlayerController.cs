@@ -57,10 +57,6 @@ public class BeachPlayerController : MonoBehaviour
     private const int explosion = 0;
     private const int bigWaterSplash = 1;
     private const int smallWaterSplash1 = 2;
-    private const int smallWaterSplash2 = 3;
-    private const int smallWaterSplash3 = 4;
-    private const int waterRipple1 = 5;
-    private const int waterRipple2 = 6;
     #endregion
 
     private void OnTriggerEnter(Collider other)
