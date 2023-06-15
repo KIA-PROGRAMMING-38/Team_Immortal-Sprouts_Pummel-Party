@@ -141,7 +141,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
             else if (presenter.bodyColorCount <= wantBodyIndex)
                 wantBodyIndex = 0;
             EnableIsChangable().Forget();
-            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, true);
+            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, true, false);
             
         }
     }
@@ -159,7 +159,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
                 wantBodyIndex = 0;
 
             EnableIsChangable().Forget();
-            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, false);
+            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, false, false);
             
         }
     }

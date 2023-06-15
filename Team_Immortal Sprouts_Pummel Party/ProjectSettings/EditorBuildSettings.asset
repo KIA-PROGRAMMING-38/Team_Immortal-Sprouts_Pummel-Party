@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WooSeok/WaitingRoomScene.unity
     guid: 2dbfbdf26bcdc054f9e406a5b85f37c7
+  - enabled: 1
+    path: Assets/Scenes/BoardGame.unity
+    guid: 4bee3930ee7806244b58e6e77623bcb3
   m_configObjects: {}

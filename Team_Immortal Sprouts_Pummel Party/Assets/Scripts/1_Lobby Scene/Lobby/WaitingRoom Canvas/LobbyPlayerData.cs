@@ -15,23 +15,28 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     {
         colorIndexing = new bool[customData.bodyColors.Length];
     }
-    
-    public void UpdateColorIndexing(int enterOrder)
+
+    public void UpdateColorIndexing(int enterOrder, bool isTakeOver)
     {
         // true면 못가져감
-        colorIndexing[enterOrder] = true;
+        colorIndexing[enterOrder] = isTakeOver;
     }
 
     public int GetHatTypeCount() => customData.bodyColors.Length;
     public int GetBodyColorCount() => customData.bodyColors.Length;
 
 
-    public int GetCapableBodyIndex(int lastIndex, int requestedIndex, bool isRightButton)
+    public int GetCapableBodyIndex(int lastIndex, int requestedIndex, bool isRightButton, bool isFirstEntry)
     {
-        colorIndexing[lastIndex] = false; // 현재 갖고 있는 색을 포기한다
+        if (!isFirstEntry)
+        {
+            colorIndexing[lastIndex] = false; // 현재 갖고 있는 색을 포기한다
+        }
+
         int targetIndex = 0;
 
         int addValue = 0;
+
         if (isRightButton)
         {
             addValue = 1;
@@ -67,7 +72,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
                 }
             }
         }
-        
+
 
         colorIndexing[targetIndex] = true;
         return targetIndex;
