@@ -19,7 +19,7 @@ public class BulletSpawner : MonoBehaviour
     {
         while(true)
         {
-            await UniTask.Delay(10000);
+            await UniTask.Delay(7000);
             for (int i = 0; i < 5; i++)
             {
                 Instantiate(bullet,transform);
