@@ -594,6 +594,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2289954121839324902, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
+      propertyPath: touchGuide
+      value: 
+      objectReference: {fileID: 1541126837}
+    - target: {fileID: 2289954121839324902, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: MultiPlayerCanvas
       value: 
       objectReference: {fileID: 1591320735}
@@ -693,6 +697,10 @@ PrefabInstance:
       propertyPath: MultiPlayerCanvas
       value: 
       objectReference: {fileID: 1591320725}
+    - target: {fileID: 3998255937271690490, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5905294332163232871, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: m_CullTransparentMesh
       value: 1
@@ -703,6 +711,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6898773627669732828, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
       propertyPath: m_enableWordWrapping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7540631368244335000, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -992,6 +1004,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5818730322863919386, guid: ca47737d70fa7e64ebc5b80cc76e0e9d, type: 3}
+      propertyPath: touchGuide
+      value: 
+      objectReference: {fileID: 1541126837}
     - target: {fileID: 5818730322863919387, guid: ca47737d70fa7e64ebc5b80cc76e0e9d, type: 3}
       propertyPath: m_Name
       value: LobbyManager
@@ -1316,6 +1332,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1541126837 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7540631368244335000, guid: a89076242438ef84e8f5798e3ccc87a2, type: 3}
+  m_PrefabInstance: {fileID: 497451330}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1591320725 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5527714054527570238, guid: cb984150341bbb34593c09b27e285b45, type: 3}

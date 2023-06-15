@@ -9,14 +9,17 @@ using UnityEngine.InputSystem.EnhancedTouch;
 public class TitleCanvas : MonoBehaviour
 {
     [SerializeField] private Canvas MultiPlayerCanvas;
+    [SerializeField] private GameObject touchGuide;
 
     /// <summary>
     /// 타이틀 캔버스에서 아무곳이나 터치를 했을때 작동하는 함수
     /// </summary>
     public void OnTouchTitle()
     {
-        MultiPlayerCanvas.enabled = true;
-        gameObject.SetActive(false);
-        Debug.Log("Touch Title");
+        if (touchGuide.activeSelf)
+        {
+            MultiPlayerCanvas.enabled = true;
+            gameObject.SetActive(false);
+        }
     }    
 }

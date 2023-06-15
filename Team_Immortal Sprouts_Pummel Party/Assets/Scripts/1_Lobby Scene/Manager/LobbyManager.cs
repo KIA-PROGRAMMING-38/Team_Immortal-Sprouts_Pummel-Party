@@ -9,6 +9,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private const string lobbyName = "Duck Duck Party";
     private const string gameVersion = "0.0.1";
     private int repeatTime = 1;
+
+    [SerializeField] private GameObject touchGuide;
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -18,6 +20,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
+        touchGuide.SetActive(true);
         if (!PhotonNetwork.InLobby)
         {
             PhotonNetwork.JoinLobby();
