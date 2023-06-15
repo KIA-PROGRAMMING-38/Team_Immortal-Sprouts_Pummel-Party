@@ -7,8 +7,7 @@ using UnityEngine.UIElements;
 
 public class BeachPlayerController : MonoBehaviour
 {
-    public float playerSpeed;
-
+    [SerializeField] private float playerSpeed;
     private Rigidbody playerBody;
     private float positionX;
     private float positionY;
@@ -23,7 +22,7 @@ public class BeachPlayerController : MonoBehaviour
         {
             InputSystem.EnableDevice(Accelerometer.current);
         }
-
+        moveVector = new Vector3();
         playerBody = GetComponent<Rigidbody>();
     }
 
@@ -40,9 +39,10 @@ public class BeachPlayerController : MonoBehaviour
             isStart = true;
         }
 
-        moveVector = new Vector3(inputX, 0, inputY);
+
         inputX = Accelerometer.current.acceleration.value.x - positionX;
         inputY = Accelerometer.current.acceleration.value.y - positionY;
+        moveVector.Set(inputX, 0, inputY);
 
         playerBody.velocity = moveVector.normalized * playerSpeed;
     }
@@ -53,10 +53,10 @@ public class BeachPlayerController : MonoBehaviour
         positionY = Accelerometer.current.acceleration.value.y;
     }
     #region Indexing
-    [SerializeField] ParticleSystem[] effect;
-    private const int explosion = 0;
-    private const int bigWaterSplash = 1;
-    private const int smallWaterSplash1 = 2;
+    [SerializeField] ParticleSystem[] effects;
+    private const int EXPLOSION = 0;
+    private const int BIG_WATER_SPLASH = 1;
+    private const int SMALL_WATER_SPLASH = 2;
     #endregion
 
     private void OnTriggerEnter(Collider other)
@@ -66,25 +66,25 @@ public class BeachPlayerController : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < effect.Length; i++)
+        for (int i = 0; i < effects.Length; i++)
         {
-            effect[i].gameObject.transform.SetParent(null);
+            effects[i].gameObject.transform.SetParent(null);
         }
 
         gameObject.SetActive(false);
-        effect[explosion].Play();
+        effects[EXPLOSION].Play();
         PlayWaterEffect().Forget();
     }
 
     private async UniTaskVoid PlayWaterEffect()
     {
         await UniTask.Delay(1000);
-        effect[bigWaterSplash].Play();
+        effects[BIG_WATER_SPLASH].Play();
 
-        for (int i = smallWaterSplash1; i < effect.Length; i++)
+        for (int i = SMALL_WATER_SPLASH; i < effects.Length; i++)
         {
             await UniTask.Delay(200);
-            effect[i].Play();
+            effects[i].Play();
         }
     }
 }

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -16,15 +17,26 @@ public class Bullet : MonoBehaviour
         bulletBody = GetComponent<Rigidbody>();
     }
 
+
+    private void Start()
+    {
+        BulletMove().Forget();
+    }
     private void OnEnable()
     {
         randomVector = UnityEngine.Random.insideUnitSphere;
         moveVector = new Vector3(randomVector.x, 0, randomVector.z);
     }
 
-    private void Update()
+    
+
+    private async UniTaskVoid BulletMove()
     {
-        bulletBody.velocity = moveVector.normalized * bulletSpeed;
+        while (true)
+        {
+            bulletBody.velocity = moveVector.normalized * bulletSpeed;
+            await UniTask.Yield();
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
