@@ -9,34 +9,26 @@ using UnityEngine;
 public class JumpShark : MonoBehaviour
 {
     [Header("----------------------Shark Jump----------------------")]
-    [SerializeField] private Material[] jumpSharkMaterials;
     [SerializeField] private BaseShark baseShark;
     [SerializeField] private Transform sharkIsland;
     [SerializeField] private Transform bezierPoint;
     [SerializeField] private float jumpTime = 2f;
     [SerializeField] private float downSpeed = 10f;
 
-    
-
-
     private void OnEnable()
     {
-        SharkWaitJump().Forget();
+        SharkJump().Forget();
     }
 
     private Vector3 initialPosition;
     private Quaternion initialRotation;
-    private async UniTaskVoid SharkWaitJump()
+    private async UniTaskVoid SharkJump()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
 
         initialRotation = transform.rotation;
 
         float elapsedTime = 0f;
-        for (int i = 0; i < jumpSharkMaterials.Length; ++i)
-        {
-            jumpSharkMaterials[i].SetFloat("_AlphaValue", 1);
-        }
 
         oppositePosition = GetOppositePosition(transform.position, sharkIsland.position);
         initialPosition = transform.position;
@@ -60,26 +52,16 @@ public class JumpShark : MonoBehaviour
             await UniTask.Yield();
         }
 
-        RenderSharkDownTransparent(jumpTime).Forget();
+        SharkGoDown(jumpTime).Forget();
     }
 
-    private async UniTaskVoid RenderSharkDownTransparent(float transparentTime)
+    private async UniTaskVoid SharkGoDown(float disappearTime)
     {
-        float max = 1f;
-        float min = 0f;
-
-        float _disappearTime = transparentTime;
         float elapsedTime = 0f;
 
-        while (elapsedTime <= _disappearTime)
+        while (elapsedTime <= disappearTime)
         {
             elapsedTime += Time.deltaTime;
-            for (int i = 0; i < jumpSharkMaterials.Length; ++i)
-            {
-                float alpha = Lerp(max, min, elapsedTime / _disappearTime);
-                jumpSharkMaterials[i].SetFloat("_AlphaValue", alpha);
-            }
-
             SharkMoveDown(downSpeed * 0.01f);
             await UniTask.Yield();
         }

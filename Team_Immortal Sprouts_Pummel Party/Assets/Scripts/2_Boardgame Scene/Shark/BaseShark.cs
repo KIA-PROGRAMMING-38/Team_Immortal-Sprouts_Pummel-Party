@@ -9,8 +9,8 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class BaseShark : MonoBehaviour
 {
-    [Header("Shark Materials")]
-    [SerializeField] protected Material[] sharkMaterials;
+    //[Header("Shark Materials")]
+    //[SerializeField] protected Material[] sharkMaterials;
     [SerializeField] private JumpShark jumpShark;
 
     [Header("---------------------Shark Rotate Around Island----------------------")]
@@ -32,72 +32,54 @@ public class BaseShark : MonoBehaviour
     /// </summary>
     public void JumpAttack()
     {
-        RenderSharkDownTransparent(disappearTime).Forget();
-
-        RenderSharkUp(disappearTime).Forget();
+        SharkGoDownWater(disappearTime).Forget();
     }
 
     private Vector3 rotateAxis = Vector3.up;
     private async UniTaskVoid RotateAroundIsland()
     {
-        while (true)
+        while (!isAttack)
         {
-            while (!isAttack)
+            if (this == null) // UniTask 비동기 특성상 안해주면 유니티 에디터 껐을때 에러메세지 보냄
             {
-                transform.RotateAround(sharkIslandTransform.position, rotateAxis, -rotateSpeed * Time.deltaTime);
-                await UniTask.Yield();
+                break; // 나중에 미니게임으로 전환할때, 문제 생길까봐 이렇게 두긴 했는데, 뭔가 방법을 생각해내야할듯
             }
+            transform.RotateAround(sharkIslandTransform.position, rotateAxis, -rotateSpeed * Time.deltaTime);
             await UniTask.Yield();
         }
     }
 
-    private async UniTaskVoid RenderSharkDownTransparent(float transparentTime)
+    private async UniTaskVoid SharkGoDownWater(float disappearTime)
     {
-        //await UniTask.WaitUntil(() => isAttack == true);
         isAttack = true;
-        float max = 1f;
-        float min = 0f;
 
-        float _disappearTime = transparentTime;
         float elapsedTime = 0f;
 
-        while (elapsedTime <= _disappearTime)
+        while (elapsedTime <= disappearTime)
         {
             elapsedTime += Time.deltaTime;
-            for (int i = 0; i < sharkMaterials.Length; ++i)
-            {
-                float alpha = Lerp(max, min, elapsedTime / _disappearTime);
-                sharkMaterials[i].SetFloat("_AlphaValue", alpha);
-            }
             SharkMoveDown(true);
             await UniTask.Yield();
         }
         jumpShark.gameObject.SetActive(true);
     }
 
-    private async UniTaskVoid RenderSharkUp(float transparentTime)
+    private async UniTaskVoid SharkComeUpWater(float disappearTime)
     {
         await UniTask.WaitUntil(() => isAttackFinished == true);
-        float max = 1f;
-        float min = 0f;
 
-        float _disappearTime = transparentTime;
         float elapsedTime = 0f;
 
-        while (elapsedTime <= _disappearTime)
+        while (elapsedTime <= disappearTime)
         {
             elapsedTime += Time.deltaTime;
-            for (int i = 0; i < sharkMaterials.Length; ++i)
-            {
-                float alpha = Lerp(min, max, elapsedTime / _disappearTime);
-                sharkMaterials[i].SetFloat("_AlphaValue", alpha);
-            }
             SharkMoveDown(false);
             await UniTask.Yield();
         }
 
         isAttack = false;
         isAttackFinished = false;
+        RotateAroundIsland().Forget();
     }
 
     /// <summary>
@@ -107,6 +89,7 @@ public class BaseShark : MonoBehaviour
     {
         isAttackFinished = true;
         jumpShark.gameObject.SetActive(false);
+        SharkComeUpWater(disappearTime).Forget();
     }
 
     private void SharkMoveDown(bool isDown)
