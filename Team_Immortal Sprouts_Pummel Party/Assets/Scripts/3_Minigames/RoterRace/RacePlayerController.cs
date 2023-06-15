@@ -4,14 +4,15 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class RacePlayerController : MonoBehaviour
 {
-    private Rigidbody planeBody;
+    public GameObject goalInObj;
+    public ParticleSystem boostEffect;
+    public ParticleSystem goalInEffect;
+
     [SerializeField] private GameObject playerCamera;
     [SerializeField] private GameObject boostObj;
-    [SerializeField] private GameObject goalInObj;
-    private ParticleSystem boostEffect;
-    private ParticleSystem goalInEffect;
+    private Rigidbody planeBody;
     private float upVector;
     private float downVector;
     private float leftYVector;
@@ -46,11 +47,12 @@ public class PlayerController : MonoBehaviour
 
     #region move
 
-    private bool isStart;
+    public float speed;
+
     private Quaternion controllVector;
+    private bool isStart;
     private float positionX;
     private float positionY;
-    [SerializeField] private float speed;
     private float smoothAngleY;
     private float smoothAngleX;
     private float smoothAngleZ;
@@ -75,7 +77,7 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, controllVector, smoothFactor);
     }
 
-    public void InitSencer()
+    private void InitSencer()
     {
         positionX = Accelerometer.current.acceleration.value.x;
         positionY = Accelerometer.current.acceleration.value.y;
@@ -85,8 +87,8 @@ public class PlayerController : MonoBehaviour
     #region collision
 
     [SerializeField] private GameObject explosionObj;
-    private ParticleSystem explosion;
     [SerializeField] private Transform spawnPosition;
+    private ParticleSystem explosion;
 
     private void OnCollisionEnter()
     {
@@ -96,21 +98,6 @@ public class PlayerController : MonoBehaviour
         explosion.Play();
 
         Spawn().Forget();
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        switch (other.tag)
-        {
-            case "Area":
-                boostEffect.Play();
-                speed += 15;
-                break;
-            case "Goal":
-                goalInEffect.Play();
-                goalInObj.transform.SetParent(null);
-                gameObject.SetActive(false);
-                break;
-        }
     }
 
     private async UniTaskVoid Spawn()

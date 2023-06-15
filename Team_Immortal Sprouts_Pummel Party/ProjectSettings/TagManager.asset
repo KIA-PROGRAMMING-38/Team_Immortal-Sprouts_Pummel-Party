@@ -17,6 +17,8 @@ TagManager:
   - Area
   - FxTemporaire
   - Goal
+  - HorizonSide
+  - VerticalSide
   layers:
   - Default
   - TransparentFX
