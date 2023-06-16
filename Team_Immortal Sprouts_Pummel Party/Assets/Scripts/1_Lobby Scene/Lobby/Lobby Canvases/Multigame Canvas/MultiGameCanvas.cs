@@ -8,6 +8,7 @@ public class MultiGameCanvas : MonoBehaviour
     private LobbyCanvases _lobbyCanvases;
     private CanvasGroup _canvasGroup;
     [SerializeField] private bool isCreatingRoom; // 테스트 위해 SerializeField 입력
+    [SerializeField] GameObject failedJoinRoomCanvas;
 
     /// <summary>
     /// Lobby를 구성하는 Canvas들이 서로 참조할 수 있도록 초기 세팅
@@ -108,7 +109,15 @@ public class MultiGameCanvas : MonoBehaviour
     {
         if (PhotonNetwork.IsConnected)
         {
-            PhotonNetwork.JoinRandomRoom();
+            if (1 <= _lobbyCanvases.GetRoomCount())
+            {
+                PhotonNetwork.JoinRandomRoom();
+                PhotonNetwork.LoadLevel("WaitingRoomScene");
+            }
+            else
+            {
+                failedJoinRoomCanvas.SetActive(true);
+            }
         }
     }
 }

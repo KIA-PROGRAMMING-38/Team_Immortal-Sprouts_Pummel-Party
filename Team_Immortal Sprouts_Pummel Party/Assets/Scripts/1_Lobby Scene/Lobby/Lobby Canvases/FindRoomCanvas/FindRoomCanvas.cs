@@ -47,9 +47,9 @@ public class FindRoomCanvas : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log($"방 {PhotonNetwork.CurrentRoom.Name}에 입장했습니다. ");
-        _lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
-        _lobbyCanvases.DeactiveLobbyCanvases();
+        //Debug.Log($"방 {PhotonNetwork.CurrentRoom.Name}에 입장했습니다. ");
+        //_lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
+        //_lobbyCanvases.DeactiveLobbyCanvases();
     }
 
 

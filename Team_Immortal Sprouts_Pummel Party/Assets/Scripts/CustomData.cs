@@ -5,9 +5,13 @@ using UnityEngine;
 [CreateAssetMenu]
 public class CustomData : ScriptableObject
 {
-    public GameObject[] hats; // 7개
+    public GameObject[] hats; // 8개(None 포함)
+
+    public string[] hatTexts; // UI 모자 이름
 
     public Texture2D[] bodyColors; // 8개
+
+    public Color32[] colors; // UI 배경색
 
     /// <summary>
     /// index에 따른 모자를 반환합니다
@@ -16,15 +20,6 @@ public class CustomData : ScriptableObject
     /// <returns></returns>
     public GameObject GetHatFromData(int index)
     {
-        if (hats.Length <= index)
-        {
-            index = 0;
-        }
-        else if (index < 0)
-        {
-            index = hats.Length - 1;
-        }
-
         return hats[index];
     }
 
@@ -35,15 +30,6 @@ public class CustomData : ScriptableObject
     /// <returns></returns>
     public Texture2D GetBodyColorFromData(int index)
     {
-        if (hats.Length <= index)
-        {
-            index = 0;
-        }
-        else if (index < 0)
-        {
-            index = hats.Length - 1;
-        }
-
         return bodyColors[index];   
     }
 }

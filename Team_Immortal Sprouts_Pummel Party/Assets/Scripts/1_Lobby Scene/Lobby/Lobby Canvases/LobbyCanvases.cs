@@ -1,20 +1,20 @@
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LobbyCanvases : MonoBehaviour
+public class LobbyCanvases : MonoBehaviourPunCallbacks
 {
     [SerializeField] private MultiGameCanvas _multiGameCanvas;
     [SerializeField] private Create_Or_Find_RoomCanvas _create_Or_Find_RoomCanvas;
-    //[SerializeField] private FindRoomCanvas _findRoomCanvas;
     [SerializeField] private FailedJoinRoomCanvas _failedJoinRoomCanvas;
-    [SerializeField] private WaitingRoomCanvas _waitingRoomCanvas;
 
     public MultiGameCanvas MultiGameCanvas { get { return _multiGameCanvas; } }
     public Create_Or_Find_RoomCanvas Create_Or_Find_RoomCanvas { get { return _create_Or_Find_RoomCanvas; } }
-    //public FindRoomCanvas FindRoomCanvas { get { return _findRoomCanvas; } }
     public FailedJoinRoomCanvas FailedJoinRoomCanvas { get { return _failedJoinRoomCanvas; } }
-    public WaitingRoomCanvas WaitingRoomCanvas { get { return _waitingRoomCanvas; } }
+
+    
 
     private void Awake()
     {
@@ -25,9 +25,7 @@ public class LobbyCanvases : MonoBehaviour
     {
         MultiGameCanvas.CanvasInitialize(this);
         Create_Or_Find_RoomCanvas.CanvasInitialize(this);
-        //FindRoomCanvas.CanvasInitialize(this);
         FailedJoinRoomCanvas.CanvasInitialize(this);
-        WaitingRoomCanvas.CanvasInitialize(this);
     }
 
     /// <summary>
@@ -37,6 +35,40 @@ public class LobbyCanvases : MonoBehaviour
     {
         MultiGameCanvas.Deactive();
         Create_Or_Find_RoomCanvas.Deactive();
-        //FindRoomCanvas.Deactive();
+    }
+
+
+    public int GetRoomCount() => entireRooms.Count;
+    
+
+    private Dictionary<string, RoomInfo> entireRooms = new Dictionary<string, RoomInfo>();
+
+    public bool CheckIfRoomExist(string roomName)
+    {
+        bool isExist = false;
+        if (entireRooms.ContainsKey(roomName))
+        {
+            isExist = true;
+        }
+
+        return isExist;
+    }
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+
+        foreach (RoomInfo roomInfo in roomList)
+        {
+            if (roomInfo.RemovedFromList) // 삭제가 된다면
+            {
+                entireRooms.Remove(roomInfo.Name);
+            }
+            else
+            {
+                if (!entireRooms.ContainsKey(roomInfo.Name)) // 새로 생성된 방이라면
+                {
+                    entireRooms.Add(roomInfo.Name, roomInfo);
+                }
+            }
+        }
     }
 }
