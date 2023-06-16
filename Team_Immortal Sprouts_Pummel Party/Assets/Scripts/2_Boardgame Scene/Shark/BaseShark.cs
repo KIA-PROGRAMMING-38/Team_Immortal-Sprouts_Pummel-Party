@@ -22,7 +22,7 @@ public class BaseShark : MonoBehaviour
 
     private void Start()
     {
-        RotateAroundIsland().Forget();
+        rotateAroundIsland().Forget();
     }
 
 
@@ -31,11 +31,11 @@ public class BaseShark : MonoBehaviour
     /// </summary>
     public void JumpAttack()
     {
-        SharkGoDownWater(disappearTime).Forget();
+        sharkGoDownWater(disappearTime).Forget();
     }
 
     private Vector3 rotateAxis = Vector3.up;
-    private async UniTaskVoid RotateAroundIsland()
+    private async UniTaskVoid rotateAroundIsland()
     {
         while (!isAttack)
         {
@@ -49,7 +49,7 @@ public class BaseShark : MonoBehaviour
         }
     }
 
-    private async UniTaskVoid SharkGoDownWater(float disappearTime)
+    private async UniTaskVoid sharkGoDownWater(float disappearTime)
     {
         isAttack = true;
 
@@ -58,39 +58,39 @@ public class BaseShark : MonoBehaviour
         while (elapsedTime <= disappearTime)
         {
             elapsedTime += Time.deltaTime;
-            SharkMoveDown(true);
+            sharkMoveDown(true);
             await UniTask.Yield();
         }
         jumpShark.gameObject.SetActive(true);
     }
 
-    private async UniTaskVoid SharkComeUpWater(float disappearTime)
+    private async UniTaskVoid sharkComeUpWater(float disappearTime)
     {
         float elapsedTime = 0f;
 
         while (elapsedTime <= disappearTime)
         {
             elapsedTime += Time.deltaTime;
-            SharkMoveDown(false);
+            sharkMoveDown(false);
             await UniTask.Yield();
         }
 
         isAttack = false;
         isAttackFinished = false;
-        RotateAroundIsland().Forget();
+        rotateAroundIsland().Forget();
     }
 
     /// <summary>
     /// 상어의 공격이 끝남을 베이스 상어에게 알려주고, 점프상어를 꺼준다
     /// </summary>
-    public void letBaseSharkKnowAttackFinished()
+    public void LetBaseSharkKnowAttackFinished()
     {
         isAttackFinished = true;
         jumpShark.gameObject.SetActive(false);
-        SharkComeUpWater(disappearTime).Forget();
+        sharkComeUpWater(disappearTime).Forget();
     }
 
-    private void SharkMoveDown(bool isDown)
+    private void sharkMoveDown(bool isDown)
     {
         int down = -1;
 
@@ -102,7 +102,7 @@ public class BaseShark : MonoBehaviour
         transform.Translate(transform.up * down * Time.deltaTime);
     }
 
-    private float Lerp(float start, float end, float t)
+    private float lerp(float start, float end, float t)
     {
         return start + (end - start) * t;
     }

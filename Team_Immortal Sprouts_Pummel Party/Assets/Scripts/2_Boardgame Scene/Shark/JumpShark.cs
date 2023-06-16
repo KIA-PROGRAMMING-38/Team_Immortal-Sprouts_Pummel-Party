@@ -71,7 +71,7 @@ public class JumpShark : MonoBehaviour
 
         transform.position = initialPosition;
         transform.rotation = initialRotation;
-        baseShark.letBaseSharkKnowAttackFinished();
+        baseShark.LetBaseSharkKnowAttackFinished();
         releasePlayer();
     }
 
