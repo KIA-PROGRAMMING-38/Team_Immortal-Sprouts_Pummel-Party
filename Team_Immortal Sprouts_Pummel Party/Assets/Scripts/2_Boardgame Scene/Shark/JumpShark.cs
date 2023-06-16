@@ -20,12 +20,12 @@ public class JumpShark : MonoBehaviour
 
     private void OnEnable()
     {
-        SharkWaitJump().Forget();
+        sharkWaitJump().Forget();
     }
 
     private Vector3 initialPosition;
     private Quaternion initialRotation;
-    private async UniTaskVoid SharkWaitJump()
+    private async UniTaskVoid sharkWaitJump()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
 
@@ -33,7 +33,7 @@ public class JumpShark : MonoBehaviour
 
         float elapsedTime = 0f;
 
-        oppositePosition = GetOppositePosition(transform.position, sharkIsland.position);
+        oppositePosition = getOppositePosition(transform.position, sharkIsland.position);
         initialPosition = transform.position;
 
 
@@ -46,36 +46,36 @@ public class JumpShark : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-            transform.position = SharkJumpTowardsOpposite(initialPosition, bezierPoint.position, oppositePosition, elapsedTime / jumpTime);
+            transform.position = sharkJumpTowardsOpposite(initialPosition, bezierPoint.position, oppositePosition, elapsedTime / jumpTime);
 
-            changeZAngle = Lerp(initialZAngle, targetZAngle, elapsedTime / jumpTime);
+            changeZAngle = lerp(initialZAngle, targetZAngle, elapsedTime / jumpTime);
             sharkRotation.Set(sharkRotation.x, sharkRotation.y, changeZAngle);
             transform.rotation = Quaternion.Euler(sharkRotation);
 
             await UniTask.Yield();
         }
 
-        RenderSharkDownTransparent(jumpTime).Forget();
+        sharkGoDownStraight(jumpTime).Forget();
     }
 
-    private async UniTaskVoid RenderSharkDownTransparent(float disappearTime)
+    private async UniTaskVoid sharkGoDownStraight(float disappearTime)
     {
         float elapsedTime = 0f;
 
         while (elapsedTime <= disappearTime)
         {
             elapsedTime += Time.deltaTime;
-            SharkMoveDown(downSpeed * 0.01f);
+            sharkMoveDown(downSpeed * 0.01f);
             await UniTask.Yield();
         }
 
         transform.position = initialPosition;
         transform.rotation = initialRotation;
-        baseShark.LetBaseSharkKnowAttackFinished();
+        baseShark.letBaseSharkKnowAttackFinished();
         releasePlayer();
     }
 
-    private void SharkMoveDown(float downSpeed)
+    private void sharkMoveDown(float downSpeed)
     {
         Vector3 newPosition = Vector3.zero;
         float randomValue = UnityEngine.Random.Range(-downSpeed, downSpeed);
@@ -85,7 +85,7 @@ public class JumpShark : MonoBehaviour
 
 
     private Vector3 oppositePosition;
-    private Vector3 GetOppositePosition(Vector3 currentPosition, Vector3 sharkIslandPosition)
+    private Vector3 getOppositePosition(Vector3 currentPosition, Vector3 sharkIslandPosition)
     {
         Vector3 offSet = sharkIslandPosition - currentPosition;
         offSet *= 1.5f; // 조금 더 멀리 보내고싶음
@@ -93,16 +93,16 @@ public class JumpShark : MonoBehaviour
         return offSet + sharkIslandPosition;
     }
 
-    private Vector3 SharkJumpTowardsOpposite(Vector3 initialPosition, Vector3 middleUpPosition, Vector3 targetPosition, float t)
+    private Vector3 sharkJumpTowardsOpposite(Vector3 initialPosition, Vector3 middleUpPosition, Vector3 targetPosition, float t)
     {
-        Vector3 firstMiddle = PrimaryBezierCurve(initialPosition, middleUpPosition, t);
-        Vector3 secondMiddle = PrimaryBezierCurve(middleUpPosition, targetPosition, t);
+        Vector3 firstMiddle = primaryBezierCurve(initialPosition, middleUpPosition, t);
+        Vector3 secondMiddle = primaryBezierCurve(middleUpPosition, targetPosition, t);
 
-        return PrimaryBezierCurve(firstMiddle, secondMiddle, t);
+        return primaryBezierCurve(firstMiddle, secondMiddle, t);
     }
-    private Vector3 PrimaryBezierCurve(Vector3 start, Vector3 end, float t) => Vector3.Lerp(start, end, t);
+    private Vector3 primaryBezierCurve(Vector3 start, Vector3 end, float t) => Vector3.Lerp(start, end, t);
 
-    private float Lerp(float start, float end, float t)
+    private float lerp(float start, float end, float t)
     {
         return start + (end - start) * t;
     }
@@ -113,7 +113,6 @@ public class JumpShark : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("상어가 플레이어를 물었음");
             playerTransform = collision.gameObject.GetComponent<Transform>();
             kidnapPlayer(playerTransform);
         }

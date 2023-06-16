@@ -83,7 +83,7 @@ public class BaseShark : MonoBehaviour
     /// <summary>
     /// 상어의 공격이 끝남을 베이스 상어에게 알려주고, 점프상어를 꺼준다
     /// </summary>
-    public void LetBaseSharkKnowAttackFinished()
+    public void letBaseSharkKnowAttackFinished()
     {
         isAttackFinished = true;
         jumpShark.gameObject.SetActive(false);
