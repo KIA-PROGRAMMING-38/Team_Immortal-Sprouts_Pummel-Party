@@ -9,17 +9,17 @@ using Random = UnityEngine.Random;
 
 public class Dice : MonoBehaviour
 {
-    [SerializeField] private GameObject dice;
+    [SerializeField] private GameObject diceTotal;
+    [SerializeField] private BoardgamePlayer boardgamePlayer;
     public UnityEvent OnDiceStopped;
-    private BoardgamePlayer player;
     private float rotateZSpeed = 800f; 
     private float rotateYSpeed = 800f;
     private bool isClickedBoardGameScreen = false;
     private bool isRollDice = false;
 
-    private void Awake()
+    private void OnEnable()
     {
-        player = GetComponent<BoardgamePlayer>();
+        RollDice().Forget();
     }
 
     /// <summary>
@@ -28,39 +28,36 @@ public class Dice : MonoBehaviour
     public void OnTouchRollDicePanel()
     {
         isClickedBoardGameScreen = true;
-        Debug.Log("터치됨");
     }
 
     /// <summary>
     /// 주사위의 값을 출력하는 함수입니다.
     /// </summary>
-    public void Roll()
+    public async UniTask RollDice()
     {
         int diceResult = 0;
+        WaitFor1Seconds();
+        OnAppearDice();
 
-        if (isClickedBoardGameScreen == false)
+        while (true)
         {
-            OnAppearDice();
-            dice.transform.Rotate(0, rotateYSpeed * Time.deltaTime, rotateZSpeed * Time.deltaTime);
+            diceTotal.transform.Rotate(0, rotateYSpeed * Time.deltaTime, rotateZSpeed * Time.deltaTime);
+            
+            await UniTask.Yield();
+
+            if (isClickedBoardGameScreen == true && isRollDice == false)
+            {
+                diceResult = Random.Range(-1, 8);
+                diceTotal.transform.rotation = GetRotationValue(diceResult);
+                isRollDice = true;
+                Debug.Log($"주사위 결과: {diceResult}");
+                await WaitFor1SecondsDisappearDice();
+                boardgamePlayer.SetMoveCount(diceResult);
+                OnDiceStopped?.Invoke();
+
+                await UniTask.Yield();
+            }
         }
-
-        else if (isClickedBoardGameScreen == true && isRollDice == false)
-        {
-            diceResult = Random.Range(-1, 8);
-            dice.transform.rotation = GetRotationValue(diceResult);
-            isRollDice = true;
-            Debug.Log($"주사위 결과: {diceResult}");
-            WaitFor2SecondsDisappearDice();
-            player.SetMoveCount(diceResult);
-            OnDiceStopped?.Invoke();
-        }
-
-        //return diceResult;
-    }
-
-    private void Update()
-    {
-        Roll();
     }
 
     Quaternion minusoneRotateValue = Quaternion.Euler(128, 156, 166);
@@ -110,10 +107,15 @@ public class Dice : MonoBehaviour
         }
     }
 
-    async UniTask WaitFor2SecondsDisappearDice()
+    private async UniTask WaitFor1SecondsDisappearDice()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(2f));
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
         OnDisappearDice();
+    }
+
+    private async UniTask WaitFor1Seconds()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
     }
 
     /// <summary>
@@ -121,9 +123,9 @@ public class Dice : MonoBehaviour
     /// </summary>
     public void OnAppearDice()
     {
-        dice.gameObject.SetActive(true);
+        diceTotal.gameObject.SetActive(true);
         isClickedBoardGameScreen = false;
-        isRollDice = false;
+        isRollDice = false; 
     }
 
     /// <summary>
@@ -131,6 +133,6 @@ public class Dice : MonoBehaviour
     /// </summary>
     public void OnDisappearDice()
     {
-        dice.gameObject.SetActive(false);
+        diceTotal.gameObject.SetActive(false);
     }
 }

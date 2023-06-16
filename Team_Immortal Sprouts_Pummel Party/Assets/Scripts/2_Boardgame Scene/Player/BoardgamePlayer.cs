@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class BoardgamePlayer : MonoBehaviour
 {
-    private Dice _dice;
+    [SerializeField] private Dice _dice;
     private Rigidbody _rigidbody;
     private Animator _animator;
 
     private void Awake()
     {
-        _dice = GetComponent<Dice>();
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
     }
