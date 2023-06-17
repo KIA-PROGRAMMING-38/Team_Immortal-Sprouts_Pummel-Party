@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
+    public Image BackgroundPanel;
     public List<InventorySlot> InventorySlots = new List<InventorySlot>(8);
     
     [SerializeField] private GameObject _slotPrefab;
@@ -15,6 +16,8 @@ public class InventoryManager : MonoBehaviour
         CreateSlots();
         Inventory.OnInventoryInit.AddListener(InitInventorySlots);
         Inventory.OnInventoryUpdate.AddListener(UpdateInventory);
+
+        BackgroundPanel.gameObject.SetActive(false);
     }
 
     private void OnDestroy()
@@ -55,11 +58,13 @@ public class InventoryManager : MonoBehaviour
     public void CloseInventory()
     {
         gameObject.SetActive(false);
+        BackgroundPanel.gameObject.SetActive(false);
     }
 
     public void OpenInventory()
     {
         gameObject.SetActive(true);
+        BackgroundPanel.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -77,21 +82,34 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private InventorySlot _selectedSlot;
     private ItemData _selectedItem;
     [SerializeField] private Button itemSelectButton;
     /// <summary>
     /// 인벤토리 슬롯을 터치했을 때 선택된 아이템을 저장
     /// </summary>
-    public void SetSelectedItem(ItemData selectedSlotItem)
+    public void SetSelectedItem(InventorySlot selectedSlot)
     {
-        if (selectedSlotItem == _selectedItem)
+        if(_selectedSlot == null)
         {
+            _selectedSlot = selectedSlot;
+            _selectedSlot.SelectedParticle.gameObject.SetActive(true);
+            _selectedItem = _selectedSlot.Item.ItemData;
+            itemSelectButton.interactable = true;
+        }
+        else if (selectedSlot == _selectedSlot)
+        {
+            _selectedSlot.SelectedParticle.gameObject.SetActive(false);
+            _selectedSlot = null;
             _selectedItem = null;
             itemSelectButton.interactable = false;
         }
         else
         {
-            _selectedItem = selectedSlotItem;
+            _selectedSlot.SelectedParticle.gameObject.SetActive(false);
+            _selectedSlot = selectedSlot;
+            _selectedItem = _selectedSlot.Item.ItemData;
+            _selectedSlot.SelectedParticle.gameObject.SetActive(true);
             itemSelectButton.interactable = true;
         }
 

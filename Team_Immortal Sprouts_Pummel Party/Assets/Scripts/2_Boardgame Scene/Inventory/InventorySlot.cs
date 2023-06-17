@@ -6,12 +6,20 @@ public class InventorySlot : MonoBehaviour
 {
     public Image Icon;
     public TextMeshProUGUI Number;
+    public ParticleSystem SelectedParticle;
 
     private InventoryManager _inventoryManager;
     private InventoryItem _item;
+    public InventoryItem Item { get { return _item; } }
 
     private Color _defaultColor = Color.white;
     private Color _notHoldingColor = new Color(0.4f, 0.4f, 0.4f, 0.7f);
+
+    private void OnEnable()
+    {
+        SelectedParticle.gameObject.SetActive(false);
+    }
+
 
     public void DrawSlot(InventoryItem item)
     {
@@ -48,6 +56,6 @@ public class InventorySlot : MonoBehaviour
         }
 
         // TODO: 선택됐다고 UI 상에 표시
-        _inventoryManager.SetSelectedItem(_item.ItemData);
+        _inventoryManager.SetSelectedItem(this);
     }
 }
