@@ -1,3 +1,4 @@
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class BoardgamePlayer : MonoBehaviour
     private Rigidbody _rigidbody;
     private Animator _animator;
     public Inventory Inventory = new Inventory();
+
 
     private void Awake()
     {
