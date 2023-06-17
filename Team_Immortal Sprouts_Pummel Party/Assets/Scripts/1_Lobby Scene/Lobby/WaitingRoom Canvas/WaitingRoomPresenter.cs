@@ -307,7 +307,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        PhotonNetwork.LoadLevel("Lobby Scene 3");
+        PhotonNetwork.LoadLevel("Lobby Scene");
     }
 
     #endregion

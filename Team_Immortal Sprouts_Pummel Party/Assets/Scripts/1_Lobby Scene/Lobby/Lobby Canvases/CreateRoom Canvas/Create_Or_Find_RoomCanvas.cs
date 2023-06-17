@@ -72,7 +72,7 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             if (!isCreatable) // 존재하는 방이 없다면
             {
                 PhotonNetwork.CreateRoom(ActualRoomName, option, TypedLobby.Default); // 방을 만든다
-                PhotonNetwork.LoadLevel("WaitingRoomScene");
+                PhotonNetwork.LoadLevel("WaitingRoom Scene");
             }
             else
             {
