@@ -37,13 +37,8 @@ public class BaseShark : MonoBehaviour
     private Vector3 rotateAxis = Vector3.up;
     private async UniTaskVoid rotateAroundIsland()
     {
-        while (!isAttack)
+        while (!isAttack && this != null)
         {
-            if (this == null)
-            {
-                break;
-            }
-
             transform.RotateAround(sharkIslandTransform.position, rotateAxis, -rotateSpeed * Time.deltaTime);
             await UniTask.Yield();
         }

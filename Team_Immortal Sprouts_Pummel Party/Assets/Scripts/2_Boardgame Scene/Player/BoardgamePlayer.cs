@@ -32,32 +32,14 @@ public class BoardgamePlayer : MonoBehaviour
     [SerializeField] private bool _canRoll = false;  // 프레임워크랑 연결하기 전에 테스트하려고 열어둠
     private int _moveCount;
 
-    /// <summary>
-    /// 주사위 Roll 결과를 BoardgamePlayer에게 전달
-    /// </summary>
-    public void SetMoveCount(int diceResult)
-    {
-        _moveCount = diceResult;
-    }
+    
 
-    // Dice 구현 전 움직임 테스트 용
-    //private void OnRollDice()
-    //{
-    //    if (_canRoll == false)
-    //    {
-    //        return;
-    //    }
-
-    //    _canRoll = false;
-
-    //    _moveCount = _dice.Roll();
-    //    HelpMoveAsync().Forget();
-    //}
     
     // Dice 구현 후 사용할 메소드
     // TODO: 테스트 및 주사위 움직임 멈췄을 때 이벤트 구독
     public void OnDiceStoped()
     {
+        _moveCount = _dice.ConveyDiceReuslt();
         HelpMoveAsync().Forget();
     }
 
@@ -106,11 +88,11 @@ public class BoardgamePlayer : MonoBehaviour
             _moveCount -= 1;
 
             await LookNextDestIsland((end - start).normalized);
-            
+
             while (elapsedTime <= MOVE_TIME)
             {
-                elapsedTime += Time.deltaTime;
                 _rigidbody.MovePosition(SecondaryBezierCurve(start, mid, end, elapsedTime / MOVE_TIME));
+                elapsedTime += Time.deltaTime;
 
                 await UniTask.Yield();
             }
