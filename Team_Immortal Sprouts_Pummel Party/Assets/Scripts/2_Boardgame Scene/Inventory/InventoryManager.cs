@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -11,6 +13,14 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         CreateSlots();
+        Inventory.OnInventoryInit.AddListener(InitInventorySlots);
+        Inventory.OnInventoryUpdate.AddListener(UpdateInventory);
+    }
+
+    private void OnDestroy()
+    {
+        Inventory.OnInventoryInit.RemoveAllListeners();
+        Inventory.OnInventoryUpdate.RemoveAllListeners();
     }
 
     private void CreateSlots()
@@ -68,12 +78,38 @@ public class InventoryManager : MonoBehaviour
     }
 
     private ItemData _selectedItem;
+    [SerializeField] private Button itemSelectButton;
     /// <summary>
     /// 인벤토리 슬롯을 터치했을 때 선택된 아이템을 저장
     /// </summary>
     public void SetSelectedItem(ItemData selectedSlotItem)
     {
-        _selectedItem = selectedSlotItem;
+        if (selectedSlotItem == _selectedItem)
+        {
+            _selectedItem = null;
+            itemSelectButton.interactable = false;
+        }
+        else
+        {
+            _selectedItem = selectedSlotItem;
+            itemSelectButton.interactable = true;
+        }
+
         Debug.Log($"selected item: {_selectedItem}");
+    }
+
+    [SerializeField] private BoardgamePlayer currentPlayer;
+    [SerializeField] private ItemControllGroup itemControllGroup;
+    public void SelectItem()
+    {
+        IUsable item = Instantiate(_selectedItem.Prefab).GetComponent<IUsable>();
+        item.SetForUse(currentPlayer);
+
+        currentPlayer.Inventory.Remove(_selectedItem);
+
+        if(_selectedItem.isControllable)
+        {
+            itemControllGroup.gameObject.SetActive(true);
+        }
     }
 }

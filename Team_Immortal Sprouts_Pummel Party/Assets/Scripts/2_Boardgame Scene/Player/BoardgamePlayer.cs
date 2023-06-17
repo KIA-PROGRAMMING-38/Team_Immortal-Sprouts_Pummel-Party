@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BoardgamePlayer : MonoBehaviour
 {
+    public Inventory Inventory;
+
     private Dice _dice;
     private Rigidbody _rigidbody;
     private Animator _animator;
@@ -18,19 +20,13 @@ public class BoardgamePlayer : MonoBehaviour
     private void Start()
     {
         UpdateCurrentIsland();
-    }
 
-    private void OnEnable()
-    {
-        // TODO: 주사위 구현 후 Stop 이벤트 구독
-    }
-
-    private void OnDisable()
-    {
-        // TODO: 주사위 구현 후 Stop 이벤트 구독 해지
+        Inventory = new Inventory();
+        Inventory.InitInventory();
     }
 
     [SerializeField] private bool _canRoll = false;  // 프레임워크랑 연결하기 전에 테스트하려고 열어둠
+    [SerializeField] private bool _canUseItem = false;
     private int _moveCount;
 
     /// <summary>
@@ -40,23 +36,7 @@ public class BoardgamePlayer : MonoBehaviour
     {
         _moveCount = diceResult;
     }
-
-    // Dice 구현 전 움직임 테스트 용
-    //private void OnRollDice()
-    //{
-    //    if (_canRoll == false)
-    //    {
-    //        return;
-    //    }
-
-    //    _canRoll = false;
-
-    //    _moveCount = _dice.Roll();
-    //    HelpMoveAsync().Forget();
-    //}
     
-    // Dice 구현 후 사용할 메소드
-    // TODO: 테스트 및 주사위 움직임 멈췄을 때 이벤트 구독
     private void OnDiceStoped()
     {
         HelpMoveAsync().Forget();
