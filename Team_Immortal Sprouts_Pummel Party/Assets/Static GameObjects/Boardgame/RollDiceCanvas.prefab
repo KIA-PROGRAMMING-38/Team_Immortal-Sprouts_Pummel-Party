@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7969673260297004131, guid: b874d0faf69de0a49adad69486868b7d, type: 3}
+      - m_Target: {fileID: 7408419236101713117, guid: 59ef178220d746e4cb360a5013363067, type: 3}
         m_TargetAssemblyTypeName: Dice, Assembly-CSharp
         m_MethodName: OnTouchRollDicePanel
         m_Mode: 1

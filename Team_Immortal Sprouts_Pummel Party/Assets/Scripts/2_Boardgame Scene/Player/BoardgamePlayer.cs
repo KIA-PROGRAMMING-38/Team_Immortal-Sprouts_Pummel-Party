@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class BoardgamePlayer : MonoBehaviour
 {
-    public Inventory Inventory;
-
-    private Dice _dice;
+    [SerializeField] private Dice _dice;
     private Rigidbody _rigidbody;
     private Animator _animator;
 
     private void Awake()
     {
-        _dice = new Dice();
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
     }
@@ -25,20 +22,15 @@ public class BoardgamePlayer : MonoBehaviour
         Inventory.InitInventory();
     }
 
-    [SerializeField] private bool _canRoll = false;  // ÇÁ·¹ÀÓ¿öÅ©¶û ¿¬°áÇÏ±â Àü¿¡ Å×½ºÆ®ÇÏ·Á°í ¿­¾îµÒ
+    [SerializeField] private bool _canRoll = false;  // í”„ë ˆì„ì›Œí¬ë‘ ì—°ê²°í•˜ê¸° ì „ì— í…ŒìŠ¤íŠ¸í•˜ë ¤ê³  ì—´ì–´ë‘ 
     [SerializeField] private bool _canUseItem = false;
     private int _moveCount;
 
-    /// <summary>
-    /// ÁÖ»çÀ§ Roll °á°ú¸¦ BoardgamePlayer¿¡°Ô Àü´Ş
-    /// </summary>
-    public void SetMoveCount(int diceResult)
+    // Dice êµ¬í˜„ í›„ ì‚¬ìš©í•  ë©”ì†Œë“œ
+    // TODO: í…ŒìŠ¤íŠ¸ ë° ì£¼ì‚¬ìœ„ ì›€ì§ì„ ë©ˆì·„ì„ ë•Œ ì´ë²¤íŠ¸ êµ¬ë…
+    public void OnDiceStoped()
     {
-        _moveCount = diceResult;
-    }
-    
-    private void OnDiceStoped()
-    {
+        _moveCount = _dice.ConveyDiceReuslt();
         HelpMoveAsync().Forget();
     }
 
@@ -47,7 +39,7 @@ public class BoardgamePlayer : MonoBehaviour
     private bool _canMoveOnDirectionIsland;
     private async UniTaskVoid HelpMoveAsync()
     {
-        if (_currentIsland.CompareTag("RotationIsland")) // È¸Àü ¼¶¿¡¼­ Ãâ¹ßÇÏ´Â °æ¿ì ¼¶ÀÇ È¸ÀüÀÌ ³¡³¯ ¶§±îÁö ´ë±â
+        if (_currentIsland.CompareTag("RotationIsland")) // íšŒì „ ì„¬ì—ì„œ ì¶œë°œí•˜ëŠ” ê²½ìš° ì„¬ì˜ íšŒì „ì´ ëë‚  ë•Œê¹Œì§€ ëŒ€ê¸°
         {
             if (0 < _moveCount)
             {
@@ -87,11 +79,11 @@ public class BoardgamePlayer : MonoBehaviour
             _moveCount -= 1;
 
             await LookNextDestIsland((end - start).normalized);
-            
+
             while (elapsedTime <= MOVE_TIME)
             {
-                elapsedTime += Time.deltaTime;
                 _rigidbody.MovePosition(SecondaryBezierCurve(start, mid, end, elapsedTime / MOVE_TIME));
+                elapsedTime += Time.deltaTime;
 
                 await UniTask.Yield();
             }
@@ -109,7 +101,7 @@ public class BoardgamePlayer : MonoBehaviour
     private const float ROTATE_TIME = 1f;
     private async UniTask<bool> LookNextDestIsland(Vector3 dir)
     {
-        // È¸ÀüÅ¸ÀÏ¿¡¼­ºÎÅÍ Ãâ¹ßÇÏ´Â ÅÏ¿¡¼­´Â È¸ÀüÇÏÁö ¾ÊÀ½
+        // íšŒì „íƒ€ì¼ì—ì„œë¶€í„° ì¶œë°œí•˜ëŠ” í„´ì—ì„œëŠ” íšŒì „í•˜ì§€ ì•ŠìŒ
         if (_currentIsland.CompareTag("RotationIsland") && _canMoveOnDirectionIsland)
         {
             _canMoveOnDirectionIsland = false;
@@ -153,6 +145,8 @@ public class BoardgamePlayer : MonoBehaviour
             await UniTask.Yield();
         }
 
+        _dice.OnAppearDice();
+
         return true;
     }
 
@@ -180,7 +174,7 @@ public class BoardgamePlayer : MonoBehaviour
     private void UpdateCurrentIsland()
     {
         RaycastHit hit;
-        Physics.Raycast(transform.position, Vector3.down * 3f, out hit, int.MaxValue, LayerMask.GetMask("Island"));
+        Physics.Raycast(transform.position, Vector3.down * 10f, out hit, int.MaxValue, LayerMask.GetMask("Island"));
 
         if (hit.collider != null)
         {
@@ -188,7 +182,7 @@ public class BoardgamePlayer : MonoBehaviour
         }
         else
         {
-            Debug.Log("¼¶ °¨Áö ¾ÈµÊ");
+            Debug.Log("ì„¬ ê°ì§€ ì•ˆë¨");
         }
     }
 
