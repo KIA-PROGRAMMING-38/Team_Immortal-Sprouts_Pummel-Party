@@ -17,26 +17,17 @@ public class BoardgamePlayer : MonoBehaviour
     private void Start()
     {
         UpdateCurrentIsland();
+
+        Inventory = new Inventory();
+        Inventory.InitInventory();
     }
 
-    private void OnEnable()
-    {
-        // TODO: ÁÖ»çÀ§ ±¸Çö ÈÄ Stop ÀÌº¥Æ® ±¸µ¶
-    }
-
-    private void OnDisable()
-    {
-        // TODO: ÁÖ»çÀ§ ±¸Çö ÈÄ Stop ÀÌº¥Æ® ±¸µ¶ ÇØÁö
-    }
-
-    [SerializeField] private bool _canRoll = false;  // ÇÁ·¹ÀÓ¿öÅ©¶û ¿¬°áÇÏ±â Àü¿¡ Å×½ºÆ®ÇÏ·Á°í ¿­¾îµÒ
+    [SerializeField] private bool _canRoll = false;  // í”„ë ˆì„ì›Œí¬ë‘ ì—°ê²°í•˜ê¸° ì „ì— í…ŒìŠ¤íŠ¸í•˜ë ¤ê³  ì—´ì–´ë‘ 
+    [SerializeField] private bool _canUseItem = false;
     private int _moveCount;
 
-    
-
-    
-    // Dice ±¸Çö ÈÄ »ç¿ëÇÒ ¸Ş¼Òµå
-    // TODO: Å×½ºÆ® ¹× ÁÖ»çÀ§ ¿òÁ÷ÀÓ ¸ØÃèÀ» ¶§ ÀÌº¥Æ® ±¸µ¶
+    // Dice êµ¬í˜„ í›„ ì‚¬ìš©í•  ë©”ì†Œë“œ
+    // TODO: í…ŒìŠ¤íŠ¸ ë° ì£¼ì‚¬ìœ„ ì›€ì§ì„ ë©ˆì·„ì„ ë•Œ ì´ë²¤íŠ¸ êµ¬ë…
     public void OnDiceStoped()
     {
         _moveCount = _dice.ConveyDiceReuslt();
@@ -48,7 +39,7 @@ public class BoardgamePlayer : MonoBehaviour
     private bool _canMoveOnDirectionIsland;
     private async UniTaskVoid HelpMoveAsync()
     {
-        if (_currentIsland.CompareTag("RotationIsland")) // È¸Àü ¼¶¿¡¼­ Ãâ¹ßÇÏ´Â °æ¿ì ¼¶ÀÇ È¸ÀüÀÌ ³¡³¯ ¶§±îÁö ´ë±â
+        if (_currentIsland.CompareTag("RotationIsland")) // íšŒì „ ì„¬ì—ì„œ ì¶œë°œí•˜ëŠ” ê²½ìš° ì„¬ì˜ íšŒì „ì´ ëë‚  ë•Œê¹Œì§€ ëŒ€ê¸°
         {
             if (0 < _moveCount)
             {
@@ -110,7 +101,7 @@ public class BoardgamePlayer : MonoBehaviour
     private const float ROTATE_TIME = 1f;
     private async UniTask<bool> LookNextDestIsland(Vector3 dir)
     {
-        // È¸ÀüÅ¸ÀÏ¿¡¼­ºÎÅÍ Ãâ¹ßÇÏ´Â ÅÏ¿¡¼­´Â È¸ÀüÇÏÁö ¾ÊÀ½
+        // íšŒì „íƒ€ì¼ì—ì„œë¶€í„° ì¶œë°œí•˜ëŠ” í„´ì—ì„œëŠ” íšŒì „í•˜ì§€ ì•ŠìŒ
         if (_currentIsland.CompareTag("RotationIsland") && _canMoveOnDirectionIsland)
         {
             _canMoveOnDirectionIsland = false;
@@ -191,7 +182,7 @@ public class BoardgamePlayer : MonoBehaviour
         }
         else
         {
-            Debug.Log("¼¶ °¨Áö ¾ÈµÊ");
+            Debug.Log("ì„¬ ê°ì§€ ì•ˆë¨");
         }
     }
 

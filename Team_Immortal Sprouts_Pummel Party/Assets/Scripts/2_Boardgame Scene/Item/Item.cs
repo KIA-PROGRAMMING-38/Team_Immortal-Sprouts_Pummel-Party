@@ -12,7 +12,7 @@ public abstract class Item : MonoBehaviour, IUsable
     /// </summary>
     public virtual void Get(BoardgamePlayer player)
     {
-        player.GetComponentInChildren<Inventory>().Add(ItemData);
+        player.Inventory.Add(ItemData);
     }
 
     public virtual void SetForUse(BoardgamePlayer usePlayer) { }

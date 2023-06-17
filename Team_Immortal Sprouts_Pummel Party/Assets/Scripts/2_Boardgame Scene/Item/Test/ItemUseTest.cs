@@ -10,6 +10,7 @@ public class ItemUseTest : MonoBehaviour
 
     public GameObject prefab;
     public BoardgamePlayer player;
+    public BoardgamePlayer otherPlayer;
 
     void Start()
     {
@@ -21,12 +22,19 @@ public class ItemUseTest : MonoBehaviour
 
         // 아이템 추가 테스트
         Invoke(nameof(GetTest), 5f);
+        Invoke(nameof(OtherPlayerGet), 0.5f);
+        Invoke(nameof(GetTest), 0.5f);
 
     }
 
     private void GetTest()
     {
         prefab.GetComponent<Item>().Get(player);
+    }
+
+    private void OtherPlayerGet()
+    {
+        prefab.GetComponent<Item>().Get(otherPlayer);
     }
 
     private void CallTimeOut()

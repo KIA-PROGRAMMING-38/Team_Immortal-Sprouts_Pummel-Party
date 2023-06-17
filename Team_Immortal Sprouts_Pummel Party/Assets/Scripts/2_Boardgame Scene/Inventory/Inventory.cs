@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Inventory : MonoBehaviour
+public class Inventory
 {
-    public UnityEvent<List<InventoryItem>> OnInventoryUpdate;
-    public UnityEvent OnInventoryInit;
+    public static UnityEvent<List<InventoryItem>> OnInventoryUpdate = new UnityEvent<List<InventoryItem>>();
+    public static UnityEvent<List<InventoryItem>> OnInventoryInit = new UnityEvent<List<InventoryItem>>();
 
     public List<InventoryItem> PlayerInventory = new List<InventoryItem>();
     private Dictionary<ItemData, InventoryItem> _itemDictionary = new Dictionary<ItemData, InventoryItem>();
 
-    private void Start()
+    public void InitInventory()
     {
         // TODO: GameManager 연결되는 경우 static class에서 해당 동작 하는 메소드 만들고 호출하기 -> 읽어온 ItemData들로 Awake or Start에서 new InventoryItem()
         if(PlayerInventory.Count == 0)
@@ -26,9 +26,9 @@ public class Inventory : MonoBehaviour
                 _itemDictionary.Add(itemData, newItem);
             }
 
+            OnInventoryInit?.Invoke(PlayerInventory);
             OnInventoryUpdate?.Invoke(PlayerInventory);
-            OnInventoryInit?.Invoke();
-        }
+        }   
     }
 
     public void Add(ItemData itemData)
@@ -52,8 +52,6 @@ public class Inventory : MonoBehaviour
         {
             item.RemoveFromInventory();
             OnInventoryUpdate?.Invoke(PlayerInventory);
-
-            // TODO: UI 업데이트 Invoke
         }
     }
 }

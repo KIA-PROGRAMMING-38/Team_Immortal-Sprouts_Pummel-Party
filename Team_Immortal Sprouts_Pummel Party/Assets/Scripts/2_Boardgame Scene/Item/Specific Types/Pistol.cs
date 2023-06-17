@@ -57,6 +57,9 @@ public class Pistol : ControllItem
 
             await UniTask.Yield();
         }
+
+        // TODO: 포톤 연결 후 PrefabPool로 변경
+        Destroy(gameObject);
     }
 
     public override void OnJoystickInput(InputAction.CallbackContext context)
