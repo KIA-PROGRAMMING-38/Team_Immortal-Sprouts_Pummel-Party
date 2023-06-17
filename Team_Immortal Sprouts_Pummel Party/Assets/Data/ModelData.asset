@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea3079cc84d2284796bdca05d3794d5, type: 3}
+  m_Name: ModelData
+  m_EditorClassIdentifier: 
+  _LobbyModels:
+  - {fileID: 0}
+  - {fileID: 3720337570842942497, guid: 1bc231ec39aba8f43a228bb6c06ac1ac, type: 3}
+  - {fileID: 3720337570842942497, guid: 044699f0bad292c46a97bd78bf1f93cd, type: 3}
+  - {fileID: 3720337570842942497, guid: 468d242459e04034abd930fe3d3b7f7c, type: 3}
+  - {fileID: 3720337570842942497, guid: f134316059f6cc64bbd7970f61ccc606, type: 3}
+  _BoardModels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _MiniModels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _AwardModels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _InFightModels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
