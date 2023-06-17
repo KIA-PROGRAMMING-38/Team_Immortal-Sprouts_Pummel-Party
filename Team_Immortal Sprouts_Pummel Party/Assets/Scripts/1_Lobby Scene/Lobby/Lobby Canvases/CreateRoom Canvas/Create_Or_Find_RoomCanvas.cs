@@ -36,7 +36,7 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
     #region OnClick 이벤트 함수
 
     [SerializeField] private TMP_Text roomName;
-    private const int defaultLength = 1; 
+    private const int defaultLength = 1;
     /// <summary>
     /// Create Room Canvas의 OK 버튼 입력 이벤트
     /// </summary>
@@ -66,19 +66,36 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             {
                 ActualRoomName = roomName.text;
             }
-            
-            PhotonNetwork.CreateRoom(ActualRoomName, option, TypedLobby.Default); // 방을 만든다
-            Debug.Log($"{ActualRoomName}방을 만들었습니다");
+
+            bool isCreatable = _lobbyCanvases.CheckIfRoomExist(ActualRoomName);
+
+            if (!isCreatable) // 존재하는 방이 없다면
+            {
+                PhotonNetwork.CreateRoom(ActualRoomName, option, TypedLobby.Default); // 방을 만든다
+                PhotonNetwork.LoadLevel("WaitingRoomScene");
+            }
+            else
+            {
+                ActiveFailedPanel();
+            }
         }
         else // 방 찾기 버튼을 눌렀다면
         {
-            ActualRoomName= roomName.text;
-            PhotonNetwork.JoinRoom(ActualRoomName); // 입력된 코드의 방을 들어간다
-            Debug.Log($"{ActualRoomName}방에 들어왔습니다");
-            _lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
-            _lobbyCanvases.DeactiveLobbyCanvases();
+            ActualRoomName = roomName.text;
+            bool isJoinSuccess = _lobbyCanvases.CheckIfRoomExist(ActualRoomName);
+
+            if (isJoinSuccess)
+            {
+                PhotonNetwork.JoinRoom(ActualRoomName); // 입력된 코드의 방을 들어간다
+                Debug.Log($"{ActualRoomName}방에 들어왔습니다");
+                PhotonNetwork.LoadLevel("WaitingRoomScene");
+            }
+            else
+            {
+                Debug.Log($"방 입장에 실패하였습니다.");
+                ActiveFailedPanel();
+            }
         }
-        
     }
 
 
@@ -90,39 +107,6 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
         _lobbyCanvases.MultiGameCanvas.TurnOnRaycast();
         Deactive();
     }
-
-    #endregion
-
-    #region Photon Callback 이벤트 함수
-    public override void OnCreatedRoom()
-    {
-        Debug.Log("방 생성 완료");
-        _lobbyCanvases.WaitingRoomCanvas.gameObject.SetActive(true);
-        _lobbyCanvases.DeactiveLobbyCanvases();
-    }
-
-
-
-    private const short NOT_EXIST_ROOM_CODE = 32758;
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        Debug.Log($"방 입장에 실패하였습니다. {message}");
-        if (returnCode == NOT_EXIST_ROOM_CODE)
-        {
-            ActiveFailedPanel();
-        }
-    }
-
-    private const short EXISTS_ROOM_NAME = 32766;
-    public override void OnCreateRoomFailed(short returnCode, string message)
-    {
-        Debug.Log($"방 생성 실패 {message}");
-        if (returnCode == EXISTS_ROOM_NAME)
-        {
-            ActiveFailedPanel();
-        }
-    }
-
 
     #endregion
 
@@ -139,5 +123,6 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             _findRoomFailedPanel.Active();
         }
     }
+    
 
 }

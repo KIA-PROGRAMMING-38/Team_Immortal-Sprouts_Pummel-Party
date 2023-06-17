@@ -14,11 +14,13 @@ TagManager:
   - RotationIsland
   - NobodyIsland
   - Stone
+
   - Area
   - FxTemporaire
   - Goal
   - HorizonSide
   - VerticalSide
+
   layers:
   - Default
   - TransparentFX

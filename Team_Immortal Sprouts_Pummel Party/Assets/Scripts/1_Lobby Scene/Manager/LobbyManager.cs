@@ -6,18 +6,21 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    private const string lobbyName = "Duck Duck Party";
-    private const string gameVersion = "0.0.1";
+    private const string LOBBY_NAME = "Duck Duck Party";
+    private const string GAME_VERSION = "0.0.1";
+    private int repeatTime = 1;
 
+    [SerializeField] private GameObject touchGuide;
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.GameVersion = gameVersion;
+        PhotonNetwork.GameVersion = GAME_VERSION;
         PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
     {
+        touchGuide.SetActive(true);
         if (!PhotonNetwork.InLobby)
         {
             PhotonNetwork.JoinLobby();
@@ -35,7 +38,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        PhotonNetwork.CurrentLobby.Name = lobbyName;
+        if (0 < repeatTime)
+        {
+            repeatTime -= 1;
+            PhotonNetwork.LeaveLobby();
+        }
+        PhotonNetwork.CurrentLobby.Name = LOBBY_NAME;
         Debug.Log("로비에 연결되었습니다.");
     }
 
