@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class BoardgamePlayer : MonoBehaviour
 {
-    private Dice _dice;
+    [SerializeField] private Dice _dice;
     private Rigidbody _rigidbody;
     private Animator _animator;
 
     private void Awake()
     {
-        _dice = new Dice();
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
     }
@@ -57,7 +56,7 @@ public class BoardgamePlayer : MonoBehaviour
     
     // Dice 구현 후 사용할 메소드
     // TODO: 테스트 및 주사위 움직임 멈췄을 때 이벤트 구독
-    private void OnDiceStoped()
+    public void OnDiceStoped()
     {
         HelpMoveAsync().Forget();
     }
@@ -173,6 +172,8 @@ public class BoardgamePlayer : MonoBehaviour
             await UniTask.Yield();
         }
 
+        _dice.OnAppearDice();
+
         return true;
     }
 
@@ -200,7 +201,7 @@ public class BoardgamePlayer : MonoBehaviour
     private void UpdateCurrentIsland()
     {
         RaycastHit hit;
-        Physics.Raycast(transform.position, Vector3.down * 3f, out hit, int.MaxValue, LayerMask.GetMask("Island"));
+        Physics.Raycast(transform.position, Vector3.down * 10f, out hit, int.MaxValue, LayerMask.GetMask("Island"));
 
         if (hit.collider != null)
         {
