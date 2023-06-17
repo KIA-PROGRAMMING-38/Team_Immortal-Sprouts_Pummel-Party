@@ -7,6 +7,7 @@ public class BoardgamePlayer : MonoBehaviour
     [SerializeField] private Dice _dice;
     private Rigidbody _rigidbody;
     private Animator _animator;
+    public Inventory Inventory = new Inventory();
 
     private void Awake()
     {
@@ -17,8 +18,6 @@ public class BoardgamePlayer : MonoBehaviour
     private void Start()
     {
         UpdateCurrentIsland();
-
-        Inventory = new Inventory();
         Inventory.InitInventory();
     }
 
