@@ -14,7 +14,13 @@ TagManager:
   - RotationIsland
   - NobodyIsland
   - Stone
-  - LobbyPlayer
+
+  - Area
+  - FxTemporaire
+  - Goal
+  - HorizonSide
+  - VerticalSide
+
   layers:
   - Default
   - TransparentFX

@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 6667394449194759869}
   - component: {fileID: 6667394449194759866}
   - component: {fileID: 1299121300936714540}
+  - component: {fileID: -1689569181822593707}
   m_Layer: 0
   m_Name: EmptyBowl
   m_TagString: Untagged
@@ -1939,6 +1940,19 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &-1689569181822593707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6667394449194759867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bbcfb53991c400499088ad487825a0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemData: {fileID: 11400000, guid: c3cf459e5e4ae7048acd55186ec1edff, type: 2}
 --- !u!1 &6667394449394821670
 GameObject:
   m_ObjectHideFlags: 0
