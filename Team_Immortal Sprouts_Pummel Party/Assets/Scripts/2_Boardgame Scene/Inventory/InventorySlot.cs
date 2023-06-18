@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour
 {
+    /// <summary>
+    /// 선택된 슬롯인지, 선택되지 않은 슬롯인지 관리하기 위한 데이터
+    /// </summary>
     public enum SlotState
     {
         None,
@@ -12,16 +15,16 @@ public class InventorySlot : MonoBehaviour
     }
 
     public SlotState CurrentSlotState = SlotState.None;
-    public Image Icon;
-    public TextMeshProUGUI Number;
-    public ParticleSystem SelectedParticle;
+    [SerializeField] private Image icon;
+    [SerializeField] private TextMeshProUGUI number;
+    [SerializeField] private ParticleSystem selectedParticle;
 
-    private InventoryManager _inventoryManager;
-    private InventoryItem _item;
-    public InventoryItem Item { get { return _item; } }
+    private InventoryManager inventoryManager;
+    private InventoryItem item;
+    public InventoryItem Item { get { return item; } }
 
-    private Color _defaultColor = Color.white;
-    private Color _notHoldingColor = new Color(0.4f, 0.4f, 0.4f, 0.7f);
+    private Color defaultColor = Color.white;
+    private Color notHoldingColor = new Color(0.4f, 0.4f, 0.4f, 0.7f);
 
     private void Awake()
     {
@@ -29,7 +32,7 @@ public class InventorySlot : MonoBehaviour
     }
     private void OnEnable()
     {
-        SelectedParticle.gameObject.SetActive(false);
+        selectedParticle.gameObject.SetActive(false);
     }
 
     public void ChangeState(SlotState state)
@@ -38,16 +41,19 @@ public class InventorySlot : MonoBehaviour
         switch(state)
         {
             case SlotState.Selected:
-                SelectedParticle.gameObject.SetActive(true);
+                selectedParticle.gameObject.SetActive(true);
                 break;
             case SlotState.UnSelected:
-                SelectedParticle.gameObject.SetActive(false);
+                selectedParticle.gameObject.SetActive(false);
                 break;
         }
 
         CurrentSlotState = state;
     }
 
+    /// <summary>
+    /// 인벤토리 정보(아이템 보유 개수)가 변경될 때 호출되어 UI에 정보를 반영
+    /// </summary>
     public void DrawSlot(InventoryItem item)
     {
         if(item == null)
@@ -55,33 +61,41 @@ public class InventorySlot : MonoBehaviour
             return;
         }
 
-        Number.text = item.Number.ToString();
+        number.text = item.Number.ToString();
 
         if(item.IsHolding == false)
         {
-            Icon.color = _notHoldingColor;
+            icon.color = notHoldingColor;
         }
         else
         {
-            Icon.color = _defaultColor;
+            icon.color = defaultColor;
         }
     }
 
+    /// <summary>
+    /// 슬롯에 표시될 정보를 세팅 및 Presenter와 참조 연결
+    /// </summary>
     public void SetSlotItem(InventoryItem item, InventoryManager manager)
     {
-        _item = item;
-        Icon.sprite = _item.ItemData.Icon;
+        this.item = item;
+        icon.sprite = item.ItemData.Icon;
 
-        _inventoryManager = manager;
+        inventoryManager = manager;
     }
 
     public void OnClick_ItemSlot()
     {
-        if(_item.Number == 0)
+        if (inventoryManager.currentPlayer.CanUseItem == false)
         {
             return;
         }
 
-        _inventoryManager.SetSelectedSlot(this);
+        if (item.Number == 0)
+        {
+            return;
+        }
+
+        inventoryManager.SetSelectedSlot(this);
     }
 }

@@ -7,9 +7,6 @@ public abstract class Item : MonoBehaviour, IUsable
 {
     public ItemData ItemData;
 
-    /// <summary>
-    /// 인벤토리 구현 후 구현 예정 (민영)
-    /// </summary>
     public virtual void Get(BoardgamePlayer player)
     {
         player.Inventory.Add(ItemData);

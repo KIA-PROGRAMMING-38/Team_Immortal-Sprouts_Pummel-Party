@@ -296,10 +296,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a24789466b6dd4db842dbe371f7e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 1306663040507054571}
-  Number: {fileID: 4154295385372175024}
-  SelectedParticle: {fileID: 2233593599028899984}
-  SelectedImage: {fileID: 0}
+  CurrentSlotState: 0
+  icon: {fileID: 1306663040507054571}
+  number: {fileID: 4154295385372175024}
+  selectedParticle: {fileID: 2233593599028899984}
 --- !u!114 &4090739914367014975
 MonoBehaviour:
   m_ObjectHideFlags: 0
