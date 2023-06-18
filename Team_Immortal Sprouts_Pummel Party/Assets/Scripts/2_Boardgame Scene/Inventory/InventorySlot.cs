@@ -4,6 +4,14 @@ using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour
 {
+    public enum SlotState
+    {
+        None,
+        Selected,
+        UnSelected,
+    }
+
+    public SlotState CurrentSlotState = SlotState.None;
     public Image Icon;
     public TextMeshProUGUI Number;
     public ParticleSystem SelectedParticle;
@@ -15,11 +23,30 @@ public class InventorySlot : MonoBehaviour
     private Color _defaultColor = Color.white;
     private Color _notHoldingColor = new Color(0.4f, 0.4f, 0.4f, 0.7f);
 
+    private void Awake()
+    {
+        ChangeState(SlotState.UnSelected);
+    }
     private void OnEnable()
     {
         SelectedParticle.gameObject.SetActive(false);
     }
 
+    public void ChangeState(SlotState state)
+    {
+        if (CurrentSlotState == state) return;
+        switch(state)
+        {
+            case SlotState.Selected:
+                SelectedParticle.gameObject.SetActive(true);
+                break;
+            case SlotState.UnSelected:
+                SelectedParticle.gameObject.SetActive(false);
+                break;
+        }
+
+        CurrentSlotState = state;
+    }
 
     public void DrawSlot(InventoryItem item)
     {
@@ -55,7 +82,6 @@ public class InventorySlot : MonoBehaviour
             return;
         }
 
-        // TODO: 선택됐다고 UI 상에 표시
-        _inventoryManager.SetSelectedItem(this);
+        _inventoryManager.SetSelectedSlot(this);
     }
 }

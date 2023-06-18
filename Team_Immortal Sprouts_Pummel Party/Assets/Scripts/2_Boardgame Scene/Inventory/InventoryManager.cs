@@ -57,6 +57,9 @@ public class InventoryManager : MonoBehaviour
 
     public void CloseInventory()
     {
+        _selectedSlot?.ChangeState(InventorySlot.SlotState.UnSelected);
+        setSelectedData(null);
+        itemSelectButton.interactable = false;
         gameObject.SetActive(false);
         BackgroundPanel.gameObject.SetActive(false);
     }
@@ -85,35 +88,38 @@ public class InventoryManager : MonoBehaviour
     private InventorySlot _selectedSlot;
     private ItemData _selectedItem;
     [SerializeField] private Button itemSelectButton;
+
+    private void setSelectedData(InventorySlot slot)
+    {
+        _selectedSlot = slot;
+        _selectedItem = slot != null ? slot.Item.ItemData : null;
+    }
+
     /// <summary>
     /// 인벤토리 슬롯을 터치했을 때 선택된 아이템을 저장
     /// </summary>
-    public void SetSelectedItem(InventorySlot selectedSlot)
+    public void SetSelectedSlot(InventorySlot selectedSlot)
     {
         if(_selectedSlot == null)
         {
-            _selectedSlot = selectedSlot;
-            _selectedSlot.SelectedParticle.gameObject.SetActive(true);
-            _selectedItem = _selectedSlot.Item.ItemData;
+            setSelectedData(selectedSlot);
+            _selectedSlot.ChangeState(InventorySlot.SlotState.Selected);
             itemSelectButton.interactable = true;
         }
         else if (selectedSlot == _selectedSlot)
         {
-            _selectedSlot.SelectedParticle.gameObject.SetActive(false);
-            _selectedSlot = null;
-            _selectedItem = null;
+            _selectedSlot.ChangeState(InventorySlot.SlotState.UnSelected);
+            setSelectedData(null);
+
             itemSelectButton.interactable = false;
         }
         else
         {
-            _selectedSlot.SelectedParticle.gameObject.SetActive(false);
-            _selectedSlot = selectedSlot;
-            _selectedItem = _selectedSlot.Item.ItemData;
-            _selectedSlot.SelectedParticle.gameObject.SetActive(true);
+            _selectedSlot.ChangeState(InventorySlot.SlotState.UnSelected);
+            setSelectedData(selectedSlot);
+            _selectedSlot.ChangeState(InventorySlot.SlotState.Selected);
             itemSelectButton.interactable = true;
         }
-
-        Debug.Log($"selected item: {_selectedItem}");
     }
 
     [SerializeField] private BoardgamePlayer currentPlayer;
@@ -129,5 +135,8 @@ public class InventoryManager : MonoBehaviour
         {
             itemControllGroup.gameObject.SetActive(true);
         }
+
+        _selectedSlot.ChangeState(InventorySlot.SlotState.UnSelected);
+        setSelectedData(null);
     }
 }
