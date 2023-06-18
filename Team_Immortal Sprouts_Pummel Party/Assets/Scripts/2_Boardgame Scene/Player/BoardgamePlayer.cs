@@ -25,6 +25,8 @@ public class BoardgamePlayer : MonoBehaviour
 
     [SerializeField] private bool _canRoll = false;  // 프레임워크랑 연결하기 전에 테스트하려고 열어둠
     [SerializeField] private bool _canUseItem = false;
+
+    #region Movement
     private int _moveCount;
 
     // Dice 구현 후 사용할 메소드
@@ -204,4 +206,19 @@ public class BoardgamePlayer : MonoBehaviour
             _destIslandPosition = _currentIsland.GetCurrentPosition();
         }
     }
+    #endregion
+
+    #region Damaged
+    public ParticleSystem OnDamagedParticle;
+    public int Hp = 30;
+    /// <summary>
+    /// 플레이어에게 데미지를 줄 때 호출할 메소드
+    /// </summary>
+    public void GetDamage(int power)
+    {
+        Hp -= power;
+        OnDamagedParticle?.Play();
+        _animator.SetTrigger(BoardgamePlayerAnimID.DAMAGED);
+    }
+    #endregion
 }
