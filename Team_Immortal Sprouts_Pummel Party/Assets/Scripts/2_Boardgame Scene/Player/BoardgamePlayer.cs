@@ -8,11 +8,24 @@ public class BoardgamePlayer : MonoBehaviour
     [SerializeField] private Dice _dice;
     private Rigidbody _rigidbody;
     private Animator _animator;
-    public Inventory Inventory = new Inventory();
+    private Inventory inventory;
+    public Inventory Inventory { get 
+        {
+            if(inventory == null)
+            {
+                inventory = new Inventory(this);
+            }
+            return inventory;
+        } }
 
 
     private void Awake()
     {
+        if(inventory == null)
+        {
+            inventory = new Inventory(this);
+        }
+
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
     }
@@ -24,7 +37,7 @@ public class BoardgamePlayer : MonoBehaviour
     }
 
     [SerializeField] private bool _canRoll = false;  // 프레임워크랑 연결하기 전에 테스트하려고 열어둠
-    [SerializeField] private bool _canUseItem = false;
+    public bool CanUseItem = false;
     private int _moveCount;
 
     // Dice 구현 후 사용할 메소드
