@@ -1,0 +1,54 @@
+{
+    "name": "InputOnDucklingCollector",
+    "maps": [
+        {
+            "name": "VirtualJoyStick",
+            "id": "814dda4c-f1e6-4b42-b2e6-7eda3e6a1e45",
+            "actions": [
+                {
+                    "name": "PlayerMove",
+                    "type": "Value",
+                    "id": "2e6c0cd6-9196-46fb-906f-f491589be69b",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "PlayerDash",
+                    "type": "Button",
+                    "id": "d658b08f-36d6-485f-b4dc-7545ae75385e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bcf16998-7f15-48ef-9915-57f9b5d5f891",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "28ec272b-5082-4be6-9db5-b76e0f83585f",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerDash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
