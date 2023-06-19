@@ -220,4 +220,18 @@ public class BoardgamePlayer : MonoBehaviour
             destIslandPosition = currentIsland.GetCurrentPosition();
         }
     }
+
+    #region Damage
+    [SerializeField] private ParticleSystem onDamagedParticle;
+    public int Hp = 30;
+    /// <summary>
+    /// 플레이어에게 데미지를 줄 때 호출할 메소드
+    /// </summary>
+    public void GetDamage(int power)
+    {
+        Hp -= power;
+        onDamagedParticle?.Play();
+        animator.SetTrigger(BoardgamePlayerAnimID.DAMAGED);
+    }
+    #endregion
 }
