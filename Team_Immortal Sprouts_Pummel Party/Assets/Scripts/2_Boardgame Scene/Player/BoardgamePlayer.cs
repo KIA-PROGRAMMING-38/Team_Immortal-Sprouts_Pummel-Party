@@ -129,7 +129,7 @@ public class BoardgamePlayer : MonoBehaviour
     private async UniTask<bool> LookNextDestIsland(Vector3 dir)
     {
         // 회전타일에서부터 출발하는 턴에서는 회전하지 않음
-        if (currentIsland.CompareTag("RotationIsland") && canMoveOnDirectionIsland)
+        if (currentIsland is RotationIsland && canMoveOnDirectionIsland)
         {
             canMoveOnDirectionIsland = false;
             return true;
