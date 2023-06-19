@@ -11,7 +11,19 @@ public static class Statistics
     private static readonly int playerMaxIndex = 5;
     // item1 = 승리횟수 , item2 = 꼴지횟수, item3 = 보드게임에서 가한 데미지
     private static (int victoryCount, int loseCount, int dealtDamage)[] statisticsData = new (int, int, int)[playerMaxIndex]; // 0번째 인덱스는 제외한다
-    
+
+
+
+    /// <summary>
+    /// 보드게임에서 황금알섬을 지날때마다 플레이어의 황금알 개수를 업데이트하는 함수(혹시 몰라서 만듦)
+    /// </summary>
+    /// <param name="playerEnterOrder"></param>
+    public static void UpdateEggStatus(int playerEnterOrder)
+    {
+        ++playerRank[playerEnterOrder].eggCount; // 한바퀴당 1개씩 준다는 가정하에
+    }
+
+
     /// <summary>
     /// 미니게임 승리자와 꼴지를 매개변수로 넣어, 해당 플레이어들의 미니게임 관련 통계데이터를 업데이트 하는 함수
     /// </summary>
@@ -67,6 +79,8 @@ public static class Statistics
     private static readonly int loserEggPlus = 1;
     private static readonly int fighterEggPlus = 2;
 
+    
+
     /// <summary>
     /// 최종 우승자(들)의 입장순서가 담긴 리스트를 반환하는 함수 (여러명 일수 있음)
     /// </summary>
@@ -75,15 +89,21 @@ public static class Statistics
     {
         List<int> finalWinners = new List<int>();
 
-        Dictionary<int, Player> playersInRoom = PhotonNetwork.CurrentRoom.Players; // actorNumber가 키값임
 
-        for (int i = 1; i <= playersInRoom.Count ;++i)
-        {
-            Player player = playersInRoom[i]; // 어떤 플레이어일진 모르겠으나 커스텀프로퍼티에서 enterNumber와 eggCount를 가져올 수 있음
-            int enterOrder = (int)player.CustomProperties[enterOrderKey];
-            int eggCount = (int)player.CustomProperties[eggCountKey];
-            playerRank[enterOrder] = (eggCount, player); // 커스텀 프로퍼티로 등록된 입장순서와 황금알 개수를 받아온다
-        }
+        // ------------------------- 만약 UpdateEggStatus로 알의 개수를 업데이트 한다면 이 부분은 삭제되어도 됌 ----------------------------
+
+        //Dictionary<int, Player> playersInRoom = PhotonNetwork.CurrentRoom.Players; // actorNumber가 키값임
+
+        //for (int i = 1; i <= playersInRoom.Count ;++i) 
+        //{
+        //    Player player = playersInRoom[i]; // 어떤 플레이어일진 모르겠으나 커스텀프로퍼티에서 enterNumber와 eggCount를 가져올 수 있음
+        //    int enterOrder = (int)player.CustomProperties[enterOrderKey];
+        //    int eggCount = (int)player.CustomProperties[eggCountKey];
+        //    playerRank[enterOrder] = (eggCount, player); // 커스텀 프로퍼티로 등록된 입장순서와 황금알 개수를 받아온다
+        //}
+
+        // ----------------------------------------------------------------------------------------------------------------------------
+
 
         // 이제 mvp, loser, fighter 에 맞게끔 황금알 개수를 추가해줘야함
         calculateReward(GetMVPIndex(), mvpEggPlus);
