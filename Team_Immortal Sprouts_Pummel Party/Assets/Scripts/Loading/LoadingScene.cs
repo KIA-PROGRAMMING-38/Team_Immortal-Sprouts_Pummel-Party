@@ -1,7 +1,3 @@
-using Cysharp.Threading.Tasks;
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LoadingScene : MonoBehaviour
@@ -11,6 +7,7 @@ public class LoadingScene : MonoBehaviour
     private void Awake()
     {
         var loadAnime = FindObjectsOfType<LoadingScene>();
+
         if (loadAnime.Length == 1)
         {
             DontDestroyOnLoad(gameObject);
@@ -19,6 +16,7 @@ public class LoadingScene : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
         boardGameLoader = transform.GetChild(0).gameObject;
         miniGameLoader = transform.GetChild(1).gameObject;
     }
@@ -35,7 +33,6 @@ public class LoadingScene : MonoBehaviour
     /// </summary>
     public void MiniGameLoadPlay()
     {
-        
         miniGameLoader.SetActive(true);
     }
 

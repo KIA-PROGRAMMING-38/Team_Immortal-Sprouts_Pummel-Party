@@ -1,10 +1,6 @@
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.CompilerServices;
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviourPunCallbacks
@@ -27,6 +23,7 @@ public class LevelLoader : MonoBehaviourPunCallbacks
 
 
     #region AnimationEvent
+
     [SerializeField] private Sprite[] loadingScene;
 
     public void ChangeLoadingScene() 
@@ -39,7 +36,7 @@ public class LevelLoader : MonoBehaviourPunCallbacks
     {
         sceneImage.sprite = loadingScene[2];
     }
-
+    
     public void ChangeFlyingScene()
     {
         barImage.fillAmount = 0;
@@ -51,21 +48,18 @@ public class LevelLoader : MonoBehaviourPunCallbacks
         sceneImage.sprite = loadingScene[3];
     }
 
-
     public void DeActive()
     {
         gameObject.SetActive(false);
     }
+
     #endregion
     public async UniTaskVoid ViewProgress()
     {
-        
         while (true)
         {
             await UniTask.Delay(1000);
             barImage.fillAmount = PhotonNetwork.LevelLoadingProgress * 100;
-            
-            
             
             if (PhotonNetwork.LevelLoadingProgress >= 1)
             {
