@@ -141,7 +141,7 @@ public class BoardgamePlayer : MonoBehaviour
             elapsedTime += Time.deltaTime;
             var lerpval = Quaternion.Lerp(start, end, elapsedTime / ROTATE_TIME);
             transform.rotation = lerpval;
-            await UniTask.Yield(this.GetCancellationTokenOnDestroy());
+            await UniTask.Yield();
         }
 
         dice.OnAppearDice();
