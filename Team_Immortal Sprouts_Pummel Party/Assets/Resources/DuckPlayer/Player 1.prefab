@@ -437,8 +437,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9597ae9578eab4192b5a23700be642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dice: {fileID: 0}
-  _canRoll: 0
+  dice: {fileID: 2131829737952591597}
+  CanUseItem: 0
 --- !u!114 &508128296
 MonoBehaviour:
   m_ObjectHideFlags: 0
