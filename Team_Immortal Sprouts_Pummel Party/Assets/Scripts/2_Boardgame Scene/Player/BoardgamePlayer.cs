@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class BoardgamePlayer : MonoBehaviour
 {
-    [SerializeField] private Dice _dice;
-    private Rigidbody _rigidbody;
-    private Animator _animator;
+    [SerializeField] private Dice dice;
+    private Rigidbody rigidbody;
+    private Animator animator;
     public Inventory Inventory = new Inventory();
 
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+        rigidbody = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -24,31 +24,25 @@ public class BoardgamePlayer : MonoBehaviour
         isOnStartIsland = true;
     }
 
-    [SerializeField] private bool _canRoll = false;  // 프레임워크랑 연결하기 전에 테스트하려고 열어둠
     [SerializeField] private bool _canUseItem = false;
-    private int _moveCount;
+    private int moveCount;
 
-    // TODO: 죽었을 때 시작 섬으로 가니까 true로 바꿔줘야함
-    private bool isOnStartIsland;
-
-    // Dice 구현 후 사용할 메소드
-    // TODO: 테스트 및 주사위 움직임 멈췄을 때 이벤트 구독
     public void OnDiceStoped()
     {
-        _moveCount = _dice.ConveyDiceReuslt();
+        moveCount = dice.ConveyDiceReuslt();
         HelpMoveAsync().Forget();
     }
 
-    private Island _currentIsland;
+    private Island currentIsland;
     private const int WAIT_TIME_BEFORE_MOVE = 1000;
     private bool _canMoveOnDirectionIsland;
     private async UniTaskVoid HelpMoveAsync()
     {
-        if (_currentIsland.CompareTag("RotationIsland")) // 회전 섬에서 출발하는 경우 섬의 회전이 끝날 때까지 대기
+        if (currentIsland.CompareTag("RotationIsland")) // 회전 섬에서 출발하는 경우 섬의 회전이 끝날 때까지 대기
         {
-            if (0 < _moveCount)
+            if (0 < moveCount)
             {
-                await UniTask.WaitUntil(() => _currentIsland.GetComponent<RotationIsland>().GetRotationStatus() == true);
+                await UniTask.WaitUntil(() => currentIsland.GetComponent<RotationIsland>().GetRotationStatus() == true);
                 _canMoveOnDirectionIsland = true;
             }
         }
@@ -66,39 +60,39 @@ public class BoardgamePlayer : MonoBehaviour
         Vector3 end;
         Vector3 mid;
 
-        if (_currentIsland.GetCurrentPosition() == _destIslandPosition)
+        if (currentIsland.GetCurrentPosition() == destIslandPosition)
         {
             await LookForward();
             return;
         }
 
-        _animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
+        animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
 
-        while (_moveCount >= 1)
+        while (moveCount >= 1)
         {
             float elapsedTime = 0f;
-            start = _rigidbody.position;
-            end = _destIslandPosition;
+            start = rigidbody.position;
+            end = destIslandPosition;
             mid = GetMidPoint(start, end);
 
-            _moveCount -= 1;
+            moveCount -= 1;
 
             await LookNextDestIsland((end - start).normalized);
 
             while (elapsedTime <= MOVE_TIME)
             {
-                _rigidbody.MovePosition(SecondaryBezierCurve(start, mid, end, elapsedTime / MOVE_TIME));
+                rigidbody.MovePosition(SecondaryBezierCurve(start, mid, end, elapsedTime / MOVE_TIME));
                 elapsedTime += Time.deltaTime;
 
-                await UniTask.Yield(this.GetCancellationTokenOnDestroy());
+                await UniTask.Yield();
             }
 
             UpdateCurrentIsland();
             CheckReachableIsland();
-            await UniTask.Yield(this.GetCancellationTokenOnDestroy());
+            await UniTask.Yield();
         }
 
-        _animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false);
+        animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false);
 
         await LookForward();
     }
@@ -107,7 +101,7 @@ public class BoardgamePlayer : MonoBehaviour
     private async UniTask<bool> LookNextDestIsland(Vector3 dir)
     {
         // 회전타일에서부터 출발하는 턴에서는 회전하지 않음
-        if (_currentIsland.CompareTag("RotationIsland") && _canMoveOnDirectionIsland)
+        if (currentIsland.CompareTag("RotationIsland") && _canMoveOnDirectionIsland)
         {
             _canMoveOnDirectionIsland = false;
             return true;
@@ -121,7 +115,7 @@ public class BoardgamePlayer : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-            if (transform.position != _destIslandPosition)
+            if (transform.position != destIslandPosition)
             {
                 var lerpval = Quaternion.Lerp(start, end, elapsedTime / ROTATE_TIME);
                 transform.rotation = lerpval;
@@ -150,7 +144,7 @@ public class BoardgamePlayer : MonoBehaviour
             await UniTask.Yield(this.GetCancellationTokenOnDestroy());
         }
 
-        _dice.OnAppearDice();
+        dice.OnAppearDice();
 
         return true;
     }
@@ -183,7 +177,7 @@ public class BoardgamePlayer : MonoBehaviour
 
         if (hit.collider != null)
         {
-            _currentIsland = hit.collider.gameObject.GetComponentInParent<Island>();
+            currentIsland = hit.collider.gameObject.GetComponentInParent<Island>();
         }
         else
         {
@@ -191,30 +185,32 @@ public class BoardgamePlayer : MonoBehaviour
         }
     }
 
-    private Vector3 _destIslandPosition;
+    private Vector3 destIslandPosition;
+    // TODO: 죽었을 때 시작 섬으로 가니까 true로 바꿔줘야함
+    private bool isOnStartIsland;
     private void CheckReachableIsland()
     {
-        if (_moveCount >= 1)
+        if (moveCount >= 1)
         {
             if (isOnStartIsland == true) isOnStartIsland = false;
 
-            _destIslandPosition = _currentIsland.GetNextPosition();
+            destIslandPosition = currentIsland.GetNextPosition();
         }
-        else if (_moveCount == -1)
+        else if (moveCount == -1)
         {
             if(isOnStartIsland == true)
             {
-                _moveCount = 0;
+                moveCount = 0;
             }
             else
             {
-                _destIslandPosition = _currentIsland.GetPrevPosition();
-                _moveCount = 1;
+                destIslandPosition = currentIsland.GetPrevPosition();
+                moveCount = 1;
             }
         }
         else
         {
-            _destIslandPosition = _currentIsland.GetCurrentPosition();
+            destIslandPosition = currentIsland.GetCurrentPosition();
         }
     }
 }
