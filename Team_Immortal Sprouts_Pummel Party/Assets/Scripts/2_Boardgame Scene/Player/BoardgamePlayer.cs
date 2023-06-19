@@ -231,7 +231,7 @@ public class BoardgamePlayer : MonoBehaviour
     {
         Hp -= power;
         onDamagedParticle?.Play();
-        animator.SetTrigger(BoardgamePlayerAnimID.DAMAGED);
+        animator.SetBool(BoardgamePlayerAnimID.DAMAGED, true);
     }
     #endregion
 }
