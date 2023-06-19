@@ -14,16 +14,14 @@ public class DamagedBehaviour : StateMachineBehaviour
         if(player.Hp <= 0)
         {
             animator.SetBool(BoardgamePlayerAnimID.DIE, true);
-            // TODO: ÃßÈÄ Die »óÅÂ ±¸Çö ½Ã Die »óÅÂ¸¦ ¹þ¾î³¯ ¶§ Ã³¸®
+            // TODO: ì¶”í›„ Die ìƒíƒœ êµ¬í˜„ ì‹œ Die ìƒíƒœë¥¼ ë²—ì–´ë‚  ë•Œ ì²˜ë¦¬
             player.Hp = 30;
         }
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool(BoardgamePlayerAnimID.DAMAGED, false);
-
-        // TODO: ÃßÈÄ Die »óÅÂ ±¸Çö ½Ã Die »óÅÂ¸¦ ¹þ¾î³¯ ¶§ Ã³¸®
+        // TODO: ì¶”í›„ Die ìƒíƒœ êµ¬í˜„ ì‹œ Die ìƒíƒœë¥¼ ë²—ì–´ë‚  ë•Œ ì²˜ë¦¬
         animator.SetBool(BoardgamePlayerAnimID.DIE, false);
     }
 }
