@@ -8,6 +8,10 @@ public class LevelLoader : MonoBehaviourPunCallbacks
     private Image barImage;
     private Image sceneImage;
     private Animator loaderAnime;
+    private const int NON_COMPLETE_BOARD_SCENE = 0;
+    private const int NON_COMPLETE_MINI_SCENE = 1;
+    private const int COMPLETE_BOARD_SCENE = 2;
+    private const int COMPLETE_MINI_SCENE = 3;
 
     private void Awake()
     {
@@ -29,23 +33,23 @@ public class LevelLoader : MonoBehaviourPunCallbacks
     public void ChangeLoadingScene() 
     {
         barImage.fillAmount = 0;
-        sceneImage.sprite = loadingScene[0];
+        sceneImage.sprite = loadingScene[NON_COMPLETE_BOARD_SCENE];
     }
 
     public void InitLoadingScene()
     {
-        sceneImage.sprite = loadingScene[2];
+        sceneImage.sprite = loadingScene[COMPLETE_BOARD_SCENE];
     }
     
     public void ChangeFlyingScene()
     {
         barImage.fillAmount = 0;
-        sceneImage.sprite = loadingScene[1];
+        sceneImage.sprite = loadingScene[NON_COMPLETE_MINI_SCENE];
     }
 
     public void InitFlyingScene() 
     {
-        sceneImage.sprite = loadingScene[3];
+        sceneImage.sprite = loadingScene[COMPLETE_MINI_SCENE];
     }
 
     public void DeActive()
