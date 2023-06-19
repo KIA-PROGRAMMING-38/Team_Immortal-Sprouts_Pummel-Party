@@ -42,22 +42,41 @@ public class BoardgamePlayer : MonoBehaviour
 
     private Island currentIsland;
     private const int WAIT_TIME_BEFORE_MOVE = 1000;
-    private bool _canMoveOnDirectionIsland;
+    private bool canMoveOnDirectionIsland;
     private async UniTaskVoid HelpMoveAsync()
     {
-        if (currentIsland.CompareTag("RotationIsland")) // 회전 섬에서 출발하는 경우 섬의 회전이 끝날 때까지 대기
-        {
-            if (0 < moveCount)
-            {
-                await UniTask.WaitUntil(() => currentIsland.GetComponent<RotationIsland>().GetRotationStatus() == true);
-                _canMoveOnDirectionIsland = true;
-            }
-        }
+        await checkDepartureIsland();
 
         CheckReachableIsland();
 
         await UniTask.Delay(WAIT_TIME_BEFORE_MOVE);
         Move().Forget();
+    }
+
+    private async UniTask<bool> checkDepartureIsland()
+    {
+        if (currentIsland is RotationIsland)
+        {
+            if (moveCount >= 1)
+            {
+                currentIsland.GetComponent<RotationIsland>().PopUpDirectionArrow();
+
+                await UniTask.WaitUntil(() => currentIsland.GetComponent<RotationIsland>().GetRotationStatus() == true);
+                canMoveOnDirectionIsland = true;
+            }
+        }
+
+        return true;
+    }
+
+    private async UniTask<bool> checkTransitIsland()
+    {
+        if (currentIsland is RotationIsland)
+        {
+            currentIsland.GetComponent<RotationIsland>().ActivateResetRotation();
+        }
+
+        return true;
     }
 
     private const float MOVE_TIME = 0.5f;
@@ -94,6 +113,8 @@ public class BoardgamePlayer : MonoBehaviour
                 await UniTask.Yield();
             }
 
+            await checkTransitIsland();
+
             UpdateCurrentIsland();
             CheckReachableIsland();
             await UniTask.Yield();
@@ -108,9 +129,9 @@ public class BoardgamePlayer : MonoBehaviour
     private async UniTask<bool> LookNextDestIsland(Vector3 dir)
     {
         // 회전타일에서부터 출발하는 턴에서는 회전하지 않음
-        if (currentIsland.CompareTag("RotationIsland") && _canMoveOnDirectionIsland)
+        if (currentIsland.CompareTag("RotationIsland") && canMoveOnDirectionIsland)
         {
-            _canMoveOnDirectionIsland = false;
+            canMoveOnDirectionIsland = false;
             return true;
         }
 
