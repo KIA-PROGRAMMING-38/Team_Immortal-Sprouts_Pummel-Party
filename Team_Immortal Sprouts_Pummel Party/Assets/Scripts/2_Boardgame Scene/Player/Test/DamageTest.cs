@@ -6,7 +6,7 @@ public class DamageTest : MonoBehaviour
 {
     public BoardgamePlayer TargetPlayer;
 
-    private void Start()
+    private void OnEnable()
     {
         TargetPlayer.GetDamage(5);
         Debug.Log($"{TargetPlayer.Hp}");

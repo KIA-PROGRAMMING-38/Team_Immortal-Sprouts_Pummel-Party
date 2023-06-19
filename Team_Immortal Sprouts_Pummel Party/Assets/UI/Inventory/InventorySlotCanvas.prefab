@@ -253,11 +253,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 536976547}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5733409692660344923}
+        m_TargetAssemblyTypeName: InventoryManager, Assembly-CSharp
+        m_MethodName: SelectItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &536976545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,6 +367,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InventorySlots: []
   _slotPrefab: {fileID: 2580119334267246099, guid: 93444ec328fce2547ab36763e4d4c524, type: 3}
+  itemSelectButton: {fileID: 536976546}
+  currentPlayer: {fileID: 0}
+  itemControllGroup: {fileID: 0}
 --- !u!1 &5733409693389023002
 GameObject:
   m_ObjectHideFlags: 0
