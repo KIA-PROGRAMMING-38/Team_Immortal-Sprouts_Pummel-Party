@@ -20,8 +20,8 @@ public class InventorySlot : MonoBehaviour
     [SerializeField] private ParticleSystem selectedParticle;
 
     private InventoryManager inventoryManager;
-    private InventoryItem item;
-    public InventoryItem Item { get { return item; } }
+    private BelongingItemData item;
+    public BelongingItemData Item { get { return item; } }
 
     private Color defaultColor = Color.white;
     private Color notHoldingColor = new Color(0.4f, 0.4f, 0.4f, 0.7f);
@@ -54,7 +54,7 @@ public class InventorySlot : MonoBehaviour
     /// <summary>
     /// 인벤토리 정보(아이템 보유 개수)가 변경될 때 호출되어 UI에 정보를 반영
     /// </summary>
-    public void DrawSlot(InventoryItem item)
+    public void DrawSlot(BelongingItemData item)
     {
         if(item == null)
         {
@@ -76,7 +76,7 @@ public class InventorySlot : MonoBehaviour
     /// <summary>
     /// 슬롯에 표시될 정보를 세팅 및 Presenter와 참조 연결
     /// </summary>
-    public void SetSlotItem(InventoryItem item, InventoryManager manager)
+    public void SetSlotItem(BelongingItemData item, InventoryManager manager)
     {
         this.item = item;
         icon.sprite = item.ItemData.Icon;

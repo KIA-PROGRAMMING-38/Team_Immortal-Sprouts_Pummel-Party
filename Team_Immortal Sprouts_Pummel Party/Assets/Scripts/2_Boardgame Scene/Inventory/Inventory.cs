@@ -11,8 +11,8 @@ public class Inventory
     public UnityEvent<Inventory> OnInventoryInit = new UnityEvent<Inventory>();
     public UnityEvent OnInventoryUpdate = new UnityEvent();
 
-    public List<InventoryItem> PlayerInventory = new List<InventoryItem>();
-    private Dictionary<ItemData, InventoryItem> itemDictionary = new Dictionary<ItemData, InventoryItem>();
+    public List<BelongingItemData> PlayerInventory = new List<BelongingItemData>();
+    private Dictionary<ItemData, BelongingItemData> itemDictionary = new Dictionary<ItemData, BelongingItemData>();
 
     /// <summary>
     /// 인벤토리에 초기 데이터 저장
@@ -27,7 +27,7 @@ public class Inventory
             for(int id = 0; id < items.Length; ++id)
             {
                 ItemData itemData = items[id];
-                InventoryItem newItem = new InventoryItem(itemData);
+                BelongingItemData newItem = new BelongingItemData(itemData);
                 PlayerInventory.Add(newItem);
                 itemDictionary.Add(itemData, newItem);
             }
@@ -42,7 +42,7 @@ public class Inventory
     /// </summary>
     public void Add(ItemData itemData)
     {
-        if(itemDictionary.TryGetValue(itemData, out InventoryItem item))
+        if(itemDictionary.TryGetValue(itemData, out BelongingItemData item))
         {
             item.AddToInventory();
             OnInventoryUpdate?.Invoke();
@@ -60,7 +60,7 @@ public class Inventory
     /// </summary>
     public void Remove(ItemData itemData)
     {
-        if (itemDictionary.TryGetValue(itemData, out InventoryItem item))
+        if (itemDictionary.TryGetValue(itemData, out BelongingItemData item))
         {
             item.RemoveFromInventory();
             OnInventoryUpdate?.Invoke();

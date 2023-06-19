@@ -58,7 +58,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private List<InventoryItem> playerInventory;
+    private List<BelongingItemData> playerInventory;
     /// <summary>
     /// 관리할 인벤토리 및 슬롯 정보가 초기화된 후 인벤토리 UI를 비활성화
     /// </summary>
