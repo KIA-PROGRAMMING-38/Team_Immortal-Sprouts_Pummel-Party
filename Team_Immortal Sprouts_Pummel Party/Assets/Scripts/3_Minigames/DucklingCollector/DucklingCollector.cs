@@ -129,7 +129,8 @@ public class DucklingCollector : MonoBehaviour
     {
         if (isTurnOn)
         {
-            playerMaterial.SetColor("_EmissionColor", playerMaterial.color); // 본인색의 빛으로
+            Color glowColor = playerMaterial.color;
+            playerMaterial.SetColor("_EmissionColor", glowColor); // 본인색의 빛으로
             playerMaterial.EnableKeyword("_EMISSION"); // 발산한다
         }
         else
