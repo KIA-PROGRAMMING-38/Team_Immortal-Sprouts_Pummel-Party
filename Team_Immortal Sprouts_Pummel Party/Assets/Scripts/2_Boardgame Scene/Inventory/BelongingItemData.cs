@@ -1,13 +1,13 @@
 using UnityEngine;
 
 [SerializeField]
-public class InventoryItem
+public class BelongingItemData
 {
     public ItemData ItemData;
     public int Number;
     public bool IsHolding;
 
-    public InventoryItem(ItemData item)
+    public BelongingItemData(ItemData item)
     {
         ItemData = item;
         Number = 0;

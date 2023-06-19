@@ -8,8 +8,15 @@ public class BoardgamePlayer : MonoBehaviour
     [SerializeField] private Dice dice;
     private Rigidbody rigidbody;
     private Animator animator;
-    public Inventory Inventory = new Inventory();
-
+    private Inventory inventory;
+    public Inventory Inventory { get 
+        {
+            if(inventory == null)
+            {
+                inventory = new Inventory(this);
+            }
+            return inventory;
+        } }
 
     private void Awake()
     {
@@ -24,8 +31,8 @@ public class BoardgamePlayer : MonoBehaviour
         isOnStartIsland = true;
     }
 
-    [SerializeField] private bool _canUseItem = false;
     private int moveCount;
+    public bool CanUseItem = false;
 
     public void OnDiceStoped()
     {

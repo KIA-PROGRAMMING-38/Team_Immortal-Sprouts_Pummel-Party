@@ -4,11 +4,21 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.CompilerServices;
 
 public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
 {
     private LobbyCanvases _lobbyCanvases;
 
+    //추가
+    private LoadingScene levelLoader;
+    private void Awake()
+    {
+        levelLoader = FindObjectOfType<LoadingScene>();
+    }
+
+   
     /// <summary>
     /// Lobby를 구성하는 Canvas들이 서로 참조할 수 있도록 초기 세팅
     /// </summary>
@@ -72,7 +82,8 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             if (!isCreatable) // 존재하는 방이 없다면
             {
                 PhotonNetwork.CreateRoom(ActualRoomName, option, TypedLobby.Default); // 방을 만든다
-                PhotonNetwork.LoadLevel("WaitingRoom Scene");
+                PhotonNetwork.LoadLevel(1);
+                levelLoader.BoardGameLoadPlay();
             }
             else
             {
@@ -88,7 +99,9 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             {
                 PhotonNetwork.JoinRoom(ActualRoomName); // 입력된 코드의 방을 들어간다
                 Debug.Log($"{ActualRoomName}방에 들어왔습니다");
-                PhotonNetwork.LoadLevel("WaitingRoomScene");
+                PhotonNetwork.LoadLevel(1);
+                levelLoader.BoardGameLoadPlay(); 
+
             }
             else
             {
@@ -123,6 +136,4 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             _findRoomFailedPanel.Active();
         }
     }
-    
-
 }
