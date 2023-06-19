@@ -107,7 +107,7 @@ public class DucklingCollector : MonoBehaviour
     {
         isMoving = false; // 조이스틱 이동을 막는다
         isTackling = true;
-        StartTackleTimer().Forget();
+        startTackleTimer().Forget();
 
         setEmission(true);
         Physics.IgnoreLayerCollision(playerLayerNum, ducklingLayerNum, true); // 대쉬중 새끼오리 못먹게 막기
@@ -140,7 +140,7 @@ public class DucklingCollector : MonoBehaviour
     }
 
     [SerializeField] private float tackleWaitTime = 10f;
-    private async UniTaskVoid StartTackleTimer()
+    private async UniTaskVoid startTackleTimer()
     {
         isTackable = false;
         await UniTask.Delay(TimeSpan.FromSeconds(tackleWaitTime));

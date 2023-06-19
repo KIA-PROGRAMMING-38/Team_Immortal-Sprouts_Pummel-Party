@@ -20,11 +20,11 @@ public class TackleButton : MonoBehaviour
     {
         if (isTackable && context.started)
         {
-            StartTimer().Forget();
+            startTimer().Forget();
         }
     }
 
-    private async UniTaskVoid StartTimer()
+    private async UniTaskVoid startTimer()
     {
         isTackable = false;
         float min = 0f;

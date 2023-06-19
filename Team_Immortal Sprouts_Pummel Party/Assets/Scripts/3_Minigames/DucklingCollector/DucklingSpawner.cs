@@ -11,10 +11,10 @@ public class DucklingSpawner : MonoBehaviour
     {
         spawnPositions = new Transform[spawnPositionCount];
         spawnPositions = transform.GetComponentsInChildren<Transform>();
-        SpawnDucklings();
+        spawnDucklings();
     }
 
-    private void SpawnDucklings()
+    private void spawnDucklings()
     {
         for (int i = 1; i < spawnPositionCount ;++i)
         {
