@@ -92,7 +92,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2e83fc293f1d69c48a58f83764aa6967, type: 2}
+  - {fileID: 2100000, guid: b2718f65910fac4478f33d6499d9d1d0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -264,7 +264,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2e83fc293f1d69c48a58f83764aa6967, type: 2}
+  - {fileID: 2100000, guid: b2718f65910fac4478f33d6499d9d1d0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -574,6 +574,7 @@ MonoBehaviour:
   ducklingPosition: {fileID: 4237957098463732725}
   followTime: 1
   explosionForce: 7
+  jumpTime: 2
 --- !u!1 &6328940878265896984
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,7 +700,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2e83fc293f1d69c48a58f83764aa6967, type: 2}
+  - {fileID: 2100000, guid: b2718f65910fac4478f33d6499d9d1d0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
