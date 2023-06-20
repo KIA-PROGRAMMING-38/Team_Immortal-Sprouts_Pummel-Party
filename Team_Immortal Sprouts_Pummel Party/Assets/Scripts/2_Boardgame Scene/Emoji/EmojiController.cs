@@ -30,6 +30,13 @@ public class EmojiController : MonoBehaviour
     private Vector3 emojiSummonPosition;
     private bool isEmojable = true;
 
+    // 포톤 적용시 해줘야할 것들
+    // 1) currentPlayerTransform을 어딘가에서부터 동적으로 받아와서 set 해줘야한다
+    // 2) 인덱스에 따른 이모지 prefabPool.Instantiate() 해주는 RPC함수를 구현한다
+    // 3) prefabPool.Destory()로 풀 화 해주어야한다
+    // moveUp과 moveDown쪽 코드 리팩토링이 필요하긴 한데, 현재 시간이 모자라서 그건 나중에 최적화기간때 하겠음
+
+
     private void Start()
     {
         initialPosition = transform.position;
