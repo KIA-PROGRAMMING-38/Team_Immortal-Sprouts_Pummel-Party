@@ -17,4 +17,5 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: f6cd5cc6b1ef1be40ac2453221da80ad, type: 3}
   Description: test duckegg description
   isControllable: 1
+  Weight: 1
   Prefab: {fileID: 373251213781933727, guid: 795cda4df2b48b54a8c965dc0978223e, type: 3}
