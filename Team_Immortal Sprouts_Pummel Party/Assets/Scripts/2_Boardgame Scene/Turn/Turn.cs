@@ -54,7 +54,7 @@ public static class Turn
     /// <summary>
     /// 플레이어의 순위를 임시로 저장한 컨테이너에서 사용할 컨테이너로 이동
     /// </summary>
-    public static void SetTurnContainer()
+    public static void SetContainer()
     {
         if (TurnOrder.Count != 0)
         {
@@ -81,8 +81,10 @@ public static class Turn
     /// 다음턴의 플레이어 넘버를 반환
     /// </summary>
     /// <returns></returns>
-    public static int TurnOnPlayer()
+    public static int OnPlayer()
     {
         return TurnOrder.Dequeue();
     }
+
+    
 }
