@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BoardGameFramework : MonoBehaviour
+public class BoardGameFrameWork : MonoBehaviour
 {
     public UnityEvent OnFirtstStartBoardGame;
 

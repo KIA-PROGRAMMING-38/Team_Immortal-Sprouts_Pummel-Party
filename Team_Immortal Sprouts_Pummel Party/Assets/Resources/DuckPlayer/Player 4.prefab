@@ -351,6 +351,9 @@ GameObject:
   - component: {fileID: 6446396508616808266}
   - component: {fileID: 112476428698388377}
   - component: {fileID: 4706211794163116692}
+  - component: {fileID: -236642931912642231}
+  - component: {fileID: -7032734597071612462}
+  - component: {fileID: -4830810549211401315}
   m_Layer: 7
   m_Name: Player 4
   m_TagString: Player
@@ -437,8 +440,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9597ae9578eab4192b5a23700be642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dice: {fileID: 300433257822736386}
-  _canRoll: 0
+  dice: {fileID: 0}
+  CanUseItem: 0
+  onDamagedParticle: {fileID: 0}
+  Hp: 30
 --- !u!114 &4706211794163116692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,6 +474,61 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &-236642931912642231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3720337570842942497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 2
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: -7032734597071612462}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-7032734597071612462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3720337570842942497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &-4830810549211401315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3720337570842942497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters: []
+  m_SynchronizeLayers: []
 --- !u!1 &4055261834927489082
 GameObject:
   m_ObjectHideFlags: 0
