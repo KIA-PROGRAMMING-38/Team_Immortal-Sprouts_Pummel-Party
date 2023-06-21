@@ -63,7 +63,7 @@ public static class ExtensionMethod
 
 
     /// <summary>
-    /// 2차 베지어 곡선 이동 함수
+    /// UniTaskVoid 타입의 2차 베지어 곡선 이동 함수
     /// </summary>
     /// <param name="transform"></param>
     /// <param name="startVector"></param>
@@ -71,7 +71,7 @@ public static class ExtensionMethod
     /// <param name="targetVector"></param>
     /// <param name="duration"></param>
     /// <returns></returns>
-    public static async UniTaskVoid SecondaryBezierCurve(Transform transform, Vector3 startVector, Vector3 controlVector, Vector3 targetVector, float duration)
+    public static async UniTaskVoid SecondaryBezierVoidCurve(Transform transform, Vector3 startVector, Vector3 controlVector, Vector3 targetVector, float duration)
     {
         if (transform == null || transform.position == targetVector || startVector == targetVector)
         {
@@ -90,6 +90,36 @@ public static class ExtensionMethod
             await UniTask.Yield();
         }
     }
+
+    /// <summary>
+    /// UniTask 타입의 2차 베지어 곡선 이동함수
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <param name="startVector"></param>
+    /// <param name="controlVector"></param>
+    /// <param name="targetVector"></param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
+    public static async UniTask SecondaryBezierCurve(Transform transform, Vector3 startVector, Vector3 controlVector, Vector3 targetVector, float duration)
+    {
+        if (transform == null || transform.position == targetVector || startVector == targetVector)
+        {
+            return;
+        }
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime <= duration)
+        {
+            float t = elapsedTime / duration;
+            Vector3 m0 = Vector3.Lerp(startVector, targetVector, t);
+            Vector3 m1 = Vector3.Lerp(controlVector, targetVector, t);
+            transform.position = Vector3.Lerp(m0, m1, t);
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield();
+        }
+    }
+
 
     /// <summary>
     /// 3차 베지어 곡선 이동 함수
