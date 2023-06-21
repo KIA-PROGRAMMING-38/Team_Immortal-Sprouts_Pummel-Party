@@ -44,12 +44,23 @@ public static class ItemProvider
     }
 
     /// <summary>
-    /// ÆÄ¶ó¹ÌÅÍ·Î Àü´ŞµÈ ÇÃ·¹ÀÌ¾î¿¡°Ô ·£´ıÇÑ ¾ÆÀÌÅÛÀ» Áö±Ş
+    /// íŒŒë¼ë¯¸í„°ë¡œ ì „ë‹¬ëœ í”Œë ˆì´ì–´ì—ê²Œ ëœë¤í•œ ì•„ì´í…œì„ ì§€ê¸‰
     /// </summary>
-    /// <param name="player">¾ÆÀÌÅÛÀ» Áö±Ş¹ŞÀ» ÇÃ·¹ÀÌ¾î</param>
+    /// <param name="player">ì•„ì´í…œì„ ì§€ê¸‰ë°›ì„ í”Œë ˆì´ì–´</param>
     public static void GiveRandomItemTo(BoardgamePlayer player)
     {
         ItemData item = getRandomItem();
         player.Inventory.Add(item);
+    }
+
+    /// <summary>
+    /// íŒŒë¼ë¯¸í„°ë¡œ ì „ë‹¬ëœ í”Œë ˆì´ì–´ì—ê²Œ ëœë¤í•œ ì•„ì´í…œì„ ì§€ê¸‰, ì§€ê¸‰ëœ ì•„ì´í…œì„ ë°˜í™˜
+    /// </summary>
+    public static void GiveRandomItemTo(BoardgamePlayer player, out ItemData givenItem)
+    {
+        ItemData item = getRandomItem();
+        player.Inventory.Add(item);
+
+        givenItem = item;
     }
 }

@@ -37,6 +37,7 @@ public class BoardgamePlayer : MonoBehaviour
     public void OnDiceStoped()
     {
         moveCount = dice.ConveyDiceReuslt();
+        moveCount = 2;
         helpMoveAsync().Forget();
     }
 
@@ -71,6 +72,16 @@ public class BoardgamePlayer : MonoBehaviour
         if (currentIsland is RotationIsland)
         {
             currentIsland.GetComponent<RotationIsland>().ActivateResetRotation();
+        }
+
+        return true;
+    }
+
+    private async UniTask<bool> checkDestIsland()
+    {
+        if(currentIsland is ItemIsland)
+        {
+            await currentIsland.GetComponent<ItemIsland>().Activate(this);
         }
 
         return true;
@@ -169,6 +180,9 @@ public class BoardgamePlayer : MonoBehaviour
             await UniTask.Yield();
         }
 
+        await checkDestIsland();
+
+        // TODO: 추후 턴 시작을 알리는 곳에서 해야 함
         dice.OnAppearDice();
 
         return true;
