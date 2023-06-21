@@ -27,8 +27,9 @@ public class RotationIsland : Island
     /// <summary>
     /// 방향 화살표를 띄우는 함수
     /// </summary>
-    public void PopUpDirectionArrow()
+    public void PopUpDirectionArrow(Transform playerTransform)
     {
+        SetPlayerTransform(playerTransform); // 애시당초 화살표를 띄운다는것은 플레이어가 회전섬에 도착했다는 것이다
         arrowSwitch.TurnOnSwitch();
     }
 
@@ -99,10 +100,12 @@ public class RotationIsland : Island
         }
         else // 플레이어가 섬위에 존재한다면
         {
+            Quaternion playerInitialRotation = playerTransform.rotation;
+            Quaternion playerTargetRotation = Quaternion.Euler(0f, playerInitialRotation.eulerAngles.y + targetRotation.eulerAngles.y, 0f);
             while (elapsedTime <= rotateTime) // 플레이어와 섬을 같이 회전시킨다
             {
                 transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / rotateTime);
-                playerTransform.rotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / rotateTime);
+                playerTransform.rotation = Quaternion.Lerp(playerInitialRotation, playerTargetRotation, elapsedTime / rotateTime);
                 elapsedTime += Time.deltaTime;
                 await UniTask.Yield();
             }
