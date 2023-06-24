@@ -1,6 +1,8 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class ItemIsland : Island
@@ -17,7 +19,7 @@ public class ItemIsland : Island
     /// </summary>
     public async UniTask<bool> Activate(BoardgamePlayer player)
     {
-        await UniTask.Delay(1000);
+        await UniTask.Delay(1500);
 
         ItemProvider.GiveRandomItemTo(player, out givenItem);
 
@@ -27,9 +29,44 @@ public class ItemIsland : Island
         return true;
     }
 
+    [SerializeField] private GameObject effectPrefab;
+    [SerializeField] private Sprite randomBox;
+
     [SerializeField] private BoardgamePlayer me;  // TODO: 받은 사람, 구경하는 사람 다르게 보이도록하는 거 고려해서 추가하기
+    private Vector3 offset = new Vector3(0, 1.5f, 0.5f);
+    private Vector3 destLocalScale = new Vector3(0.3f, 0.3f, 0.3f);
+    private const float GROWING_TIME = 0.5f;
     private async UniTask<bool> ShowItem(BoardgamePlayer player)
     {
+        GameObject effect = Instantiate(effectPrefab);
+        SpriteRenderer appearItem = effect.GetComponentInChildren<SpriteRenderer>();
+
+        appearItem.sprite = givenItem.Icon;
+
+        // TODO: 포톤 연결 후 아래와 같이 PhotonView IsMine으로 확인
+        //if (me == player)
+        //{
+        //    appearItem.sprite = givenItem.Icon;
+        //}
+        //else
+        //{
+        //    appearItem.sprite = randomBox;
+        //}
+
+        effect.transform.position = player.transform.position + offset;
+
+        float elapsedTime = 0f;
+        while(elapsedTime <= GROWING_TIME)
+        {
+            appearItem.gameObject.transform.localScale = Vector3.Lerp(Vector3.zero, destLocalScale, elapsedTime / GROWING_TIME);
+            elapsedTime += Time.deltaTime;
+
+            await UniTask.Yield();
+        }
+
+        await UniTask.Delay(1500);
+        Destroy(effect);
+
         return true;
     }
 }
