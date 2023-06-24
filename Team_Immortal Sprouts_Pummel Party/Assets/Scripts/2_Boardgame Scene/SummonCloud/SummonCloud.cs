@@ -6,16 +6,21 @@ using UnityEngine;
 
 public class SummonCloud : MonoBehaviour
 {
-    [SerializeField] Transform playerTransform;
+    [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform cloudBody;
     [SerializeField] [Range(0.5f, 4f)] private float flyTime = 2f;
     [SerializeField] [Range(0.5f, 3f)] private float sizeTime = 1.5f;
     [SerializeField] [Range(1f, 3f)] private float gapDistance = 2f;
+    [SerializeField] private Light spotLight;
     
     private Vector3 disappearSize = Vector3.zero;   
     private Vector3 initialSize = Vector3.one;
     private Vector3 bigSize = Vector3.one * 2f; // 2가 되었을 때 플레이어도 쏙 가리고, 괜찮은듯 함?
     private const float pivotModifier = 0.8f; // 구름 피봇이 중앙이 아니라서 이걸로 플레이어 중앙에 맞출 수 있음
+    
+    private bool isSummonPlayer = true;
+    private Color summonColor = Color.green; // 소환할때의 빛 색
+    private Color takeColor = Color.red; // 무인도로 데려갈때의 빛 색
 
     private void Update()
     {
@@ -29,20 +34,33 @@ public class SummonCloud : MonoBehaviour
     {
         Vector3 actualPosition = playerTransform.position + Vector3.up * gapDistance;
         actualPosition.x = actualPosition.x - pivotModifier;
-        await flyToSummonSpot(actualPosition, flyTime);
-        cloudResize(true);
+        await flyToSummonSpot(actualPosition, flyTime); // 플레이어 머리위로 날아오고
+        await cloudResize(true); // 구름의 사이즈를 조절한다
+        emitSpotLight(isSummonPlayer);
     }
 
 
-    private void cloudResize(bool shouldGetBigger)
+    private void emitSpotLight(bool isSummoningPlayer)
+    {
+        if (isSummoningPlayer)
+            spotLight.color = summonColor;
+        else
+            spotLight.color = takeColor;
+
+
+        spotLight.enabled = true;
+    }
+
+
+    private async UniTask cloudResize(bool shouldGetBigger)
     {
         if (shouldGetBigger)
         {
-            controlSize(initialSize, bigSize, sizeTime).Forget();
+            await controlSize(initialSize, bigSize, sizeTime);
         }
         else
         {
-            controlSize(bigSize, disappearSize, sizeTime).Forget();
+            await controlSize(bigSize, disappearSize, sizeTime);
         }
     }
 
@@ -71,7 +89,6 @@ public class SummonCloud : MonoBehaviour
     private async UniTask controlSize(Vector3 startSize, Vector3 endSize, float duration)
     {
         float elapsedTime = 0f;
-
 
         while (elapsedTime <= duration)
         {
