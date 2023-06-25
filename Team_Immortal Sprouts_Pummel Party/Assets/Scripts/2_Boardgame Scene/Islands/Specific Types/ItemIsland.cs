@@ -40,7 +40,7 @@ public class ItemIsland : Island
 
         appearItem.sprite = givenItem.Icon;
 
-        // TODO: 포톤 연결 후 아래와 같이 PhotonView IsMine으로 확인
+        // TODO: 포톤 연결 후 아래와 같이 현재 턴인 플레이어의 PhotonView 확인해서 IsMine으로 확인
         //if (me == player)
         //{
         //    appearItem.sprite = givenItem.Icon;
