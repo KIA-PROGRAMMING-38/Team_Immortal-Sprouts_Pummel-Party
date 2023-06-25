@@ -17,16 +17,13 @@ public class ItemIsland : Island
     /// <summary>
     /// 아이템섬을 활성화, 플레이어가 턴에서 최종 도착한 위치가 아이템섬일 경우 호출
     /// </summary>
-    public async UniTask<bool> Activate(BoardgamePlayer player)
+    public async UniTask Activate(BoardgamePlayer player)
     {
         await UniTask.Delay(1500);
 
         ItemProvider.GiveRandomItemTo(player, out givenItem);
 
         await ShowItem(player);
-
-
-        return true;
     }
 
     [SerializeField] private GameObject effectPrefab;
@@ -36,7 +33,7 @@ public class ItemIsland : Island
     private Vector3 offset = new Vector3(0, 1.5f, 0.5f);
     private Vector3 destLocalScale = new Vector3(0.3f, 0.3f, 0.3f);
     private const float GROWING_TIME = 0.5f;
-    private async UniTask<bool> ShowItem(BoardgamePlayer player)
+    private async UniTask ShowItem(BoardgamePlayer player)
     {
         GameObject effect = Instantiate(effectPrefab);
         SpriteRenderer appearItem = effect.GetComponentInChildren<SpriteRenderer>();
@@ -66,7 +63,5 @@ public class ItemIsland : Island
 
         await UniTask.Delay(1500);
         Destroy(effect);
-
-        return true;
     }
 }
