@@ -78,6 +78,54 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""HotAirBalloonControl"",
+            ""id"": ""93d7e391-dd2b-4943-8f0a-753eee81cb6c"",
+            ""actions"": [
+                {
+                    ""name"": ""BalloonMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""80a8b026-e4d6-448f-8385-39f63758a982"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""BalloonAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""77337cce-8aed-4890-a57e-32e12fe3ebb3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""dbe0f55c-800e-47d0-ac15-76a6dc25bf81"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BalloonMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""99183221-9338-41b0-b17f-2fcfc7918763"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BalloonAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -88,6 +136,10 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
         // PlayerTouch
         m_PlayerTouch = asset.FindActionMap("PlayerTouch", throwIfNotFound: true);
         m_PlayerTouch_ScreenTouch = m_PlayerTouch.FindAction("ScreenTouch", throwIfNotFound: true);
+        // HotAirBalloonControl
+        m_HotAirBalloonControl = asset.FindActionMap("HotAirBalloonControl", throwIfNotFound: true);
+        m_HotAirBalloonControl_BalloonMove = m_HotAirBalloonControl.FindAction("BalloonMove", throwIfNotFound: true);
+        m_HotAirBalloonControl_BalloonAction = m_HotAirBalloonControl.FindAction("BalloonAction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -237,6 +289,60 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
         }
     }
     public PlayerTouchActions @PlayerTouch => new PlayerTouchActions(this);
+
+    // HotAirBalloonControl
+    private readonly InputActionMap m_HotAirBalloonControl;
+    private List<IHotAirBalloonControlActions> m_HotAirBalloonControlActionsCallbackInterfaces = new List<IHotAirBalloonControlActions>();
+    private readonly InputAction m_HotAirBalloonControl_BalloonMove;
+    private readonly InputAction m_HotAirBalloonControl_BalloonAction;
+    public struct HotAirBalloonControlActions
+    {
+        private @InputOnBoard m_Wrapper;
+        public HotAirBalloonControlActions(@InputOnBoard wrapper) { m_Wrapper = wrapper; }
+        public InputAction @BalloonMove => m_Wrapper.m_HotAirBalloonControl_BalloonMove;
+        public InputAction @BalloonAction => m_Wrapper.m_HotAirBalloonControl_BalloonAction;
+        public InputActionMap Get() { return m_Wrapper.m_HotAirBalloonControl; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(HotAirBalloonControlActions set) { return set.Get(); }
+        public void AddCallbacks(IHotAirBalloonControlActions instance)
+        {
+            if (instance == null || m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Add(instance);
+            @BalloonMove.started += instance.OnBalloonMove;
+            @BalloonMove.performed += instance.OnBalloonMove;
+            @BalloonMove.canceled += instance.OnBalloonMove;
+            @BalloonAction.started += instance.OnBalloonAction;
+            @BalloonAction.performed += instance.OnBalloonAction;
+            @BalloonAction.canceled += instance.OnBalloonAction;
+        }
+
+        private void UnregisterCallbacks(IHotAirBalloonControlActions instance)
+        {
+            @BalloonMove.started -= instance.OnBalloonMove;
+            @BalloonMove.performed -= instance.OnBalloonMove;
+            @BalloonMove.canceled -= instance.OnBalloonMove;
+            @BalloonAction.started -= instance.OnBalloonAction;
+            @BalloonAction.performed -= instance.OnBalloonAction;
+            @BalloonAction.canceled -= instance.OnBalloonAction;
+        }
+
+        public void RemoveCallbacks(IHotAirBalloonControlActions instance)
+        {
+            if (m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IHotAirBalloonControlActions instance)
+        {
+            foreach (var item in m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public HotAirBalloonControlActions @HotAirBalloonControl => new HotAirBalloonControlActions(this);
     public interface IPlayerActions
     {
         void OnRollDice(InputAction.CallbackContext context);
@@ -244,5 +350,10 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
     public interface IPlayerTouchActions
     {
         void OnScreenTouch(InputAction.CallbackContext context);
+    }
+    public interface IHotAirBalloonControlActions
+    {
+        void OnBalloonMove(InputAction.CallbackContext context);
+        void OnBalloonAction(InputAction.CallbackContext context);
     }
 }
