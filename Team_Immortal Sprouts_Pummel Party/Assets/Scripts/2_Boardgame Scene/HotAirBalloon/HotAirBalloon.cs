@@ -1,7 +1,9 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HotAirBalloon : MonoBehaviour
 {
@@ -36,6 +38,20 @@ public class HotAirBalloon : MonoBehaviour
     {
         playerTransform = playerTrans;
         playerAnimator = playerTransform.gameObject.GetComponent<Animator>();
+    }
+    
+    public void OnMoveVirtualJoystick(InputAction.CallbackContext context)
+    {
+        Vector2 inputs = context.ReadValue<Vector2>();
+
+    }
+
+    public void OnTouchActionButton(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            ApproachPlayer().Forget();
+        }
     }
 
     public async UniTask ApproachPlayer()

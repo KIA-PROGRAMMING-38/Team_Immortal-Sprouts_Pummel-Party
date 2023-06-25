@@ -106,7 +106,7 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""dbe0f55c-800e-47d0-ac15-76a6dc25bf81"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -117,7 +117,7 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""99183221-9338-41b0-b17f-2fcfc7918763"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
