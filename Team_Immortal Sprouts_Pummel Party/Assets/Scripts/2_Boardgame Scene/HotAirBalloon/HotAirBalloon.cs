@@ -11,6 +11,7 @@ public class HotAirBalloon : MonoBehaviour
     private Transform playerTransform;
 
     [Header("----------------------Hot Air Balloon--------------------------------")]
+    [SerializeField] private float balloonMoveSpeed = 10f;
     [SerializeField] private float downDistance = 4f;
     [SerializeField] [Range(1f, 3f)] private float flyTime = 3f;
 
@@ -43,7 +44,12 @@ public class HotAirBalloon : MonoBehaviour
     public void OnMoveVirtualJoystick(InputAction.CallbackContext context)
     {
         Vector2 inputs = context.ReadValue<Vector2>();
-
+        float front = inputs.y;
+        float side = inputs.x;
+        Vector3 newPosition = transform.position;
+        newPosition.z+= front * balloonMoveSpeed;
+        newPosition.x += side * balloonMoveSpeed;
+        transform.position = newPosition;
     }
 
     public void OnTouchActionButton(InputAction.CallbackContext context)
