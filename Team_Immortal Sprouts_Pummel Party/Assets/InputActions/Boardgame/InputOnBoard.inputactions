@@ -56,6 +56,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "HotAirBalloonControl",
+            "id": "93d7e391-dd2b-4943-8f0a-753eee81cb6c",
+            "actions": [
+                {
+                    "name": "BalloonMove",
+                    "type": "Value",
+                    "id": "80a8b026-e4d6-448f-8385-39f63758a982",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "BalloonAction",
+                    "type": "Button",
+                    "id": "77337cce-8aed-4890-a57e-32e12fe3ebb3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "dbe0f55c-800e-47d0-ac15-76a6dc25bf81",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BalloonMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99183221-9338-41b0-b17f-2fcfc7918763",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BalloonAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
