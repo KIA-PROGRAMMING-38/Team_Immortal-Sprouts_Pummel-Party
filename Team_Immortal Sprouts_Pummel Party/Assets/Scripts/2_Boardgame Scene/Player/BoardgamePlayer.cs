@@ -53,7 +53,7 @@ public class BoardgamePlayer : MonoBehaviour
         move().Forget();
     }
 
-    private async UniTask<bool> checkDepartureIsland()
+    private async UniTask checkDepartureIsland()
     {
         if (currentIsland is RotationIsland && moveCount >= 1)
         {
@@ -62,18 +62,27 @@ public class BoardgamePlayer : MonoBehaviour
             await UniTask.WaitUntil(() => currentIsland.GetComponent<RotationIsland>().GetRotationStatus() == true);
             canMoveOnDirectionIsland = true;
         }
-
-        return true;
     }
 
-    private async UniTask<bool> checkTransitIsland()
+    private async UniTask onExitDepartureIsland()
     {
         if (currentIsland is RotationIsland)
         {
             currentIsland.GetComponent<RotationIsland>().ActivateResetRotation();
         }
+    }
 
-        return true;
+    private async UniTask checkTransitIsland()
+    {
+        
+    }
+
+    private async UniTask checkDestIsland()
+    {
+        if(currentIsland is ItemIsland)
+        {
+            await currentIsland.GetComponent<ItemIsland>().Activate(this);
+        }
     }
 
     private const float MOVE_TIME = 0.5f;
@@ -90,6 +99,7 @@ public class BoardgamePlayer : MonoBehaviour
         }
 
         animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
+        await onExitDepartureIsland();
 
         while (moveCount >= 1)
         {
@@ -107,14 +117,14 @@ public class BoardgamePlayer : MonoBehaviour
                 rigidbody.MovePosition(secondaryBezierCurve(start, mid, end, elapsedTime / MOVE_TIME));
                 elapsedTime += Time.deltaTime;
 
-                await UniTask.Yield();
+                await UniTask.Yield(this.GetCancellationTokenOnDestroy());
             }
 
             await checkTransitIsland();
 
             updateCurrentIsland();
             checkReachableIsland();
-            await UniTask.Yield();
+            await UniTask.Yield(this.GetCancellationTokenOnDestroy());
         }
 
         animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false);
@@ -123,13 +133,12 @@ public class BoardgamePlayer : MonoBehaviour
     }
 
     private const float ROTATE_TIME = 1f;
-    private async UniTask<bool> lookNextDestIsland(Vector3 dir)
+    private async UniTask lookNextDestIsland(Vector3 dir)
     {
         // 회전타일에서부터 출발하는 턴에서는 회전하지 않음
         if (currentIsland is RotationIsland && canMoveOnDirectionIsland)
         {
             canMoveOnDirectionIsland = false;
-            return true;
         }
 
         Quaternion start = transform.rotation;
@@ -145,14 +154,12 @@ public class BoardgamePlayer : MonoBehaviour
                 var lerpval = Quaternion.Lerp(start, end, elapsedTime / ROTATE_TIME);
                 transform.rotation = lerpval;
             }
-            await UniTask.Yield();
+            await UniTask.Yield(this.GetCancellationTokenOnDestroy());
         }
-
-        return true;
     }
 
     private Vector3 getReverseVector(Vector3 vec) { return vec * -1f; }
-    private async UniTask<bool> lookForward()
+    private async UniTask lookForward()
     {
         Vector3 lookDir = getReverseVector(Vector3.forward);
         lookDir = lookDir.normalized;
@@ -166,12 +173,13 @@ public class BoardgamePlayer : MonoBehaviour
             elapsedTime += Time.deltaTime;
             var lerpval = Quaternion.Lerp(start, end, elapsedTime / ROTATE_TIME);
             transform.rotation = lerpval;
-            await UniTask.Yield();
+            await UniTask.Yield(this.GetCancellationTokenOnDestroy());
         }
 
-        dice.OnAppearDice();
+        await checkDestIsland();
 
-        return true;
+        // TODO: 추후 턴 시작을 알리는 곳에서 해야 함
+        dice.OnAppearDice();
     }
 
     private const int JUMP_HEIGHT = 5;

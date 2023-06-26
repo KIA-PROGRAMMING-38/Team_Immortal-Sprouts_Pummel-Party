@@ -12710,6 +12710,9 @@ MonoBehaviour:
   nextPosition: {x: 0, y: 0, z: 0}
   prevPosition: {x: 0, y: 0, z: 0}
   currentPosition: {x: 0, y: 0, z: 0}
+  effectPrefab: {fileID: 8544091258326219837, guid: a4318b5b1b4d3c745a3c9317c9b10031, type: 3}
+  randomBox: {fileID: 21300000, guid: 6e75bb176dad23a4b98bc5c51d992686, type: 3}
+  me: {fileID: 0}
 --- !u!1001 &3723929062624960711
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,5 +8,6 @@ public class ItemData : ScriptableObject
     public Sprite Icon;
     public string Description;
     public bool isControllable;
+    public int Weight;
     public GameObject Prefab;
 }

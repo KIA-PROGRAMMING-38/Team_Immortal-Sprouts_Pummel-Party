@@ -17,4 +17,5 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: dad5695e1fb1caf4cbd55c0310caf8d2, type: 3}
   Description: test pistol description
   isControllable: 1
+  Weight: 1
   Prefab: {fileID: 2268709913833931000, guid: 8b4f004668166744683bdd2a8eddf023, type: 3}

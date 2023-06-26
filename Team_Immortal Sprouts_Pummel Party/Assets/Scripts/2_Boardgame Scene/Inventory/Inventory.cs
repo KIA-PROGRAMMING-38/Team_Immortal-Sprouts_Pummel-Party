@@ -19,10 +19,9 @@ public class Inventory
     /// </summary>
     public void InitInventory()
     {
-        // TODO: GameManager 연결되는 경우 static class에서 해당 동작 하는 메소드 만들고 호출하기 -> 읽어온 ItemData들로 Awake or Start에서 new InventoryItem()
         if(PlayerInventory.Count == 0)
         {
-            ItemData[] items = Resources.LoadAll<ItemData>("ItemData");
+            ItemData[] items = ItemProvider.ItemTable;
             
             for(int id = 0; id < items.Length; ++id)
             {
