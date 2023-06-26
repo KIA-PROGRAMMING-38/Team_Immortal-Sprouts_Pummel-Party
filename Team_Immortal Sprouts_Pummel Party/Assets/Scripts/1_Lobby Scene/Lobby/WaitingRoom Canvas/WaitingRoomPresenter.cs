@@ -363,13 +363,14 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
                 playerProperties[enterOrder].Add(PropertiesKey.positionKey, defualtPosition);
             }
         }
-
-        MoveToBoardGame();
     }
 
-    private void MoveToBoardGame()
+    public void MoveToBoardGame()
     {
-        PhotonNetwork.LoadLevel("BoardGame");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(2);
+        }
     }
 
     private void KickEveryoneOut()

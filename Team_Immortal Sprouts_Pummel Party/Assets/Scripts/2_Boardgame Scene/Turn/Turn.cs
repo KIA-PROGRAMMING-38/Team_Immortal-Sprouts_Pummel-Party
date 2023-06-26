@@ -17,7 +17,8 @@ public static class Turn
     public static Queue<int> TurnOrder;
     public static Stack<int> LastEnterOrder;
     public static SortedSet<(int, int)> PointOrder;
-    
+    public static bool isFirst = true;
+
     /// <summary>
     /// 미니게임에서 플레이어가 결승섬에 들어오거나 탈락할때 호출하는 메서드
     /// </summary>

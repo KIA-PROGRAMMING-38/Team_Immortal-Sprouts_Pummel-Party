@@ -446,7 +446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3042df26e22986c43bb89c4276301ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHat: {fileID: 0}
   hatTransform: {fileID: 2911288597360996485}
   bodyMaterial: {fileID: 2100000, guid: 585027e0ee0dec743b45de4e50cdc4eb, type: 2}
   customData: {fileID: 11400000, guid: dfa5577dec2b2b042aa0836b6583e052, type: 2}

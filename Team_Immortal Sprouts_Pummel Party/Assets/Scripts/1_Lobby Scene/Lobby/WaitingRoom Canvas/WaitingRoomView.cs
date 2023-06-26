@@ -37,7 +37,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 
 
 
-    #region Public ÇÔ¼öµé
+    #region Public í•¨ìˆ˜ë“¤
 
     [PunRPC]
     public void SetBackgroundColor(int colorIndex)
@@ -60,7 +60,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     private async UniTaskVoid EnableIsChangable()
     {
         isChangable = false;
-        await UniTask.Delay(500); // 0.5ÃÊÀÇ µô·¹ÀÌ·Î ±¤Å¬ ¿¹¹æ
+        await UniTask.Delay(500); // 0.5ì´ˆì˜ ë”œë ˆì´ë¡œ ê´‘í´ ì˜ˆë°©
         isChangable = true;
     }
 
@@ -102,7 +102,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 
     #endregion
 
-    #region OnClick Event ÇÔ¼öµé
+    #region OnClick Event í•¨ìˆ˜ë“¤
 
 
     public void OnClick_CustomizeButton()
@@ -122,7 +122,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnClick_StartButton() // ¹æÀå ¹öÆ°¿¡¸¸ ÇÒ´ç
+    public void OnClick_StartButton() // ë°©ì¥ ë²„íŠ¼ì—ë§Œ í• ë‹¹
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -137,7 +137,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
             int lastIndex = wantBodyIndex;
             ++wantBodyIndex;
 
-            if (wantBodyIndex < 0) // ÀÎµ¦½º¸¦ ¹Ù·ÎÀâ¾ÆÁÜ
+            if (wantBodyIndex < 0) // ì¸ë±ìŠ¤ë¥¼ ë°”ë¡œì¡ì•„ì¤Œ
                 wantBodyIndex = presenter.bodyColorCount - 1;
             else if (presenter.bodyColorCount <= wantBodyIndex)
                 wantBodyIndex = 0;
@@ -153,7 +153,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
             int lastIndex = wantBodyIndex;
             --wantBodyIndex;
 
-            if (wantBodyIndex < 0) // ÀÎµ¦½º¸¦ ¹Ù·ÎÀâ¾ÆÁÜ
+            if (wantBodyIndex < 0) // ì¸ë±ìŠ¤ë¥¼ ë°”ë¡œì¡ì•„ì¤Œ
                 wantBodyIndex = presenter.bodyColorCount - 1;
             else if (presenter.bodyColorCount <= wantBodyIndex)
                 wantBodyIndex = 0;
@@ -170,7 +170,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
         {
             ++hatIndex;
 
-            if (hatIndex < 0) // ÀÎµ¦½º¸¦ ¹Ù·Î Àâ¾ÆÁÜ
+            if (hatIndex < 0) // ì¸ë±ìŠ¤ë¥¼ ë°”ë¡œ ì¡ì•„ì¤Œ
                 hatIndex = presenter.hatTypeCount - 1;
             else if (presenter.hatTypeCount <= hatIndex)
                 hatIndex = 0;
@@ -186,7 +186,7 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
         {
             --hatIndex;
 
-            if (hatIndex < 0) // ÀÎµ¦½º¸¦ ¹Ù·Î Àâ¾ÆÁÜ
+            if (hatIndex < 0) // ì¸ë±ìŠ¤ë¥¼ ë°”ë¡œ ì¡ì•„ì¤Œ
                 hatIndex = presenter.hatTypeCount - 1;
             else if (presenter.hatTypeCount <= hatIndex)
                 hatIndex = 0;

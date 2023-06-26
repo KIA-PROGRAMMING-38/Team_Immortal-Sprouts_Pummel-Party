@@ -20,10 +20,10 @@ MonoBehaviour:
   - {fileID: 3970131885652610768, guid: 16134e26e31cbdc4699516164498f8a3, type: 3}
   _BoardPositions:
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 6747030245025659670, guid: e4f4f1c717070e04c85974d3b7573399, type: 3}
+  - {fileID: 820763867844016660, guid: 215168eb0ca3d3045810fa7b57d69627, type: 3}
+  - {fileID: 4289284474292047183, guid: bc3fec3ff74b9f145b939e883524d6a2, type: 3}
+  - {fileID: 7321506408693187540, guid: 680b45d5d55b0c34699841347be234d0, type: 3}
   _InFightPositions:
   - {fileID: 0}
   - {fileID: 0}
