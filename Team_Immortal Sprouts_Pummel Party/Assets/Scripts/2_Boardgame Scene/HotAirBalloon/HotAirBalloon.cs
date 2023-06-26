@@ -9,7 +9,8 @@ using UnityEngine.InputSystem;
 public class HotAirBalloon : MonoBehaviour, IControllable
 {
     [SerializeField] private Transform playerBoardPosition;
-    private Transform playerTransform;
+    [SerializeField] private Light spotLight;
+    [SerializeField] private BoxCollider detectCollider;
 
     [Header("----------------------Hot Air Balloon--------------------------------")]
     [SerializeField] [Range(1f, 2f)] private float balloonMoveSpeed = 1f;
@@ -19,6 +20,7 @@ public class HotAirBalloon : MonoBehaviour, IControllable
     [Header("----------------------Player Control--------------------------------")]
     [SerializeField][Range(1f, 3f)] private float boardTime = 1f;
 
+    [SerializeField] private Transform playerTransform = null; // 인스펙터창에서 볼려고 SerializeField
     private Animator playerAnimator;
     [SerializeField] CinemachineVirtualCamera cam; // 지금은 넣어줬지만, 나중에는 virtualCam 참조 받아오는 식으로 해야함
     private Vector3 cameraOffset = new Vector3(0f, 4.5f, -6f); // 자연스러운 카메라 body offSet
@@ -33,6 +35,7 @@ public class HotAirBalloon : MonoBehaviour, IControllable
     private void Start()
     {
         initMoveTokenSettings();
+        spotLight.color = defualtColor;
     }
 
     private CancellationTokenSource cancelResource;
@@ -46,30 +49,15 @@ public class HotAirBalloon : MonoBehaviour, IControllable
         token = playResource.Token;
     }
 
-    public void SetPlayer(Transform playerTrans)
-    {
-        playerTransform = playerTrans;
-        playerAnimator = playerTransform.gameObject.GetComponent<Animator>();
-    }
+    
 
-    public async UniTask ApproachPlayer()
-    {
-        float elapsedTime = 0f;
-        Vector3 initialPos = transform.position;
-        Vector3 targetPos = initialPos;
-        targetPos.y = targetPos.y - downDistance;
+    
 
-        while (elapsedTime <= flyTime)
-        {
-            transform.position = Vector3.Lerp(initialPos, targetPos, elapsedTime / flyTime);
-            elapsedTime += Time.deltaTime;
-            await UniTask.Yield();
-        }
-    }
+    
 
     private async UniTask playerOnBoard()
     {
-        //playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
+        playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
         float elapsedTime = 0f;
         Vector3 initialPos = playerTransform.position;
         Vector3 targetPos = playerBoardPosition.position;
@@ -102,7 +90,6 @@ public class HotAirBalloon : MonoBehaviour, IControllable
         }
     }
 
-
     private float frontInput;
     private float sideInput;
     private async UniTaskVoid balloonMovement()
@@ -120,12 +107,59 @@ public class HotAirBalloon : MonoBehaviour, IControllable
     {
         if (context.started)
         {
-            ApproachPlayer().Forget();
+            spotLight.enabled = false;
+            detectCollider.enabled = false;
+            SetTargetPlayer(playerTransform);
+            BalloonSink().Forget();
         }
     }
+    public async UniTask BalloonSink()
+    {
+        await UniTask.WaitUntil(() => playerTransform != null);
 
+        float elapsedTime = 0f;
+        Vector3 initialPos = transform.position;
+        Vector3 targetPos = initialPos;
+        targetPos.y = targetPos.y - downDistance;
+
+        while (elapsedTime <= flyTime)
+        {
+            transform.position = Vector3.Lerp(initialPos, targetPos, elapsedTime / flyTime);
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield();
+        }
+    }
     public void OnTimeOut()
     {
         // 뭔가 해줘야함
+    }
+
+    private void SetTargetPlayer(Transform playerTrans)
+    {
+        playerTransform = playerTrans;
+        playerAnimator = playerTransform.gameObject.GetComponent<Animator>();
+    }
+
+    private Color defualtColor = Color.red;
+    private Color detectColor = Color.green;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            spotLight.color = detectColor;
+            playerTransform = other.GetComponent<Transform>();
+        }
+    }
+
+    
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            spotLight.color = defualtColor;
+            playerTransform = null;
+        }
     }
 }
