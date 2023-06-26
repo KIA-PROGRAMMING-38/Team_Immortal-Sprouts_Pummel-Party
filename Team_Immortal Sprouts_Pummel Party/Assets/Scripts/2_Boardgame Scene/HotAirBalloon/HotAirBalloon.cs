@@ -1,5 +1,6 @@
 using Cinemachine;
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -49,27 +50,6 @@ public class HotAirBalloon : MonoBehaviour, IControllable
         token = playResource.Token;
     }
 
-    
-
-    
-
-    
-
-    private async UniTask playerOnBoard()
-    {
-        playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
-        float elapsedTime = 0f;
-        Vector3 initialPos = playerTransform.position;
-        Vector3 targetPos = playerBoardPosition.position;
-        while (elapsedTime <= boardTime)
-        {
-            playerTransform.position = Vector3.Lerp(initialPos, targetPos, elapsedTime / boardTime);
-            elapsedTime += Time.deltaTime;
-            await UniTask.Yield();
-        }
-    }
-    
-
     public void OnJoystickInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -102,25 +82,42 @@ public class HotAirBalloon : MonoBehaviour, IControllable
             await UniTask.Yield(token); 
         }
     }
-
-    public void OnUseButtonInput(InputAction.CallbackContext context)
+    
+    public async void OnUseButtonInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
             spotLight.enabled = false;
             detectCollider.enabled = false;
             SetTargetPlayer(playerTransform);
-            BalloonSink().Forget();
+            await BalloonSink();
+            if (playerTransform != null)
+            {
+                await playerOnBoard();
+                HoldPlayer().Forget();
+            }
+            await UniTask.Delay(TimeSpan.FromSeconds(1f)); // 자연스러운 대기를 위해 
+            balloonDisappear().Forget();
+            
         }
     }
+
+    private void SetTargetPlayer(Transform playerTrans)
+    {
+        playerTransform = playerTrans;
+        if (playerTransform != null)
+        {
+            playerAnimator = playerTransform.gameObject.GetComponent<Animator>();
+            isHoldPlayer = true;
+        }
+    }
+
     public async UniTask BalloonSink()
     {
-        await UniTask.WaitUntil(() => playerTransform != null);
-
         float elapsedTime = 0f;
         Vector3 initialPos = transform.position;
         Vector3 targetPos = initialPos;
-        targetPos.y = targetPos.y - downDistance;
+        targetPos.y -= downDistance;
 
         while (elapsedTime <= flyTime)
         {
@@ -129,16 +126,59 @@ public class HotAirBalloon : MonoBehaviour, IControllable
             await UniTask.Yield();
         }
     }
+
+    private async UniTask playerOnBoard()
+    {
+        playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
+        float elapsedTime = 0f;
+        Vector3 initialPos = playerTransform.position;
+        Vector3 targetPos = playerBoardPosition.position;
+        while (elapsedTime <= boardTime)
+        {
+            playerTransform.position = Vector3.Lerp(initialPos, targetPos, elapsedTime / boardTime);
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield();
+        }
+    }
+
+    private bool isHoldPlayer = false;
+    [SerializeField] [Range(0.5f, 3f)] private float disappearTime = 2f;
+    [SerializeField] [Range(20f, 50f)] private float balloonUpFactor = 20f;
+    private async UniTask balloonDisappear()
+    {
+        CameraTrace.DisConnectFollow(cam);
+        Vector3 initialPostion = transform.position;
+        Vector3 targetPosition = initialPostion + Vector3.up * balloonUpFactor;
+        
+        float elapsedTime = 0f;
+        while (elapsedTime <= disappearTime)
+        {
+            transform.position = Vector3.Lerp(initialPostion, targetPosition, elapsedTime / disappearTime);
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield();  
+        }
+
+        isHoldPlayer = false;
+    }
+
+
+
+
+    private async UniTask HoldPlayer()
+    {
+        while (isHoldPlayer)
+        {
+            playerTransform.position = playerBoardPosition.position;
+            await UniTask.Yield();
+        }
+    }
+
     public void OnTimeOut()
     {
         // 뭔가 해줘야함
     }
 
-    private void SetTargetPlayer(Transform playerTrans)
-    {
-        playerTransform = playerTrans;
-        playerAnimator = playerTransform.gameObject.GetComponent<Animator>();
-    }
+    
 
     private Color defualtColor = Color.red;
     private Color detectColor = Color.green;
