@@ -1,3 +1,4 @@
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,9 +20,11 @@ public class HotAirBalloon : MonoBehaviour, IControllable
     [SerializeField][Range(1f, 3f)] private float boardTime = 1f;
 
     private Animator playerAnimator;
+    [SerializeField] CinemachineVirtualCamera cam;
 
     private void OnEnable()
     {
+        CameraTrace.Connect(transform, cam);
     }
 
     private void Start()
