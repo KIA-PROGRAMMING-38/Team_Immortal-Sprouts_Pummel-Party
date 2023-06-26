@@ -76,6 +76,14 @@ public class BoardgamePlayer : MonoBehaviour
         return true;
     }
 
+    private async UniTask checkHealIsland()
+    {
+        if (currentIsland is HealIsland)
+        {
+            await currentIsland.GetComponent<HealIsland>().OnActiveHealIsland(this);
+        }
+    }
+
     private const float MOVE_TIME = 0.5f;
     private async UniTaskVoid move()
     {
@@ -169,6 +177,8 @@ public class BoardgamePlayer : MonoBehaviour
             await UniTask.Yield();
         }
 
+        await checkHealIsland();
+
         dice.OnAppearDice();
 
         return true;
@@ -241,7 +251,7 @@ public class BoardgamePlayer : MonoBehaviour
 
     #region Damage
     [SerializeField] private ParticleSystem onDamagedParticle;
-    public int Hp = 30;
+    public int Hp = 20;
     /// <summary>
     /// 플레이어에게 데미지를 줄 때 호출할 메소드
     /// </summary>
@@ -250,6 +260,24 @@ public class BoardgamePlayer : MonoBehaviour
         Hp -= power;
         onDamagedParticle?.Play();
         animator.SetTrigger(BoardgamePlayerAnimID.DAMAGED);
+    }
+    #endregion
+
+    #region Recover
+    /// <summary>
+    /// 플레이어의 체력을 회복할 때 호출할 메소드
+    /// </summary>
+    /// <param name="amount"></param>
+    public void OnRecover(int amount)
+    {
+        int MaxHp = 30;
+
+        Hp += amount;
+
+        if (Hp >= MaxHp)
+        {
+            Hp = MaxHp;
+        }
     }
     #endregion
 }
