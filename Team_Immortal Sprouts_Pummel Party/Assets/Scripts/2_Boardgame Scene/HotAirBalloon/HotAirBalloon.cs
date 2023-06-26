@@ -20,22 +20,31 @@ public class HotAirBalloon : MonoBehaviour, IControllable
     [SerializeField][Range(1f, 3f)] private float boardTime = 1f;
 
     private Animator playerAnimator;
-    [SerializeField] CinemachineVirtualCamera cam;
+    [SerializeField] CinemachineVirtualCamera cam; // 지금은 넣어줬지만, 나중에는 virtualCam 참조 받아오는 식으로 해야함
+    private Vector3 cameraOffset = new Vector3(0f, 4.5f, -6f); // 자연스러운 카메라 body offSet
 
     private void OnEnable()
     {
-        CameraTrace.Connect(transform, cam);
+        CameraTrace.ConnectFollow(transform, cam);
+        CameraTrace.ConnectLookAt(transform, cam);
+        CameraTrace.ControlFollowOffset(cam, cameraOffset);
     }
 
     private void Start()
+    {
+        initMoveTokenSettings();
+    }
+
+    private CancellationTokenSource cancelResource;
+    private CancellationTokenSource playResource;
+    private CancellationToken token;
+    private void initMoveTokenSettings()
     {
         playResource = new CancellationTokenSource();
         cancelResource = new CancellationTokenSource();
         cancelResource.Cancel();
         token = playResource.Token;
     }
-
-
 
     public void SetPlayer(Transform playerTrans)
     {
@@ -58,7 +67,6 @@ public class HotAirBalloon : MonoBehaviour, IControllable
         }
     }
 
-
     private async UniTask playerOnBoard()
     {
         //playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
@@ -72,10 +80,7 @@ public class HotAirBalloon : MonoBehaviour, IControllable
             await UniTask.Yield();
         }
     }
-
-    private CancellationTokenSource cancelResource;
-    private CancellationTokenSource playResource;
-    private CancellationToken token;
+    
 
     public void OnJoystickInput(InputAction.CallbackContext context)
     {
@@ -110,7 +115,6 @@ public class HotAirBalloon : MonoBehaviour, IControllable
             await UniTask.Yield(token); 
         }
     }
-
 
     public void OnUseButtonInput(InputAction.CallbackContext context)
     {
