@@ -7,7 +7,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HotAirBalloon : MonoBehaviour, IControllable
+public class HotAirBalloon : Item, IControllable
 {
     [SerializeField] private Transform playerBoardPosition;
     [SerializeField] private Light spotLight;
@@ -33,7 +33,7 @@ public class HotAirBalloon : MonoBehaviour, IControllable
         CameraTrace.ControlFollowOffset(cam, cameraOffset);
     }
 
-    private void Start()
+    private void Awake()
     {
         initMoveTokenSettings();
         spotLight.color = defualtColor;
