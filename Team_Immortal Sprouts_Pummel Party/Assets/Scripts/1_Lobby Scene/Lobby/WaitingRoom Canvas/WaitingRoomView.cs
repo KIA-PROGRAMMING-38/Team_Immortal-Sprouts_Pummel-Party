@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 using Cysharp.Threading.Tasks;
+using Photon.Realtime;
 
 public class WaitingRoomView : MonoBehaviourPunCallbacks
 {
@@ -217,5 +218,5 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
         playerNickName.text = setNickName;
     }
     
-
+    
 }

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2978849746772551064}
   - component: {fileID: 7632992198668117854}
   - component: {fileID: 1096305417296113836}
-  - component: {fileID: 8358761550400686750}
   m_Layer: 0
   m_Name: Petal4
   m_TagString: Untagged
@@ -652,20 +651,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718211447053872142}
   m_Mesh: {fileID: 0}
---- !u!64 &8358761550400686750
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718211447053872142}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2370842838314158239
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,7 +664,6 @@ GameObject:
   - component: {fileID: 5457524791531767698}
   - component: {fileID: 1698277284110223125}
   - component: {fileID: 770359393488978970}
-  - component: {fileID: 8230151384917149608}
   m_Layer: 0
   m_Name: Petal2
   m_TagString: Untagged
@@ -1318,20 +1302,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2370842838314158239}
   m_Mesh: {fileID: 0}
---- !u!64 &8230151384917149608
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2370842838314158239}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &3117598279901312015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,6 +1312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3474576078686204268}
   - component: {fileID: 8962701233054439900}
+  - component: {fileID: -5966252579476411272}
   m_Layer: 0
   m_Name: FlowerHairPin
   m_TagString: Untagged
@@ -1383,10 +1354,27 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -5966252579476411272}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-5966252579476411272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3117598279901312015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 0
 --- !u!1 &5473654674987227493
 GameObject:
   m_ObjectHideFlags: 0
@@ -1400,7 +1388,6 @@ GameObject:
   - component: {fileID: 6394095315986818993}
   - component: {fileID: 2533742679533989467}
   - component: {fileID: 6217204801982699525}
-  - component: {fileID: 2883320499205002138}
   m_Layer: 0
   m_Name: Petal1
   m_TagString: Untagged
@@ -2039,20 +2026,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5473654674987227493}
   m_Mesh: {fileID: 0}
---- !u!64 &2883320499205002138
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5473654674987227493}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &6089743765245511580
 GameObject:
   m_ObjectHideFlags: 0
@@ -2066,7 +2039,6 @@ GameObject:
   - component: {fileID: 6056646847238470760}
   - component: {fileID: 1145711865899937797}
   - component: {fileID: 1557693240769410904}
-  - component: {fileID: 7050955586691541209}
   m_Layer: 0
   m_Name: Petal5
   m_TagString: Untagged
@@ -2705,20 +2677,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6089743765245511580}
   m_Mesh: {fileID: 0}
---- !u!64 &7050955586691541209
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6089743765245511580}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &6453656298385902897
 GameObject:
   m_ObjectHideFlags: 0
@@ -2732,7 +2690,6 @@ GameObject:
   - component: {fileID: 7300712547611089155}
   - component: {fileID: 201747059532080013}
   - component: {fileID: 6261694045696154321}
-  - component: {fileID: 7075540098253223483}
   m_Layer: 0
   m_Name: Petal6
   m_TagString: Untagged
@@ -3371,20 +3328,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6453656298385902897}
   m_Mesh: {fileID: 0}
---- !u!64 &7075540098253223483
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6453656298385902897}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &6585815985285264755
 GameObject:
   m_ObjectHideFlags: 0
@@ -3431,7 +3374,6 @@ GameObject:
   - component: {fileID: 5655528749733242168}
   - component: {fileID: 4414031561993878103}
   - component: {fileID: 2133398050468961943}
-  - component: {fileID: 8184949081022028021}
   m_Layer: 0
   m_Name: Petal3
   m_TagString: Untagged
@@ -4070,20 +4012,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6773350898659013232}
   m_Mesh: {fileID: 0}
---- !u!64 &8184949081022028021
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6773350898659013232}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &7297669356366339967
 GameObject:
   m_ObjectHideFlags: 0
@@ -4097,7 +4025,6 @@ GameObject:
   - component: {fileID: 6638306273941704580}
   - component: {fileID: 6168263373214484422}
   - component: {fileID: 3855003784440165952}
-  - component: {fileID: 7988960483557075345}
   m_Layer: 0
   m_Name: Center
   m_TagString: Untagged
@@ -4736,20 +4663,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7297669356366339967}
   m_Mesh: {fileID: 0}
---- !u!64 &7988960483557075345
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7297669356366339967}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &7468673560582212991
 GameObject:
   m_ObjectHideFlags: 0
@@ -4801,7 +4714,6 @@ GameObject:
   - component: {fileID: 3497690100526272651}
   - component: {fileID: 4677049820734409259}
   - component: {fileID: 5445330381016392272}
-  - component: {fileID: 303608711699356860}
   m_Layer: 0
   m_Name: Pin
   m_TagString: Untagged
@@ -5117,18 +5029,4 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8860860227427896798}
-  m_Mesh: {fileID: 0}
---- !u!64 &303608711699356860
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8860860227427896798}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}

@@ -324,15 +324,53 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         }
     }
 
-    Hashtable[] playerProperties = new Hashtable[5];
+    #region HashTable
+    Hashtable hatPropertise;
+    Hashtable namePropertise;
+    Hashtable colorPropertise;
+    Hashtable enterOrderPropertise;
+    Hashtable hpPropertise;
+    Hashtable eggPropertise;
+    Hashtable positionPoropertise;
 
     private void InitializeHashTable()
     {
-        for (int i = 1; i < playerProperties.Length; ++i)
+        hatPropertise = new Hashtable()
         {
-            playerProperties[i] = new Hashtable();
-        }
+            { PropertiesKey.hatKey, new int()}
+        };
+
+        namePropertise = new Hashtable()
+        {
+            { PropertiesKey.nameKey, "" }
+        };
+
+        colorPropertise = new Hashtable()
+        {
+            { PropertiesKey.colorKey, new int() }
+        };
+
+        enterOrderPropertise = new Hashtable()
+        {
+            { PropertiesKey.enterOrderKey, new int() }
+        };
+
+        hpPropertise = new Hashtable()
+        {
+            { PropertiesKey.hpKey, new int() }
+        };
+
+        eggPropertise = new Hashtable()
+        {
+            { PropertiesKey.eggCountKey, new int() }
+        };
+
+        positionPoropertise = new Hashtable()
+        {
+            { PropertiesKey.positionKey, new Vector3() }
+        };
     }
+    #endregion
 
     private int playerMaxHP = 30;
     private Vector3 defualtPosition = Vector3.zero;
@@ -345,22 +383,26 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         for (int enterOrder = 1; enterOrder < players.Length; ++enterOrder)
         {
-            Player player = players[enterOrder];
+            Player player = PhotonNetwork.CurrentRoom.Players[enterOrder];
             if (player != null) // 혹시 모를 널 체크
             {
                 string savedNickName = playerData.GetPlayerNickName(player);
                 int savedColorIndex = playerData.GetPlayerBodyColorIndex(player);
                 int savedHatIndex = playerData.GetPlayerHatIndex(player);
                 int playerEnterOrder = playerData.GetPlayerEnterOrder(player);
-                
 
-                playerProperties[enterOrder].Add(PropertiesKey.nameKey, savedNickName);
-                playerProperties[enterOrder].Add(PropertiesKey.colorKey, savedColorIndex);
-                playerProperties[enterOrder].Add(PropertiesKey.hatKey, savedHatIndex);
-                playerProperties[enterOrder].Add(PropertiesKey.enterOrderKey, playerEnterOrder);
-                playerProperties[enterOrder].Add(PropertiesKey.hpKey, playerMaxHP);
-                playerProperties[enterOrder].Add(PropertiesKey.eggCountKey, 0);
-                playerProperties[enterOrder].Add(PropertiesKey.positionKey, defualtPosition);
+                player.SetCustomProperties(namePropertise); // 추가함
+                player.SetCustomProperties(colorPropertise);
+                player.SetCustomProperties(hatPropertise);
+                player.SetCustomProperties(enterOrderPropertise);
+                player.SetCustomProperties(hpPropertise);
+                player.SetCustomProperties(eggPropertise);
+                player.SetCustomProperties(positionPoropertise);
+
+                player.CustomProperties[PropertiesKey.nameKey] = savedNickName;
+                player.CustomProperties[PropertiesKey.colorKey] = savedColorIndex;
+                player.CustomProperties[PropertiesKey.hatKey] = savedHatIndex;
+                player.CustomProperties[PropertiesKey.enterOrderKey] = playerEnterOrder;
             }
         }
     }

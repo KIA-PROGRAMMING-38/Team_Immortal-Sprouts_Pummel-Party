@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using Cysharp.Threading.Tasks;
+using ExitGames.Client.Photon.StructWrapping;
 
 public class BoardGameManager : MonoBehaviour
 {
@@ -32,10 +33,18 @@ public class BoardGameManager : MonoBehaviour
         {
             for (int playerEnterNumber = 1; playerEnterNumber <= PhotonNetwork.CurrentRoom.PlayerCount; playerEnterNumber++)
             {
-                GameObject player = PhotonNetwork.Instantiate("Player",
+                GameObject playerModel = PhotonNetwork.Instantiate("Player",
                     spawnPoint._BoardPositions[playerEnterNumber].position, Quaternion.identity);
-                playerView = player.GetPhotonView();
+                playerView = playerModel.GetPhotonView();
                 playerView.TransferOwnership(PhotonNetwork.CurrentRoom.Players[playerEnterNumber]);
+                Transform hatPosition = playerModel.transform.GetChild(0);
+                Player player = PhotonNetwork.CurrentRoom.Players[playerEnterNumber];
+                if ((int)player.CustomProperties[PropertiesKey.hatKey] != 0)
+                {
+                    GameObject hat = PhotonNetwork.Instantiate(customData.hats[(int)player.CustomProperties[PropertiesKey.hatKey]].name,
+                        hatPosition.position, Quaternion.identity);
+                    hat.transform.SetParent(hatPosition,true);
+                }
             }
         }
     }
