@@ -1,110 +1,152 @@
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 
 public class BoardgamePlayer : MonoBehaviour
 {
-    [SerializeField] private Dice _dice;
-    private Rigidbody _rigidbody;
-    private Animator _animator;
-    public Inventory Inventory = new Inventory();
+    [SerializeField] private Dice dice;
+    private Rigidbody rigidbody;
+    private Animator animator;
+    private Inventory inventory;
+    public Inventory Inventory { get 
+        {
+            if(inventory == null)
+            {
+                inventory = new Inventory(this);
+            }
+            return inventory;
+        } }
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+        rigidbody = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
-        UpdateCurrentIsland();
+        updateCurrentIsland();
         Inventory.InitInventory();
+        isOnStartIsland = true;
     }
 
-    [SerializeField] private bool _canRoll = false;  // 프레임워크랑 연결하기 전에 테스트하려고 열어둠
-    [SerializeField] private bool _canUseItem = false;
-    private int _moveCount;
+    private int moveCount;
+    public bool CanUseItem = false;
 
-    // Dice 구현 후 사용할 메소드
-    // TODO: 테스트 및 주사위 움직임 멈췄을 때 이벤트 구독
     public void OnDiceStoped()
     {
-        _moveCount = _dice.ConveyDiceReuslt();
-        HelpMoveAsync().Forget();
+        moveCount = dice.ConveyDiceReuslt();
+        helpMoveAsync().Forget();
     }
 
-    private Island _currentIsland;
+    private Island currentIsland;
     private const int WAIT_TIME_BEFORE_MOVE = 1000;
-    private bool _canMoveOnDirectionIsland;
-    private async UniTaskVoid HelpMoveAsync()
+    private bool canMoveOnDirectionIsland;
+    private async UniTaskVoid helpMoveAsync()
     {
-        if (_currentIsland.CompareTag("RotationIsland")) // 회전 섬에서 출발하는 경우 섬의 회전이 끝날 때까지 대기
-        {
-            if (0 < _moveCount)
-            {
-                await UniTask.WaitUntil(() => _currentIsland.GetComponent<RotationIsland>().GetRotationStatus() == true);
-                _canMoveOnDirectionIsland = true;
-            }
-        }
+        await checkDepartureIsland();
 
-        CheckReachableIsland();
+        checkReachableIsland();
 
         await UniTask.Delay(WAIT_TIME_BEFORE_MOVE);
-        Move().Forget();
+        move().Forget();
+    }
+
+    private async UniTask checkDepartureIsland()
+    {
+        if (currentIsland is RotationIsland && moveCount >= 1)
+        {
+            currentIsland.GetComponent<RotationIsland>().PopUpDirectionArrow(transform);
+
+            await UniTask.WaitUntil(() => currentIsland.GetComponent<RotationIsland>().GetRotationStatus() == true);
+            canMoveOnDirectionIsland = true;
+        }
+    }
+
+    private async UniTask onExitDepartureIsland()
+    {
+        if (currentIsland is RotationIsland)
+        {
+            currentIsland.GetComponent<RotationIsland>().ActivateResetRotation();
+        }
+    }
+
+    private async UniTask checkTransitIsland()
+    {
+        
+    }
+
+    private async UniTask checkDestIsland()
+    {
+        if(currentIsland is ItemIsland)
+        {
+            await currentIsland.GetComponent<ItemIsland>().Activate(this);
+        }
+    }
+
+    private async UniTask checkHealIsland()
+    {
+        if (currentIsland is HealIsland)
+        {
+            await currentIsland.GetComponent<HealIsland>().OnActiveHealIsland(this);
+        }
     }
 
     private const float MOVE_TIME = 0.5f;
-    private async UniTaskVoid Move()
+    private async UniTaskVoid move()
     {
         Vector3 start;
         Vector3 end;
         Vector3 mid;
 
-        if (_currentIsland.GetCurrentPosition() == _destIslandPosition)
+        if (currentIsland.GetCurrentPosition() == destIslandPosition)
         {
-            await LookForward();
+            await lookForward();
             return;
         }
 
-        _animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
+        animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
+        await onExitDepartureIsland();
 
-        while (_moveCount >= 1)
+        while (moveCount >= 1)
         {
             float elapsedTime = 0f;
-            start = _rigidbody.position;
-            end = _destIslandPosition;
-            mid = GetMidPoint(start, end);
+            start = rigidbody.position;
+            end = destIslandPosition;
+            mid = getMidPoint(start, end);
 
-            _moveCount -= 1;
+            moveCount -= 1;
 
-            await LookNextDestIsland((end - start).normalized);
+            await lookNextDestIsland((end - start).normalized);
 
             while (elapsedTime <= MOVE_TIME)
             {
-                _rigidbody.MovePosition(SecondaryBezierCurve(start, mid, end, elapsedTime / MOVE_TIME));
+                rigidbody.MovePosition(secondaryBezierCurve(start, mid, end, elapsedTime / MOVE_TIME));
                 elapsedTime += Time.deltaTime;
 
-                await UniTask.Yield();
+                await UniTask.Yield(this.GetCancellationTokenOnDestroy());
             }
 
-            UpdateCurrentIsland();
-            CheckReachableIsland();
-            await UniTask.Yield();
+            await checkTransitIsland();
+
+            updateCurrentIsland();
+            checkReachableIsland();
+            await UniTask.Yield(this.GetCancellationTokenOnDestroy());
         }
 
-        _animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false);
+        animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false);
 
-        await LookForward();
+        await lookForward();
     }
 
     private const float ROTATE_TIME = 1f;
-    private async UniTask<bool> LookNextDestIsland(Vector3 dir)
+    private async UniTask lookNextDestIsland(Vector3 dir)
     {
         // 회전타일에서부터 출발하는 턴에서는 회전하지 않음
-        if (_currentIsland.CompareTag("RotationIsland") && _canMoveOnDirectionIsland)
+        if (currentIsland is RotationIsland && canMoveOnDirectionIsland)
         {
-            _canMoveOnDirectionIsland = false;
-            return true;
+            canMoveOnDirectionIsland = false;
         }
 
         Quaternion start = transform.rotation;
@@ -115,21 +157,19 @@ public class BoardgamePlayer : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-            if (transform.position != _destIslandPosition)
+            if (transform.position != destIslandPosition)
             {
                 var lerpval = Quaternion.Lerp(start, end, elapsedTime / ROTATE_TIME);
                 transform.rotation = lerpval;
             }
-            await UniTask.Yield();
+            await UniTask.Yield(this.GetCancellationTokenOnDestroy());
         }
-
-        return true;
     }
 
-    private Vector3 GetReverseVector(Vector3 vec) { return vec * -1f; }
-    private async UniTask<bool> LookForward()
+    private Vector3 getReverseVector(Vector3 vec) { return vec * -1f; }
+    private async UniTask lookForward()
     {
-        Vector3 lookDir = GetReverseVector(Vector3.forward);
+        Vector3 lookDir = getReverseVector(Vector3.forward);
         lookDir = lookDir.normalized;
 
         Quaternion start = transform.rotation;
@@ -141,43 +181,47 @@ public class BoardgamePlayer : MonoBehaviour
             elapsedTime += Time.deltaTime;
             var lerpval = Quaternion.Lerp(start, end, elapsedTime / ROTATE_TIME);
             transform.rotation = lerpval;
-            await UniTask.Yield();
+            await UniTask.Yield(this.GetCancellationTokenOnDestroy());
         }
 
-        _dice.OnAppearDice();
 
-        return true;
+
+        await checkDestIsland();
+
+
+        // TODO: 추후 턴 시작을 알리는 곳에서 해야 함
+        dice.OnAppearDice();
     }
 
     private const int JUMP_HEIGHT = 5;
-    private Vector3 GetMidPoint(Vector3 start, Vector3 end)
+    private Vector3 getMidPoint(Vector3 start, Vector3 end)
     {
         Vector3 mid = Vector3.Lerp(start, end, 0.5f);
         mid.y += JUMP_HEIGHT;
         return mid;
     }
 
-    private Vector3 PrimaryBezierCurve(Vector3 p1, Vector3 p2, float t)
+    private Vector3 primaryBezierCurve(Vector3 p1, Vector3 p2, float t)
     {
         return Vector3.Lerp(p1, p2, t);
     }
 
-    private Vector3 SecondaryBezierCurve(Vector3 p1, Vector3 p2, Vector3 p3, float t)
+    private Vector3 secondaryBezierCurve(Vector3 p1, Vector3 p2, Vector3 p3, float t)
     {
-        Vector3 m0 = PrimaryBezierCurve(p1, p2, t);
-        Vector3 m1 = PrimaryBezierCurve(p2, p3, t);
+        Vector3 m0 = primaryBezierCurve(p1, p2, t);
+        Vector3 m1 = primaryBezierCurve(p2, p3, t);
 
-        return PrimaryBezierCurve(m0, m1, t);
+        return primaryBezierCurve(m0, m1, t);
     }
 
-    private void UpdateCurrentIsland()
+    private void updateCurrentIsland()
     {
         RaycastHit hit;
         Physics.Raycast(transform.position, Vector3.down * 10f, out hit, int.MaxValue, LayerMask.GetMask("Island"));
 
         if (hit.collider != null)
         {
-            _currentIsland = hit.collider.gameObject.GetComponentInParent<Island>();
+            currentIsland = hit.collider.gameObject.GetComponentInParent<Island>();
         }
         else
         {
@@ -185,21 +229,64 @@ public class BoardgamePlayer : MonoBehaviour
         }
     }
 
-    private Vector3 _destIslandPosition;
-    private void CheckReachableIsland()
+    private Vector3 destIslandPosition;
+    // TODO: 죽었을 때 시작 섬으로 가니까 true로 바꿔줘야함
+    private bool isOnStartIsland;
+    private void checkReachableIsland()
     {
-        if (_moveCount >= 1)
+        if (moveCount >= 1)
         {
-            _destIslandPosition = _currentIsland.GetNextPosition();
+            if (isOnStartIsland == true) isOnStartIsland = false;
+
+            destIslandPosition = currentIsland.GetNextPosition();
         }
-        else if (_moveCount == -1)
+        else if (moveCount == -1)
         {
-            _destIslandPosition = _currentIsland.GetPrevPosition();
-            _moveCount = 1;
+            if(isOnStartIsland == true)
+            {
+                moveCount = 0;
+            }
+            else
+            {
+                destIslandPosition = currentIsland.GetPrevPosition();
+                moveCount = 1;
+            }
         }
         else
         {
-            _destIslandPosition = _currentIsland.GetCurrentPosition();
+            destIslandPosition = currentIsland.GetCurrentPosition();
         }
     }
+
+    #region Damage
+    [SerializeField] private ParticleSystem onDamagedParticle;
+    public int Hp = 20;
+    /// <summary>
+    /// 플레이어에게 데미지를 줄 때 호출할 메소드
+    /// </summary>
+    public void GetDamage(int power)
+    {
+        Hp -= power;
+        onDamagedParticle?.Play();
+        animator.SetTrigger(BoardgamePlayerAnimID.DAMAGED);
+    }
+    #endregion
+
+    #region Recover
+    /// <summary>
+    /// 플레이어의 체력을 회복할 때 호출할 메소드
+    /// </summary>
+    /// <param name="amount"></param>
+    public void OnRecover(int amount)
+    {
+        int MaxHp = 30;
+
+        Hp += amount;
+
+        if (Hp >= MaxHp)
+        {
+            Hp = MaxHp;
+        }
+    }
+    #endregion
 }

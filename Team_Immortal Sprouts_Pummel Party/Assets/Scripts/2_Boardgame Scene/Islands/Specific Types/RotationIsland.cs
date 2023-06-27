@@ -13,7 +13,7 @@ public class RotationIsland : Island
     [Header("---------------------------------------Camera Shake---------------------------------------")]
     [SerializeField] CinemachineVirtualCamera virtualCam;
     [SerializeField] [Range(1f, 10f)] private float shakeIntensity = 5f;
-    private Transform playerTransform; // ÇÃ·¹ÀÌ¾î¸¦ ÇÔ²² È¸Àü½ÃÄÑÁÖ±â À§ÇÑ º¯¼ö
+    private Transform playerTransform; // í”Œë ˆì´ì–´ë¥¼ í•¨ê»˜ íšŒì „ì‹œì¼œì£¼ê¸° ìœ„í•œ ë³€ìˆ˜
     private Quaternion defaultRotation;
     private bool isRotationFinished;
 
@@ -25,16 +25,16 @@ public class RotationIsland : Island
     }
 
     /// <summary>
-    /// TODO: ÇÃ·¹ÀÌ¾î°¡ ÅÏ ½ÃÀÛÇÒ ¶§ È£Ãâ
-    /// ¹æÇâ È­»ìÇ¥¸¦ ¶ç¿ì´Â ÇÔ¼ö
+    /// ë°©í–¥ í™”ì‚´í‘œë¥¼ ë„ìš°ëŠ” í•¨ìˆ˜
     /// </summary>
-    public void PopUpDirectionArrow()
+    public void PopUpDirectionArrow(Transform playerTransform)
     {
+        SetPlayerTransform(playerTransform); // ì• ì‹œë‹¹ì´ˆ í™”ì‚´í‘œë¥¼ ë„ìš´ë‹¤ëŠ”ê²ƒì€ í”Œë ˆì´ì–´ê°€ íšŒì „ì„¬ì— ë„ì°©í–ˆë‹¤ëŠ” ê²ƒì´ë‹¤
         arrowSwitch.TurnOnSwitch();
     }
 
     /// <summary>
-    /// ¼¶°ú ÇÔ²² È¸Àü½ÃÅ³ ÇÃ·¹ÀÌ¾î¸¦ ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    /// ì„¬ê³¼ í•¨ê»˜ íšŒì „ì‹œí‚¬ í”Œë ˆì´ì–´ë¥¼ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="playerTransform"></param>
     public void SetPlayerTransform(Transform playerTransform)
@@ -43,7 +43,7 @@ public class RotationIsland : Island
     }
 
     /// <summary>
-    /// ¼¶À» ´©¸¥ È­»ìÇ¥ ¹æÇâÀ¸·Î È¸Àü½ÃÅ°´Â ÇÔ¼ö
+    /// ì„¬ì„ ëˆ„ë¥¸ í™”ì‚´í‘œ ë°©í–¥ìœ¼ë¡œ íšŒì „ì‹œí‚¤ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="targetRotation"></param>
     public void ActivateRotatation(Quaternion targetRotation)
@@ -52,8 +52,7 @@ public class RotationIsland : Island
     }
 
     /// <summary>
-    /// TODO: ÇÃ·¹ÀÌ¾î°¡ ¶°³¯ ¶§ È£Ãâ
-    /// ¼¶À» ´Ù½Ã ¿ø»óº¹±¸ È¸Àü½ÃÅ°´Â ÇÔ¼ö
+    /// ì„¬ì„ ë‹¤ì‹œ ì›ìƒë³µêµ¬ íšŒì „ì‹œí‚¤ëŠ” í•¨ìˆ˜
     /// </summary>
     public void ActivateResetRotation()
     {
@@ -61,7 +60,7 @@ public class RotationIsland : Island
     }
 
     /// <summary>
-    /// È¸ÀüÀÇ Á¾·á¿©ºÎ¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// íšŒì „ì˜ ì¢…ë£Œì—¬ë¶€ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <returns></returns>
     public bool GetRotationStatus()
@@ -74,14 +73,14 @@ public class RotationIsland : Island
         Quaternion initialRotation;
         bool isResetting = false;
 
-        if (targetRotation == defaultRotation) // ´Ù½Ã µÇµ¹¸± ¶§
+        if (targetRotation == defaultRotation) // ë‹¤ì‹œ ë˜ëŒë¦´ ë•Œ
         {
-            SetNextPosition(Vector3.zero); // ´ÙÀ½ ¸ñÀûÁö¸¦ ¾ø¾ÖÁØ´Ù
-            ResetPlayerTransform(); // °°ÀÌ È¸Àü½ÃÅ³ ÇÃ·¹ÀÌ¾î¸¦ ¾ø¾ÖÁØ´Ù
+            SetNextPosition(Vector3.zero); // ë‹¤ìŒ ëª©ì ì§€ë¥¼ ì—†ì• ì¤€ë‹¤
+            ResetPlayerTransform(); // ê°™ì´ íšŒì „ì‹œí‚¬ í”Œë ˆì´ì–´ë¥¼ ì—†ì• ì¤€ë‹¤
             initialRotation = transform.rotation;
             isResetting = true;
         }
-        else // È­»ìÇ¥¸¦ ´­·¶À» ¶§
+        else // í™”ì‚´í‘œë¥¼ ëˆŒë €ì„ ë•Œ
         {
             initialRotation = defaultRotation;
         }
@@ -90,21 +89,23 @@ public class RotationIsland : Island
         
         ActivateCameraShake();
 
-        if (playerTransform == null) // ÇÃ·¹ÀÌ¾î°¡ ¼¶À§¿¡ ¾ø´Ù¸é
+        if (playerTransform == null) // í”Œë ˆì´ì–´ê°€ ì„¬ìœ„ì— ì—†ë‹¤ë©´
         {
-            while (elapsedTime <= rotateTime) // ¼¶¸¸ È¸Àü½ÃÅ²´Ù
+            while (elapsedTime <= rotateTime) // ì„¬ë§Œ íšŒì „ì‹œí‚¨ë‹¤
             {
                 transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / rotateTime);
                 elapsedTime += Time.deltaTime;
                 await UniTask.Yield();
             }
         }
-        else // ÇÃ·¹ÀÌ¾î°¡ ¼¶À§¿¡ Á¸ÀçÇÑ´Ù¸é
+        else // í”Œë ˆì´ì–´ê°€ ì„¬ìœ„ì— ì¡´ì¬í•œë‹¤ë©´
         {
-            while (elapsedTime <= rotateTime) // ÇÃ·¹ÀÌ¾î¿Í ¼¶À» °°ÀÌ È¸Àü½ÃÅ²´Ù
+            Quaternion playerInitialRotation = playerTransform.rotation;
+            Quaternion playerTargetRotation = Quaternion.Euler(0f, playerInitialRotation.eulerAngles.y + targetRotation.eulerAngles.y, 0f);
+            while (elapsedTime <= rotateTime) // í”Œë ˆì´ì–´ì™€ ì„¬ì„ ê°™ì´ íšŒì „ì‹œí‚¨ë‹¤
             {
                 transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / rotateTime);
-                playerTransform.rotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / rotateTime);
+                playerTransform.rotation = Quaternion.Lerp(playerInitialRotation, playerTargetRotation, elapsedTime / rotateTime);
                 elapsedTime += Time.deltaTime;
                 await UniTask.Yield();
             }
@@ -113,11 +114,11 @@ public class RotationIsland : Island
         DeactivateCameraShake();
         
 
-        if (isResetting == false) // È­»ìÇ¥ ¹æÇâÀ» ´©¸£°í, È¸ÀüÀÌ ³¡³ª¸é isRotationFinished¸¦ true·Î ¸¸µé¾îÁØ´Ù
+        if (isResetting == false) // í™”ì‚´í‘œ ë°©í–¥ì„ ëˆ„ë¥´ê³ , íšŒì „ì´ ëë‚˜ë©´ isRotationFinishedë¥¼ trueë¡œ ë§Œë“¤ì–´ì¤€ë‹¤
         {
             isRotationFinished = true;
         }
-        else // ´Ù½Ã ¿ø»óº¹±¸ ½ÃÅ°´Â È¸ÀüÀÌ¶ó¸é ¾ÖÃÊ¿¡ isRotationFinished¸¦ »ç¿ëÇÒ ÀÏÀÌ ¾ø´Ù
+        else // ë‹¤ì‹œ ì›ìƒë³µêµ¬ ì‹œí‚¤ëŠ” íšŒì „ì´ë¼ë©´ ì• ì´ˆì— isRotationFinishedë¥¼ ì‚¬ìš©í•  ì¼ì´ ì—†ë‹¤
         {
             isRotationFinished = false;
         }

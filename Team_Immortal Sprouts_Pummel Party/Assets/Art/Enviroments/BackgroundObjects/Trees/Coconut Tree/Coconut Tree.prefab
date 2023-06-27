@@ -56,7 +56,6 @@ GameObject:
   - component: {fileID: 2008891333169695575}
   - component: {fileID: 2008891333169695568}
   - component: {fileID: 2008891333169695569}
-  - component: {fileID: 2008891333169695570}
   m_Layer: 0
   m_Name: Leaf (4)
   m_TagString: Untagged
@@ -733,20 +732,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008891333169695580}
   m_Mesh: {fileID: 0}
---- !u!64 &2008891333169695570
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891333169695580}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2008891333180009419
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,7 +745,6 @@ GameObject:
   - component: {fileID: 2008891333180009422}
   - component: {fileID: 2008891333180009423}
   - component: {fileID: 2008891333180009416}
-  - component: {fileID: 2008891333180009417}
   m_Layer: 0
   m_Name: Leaf (1)
   m_TagString: Untagged
@@ -1437,20 +1421,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008891333180009419}
   m_Mesh: {fileID: 0}
---- !u!64 &2008891333180009417
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891333180009419}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2008891333229442704
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,7 +1432,6 @@ GameObject:
   - component: {fileID: 2008891333229442708}
   - component: {fileID: 2008891333229442709}
   - component: {fileID: 2008891333229442710}
-  - component: {fileID: 2008891333229442711}
   m_Layer: 0
   m_Name: Coconut (1)
   m_TagString: Untagged
@@ -1535,19 +1504,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2008891333229442711
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891333229442704}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2008891333347599120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1559,7 +1515,6 @@ GameObject:
   - component: {fileID: 2008891333347599124}
   - component: {fileID: 2008891333347599125}
   - component: {fileID: 2008891333347599126}
-  - component: {fileID: 2008891333347599127}
   m_Layer: 0
   m_Name: Coconut
   m_TagString: Untagged
@@ -1632,19 +1587,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2008891333347599127
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891333347599120}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2008891333537873137
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,7 +1600,6 @@ GameObject:
   - component: {fileID: 2008891333537873140}
   - component: {fileID: 2008891333537873141}
   - component: {fileID: 2008891333537873142}
-  - component: {fileID: 2008891333537873143}
   m_Layer: 0
   m_Name: Leaf (2)
   m_TagString: Untagged
@@ -2335,20 +2276,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008891333537873137}
   m_Mesh: {fileID: 0}
---- !u!64 &2008891333537873143
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891333537873137}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2008891333806622924
 GameObject:
   m_ObjectHideFlags: 0
@@ -2360,7 +2287,6 @@ GameObject:
   - component: {fileID: 2008891333806622915}
   - component: {fileID: 2008891333806622919}
   - component: {fileID: 2008891333806622912}
-  - component: {fileID: 2008891333806622913}
   - component: {fileID: 2008891333806622914}
   m_Layer: 0
   m_Name: Body
@@ -2434,19 +2360,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2008891333806622913
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891333806622924}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2008891333806622914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2797,7 +2710,6 @@ GameObject:
   - component: {fileID: 2008891334145894300}
   - component: {fileID: 2008891334145894301}
   - component: {fileID: 2008891334145894302}
-  - component: {fileID: 2008891334145894303}
   m_Layer: 0
   m_Name: Leaf (7)
   m_TagString: Untagged
@@ -3474,20 +3386,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008891334145894297}
   m_Mesh: {fileID: 0}
---- !u!64 &2008891334145894303
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891334145894297}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2008891334341521464
 GameObject:
   m_ObjectHideFlags: 0
@@ -3501,7 +3399,6 @@ GameObject:
   - component: {fileID: 2008891334341521459}
   - component: {fileID: 2008891334341521468}
   - component: {fileID: 2008891334341521469}
-  - component: {fileID: 2008891334341521470}
   m_Layer: 0
   m_Name: Leaf (5)
   m_TagString: Untagged
@@ -4178,20 +4075,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008891334341521464}
   m_Mesh: {fileID: 0}
---- !u!64 &2008891334341521470
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891334341521464}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2008891334601285443
 GameObject:
   m_ObjectHideFlags: 0
@@ -4205,7 +4088,6 @@ GameObject:
   - component: {fileID: 2008891334601285446}
   - component: {fileID: 2008891334601285447}
   - component: {fileID: 2008891334601285440}
-  - component: {fileID: 2008891334601285441}
   m_Layer: 0
   m_Name: Leaf
   m_TagString: Untagged
@@ -4882,20 +4764,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008891334601285443}
   m_Mesh: {fileID: 0}
---- !u!64 &2008891334601285441
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891334601285443}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2008891334684495438
 GameObject:
   m_ObjectHideFlags: 0
@@ -4907,7 +4775,6 @@ GameObject:
   - component: {fileID: 2008891334684495426}
   - component: {fileID: 2008891334684495427}
   - component: {fileID: 2008891334684495436}
-  - component: {fileID: 2008891334684495437}
   m_Layer: 0
   m_Name: Coconut (2)
   m_TagString: Untagged
@@ -4980,19 +4847,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2008891334684495437
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891334684495438}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2008891334710449185
 GameObject:
   m_ObjectHideFlags: 0
@@ -5006,7 +4860,6 @@ GameObject:
   - component: {fileID: 2008891334710449188}
   - component: {fileID: 2008891334710449189}
   - component: {fileID: 2008891334710449190}
-  - component: {fileID: 2008891334710449191}
   m_Layer: 0
   m_Name: Leaf (3)
   m_TagString: Untagged
@@ -5683,20 +5536,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008891334710449185}
   m_Mesh: {fileID: 0}
---- !u!64 &2008891334710449191
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891334710449185}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2008891334723993851
 GameObject:
   m_ObjectHideFlags: 0
@@ -5710,7 +5549,6 @@ GameObject:
   - component: {fileID: 2008891334723993854}
   - component: {fileID: 2008891334723993855}
   - component: {fileID: 2008891334723993848}
-  - component: {fileID: 2008891334723993849}
   m_Layer: 0
   m_Name: Leaf (6)
   m_TagString: Untagged
@@ -6386,18 +6224,4 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008891334723993851}
-  m_Mesh: {fileID: 0}
---- !u!64 &2008891334723993849
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008891334723993851}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}

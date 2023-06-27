@@ -6,39 +6,26 @@ using UnityEngine.Events;
 
 public class ItemUseTest : MonoBehaviour
 {
-    public static UnityEvent OnTimeOut;
-
-    public GameObject prefab;
+    public ItemData item;
     public BoardgamePlayer player;
     public BoardgamePlayer otherPlayer;
 
     void Start()
     {
-        OnTimeOut = new UnityEvent();
-
-        // ¾ÆÀÌÅÛ »ç¿ë Å×½ºÆ®
-        //IUsable item = Instantiate(prefab).GetComponent<IUsable>();
-        //item.SetForUse(player);
-
-        // ¾ÆÀÌÅÛ Ãß°¡ Å×½ºÆ®
+        // ì•„ì´í…œ ì¶”ê°€ í…ŒìŠ¤íŠ¸
+        Invoke(nameof(GetTest), 1f);
+        Invoke(nameof(OtherPlayerGet), 2f);
         Invoke(nameof(GetTest), 5f);
-        Invoke(nameof(OtherPlayerGet), 0.5f);
-        Invoke(nameof(GetTest), 0.5f);
 
     }
 
     private void GetTest()
     {
-        prefab.GetComponent<Item>().Get(player);
+        player.Inventory.Add(item);
     }
 
     private void OtherPlayerGet()
     {
-        prefab.GetComponent<Item>().Get(otherPlayer);
-    }
-
-    private void CallTimeOut()
-    {
-        OnTimeOut.Invoke();
+        otherPlayer.Inventory.Add(item);
     }
 }

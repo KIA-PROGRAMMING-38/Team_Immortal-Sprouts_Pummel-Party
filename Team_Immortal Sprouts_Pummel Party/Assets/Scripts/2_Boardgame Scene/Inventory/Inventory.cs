@@ -5,53 +5,64 @@ using UnityEngine.Events;
 
 public class Inventory
 {
-    public static UnityEvent<List<InventoryItem>> OnInventoryUpdate = new UnityEvent<List<InventoryItem>>();
-    public static UnityEvent<List<InventoryItem>> OnInventoryInit = new UnityEvent<List<InventoryItem>>();
+    public Inventory(BoardgamePlayer owner) => Owner = owner;
+    public BoardgamePlayer Owner;
 
-    public List<InventoryItem> PlayerInventory = new List<InventoryItem>();
-    private Dictionary<ItemData, InventoryItem> _itemDictionary = new Dictionary<ItemData, InventoryItem>();
+    public UnityEvent<Inventory> OnInventoryInit = new UnityEvent<Inventory>();
+    public UnityEvent OnInventoryUpdate = new UnityEvent();
 
+    public List<BelongingItemData> PlayerInventory = new List<BelongingItemData>();
+    private Dictionary<ItemData, BelongingItemData> itemDictionary = new Dictionary<ItemData, BelongingItemData>();
+
+    /// <summary>
+    /// ì¸ë²¤í† ë¦¬ì— ì´ˆê¸° ë°ì´í„° ì €ì¥
+    /// </summary>
     public void InitInventory()
     {
-        // TODO: GameManager ¿¬°áµÇ´Â °æ¿ì static class¿¡¼­ ÇØ´ç µ¿ÀÛ ÇÏ´Â ¸Ş¼Òµå ¸¸µé°í È£ÃâÇÏ±â -> ÀĞ¾î¿Â ItemDataµé·Î Awake or Start¿¡¼­ new InventoryItem()
         if(PlayerInventory.Count == 0)
         {
-            ItemData[] items = Resources.LoadAll<ItemData>("ItemData");
+            ItemData[] items = ItemProvider.ItemTable;
             
             for(int id = 0; id < items.Length; ++id)
             {
                 ItemData itemData = items[id];
-                InventoryItem newItem = new InventoryItem(itemData);
+                BelongingItemData newItem = new BelongingItemData(itemData);
                 PlayerInventory.Add(newItem);
-                _itemDictionary.Add(itemData, newItem);
+                itemDictionary.Add(itemData, newItem);
             }
 
-            OnInventoryInit?.Invoke(PlayerInventory);
-            OnInventoryUpdate?.Invoke(PlayerInventory);
+            OnInventoryInit?.Invoke(this);
+            OnInventoryUpdate?.Invoke();
         }   
     }
 
+    /// <summary>
+    /// ì¸ë²¤í† ë¦¬ì— ì•„ì´í…œ ì €ì¥
+    /// </summary>
     public void Add(ItemData itemData)
     {
-        if(_itemDictionary.TryGetValue(itemData, out InventoryItem item))
+        if(itemDictionary.TryGetValue(itemData, out BelongingItemData item))
         {
             item.AddToInventory();
-            OnInventoryUpdate?.Invoke(PlayerInventory);
+            OnInventoryUpdate?.Invoke();
 
-            Debug.Log($"Inventory ¾÷µ¥ÀÌÆ®: {itemData.Name} -> {item.Number}");
+            Debug.Log($"[{Owner.name}]Inventory ì—…ë°ì´íŠ¸: {itemData.Name} -> {item.Number}");
         }
         else
         {
-            Debug.Log("Àß¸øµÈ ItemData");
+            Debug.Log("ì˜ëª»ëœ ItemData");
         }
     }
 
+    /// <summary>
+    /// ì¸ë²¤í† ë¦¬ì—ì„œ ì•„ì´í…œ ì œê±° (1ê°œ ì‚¬ìš©)
+    /// </summary>
     public void Remove(ItemData itemData)
     {
-        if (_itemDictionary.TryGetValue(itemData, out InventoryItem item))
+        if (itemDictionary.TryGetValue(itemData, out BelongingItemData item))
         {
             item.RemoveFromInventory();
-            OnInventoryUpdate?.Invoke(PlayerInventory);
+            OnInventoryUpdate?.Invoke();
         }
     }
 }

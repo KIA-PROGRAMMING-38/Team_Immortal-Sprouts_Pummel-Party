@@ -2,39 +2,53 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Pistol : ControllItem
+public class Pistol : Item, IControllable
 {
+    private int playerLayerMask;
+    private void Start()
+    {
+        playerLayerMask = LayerMask.GetMask("Player");
+    }
 
-    private Transform _playerTransform;
-    private Rigidbody _playerRigidbody;
+    private Transform playerTransform;
+    private Rigidbody playerRigidbody;
     public override void SetForUse(BoardgamePlayer usePlayer)
     {
         base.SetForUse(usePlayer);
-        
-        _playerTransform = usePlayer.transform;
-        _playerRigidbody = usePlayer.GetComponent<Rigidbody>();
-        gameObject.transform.SetParent(_playerTransform, false);
+        playerTransform = usePlayer.transform;
+        playerRigidbody = usePlayer.GetComponent<Rigidbody>();
+        gameObject.transform.SetParent(playerTransform, false);
     }
 
-    [SerializeField] private Transform _shootPoint;
+    [SerializeField] private LineRenderer laser;
     public override void Use()
     {
         base.Use();
 
+        laser.enabled = false;
+
+        hitPlayer();
+        recoil().Forget();
+    }
+
+    [SerializeField] private Transform shootPoint;
+    private const float MAX_DISTANCE = 15f;
+    private const int DAMAGE = 30;
+    // TODO: Ï∂îÌõÑ ÎßàÏä§ÌÑ∞ ÌÅ¥ÎùºÏù¥Ïñ∏Ìä∏ÏóêÏÑú Ìò∏Ï∂úÌïòÏó¨ ÌåêÏ†ï
+    private void hitPlayer()
+    {
         RaycastHit hit;
-        Physics.Raycast(_shootPoint.position, transform.forward * -1, out hit, int.MaxValue);
+        Physics.Raycast(shootPoint.position, transform.forward * -1, out hit, MAX_DISTANCE, playerLayerMask);
 
-        if(hit.collider != null && hit.collider.CompareTag("Player"))
+        if (hit.collider != null)
         {
-            Debug.Log($"∏¬¿∫ «√∑π¿ÃæÓ: {hit.collider.name}");
+            hit.collider.GetComponent<BoardgamePlayer>().GetDamage(DAMAGE);
         }
-
-        Recoil().Forget();
     }
 
     private const float ROTATION_TIME_AFTER_SHOOT = 0.01f;
     private const float ROTATION_TIME_FOR_RETURN = 0.05f;
-    private async UniTaskVoid Recoil()
+    private async UniTaskVoid recoil()
     {
         Quaternion originRotation = transform.rotation;
         Quaternion shootRotation = originRotation * Quaternion.Euler(30, 0, 0);
@@ -58,34 +72,33 @@ public class Pistol : ControllItem
             await UniTask.Yield();
         }
 
-        // TODO: ∆˜≈Ê ø¨∞· »ƒ PrefabPool∑Œ ∫Ø∞Ê
+        // TODO: Ìè¨ÌÜ§ Ïó∞Í≤∞ ÌõÑ PrefabPoolÎ°ú Î≥ÄÍ≤Ω
         Destroy(gameObject);
     }
 
-    public override void OnJoystickInput(InputAction.CallbackContext context)
+    private Vector2 moveDir;
+    public void OnJoystickInput(InputAction.CallbackContext context)
     {
         if(!context.performed)
         {
             return;
         }
 
-        base.OnJoystickInput(context);
-        _playerRigidbody.MoveRotation(Quaternion.Euler(0f, Mathf.Atan2(MoveDir.x, MoveDir.y) * Mathf.Rad2Deg, 0f));
+        moveDir = context.ReadValue<Vector2>().normalized;
+        playerRigidbody.MoveRotation(Quaternion.Euler(0f, Mathf.Atan2(moveDir.x, moveDir.y) * Mathf.Rad2Deg, 0f));
     }
 
-    public override void OnUseButtonInput(InputAction.CallbackContext context)
+    public void OnUseButtonInput(InputAction.CallbackContext context)
     {
         if(!context.performed)
         {
             return;
         }
-
-        base.OnUseButtonInput(context);
 
         Use();
     }
 
-    public override void OnTimeOut()
+    public void OnTimeOut()
     {
         Destroy(gameObject);
     }
