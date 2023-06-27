@@ -16,12 +16,12 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text roomNameText;
 
     private PhotonView presenterPV;
-    [SerializeField] private LobbyPlayerData playerData; // ¸ğµ¨ÀÌ ‰Î
+    [SerializeField] private LobbyPlayerData playerData; // ëª¨ë¸ì´ ëŒ
 
     [SerializeField] private WaitingRoomView[] waitingViews;
     [SerializeField] private PositionData positionData;
 
-    [SerializeField] private int enterOrder = 1; 
+    [SerializeField] private int enterOrder = 1;
     [SerializeField] private bool[] isReady = new bool[MAX_INDEX];
     [SerializeField] private bool[] isPlayerPresent = new bool[MAX_INDEX];
 
@@ -30,30 +30,30 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     [SerializeField] private PhotonView[] modelPVs = new PhotonView[MAX_INDEX];
 
     [SerializeField] private Player[] players = new Player[MAX_INDEX];
-    private const int MAX_INDEX = 5; // 0¹øÂ° ÀÎµ¦½º´Â Á¦¿ÜÇÏ±â À§ÇÔ
+    private const int MAX_INDEX = 5; // 0ë²ˆì§¸ ì¸ë±ìŠ¤ëŠ” ì œì™¸í•˜ê¸° ìœ„í•¨
 
     public int hatTypeCount { get; private set; }
     public int bodyColorCount { get; private set; }
 
-    private bool amIOriginalMaster = false; // Ã³À½ ¹æ¿¡ µé¾î¿ÔÀ»¶§ º»ÀÎÀÌ ¹æÀåÀÎÁö ¾Æ´ÑÁö¸¦ ÀúÀåÇÏ´Â º¯¼ö
+    private bool amIOriginalMaster = false; // ì²˜ìŒ ë°©ì— ë“¤ì–´ì™”ì„ë•Œ ë³¸ì¸ì´ ë°©ì¥ì¸ì§€ ì•„ë‹Œì§€ë¥¼ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
 
     private string[] defaultNames = new string[MAX_INDEX];
 
 
     /// <summary>
-    /// ÁÖ¾îÁø ÀÔÀå¼ø¼­¿¡ ÇØ´çÇÏ´Â ÇÃ·¹ÀÌ¾îÀÇ ¸ö»öÀ» ÃÊ±âÈ­ ÇØÁÖ´Â ÇÔ¼ö
+    /// ì£¼ì–´ì§„ ì…ì¥ìˆœì„œì— í•´ë‹¹í•˜ëŠ” í”Œë ˆì´ì–´ì˜ ëª¸ìƒ‰ì„ ì´ˆê¸°í™” í•´ì£¼ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="enterOrder"></param>
-    public void ResetBodyColor(int enterOrder) // ¸¶½ºÅÍ°¡ ÇØÁÜ
+    public void ResetBodyColor(int enterOrder) // ë§ˆìŠ¤í„°ê°€ í•´ì¤Œ
     {
         if (modelPVs[enterOrder] != null)
         {
-            modelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, enterOrder); // ¹Ùµğ Ä®¶ó ¸®¼Â
+            modelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, enterOrder); // ë°”ë”” ì¹¼ë¼ ë¦¬ì…‹
         }
     }
 
     /// <summary>
-    /// ÁÖ¾îÁø ÀÎµ¦½º¿¡ µû¶ó UI»óÀÇ ¸ö ¹è°æ»öÀ» ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// ì£¼ì–´ì§„ ì¸ë±ìŠ¤ì— ë”°ë¼ UIìƒì˜ ëª¸ ë°°ê²½ìƒ‰ì„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="colorIndex"></param>
     /// <returns></returns>
@@ -69,7 +69,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
 
     /// <summary>
-    /// ¸¶½ºÅÍ¿¡°Ô ÇÃ·¹ÀÌ¾î ¸ö»öÀ» ¹Ù²ã´Ş¶ó°í ¿äÃ»ÇÏ´Â ÇÔ¼ö
+    /// ë§ˆìŠ¤í„°ì—ê²Œ í”Œë ˆì´ì–´ ëª¸ìƒ‰ì„ ë°”ê¿”ë‹¬ë¼ê³  ìš”ì²­í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="enterOrder"></param>
     /// <param name="lastIndex"></param>
@@ -77,13 +77,13 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     /// <param name="isRightButton"></param>
     /// <param name="isFirstEntry"></param>
     [PunRPC]
-    public void AskBodyColorUpdate(int enterOrder, int lastIndex, int wantBodyIndex, bool isRightButton, bool isFirstEntry) // ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¿¡¼­ ½ÇÇàµÉ ÇÔ¼ö
+    public void AskBodyColorUpdate(int enterOrder, int lastIndex, int wantBodyIndex, bool isRightButton, bool isFirstEntry) // ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ì—ì„œ ì‹¤í–‰ë  í•¨ìˆ˜
     {
         wantBodyIndex = playerData.GetCapableBodyIndex(lastIndex, wantBodyIndex, isRightButton, isFirstEntry);
-        
-        UpdateBodyData(enterOrder, wantBodyIndex); // ÇÃ·¹ÀÌ¾îÀÇ ¸ö»ö±ò µ¥ÀÌÅÍ¸¦ °»½ÅÇØÁÜ
 
-        modelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, wantBodyIndex); // ÇÃ·¹ÀÌ¾îÀÇ ¸ö»ö±òÀ» ¹Ù²ãÁÜ
+        UpdateBodyData(enterOrder, wantBodyIndex); // í”Œë ˆì´ì–´ì˜ ëª¸ìƒ‰ê¹” ë°ì´í„°ë¥¼ ê°±ì‹ í•´ì¤Œ
+
+        modelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, wantBodyIndex); // í”Œë ˆì´ì–´ì˜ ëª¸ìƒ‰ê¹”ì„ ë°”ê¿”ì¤Œ
         waitingViews[enterOrder].GetViewPV().RPC("UpdateBodyIndex", RpcTarget.AllBuffered, wantBodyIndex);
 
         Player askPlayer = players[enterOrder];
@@ -92,16 +92,16 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
 
     /// <summary>
-    /// ¸¶½ºÅÍ¿¡°Ô ¸ğÀÚ¸¦ ¹Ù²ã´Ş¶ó°í ¿äÃ»ÇÏ´Â ÇÔ¼ö
+    /// ë§ˆìŠ¤í„°ì—ê²Œ ëª¨ìë¥¼ ë°”ê¿”ë‹¬ë¼ê³  ìš”ì²­í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="enterOrder"></param>
     /// <param name="hatIndex"></param>
     [PunRPC]
-    public void AskHatUpdate(int enterOrder, int hatIndex) // ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¿¡¼­ ½ÇÇàµÉ ÇÔ¼ö
+    public void AskHatUpdate(int enterOrder, int hatIndex) // ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ì—ì„œ ì‹¤í–‰ë  í•¨ìˆ˜
     {
-        UpdateHatData(enterOrder, hatIndex); // ÇÃ·¹ÀÌ¾îÀÇ ¸ğÀÚ µ¥ÀÌÅÍ¸¦ °»½ÅÇØÁÜ
+        UpdateHatData(enterOrder, hatIndex); // í”Œë ˆì´ì–´ì˜ ëª¨ì ë°ì´í„°ë¥¼ ê°±ì‹ í•´ì¤Œ
 
-        modelPVs[enterOrder].RPC("SetHatOnPlayer", RpcTarget.AllBuffered, hatIndex); // ÇÃ·¹ÀÌ¾î ¸ğÀÚ¸¦ ¹Ù²ãÁÜ
+        modelPVs[enterOrder].RPC("SetHatOnPlayer", RpcTarget.AllBuffered, hatIndex); // í”Œë ˆì´ì–´ ëª¨ìë¥¼ ë°”ê¿”ì¤Œ
 
         Player askPlayer = players[enterOrder];
         waitingViews[enterOrder].GetViewPV().RPC("SetHatText", askPlayer, hatIndex);
@@ -109,11 +109,11 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
 
     /// <summary>
-    /// µ¥ÀÌÅÍ¿¡ ÇÃ·¹ÀÌ¾î ¸ö»ö ÀÎµ¦½º Á¤º¸¸¦ ¾÷µ¥ÀÌÆ® ÇÏ´Â ÇÔ¼ö
+    /// ë°ì´í„°ì— í”Œë ˆì´ì–´ ëª¸ìƒ‰ ì¸ë±ìŠ¤ ì •ë³´ë¥¼ ì—…ë°ì´íŠ¸ í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="enterOrder"></param>
     /// <param name="bodyIndex"></param>
-    private void UpdateBodyData(int enterOrder, int bodyIndex) // µ¥ÀÌÅÍ¸¦ °»½ÅÇÏ±â À§ÇØ ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¸¸ Á¢±ÙÇÒ ÇÔ¼ö
+    private void UpdateBodyData(int enterOrder, int bodyIndex) // ë°ì´í„°ë¥¼ ê°±ì‹ í•˜ê¸° ìœ„í•´ ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ë§Œ ì ‘ê·¼í•  í•¨ìˆ˜
     {
         Player updatePlayer = players[enterOrder];
 
@@ -122,11 +122,11 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// µ¥ÀÌÅÍ¿¡ ÇÃ·¹ÀÌ¾î ¸ğÀÚ ÀÎµ¦½º Á¤º¸¸¦ ¾÷µ¥ÀÌÆ® ÇÏ´Â ÇÔ¼ö
+    /// ë°ì´í„°ì— í”Œë ˆì´ì–´ ëª¨ì ì¸ë±ìŠ¤ ì •ë³´ë¥¼ ì—…ë°ì´íŠ¸ í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="enterOrder"></param>
     /// <param name="hatIndex"></param>
-    private void UpdateHatData(int enterOrder, int hatIndex) // µ¥ÀÌÅÍ¸¦ °»½ÅÇÏ±â À§ÇØ ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¸¸ Á¢±ÙÇÒ ÇÔ¼ö
+    private void UpdateHatData(int enterOrder, int hatIndex) // ë°ì´í„°ë¥¼ ê°±ì‹ í•˜ê¸° ìœ„í•´ ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ë§Œ ì ‘ê·¼í•  í•¨ìˆ˜
     {
         Player updatePlayer = players[enterOrder];
 
@@ -149,24 +149,24 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     private bool isStartable = false;
 
     /// <summary>
-    /// ¸¶½ºÅÍ°¡ ÁÖ¾îÁø ÀÔÀå¼ø¼­ÀÇ ÇÃ·¹ÀÌ¾î¸¦ ·¹µğ½ÃÅ°´Â ÇÔ¼ö
+    /// ë§ˆìŠ¤í„°ê°€ ì£¼ì–´ì§„ ì…ì¥ìˆœì„œì˜ í”Œë ˆì´ì–´ë¥¼ ë ˆë””ì‹œí‚¤ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="enterOrder"></param>
     [PunRPC]
-    public void SetReady(int enterOrder) // ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¸¸ ½ÇÇà½ÃÄÑÁÙ ÇÔ¼ö
+    public void SetReady(int enterOrder) // ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ë§Œ ì‹¤í–‰ì‹œì¼œì¤„ í•¨ìˆ˜
     {
         if (isPlayerPresent[enterOrder])
         {
-            if (isReady[enterOrder] == true) // ÀÌ¹Ì ·¹µğÇÑ »óÅÂ¶ó¸é
+            if (isReady[enterOrder] == true) // ì´ë¯¸ ë ˆë””í•œ ìƒíƒœë¼ë©´
             {
-                // ·¹µğ¸¦ ÇØÁ¦ÇÑ´Ù
+                // ë ˆë””ë¥¼ í•´ì œí•œë‹¤
                 isReady[enterOrder] = false;
                 waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, isReady[enterOrder]);
                 --readyCount;
             }
-            else // ·¹µğ¸¦ ¾ÈÇÑ »óÅÂ¶ó¸é
+            else // ë ˆë””ë¥¼ ì•ˆí•œ ìƒíƒœë¼ë©´
             {
-                // ·¹µğÇÑ´Ù
+                // ë ˆë””í•œë‹¤
                 isReady[enterOrder] = true;
                 waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, isReady[enterOrder]);
                 ++readyCount;
@@ -177,7 +177,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// °ÔÀÓ ½ÃÀÛÀÌ °¡´ÉÇÑÁö ÆÇ´Ü ÈÄ, ½ÃÀÛ¹öÆ°À» È°¼ºÈ­ ÇÏ´Â ÇÔ¼ö
+    /// ê²Œì„ ì‹œì‘ì´ ê°€ëŠ¥í•œì§€ íŒë‹¨ í›„, ì‹œì‘ë²„íŠ¼ì„ í™œì„±í™” í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="readyCount"></param>
     private void CheckIfStartable(int readyCount)
@@ -191,22 +191,22 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             isStartable = false;
         }
 
-        waitingViews[1].GetViewPV().RPC("ActivateStartButton", RpcTarget.All, isStartable); // ¹æÀåÀÇ StartButton È°¼ºÈ­
+        waitingViews[1].GetViewPV().RPC("ActivateStartButton", RpcTarget.All, isStartable); // ë°©ì¥ì˜ StartButton í™œì„±í™”
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î ±âº»ÀÌ¸§À» ÃÊ±âÈ­ ÇÏ´Â ÇÔ¼ö 
+    /// í”Œë ˆì´ì–´ ê¸°ë³¸ì´ë¦„ì„ ì´ˆê¸°í™” í•˜ëŠ” í•¨ìˆ˜ 
     /// </summary>
     private void SetDefualtNames()
     {
-        for (int i = 1; i < defaultNames.Length ;++i)
+        for (int i = 1; i < defaultNames.Length; ++i)
         {
             defaultNames[i] = $"Player {i}";
         }
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î ±âº» ÀÌ¸§À» ¹İÈ¯ÇÏ´Â ÇÔ¼ö 
+    /// í”Œë ˆì´ì–´ ê¸°ë³¸ ì´ë¦„ì„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜ 
     /// </summary>
     /// <param name="enterOrder"></param>
     /// <returns></returns>
@@ -218,7 +218,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
     private string modelPath = "Prefabs/Lobby/WaitingRoomCanvas/RoomWait";
 
-    #region Photon Äİ¹é ÇÔ¼öµé
+    #region Photon ì½œë°± í•¨ìˆ˜ë“¤
     public override void OnJoinedRoom()
     {
         hatTypeCount = playerData.GetHatTypeCount();
@@ -227,26 +227,26 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         roomNameText.text = roomName;
         amIOriginalMaster = PhotonNetwork.IsMasterClient;
 
-        InitializeHashTable(); // ÇÃ·¹ÀÌ¾î Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼¸¦ »ç¿ëÇÏ±â À§ÇÑ ÃÊ±âÈ­ °úÁ¤
+        InitializeHashTable(); // í”Œë ˆì´ì–´ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹°ë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•œ ì´ˆê¸°í™” ê³¼ì •
 
         if (PhotonNetwork.IsMasterClient)
         {
             SetDefualtNames();
 
-            isPlayerPresent[enterOrder] = true; // µé¾î¿È Ã¼Å©
-            playerData.AddPlayerData(PhotonNetwork.LocalPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model(data) ¾÷µ¥ÀÌÆ®
-            
-            // ÇÃ·¹ÀÌ¾î »ı¼º
+            isPlayerPresent[enterOrder] = true; // ë“¤ì–´ì˜´ ì²´í¬
+            playerData.AddPlayerData(PhotonNetwork.LocalPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model(data) ì—…ë°ì´íŠ¸
+
+            // í”Œë ˆì´ì–´ ìƒì„±
             GameObject model = PhotonNetwork.Instantiate($"{modelPath} {enterOrder}", positionData._LobbyPositions[enterOrder].position, positionData._LobbyPositions[enterOrder].rotation);
 
-            PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // ¸ğµ¨Ã¼ÀÎÀú »Ì¾Æ¿È
-            modelChangers[enterOrder] = modelChanger; // ¸ğµ¨ Ã¼ÀÎÀú ÀúÀåÇØµÒ --> ¸¶½ºÅÍ°¡ ´Ù ÄÁÆ®·ÑÇÒ¶ó±¸
-            modelPVs[enterOrder] = PhotonView.Get(model); // ¸ğµ¨Ã¼ÀÎÀú¿Í ¿¬µ¿µÈ Æ÷Åæºä ÀúÀåÇØµÒ -> ¸¶½ºÅÍ°¡ ´Ù ÄÁÆ®·ÑÇÏ¶ó±¸
+            PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // ëª¨ë¸ì²´ì¸ì € ë½‘ì•„ì˜´
+            modelChangers[enterOrder] = modelChanger; // ëª¨ë¸ ì²´ì¸ì € ì €ì¥í•´ë‘  --> ë§ˆìŠ¤í„°ê°€ ë‹¤ ì»¨íŠ¸ë¡¤í• ë¼êµ¬
+            modelPVs[enterOrder] = PhotonView.Get(model); // ëª¨ë¸ì²´ì¸ì €ì™€ ì—°ë™ëœ í¬í†¤ë·° ì €ì¥í•´ë‘  -> ë§ˆìŠ¤í„°ê°€ ë‹¤ ì»¨íŠ¸ë¡¤í•˜ë¼êµ¬
 
-            waitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder); // View ÀÇ ÀÔÀå¼ø¼­¸¦ ¾÷µ¥ÀÌÆ®ÇØÁÜ
+            waitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder); // View ì˜ ì…ì¥ìˆœì„œë¥¼ ì—…ë°ì´íŠ¸í•´ì¤Œ
 
             players[enterOrder] = PhotonNetwork.LocalPlayer;
-            AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // »öÀ» ¹Ù²ãÁÜ
+            AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // ìƒ‰ì„ ë°”ê¿”ì¤Œ
         }
     }
 
@@ -255,53 +255,53 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            enterOrder = GetEmptySlot(); // ºóÀÚ¸®¸¦ Ã£¾Æ¼­, ÀÔÀå¼ø¼­¸¦ Á¤ÇØÁÜ
-            isPlayerPresent[enterOrder] = true; // Á¸ÀçÇÔ Ã¼Å©
-            playerData.AddPlayerData(newPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model ¾÷µ¥ÀÌÆ®
+            enterOrder = GetEmptySlot(); // ë¹ˆìë¦¬ë¥¼ ì°¾ì•„ì„œ, ì…ì¥ìˆœì„œë¥¼ ì •í•´ì¤Œ
+            isPlayerPresent[enterOrder] = true; // ì¡´ì¬í•¨ ì²´í¬
+            playerData.AddPlayerData(newPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model ì—…ë°ì´íŠ¸
 
-            // ÇÃ·¹ÀÌ¾î »ı¼º
+            // í”Œë ˆì´ì–´ ìƒì„±
             GameObject model = PhotonNetwork.Instantiate($"{modelPath} {enterOrder}", positionData._LobbyPositions[enterOrder].position, positionData._LobbyPositions[enterOrder].rotation);
-            
-            PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // ¸ğµ¨ Ã¼ÀÎÀú »Ì¾Æ¿È
-            modelChangers[enterOrder] = modelChanger; // ¸ğµ¨Ã¼ÀÎÀú ÀúÀåÇØµÒ --> ¸¶½ºÅÍ°¡ ´Ù Á¶Á¾ÇÒ¶ó°í
-            modelPVs[enterOrder] = PhotonView.Get(model); // ¸ğµ¨Ã¼ÀÎÀú¿Í ¿¬µ¿µÈ Æ÷Åæºä ÀúÀåÇØµÒ -> ¸¶½ºÅÍ°¡ ´Ù ÄÁÆ®·ÑÇÏ¶ó±¸
+
+            PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // ëª¨ë¸ ì²´ì¸ì € ë½‘ì•„ì˜´
+            modelChangers[enterOrder] = modelChanger; // ëª¨ë¸ì²´ì¸ì € ì €ì¥í•´ë‘  --> ë§ˆìŠ¤í„°ê°€ ë‹¤ ì¡°ì¢…í• ë¼ê³ 
+            modelPVs[enterOrder] = PhotonView.Get(model); // ëª¨ë¸ì²´ì¸ì €ì™€ ì—°ë™ëœ í¬í†¤ë·° ì €ì¥í•´ë‘  -> ë§ˆìŠ¤í„°ê°€ ë‹¤ ì»¨íŠ¸ë¡¤í•˜ë¼êµ¬
 
 
-            // View ¿¡ ÀÔÀå¼ø¼­ ÇÒ´çÇØÁÜ
+            // View ì— ì…ì¥ìˆœì„œ í• ë‹¹í•´ì¤Œ
             waitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder);
-            waitingViews[enterOrder].GetViewPV().TransferOwnership(newPlayer); // ¼ÒÀ¯±Ç ¾çµµÇØÁÜ
+            waitingViews[enterOrder].GetViewPV().TransferOwnership(newPlayer); // ì†Œìœ ê¶Œ ì–‘ë„í•´ì¤Œ
 
             players[enterOrder] = newPlayer;
-            AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // »öÀ» ¹Ù²ãÁÜ
+            AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // ìƒ‰ì„ ë°”ê¿”ì¤Œ
             EnableRoomOpen();
         }
     }
 
 
-    public override void OnPlayerLeftRoom(Player otherPlayer) 
+    public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        if (amIOriginalMaster && PhotonNetwork.IsMasterClient) // ¸¶½ºÅÍ°¡ÇØÁà¾ß ÇÒ ÀÏµé
+        if (amIOriginalMaster && PhotonNetwork.IsMasterClient) // ë§ˆìŠ¤í„°ê°€í•´ì¤˜ì•¼ í•  ì¼ë“¤
         {
             int leftPlayerEnterOrder = playerData.GetPlayerEnterOrder(otherPlayer);
             ResetBodyColor(leftPlayerEnterOrder);
             DestroyOtherPlayer(leftPlayerEnterOrder);
-            isPlayerPresent[playerData.GetPlayerEnterOrder(otherPlayer)] = false; // ³ª°¨ Ç¥½Ã
+            isPlayerPresent[playerData.GetPlayerEnterOrder(otherPlayer)] = false; // ë‚˜ê° í‘œì‹œ
             playerData.UpdateColorIndexing(playerData.GetPlayerBodyColorIndex(otherPlayer), false);
 
-            // ÇÃ·¹ÀÌ¾î°¡ ³ª°¬À»¶§ ±âº»°ªÀ¸·Î µ¹·ÁÁÖ´Â ºÎºĞ
+            // í”Œë ˆì´ì–´ê°€ ë‚˜ê°”ì„ë•Œ ê¸°ë³¸ê°’ìœ¼ë¡œ ëŒë ¤ì£¼ëŠ” ë¶€ë¶„
             isReady[leftPlayerEnterOrder] = false;
             waitingViews[leftPlayerEnterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, false);
             --readyCount;
             CheckIfStartable(readyCount);
             waitingViews[enterOrder].GetViewPV().RPC("ShowPlayerNickName", RpcTarget.AllBuffered, GetDefualtName(enterOrder));
             EnableRoomOpen();
-            playerData.RemovePlayerData(otherPlayer); // MoDEL ¾÷µ¥ÀÌÆ®
+            playerData.RemovePlayerData(otherPlayer); // MoDEL ì—…ë°ì´íŠ¸
         }
     }
-    
+
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        // ¸¶½ºÅÍ°¡ ¹Ù²î¾ú´Ù -> ¹æÀÌ ÆøÆÄµÈ´Ù -> ´Ù ³ª°¡
+        // ë§ˆìŠ¤í„°ê°€ ë°”ë€Œì—ˆë‹¤ -> ë°©ì´ í­íŒŒëœë‹¤ -> ë‹¤ ë‚˜ê°€
         PhotonNetwork.LeaveRoom();
     }
 
@@ -324,64 +324,100 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         }
     }
 
-    Hashtable[] playerProperties = new Hashtable[5];
+    #region HashTable
+    Hashtable hatPropertise;
+    Hashtable namePropertise;
+    Hashtable colorPropertise;
+    Hashtable enterOrderPropertise;
+    Hashtable hpPropertise;
+    Hashtable eggPropertise;
+    Hashtable positionPoropertise;
 
     private void InitializeHashTable()
     {
-        for (int i = 1; i < playerProperties.Length; ++i)
+        hatPropertise = new Hashtable()
         {
-            playerProperties[i] = new Hashtable();
-        }
-    }
+            { PropertiseKey.hatKey, new int()}
+        };
 
-    private string nameKey = "NickName";
-    private string colorKey = "ColorIndex";
-    private string hatKey = "HatIndex";
-    private string hpKey = "HP";
-    private string eggCountKey = "EggCount";
-    private string positionKey = "Position";
-    private string enterOrderKey = "EnterOrder";
+        namePropertise = new Hashtable()
+        {
+            { PropertiseKey.nameKey, "" }
+        };
+
+        colorPropertise = new Hashtable()
+        {
+            { PropertiseKey.colorKey, new int() }
+        };
+
+        enterOrderPropertise = new Hashtable()
+        {
+            { PropertiseKey.enterOrderKey, new int() }
+        };
+
+        hpPropertise = new Hashtable()
+        {
+            { PropertiseKey.hpKey, new int() }
+        };
+
+        eggPropertise = new Hashtable()
+        {
+            { PropertiseKey.eggCountKey, new int() }
+        };
+
+        positionPoropertise = new Hashtable()
+        {
+            { PropertiseKey.positionKey, new Vector3() }
+        };
+    }
+    #endregion
 
     private int playerMaxHP = 30;
     private Vector3 defualtPosition = Vector3.zero;
     public void LoadBoardGame()
     {
-        SavePlayerProperties().Forget(); // È¤½Ã ¸ŞÀÎ¾ÀÀ¸·Î ·ÎµåÇÏ´Ù°¡ °íÀå³¯±îºÁ ºñµ¿±â·Î Ã³¸®
+        SavePlayerProperties().Forget(); // í˜¹ì‹œ ë©”ì¸ì”¬ìœ¼ë¡œ ë¡œë“œí•˜ë‹¤ê°€ ê³ ì¥ë‚ ê¹Œë´ ë¹„ë™ê¸°ë¡œ ì²˜ë¦¬
     }
 
     private async UniTaskVoid SavePlayerProperties()
     {
         for (int enterOrder = 1; enterOrder < players.Length; ++enterOrder)
         {
-            Player player = players[enterOrder];
-            if (player != null) // È¤½Ã ¸ğ¸¦ ³Î Ã¼Å©
+            Player player = PhotonNetwork.CurrentRoom.Players[enterOrder];
+            if (player != null) // í˜¹ì‹œ ëª¨ë¥¼ ë„ ì²´í¬
             {
                 string savedNickName = playerData.GetPlayerNickName(player);
                 int savedColorIndex = playerData.GetPlayerBodyColorIndex(player);
                 int savedHatIndex = playerData.GetPlayerHatIndex(player);
                 int playerEnterOrder = playerData.GetPlayerEnterOrder(player);
 
-                playerProperties[enterOrder].Add(nameKey, savedNickName);
-                playerProperties[enterOrder].Add(colorKey, savedColorIndex);
-                playerProperties[enterOrder].Add(hatKey, savedHatIndex);
-                playerProperties[enterOrder].Add(enterOrderKey, playerEnterOrder);
-                playerProperties[enterOrder].Add(hpKey, playerMaxHP);
-                playerProperties[enterOrder].Add(eggCountKey, 0);
-                playerProperties[enterOrder].Add(positionKey, defualtPosition);
+                player.SetCustomProperties(namePropertise); // ì¶”ê°€í•¨
+                player.SetCustomProperties(colorPropertise);
+                player.SetCustomProperties(hatPropertise);
+                player.SetCustomProperties(enterOrderPropertise);
+                player.SetCustomProperties(hpPropertise);
+                player.SetCustomProperties(eggPropertise);
+                player.SetCustomProperties(positionPoropertise);
+
+                player.CustomProperties[PropertiseKey.nameKey] = savedNickName;
+                player.CustomProperties[PropertiseKey.colorKey] = savedColorIndex;
+                player.CustomProperties[PropertiseKey.hatKey] = savedHatIndex;
+                player.CustomProperties[PropertiseKey.enterOrderKey] = playerEnterOrder;
             }
         }
-
-        MoveToBoardGame();
     }
 
-    private void MoveToBoardGame()
+    public void MoveToBoardGame()
     {
-        PhotonNetwork.LoadLevel("BoardGame");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(2);
+        }
     }
 
     private void KickEveryoneOut()
     {
-        // ¹æÀåºÎÅÍ ³ª°¡¸é MasterClient°¡ ¿Å°Ü°¡±â ¶§¹®¿¡, ÀÌ·¸°Ô Ã³¸®ÇÔ
+        // ë°©ì¥ë¶€í„° ë‚˜ê°€ë©´ MasterClientê°€ ì˜®ê²¨ê°€ê¸° ë•Œë¬¸ì—, ì´ë ‡ê²Œ ì²˜ë¦¬í•¨
         for (int enterOrder = isPlayerPresent.Length - 1; 0 < enterOrder; --enterOrder)
         {
             DestroyOtherPlayer(enterOrder);
@@ -393,7 +429,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
-    private void DestroyOtherPlayer(int enterOrder) // ¸¶½ºÅÍ¸¸ Á¢±ÙÇÒ ÇÔ¼ö
+    private void DestroyOtherPlayer(int enterOrder) // ë§ˆìŠ¤í„°ë§Œ ì ‘ê·¼í•  í•¨ìˆ˜
     {
         if (modelChangers[enterOrder] != null)
         {
@@ -408,7 +444,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         PhotonView photonView = modelPVs[enterOrder];
         if (photonView != null)
         {
-            PhotonNetwork.Destroy(photonView); // °ÔÀÓÄ³¸¯ÅÍ Á¦°Å
+            PhotonNetwork.Destroy(photonView); // ê²Œì„ìºë¦­í„° ì œê±°
         }
     }
 
@@ -429,7 +465,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     }
 
 
-    public void OnClick_LeaveRoom() // Leave ¹öÆ°¿¡ µé¾î°¥ ÇÔ¼ö => Public ÀÌ¿©¾ß ÇÔ
+    public void OnClick_LeaveRoom() // Leave ë²„íŠ¼ì— ë“¤ì–´ê°ˆ í•¨ìˆ˜ => Public ì´ì—¬ì•¼ í•¨
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -443,7 +479,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ´Ğ³×ÀÓÀ» µ¥ÀÌÅÍ¿¡ ¾÷µ¥ÀÌÆ®ÇÏ°í, ´Ù¸¥ ÇÃ·¹ÀÌ¾îµé¿¡°Ô º¸¿©ÁÖ´Â ÇÔ¼ö
+    /// í”Œë ˆì´ì–´ì˜ ë‹‰ë„¤ì„ì„ ë°ì´í„°ì— ì—…ë°ì´íŠ¸í•˜ê³ , ë‹¤ë¥¸ í”Œë ˆì´ì–´ë“¤ì—ê²Œ ë³´ì—¬ì£¼ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="enterOrder"></param>
     /// <param name="newNickName"></param>
