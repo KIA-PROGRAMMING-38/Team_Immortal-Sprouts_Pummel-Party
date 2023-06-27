@@ -1,59 +1,69 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class DieBehaviour : StateMachineBehaviour
 {
     [SerializeField] private Material dissolveMaterial;
-    private Material[] originMaterials;
-
-    private GameObject playerBody;
     private MeshRenderer[] bodyMeshes;
+    private Material originMaterial;
+
+    private const string texture2DKey = "_Texture2D";
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        playerBody = animator.transform.GetChild(0).gameObject;
+        GameObject playerBody = animator.transform.GetChild(0).gameObject;
         bodyMeshes = playerBody.GetComponentsInChildren<MeshRenderer>();
 
-        originMaterials = new Material[bodyMeshes.Length];
-        for(int i = 0; i < bodyMeshes.Length; ++i)
-        {
-            originMaterials[i] = bodyMeshes[i].material;
-        }
+        originMaterial = bodyMeshes[0].material;
 
         foreach(MeshRenderer meshRenderer in bodyMeshes)
         {
             Texture originTexture = meshRenderer.material.mainTexture;
             meshRenderer.material = dissolveMaterial;
-            meshRenderer.material.SetTexture("_Texture2D", originTexture);
+            meshRenderer.material.SetTexture(texture2DKey, originTexture);
+        }
+
+        activateDissolve().Forget();
+        test(animator).Forget();
+    }
+
+    [SerializeField] private float dissolveTime = 2.5f;
+    private const float MIN_DISSOLVE_RATE = 0f;
+    private const float MAX_DISSOLVE_RATE = 1f;
+    private async UniTaskVoid activateDissolve()
+    {
+        float elapsedTime = 0f;
+        float dissolveRate = 0f;
+        while (elapsedTime <= dissolveTime)
+        {
+            dissolveRate = Mathf.Lerp(MIN_DISSOLVE_RATE, MAX_DISSOLVE_RATE, elapsedTime / dissolveTime);
+            setDissolveRate(dissolveRate);
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield();
         }
     }
 
-    private const float DISSOLVE_DURATION = 2.5f;
-    private float elapsedTime;
-    private float dissolveRate;
-    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    private async UniTaskVoid test(Animator animator)
     {
-        dissolveRate = Mathf.Lerp(0f, 1f, elapsedTime / DISSOLVE_DURATION);
-        foreach(MeshRenderer meshRenderer in bodyMeshes)
-        {
-            meshRenderer.material.SetFloat("_DissolveAmount", dissolveRate);
-        }
-
-        elapsedTime += Time.deltaTime;
-
-        if(elapsedTime >= DISSOLVE_DURATION)
-        {
-            animator.SetTrigger(BoardgamePlayerAnimID.DISSOLVED);
-        }
+        await UniTask.Delay(2500);
+        animator.SetBool("Test", true);
     }
 
-    private int mateiralIndex = 0;
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    private const string dissolveAmountKey = "_DissolveAmount";
+    private void setDissolveRate(float dissolveRate)
     {
-        elapsedTime = 0f;
-        animator.SetBool(BoardgamePlayerAnimID.DIE, false);
-
         foreach (MeshRenderer meshRenderer in bodyMeshes)
         {
-            meshRenderer.material = originMaterials[mateiralIndex++];
+            meshRenderer.material.SetFloat(dissolveAmountKey, dissolveRate);
+        }
+    }
+
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.SetBool(BoardgamePlayerAnimID.DIE, false);
+        setDissolveRate(MIN_DISSOLVE_RATE);
+        foreach (MeshRenderer meshRenderer in bodyMeshes)
+        {
+            meshRenderer.material = originMaterial;
         }
     }
 }
