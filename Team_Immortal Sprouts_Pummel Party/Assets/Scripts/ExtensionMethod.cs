@@ -214,6 +214,33 @@ public static class ExtensionMethod
         }
     }
 
+    /// <summary>
+    /// axis 축을 기반으로 회전 시키되, 회전속도의 변화를 줄 수 있는 함수
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <param name="startRotateSpeed"></param>
+    /// <param name="targetRotateSpeed"></param>
+    /// <param name="axis"></param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
+    public static async UniTask DoRotate(Transform transform, float startRotateSpeed, float targetRotateSpeed, Vector3 axis, float duration)
+    {
+        if (transform == null || startRotateSpeed == targetRotateSpeed)
+        {
+            return;
+        }
+
+        float elapsedTime = 0f;
+        float currentSpeed = 0f;
+        while (elapsedTime <= duration)
+        {
+            currentSpeed = Lerp(startRotateSpeed, targetRotateSpeed, elapsedTime / duration);
+            transform.Rotate(axis, currentSpeed * Time.deltaTime);
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield();
+        }
+    }
+
 
     /// <summary>
     /// target을 향해 천천히 smoothDamp마냥 catchUpSpeed와 비례하여 빠르게 어느정도 텀을 주고 바라보는 함수
