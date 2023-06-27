@@ -1,11 +1,12 @@
 using Cinemachine;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 
 public class BoardgamePlayer : MonoBehaviour
 {
     [SerializeField] private Dice dice;
+    [SerializeField] private Roulette roulette;
     private Rigidbody rigidbody;
     private Animator animator;
     private Inventory inventory;
@@ -22,6 +23,8 @@ public class BoardgamePlayer : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        roulette.OnStoppedRoulette.RemoveAllListeners();
+        roulette.OnStoppedRoulette.AddListener(GetRouletteResult);
     }
 
     private void Start()
@@ -37,6 +40,12 @@ public class BoardgamePlayer : MonoBehaviour
     public void OnDiceStoped()
     {
         moveCount = dice.ConveyDiceReuslt();
+        helpMoveAsync().Forget();
+    }
+
+    public void GetRouletteResult(int rouletteResult)
+    {
+        moveCount = rouletteResult;
         helpMoveAsync().Forget();
     }
 

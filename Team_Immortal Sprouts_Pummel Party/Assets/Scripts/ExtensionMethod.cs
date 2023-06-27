@@ -172,7 +172,7 @@ public static class ExtensionMethod
     /// <param name="targetRotation"></param>
     /// <param name="duration"></param>
     /// <returns></returns>
-    public static async UniTaskVoid QuaternionLerpExtension(Transform transform, Quaternion startRotation, Quaternion targetRotation, float duration)
+    public static async UniTask QuaternionLerpExtension(Transform transform, Quaternion startRotation, Quaternion targetRotation, float duration)
     {
         if (transform == null || transform.rotation == targetRotation || startRotation == targetRotation)
         {
@@ -388,6 +388,22 @@ public static class ExtensionMethod
 
         transform.position = initialPosition;
     }
+
+    /// <summary>
+    /// transform의 사이즈를 동적으로 조절하는 함수
+    /// </summary>
+    public static async UniTask SizeChange(Transform transform, Vector3 startSize, Vector3 targetSize, float duration)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime <= duration)
+        {
+            transform.localScale = Vector3.Lerp(startSize, targetSize, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield();
+        }
+    }
+
 
     #endregion
 

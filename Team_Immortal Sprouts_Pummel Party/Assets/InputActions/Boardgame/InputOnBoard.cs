@@ -35,6 +35,15 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RouletteTouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""89f8e80e-7198-4600-98b9-8ddab454f0ab"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -46,6 +55,17 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RollDice"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""921a2f1e-56fa-4fb0-a1c5-d963bc65df46"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RouletteTouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -133,6 +153,7 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_RollDice = m_Player.FindAction("RollDice", throwIfNotFound: true);
+        m_Player_RouletteTouch = m_Player.FindAction("RouletteTouch", throwIfNotFound: true);
         // PlayerTouch
         m_PlayerTouch = asset.FindActionMap("PlayerTouch", throwIfNotFound: true);
         m_PlayerTouch_ScreenTouch = m_PlayerTouch.FindAction("ScreenTouch", throwIfNotFound: true);
@@ -202,11 +223,13 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_RollDice;
+    private readonly InputAction m_Player_RouletteTouch;
     public struct PlayerActions
     {
         private @InputOnBoard m_Wrapper;
         public PlayerActions(@InputOnBoard wrapper) { m_Wrapper = wrapper; }
         public InputAction @RollDice => m_Wrapper.m_Player_RollDice;
+        public InputAction @RouletteTouch => m_Wrapper.m_Player_RouletteTouch;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -219,6 +242,9 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
             @RollDice.started += instance.OnRollDice;
             @RollDice.performed += instance.OnRollDice;
             @RollDice.canceled += instance.OnRollDice;
+            @RouletteTouch.started += instance.OnRouletteTouch;
+            @RouletteTouch.performed += instance.OnRouletteTouch;
+            @RouletteTouch.canceled += instance.OnRouletteTouch;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -226,6 +252,9 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
             @RollDice.started -= instance.OnRollDice;
             @RollDice.performed -= instance.OnRollDice;
             @RollDice.canceled -= instance.OnRollDice;
+            @RouletteTouch.started -= instance.OnRouletteTouch;
+            @RouletteTouch.performed -= instance.OnRouletteTouch;
+            @RouletteTouch.canceled -= instance.OnRouletteTouch;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -346,6 +375,7 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnRollDice(InputAction.CallbackContext context);
+        void OnRouletteTouch(InputAction.CallbackContext context);
     }
     public interface IPlayerTouchActions
     {

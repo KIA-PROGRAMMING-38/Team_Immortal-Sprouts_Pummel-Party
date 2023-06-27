@@ -5,36 +5,56 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class Roulette : MonoBehaviour
 {
     [SerializeField] private Transform roulette;
-
     [SerializeField][Range(800f, 1500f)] private float rotateSpeed = 1200f;
     private const int MIN_RESULT = -1;
     private const int MAX_RESULT = 5;
-    private int diceResult; // 주사위값
+    private int rouletteResult; // 룰렛값
     private CancellationTokenSource playTokenSource;
     private CancellationTokenSource cancelTokenSource;
     private CancellationToken controlToken;
+
+    public UnityEvent<int> OnStoppedRoulette = new UnityEvent<int>();
+    
 
     private void Awake()
     {
         playTokenSource = new CancellationTokenSource();
         cancelTokenSource = new CancellationTokenSource();
         cancelTokenSource.Cancel();
+        targetSize = transform.localScale;
     }
 
-    private void OnEnable()
+    [SerializeField] [Range(0.5f, 2f)] private float appearTime = 1.5f;
+    private Vector3 targetSize;
+    private Vector3 disappearSize = Vector3.zero;
+    private async void OnEnable()
     {
+        await ExtensionMethod.SizeChange(transform, disappearSize, targetSize, appearTime);
         rouletteRotate().Forget();
     }
+
+    
+
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             showDiceResult().Forget();
+        }
+    }
+
+    public void Test(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            Debug.Log("Touch함");
         }
     }
 
@@ -57,15 +77,19 @@ public class Roulette : MonoBehaviour
     [SerializeField] [Range(1f, 3f)] private float changeTime = 1f;
     private async UniTaskVoid showDiceResult()
     {
-        diceResult = UnityEngine.Random.Range(MIN_RESULT, MAX_RESULT + 1); // 룰렛 값 추출
+        rouletteResult = UnityEngine.Random.Range(MIN_RESULT, MAX_RESULT + 1); // 룰렛 값 추출
         controlToken = cancelTokenSource.Token; // 무한 돌기 멈춤
 
         await ExtensionMethod.DoRotate(roulette, rotateSpeed, 0f, rotationAxis, slowTime);
         
         Quaternion initialRotation = roulette.rotation;
-        Quaternion targetRotation = getRouletteRotation(diceResult); // 룰렛값에 해당하는 회전값을 가져옴
+        Quaternion targetRotation = getRouletteRotation(rouletteResult); // 룰렛값에 해당하는 회전값을 가져옴
 
-        ExtensionMethod.QuaternionLerpExtension(roulette, initialRotation, targetRotation, changeTime).Forget();
+        await ExtensionMethod.QuaternionLerpExtension(roulette, initialRotation, targetRotation, changeTime);
+
+        await UniTask.Delay(TimeSpan.FromSeconds(1f)); // 1초 기다렸다가
+        await ExtensionMethod.SizeChange(transform, targetSize, disappearSize, appearTime);
+        OnStoppedRoulette?.Invoke(rouletteResult);
     }
 
     private Quaternion getRouletteRotation(int diceResult) => rotationValues[diceResult + 1];
