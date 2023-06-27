@@ -17,4 +17,5 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 81d42e37917f70546a8883492366315d, type: 3}
   Description: Test NuclearWaste
   isControllable: 1
+  Weight: 1
   Prefab: {fileID: 8958724561101079484, guid: 7b0344c75467b094b848fb8c10a000a2, type: 3}

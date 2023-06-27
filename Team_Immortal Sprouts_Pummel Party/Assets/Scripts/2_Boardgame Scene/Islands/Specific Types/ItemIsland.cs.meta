@@ -3,7 +3,12 @@ guid: 5ce3f3506313f424897fc42b81e9fe88
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - nextPlayerSpot: {instanceID: 0}
+  - prevPlayerSpot: {instanceID: 0}
+  - currentPlayerSpot: {instanceID: 0}
+  - effectPrefab: {fileID: 8544091258326219837, guid: a4318b5b1b4d3c745a3c9317c9b10031, type: 3}
+  - me: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

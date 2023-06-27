@@ -8,7 +8,7 @@ public class DamageTest : MonoBehaviour
 
     private void OnEnable()
     {
-        TargetPlayer.GetDamage(5);
+        TargetPlayer.GetDamage(25);
         Debug.Log($"{TargetPlayer.Hp}");
     }
 }
