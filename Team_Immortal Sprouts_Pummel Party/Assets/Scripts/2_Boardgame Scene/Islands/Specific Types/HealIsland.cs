@@ -1,18 +1,22 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HealIsland : Island
 {
-    // Start is called before the first frame update
     void Start()
     {
         InitPositionSettings().Forget();
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// 힐 섬을 활성화, 플레이어가 턴에서 최종 도착한 위치가 힐 섬일 경우 호출
+    /// </summary>
+    public async UniTask OnActiveHealIsland(BoardgamePlayer player)
     {
-        
+        await UniTask.Delay(1500);
+
+        player.OnRecover(15);
     }
 }

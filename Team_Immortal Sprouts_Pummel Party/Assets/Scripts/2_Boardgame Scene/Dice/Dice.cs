@@ -8,7 +8,7 @@ using UnityEngine.Events;
 using Random = UnityEngine.Random;
 public class Dice : MonoBehaviour
 {
-    [SerializeField] private GameObject diceTotal; // ÁÖ»çÀ§¿ÀºêÁ§Æ®
+    [SerializeField] private GameObject diceTotal; // ì£¼ì‚¬ìœ„ì˜¤ë¸Œì íŠ¸
     public UnityEvent OnDiceStopped;
     private float rotateZSpeed = 800f;
     private float rotateYSpeed = 800f;
@@ -20,17 +20,17 @@ public class Dice : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ÅÍÄ¡ ÀÔ·ÂÀ» ¹Ş¾Æ¿À´Â ÇÔ¼öÀÔ´Ï´Ù.
+    /// í”Œë ˆì´ì–´ì˜ í„°ì¹˜ ì…ë ¥ì„ ë°›ì•„ì˜¤ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
     /// </summary>
     public void OnTouchRollDicePanel() => isClickedBoardGameScreen = true;
     private const int minResult = -1;
     private const int maxResult = 8;
-    private int diceResult; // ÁÖ»çÀ§°ª
-    private async UniTaskVoid rotateDice() // ÁÖ»çÀ§°¡ È¸ÀüÇÏ´Â ÇÔ¼ö
+    private int diceResult; // ì£¼ì‚¬ìœ„ê°’
+    private async UniTaskVoid rotateDice() // ì£¼ì‚¬ìœ„ê°€ íšŒì „í•˜ëŠ” í•¨ìˆ˜
     {
-        while (!isClickedBoardGameScreen) // ÅÍÄ¡°¡ ¾øÀ¸¸é
+        while (!isClickedBoardGameScreen) // í„°ì¹˜ê°€ ì—†ìœ¼ë©´
         {
-            diceTotal.transform.Rotate(0, rotateYSpeed * Time.deltaTime, rotateZSpeed * Time.deltaTime); // °è¼Ó µ¹¾Æ
+            diceTotal.transform.Rotate(0, rotateYSpeed * Time.deltaTime, rotateZSpeed * Time.deltaTime); // ê³„ì† ëŒì•„
             await UniTask.Yield();
         }
 
@@ -42,7 +42,7 @@ public class Dice : MonoBehaviour
 
     public int ConveyDiceReuslt() => diceResult;
 
-    private Quaternion returnRotationValue(int diceValue) // ÁÖ»çÀ§°ª¿¡ ÇØ´çÇÏ´Â È¸Àü°ªÀ» ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    private Quaternion returnRotationValue(int diceValue) // ì£¼ì‚¬ìœ„ê°’ì— í•´ë‹¹í•˜ëŠ” íšŒì „ê°’ì„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     {
         int realIndex = diceValue + 1;
         return rotationValues[realIndex];
@@ -58,7 +58,7 @@ public class Dice : MonoBehaviour
     private async UniTask WaitForSeconds(float waitTime) => await UniTask.Delay(TimeSpan.FromSeconds(waitTime));
 
     /// <summary>
-    /// ÁÖ»çÀ§¸¦ È°¼ºÈ­ÇØÁÖ´Â ÇÔ¼öÀÔ´Ï´Ù.
+    /// ì£¼ì‚¬ìœ„ë¥¼ í™œì„±í™”í•´ì£¼ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
     /// </summary>
     public void OnAppearDice()
     {
@@ -71,14 +71,14 @@ public class Dice : MonoBehaviour
 
     private Quaternion[] rotationValues = new Quaternion[]
     {
-        Quaternion.Euler(128, 156, 166), // ÁÖ»çÀ§°ªÀÌ -1 ÀÌ ³ª¿ÔÀ»¶§ÀÇ È¸Àü°ª
-        Quaternion.Euler(-21, 600, 142), // ÁÖ»çÀ§°ªÀÌ 0 ÀÌ ³ª¿ÔÀ»¶§ÀÇ È¸Àü°ª
-        Quaternion.Euler(18, 296, 145), // ÁÖ»çÀ§°ªÀÌ 1 ÀÌ ³ª¿ÔÀ»¶§ÀÇ È¸Àü°ª
-        Quaternion.Euler(-37, 518, 195), // ÁÖ»çÀ§°ªÀÌ 2 ÀÌ ³ª¿ÔÀ»¶§ÀÇ È¸Àü°ª
-        Quaternion.Euler(1, 445, 219), // ÁÖ»çÀ§°ªÀÌ 3 ÀÌ ³ª¿ÔÀ»¶§ÀÇ È¸Àü°ª
-        Quaternion.Euler(-25, 473, 40), // ÁÖ»çÀ§°ªÀÌ 4 ÀÌ ³ª¿ÔÀ»¶§ÀÇ È¸Àü°ª
-        Quaternion.Euler(27, 379, -168), // ÁÖ»çÀ§°ªÀÌ 5 ÀÌ ³ª¿ÔÀ»¶§ÀÇ È¸Àü°ª
-        Quaternion.Euler(-37, 205, -18), // ÁÖ»çÀ§°ªÀÌ 6 ÀÌ ³ª¿ÔÀ»¶§ÀÇ È¸Àü°ª
-        Quaternion.Euler(0, 274, -38), // ÁÖ»çÀ§°ªÀÌ 7 ÀÌ ³ª¿ÔÀ»¶§ÀÇ È¸Àü°ª
+        Quaternion.Euler(128, 156, 166), // ì£¼ì‚¬ìœ„ê°’ì´ -1 ì´ ë‚˜ì™”ì„ë•Œì˜ íšŒì „ê°’
+        Quaternion.Euler(-21, 600, 142), // ì£¼ì‚¬ìœ„ê°’ì´ 0 ì´ ë‚˜ì™”ì„ë•Œì˜ íšŒì „ê°’
+        Quaternion.Euler(18, 296, 145), // ì£¼ì‚¬ìœ„ê°’ì´ 1 ì´ ë‚˜ì™”ì„ë•Œì˜ íšŒì „ê°’
+        Quaternion.Euler(-37, 518, 195), // ì£¼ì‚¬ìœ„ê°’ì´ 2 ì´ ë‚˜ì™”ì„ë•Œì˜ íšŒì „ê°’
+        Quaternion.Euler(1, 445, 219), // ì£¼ì‚¬ìœ„ê°’ì´ 3 ì´ ë‚˜ì™”ì„ë•Œì˜ íšŒì „ê°’
+        Quaternion.Euler(-25, 473, 40), // ì£¼ì‚¬ìœ„ê°’ì´ 4 ì´ ë‚˜ì™”ì„ë•Œì˜ íšŒì „ê°’
+        Quaternion.Euler(27, 379, -168), // ì£¼ì‚¬ìœ„ê°’ì´ 5 ì´ ë‚˜ì™”ì„ë•Œì˜ íšŒì „ê°’
+        Quaternion.Euler(-37, 205, -18), // ì£¼ì‚¬ìœ„ê°’ì´ 6 ì´ ë‚˜ì™”ì„ë•Œì˜ íšŒì „ê°’
+        Quaternion.Euler(0, 274, -38), // ì£¼ì‚¬ìœ„ê°’ì´ 7 ì´ ë‚˜ì™”ì„ë•Œì˜ íšŒì „ê°’
     };
 }
