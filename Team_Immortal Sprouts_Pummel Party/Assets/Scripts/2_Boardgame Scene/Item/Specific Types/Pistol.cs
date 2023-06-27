@@ -4,32 +4,46 @@ using UnityEngine.InputSystem;
 
 public class Pistol : Item, IControllable
 {
+    private int playerLayerMask;
+    private void Start()
+    {
+        playerLayerMask = LayerMask.GetMask("Player");
+    }
 
     private Transform playerTransform;
     private Rigidbody playerRigidbody;
     public override void SetForUse(BoardgamePlayer usePlayer)
     {
         base.SetForUse(usePlayer);
-        
         playerTransform = usePlayer.transform;
         playerRigidbody = usePlayer.GetComponent<Rigidbody>();
         gameObject.transform.SetParent(playerTransform, false);
     }
 
-    [SerializeField] private Transform shootPoint;
+    [SerializeField] private LineRenderer laser;
     public override void Use()
     {
         base.Use();
 
-        RaycastHit hit;
-        Physics.Raycast(shootPoint.position, transform.forward * -1, out hit, int.MaxValue);
+        laser.enabled = false;
 
-        if(hit.collider != null && hit.collider.CompareTag("Player"))
-        {
-            Debug.Log($"맞은 플레이어: {hit.collider.name}");
-        }
-
+        hitPlayer();
         recoil().Forget();
+    }
+
+    [SerializeField] private Transform shootPoint;
+    private const float MAX_DISTANCE = 15f;
+    private const int DAMAGE = 30;
+    // TODO: 추후 마스터 클라이언트에서 호출하여 판정
+    private void hitPlayer()
+    {
+        RaycastHit hit;
+        Physics.Raycast(shootPoint.position, transform.forward * -1, out hit, MAX_DISTANCE, playerLayerMask);
+
+        if (hit.collider != null)
+        {
+            hit.collider.GetComponent<BoardgamePlayer>().GetDamage(DAMAGE);
+        }
     }
 
     private const float ROTATION_TIME_AFTER_SHOOT = 0.01f;
