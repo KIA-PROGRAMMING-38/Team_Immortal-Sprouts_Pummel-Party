@@ -1312,7 +1312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3474576078686204268}
   - component: {fileID: 8962701233054439900}
-  - component: {fileID: -5966252579476411272}
+  - component: {fileID: -2605570796632897831}
   m_Layer: 0
   m_Name: FlowerHairPin
   m_TagString: Untagged
@@ -1354,12 +1354,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: -5966252579476411272}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-5966252579476411272
+--- !u!114 &-2605570796632897831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1374,7 +1373,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 0
+  m_UseLocal: 1
 --- !u!1 &5473654674987227493
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2676589441665344322}
   - component: {fileID: 8839003775234814911}
-  - component: {fileID: 3047614083212208619}
+  - component: {fileID: -6196850968605249473}
   m_Layer: 0
   m_Name: Straw Hat
   m_TagString: Untagged
@@ -52,12 +52,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 3047614083212208619}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &3047614083212208619
+--- !u!114 &-6196850968605249473
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,7 +71,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 0
+  m_UseLocal: 1
 --- !u!1 &2676589441730706694
 GameObject:
   m_ObjectHideFlags: 0

@@ -2935,7 +2935,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6936470154947753271}
   - component: {fileID: 5488744145934261154}
-  - component: {fileID: 5762624772599746783}
+  - component: {fileID: -5721669152700510988}
   m_Layer: 0
   m_Name: Magic Hat
   m_TagString: Untagged
@@ -2977,12 +2977,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 5762624772599746783}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5762624772599746783
+--- !u!114 &-5721669152700510988
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2997,7 +2996,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 0
+  m_UseLocal: 1
 --- !u!1 &6936470155025291815
 GameObject:
   m_ObjectHideFlags: 0

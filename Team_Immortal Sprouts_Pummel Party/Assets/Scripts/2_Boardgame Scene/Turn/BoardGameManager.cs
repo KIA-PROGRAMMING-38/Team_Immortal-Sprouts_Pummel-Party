@@ -26,24 +26,28 @@ public class BoardGameManager : MonoBehaviour
             gameFrameWork.OnStartBoardGame.Invoke();
         }
     }
-
+    private GameObject hat;
+    private Transform hatPosition;
+    private Transform bodyPosition;
     public void FirstSpawnPlayer()
     {
-        if (PhotonNetwork.IsMasterClient)
+      
+        for (int playerEnterNumber = 1; playerEnterNumber <= PhotonNetwork.CurrentRoom.PlayerCount; playerEnterNumber++)
         {
-            for (int playerEnterNumber = 1; playerEnterNumber <= PhotonNetwork.CurrentRoom.PlayerCount; playerEnterNumber++)
+            if (PhotonNetwork.IsMasterClient)
             {
                 GameObject playerModel = PhotonNetwork.Instantiate("Player",
                     spawnPoint._BoardPositions[playerEnterNumber].position, Quaternion.identity);
                 playerView = playerModel.GetPhotonView();
                 playerView.TransferOwnership(PhotonNetwork.CurrentRoom.Players[playerEnterNumber]);
-                Transform hatPosition = playerModel.transform.GetChild(0);
+                hatPosition = playerModel.transform.GetChild(0);
+                bodyPosition = playerModel.transform.GetChild(1);
                 Player player = PhotonNetwork.CurrentRoom.Players[playerEnterNumber];
                 if ((int)player.CustomProperties[PropertiesKey.hatKey] != 0)
                 {
-                    GameObject hat = PhotonNetwork.Instantiate(customData.hats[(int)player.CustomProperties[PropertiesKey.hatKey]].name,
+                    hat = PhotonNetwork.Instantiate(customData.hats[(int)player.CustomProperties[PropertiesKey.hatKey]].name,
                         hatPosition.position, Quaternion.identity);
-                    hat.transform.SetParent(hatPosition,true);
+                    hat.transform.SetParent(bodyPosition, true);
                 }
             }
         }

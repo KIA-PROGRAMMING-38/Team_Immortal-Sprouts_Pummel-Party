@@ -13863,7 +13863,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7705362136768610213}
   - component: {fileID: -2594303726013168153}
-  - component: {fileID: -5463622931751427686}
+  - component: {fileID: 2702489912536019472}
   m_Layer: 0
   m_Name: BirthdayHat
   m_TagString: Untagged
@@ -13905,12 +13905,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: -5463622931751427686}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-5463622931751427686
+--- !u!114 &2702489912536019472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13925,7 +13924,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 0
+  m_UseLocal: 1
 --- !u!1 &3754256102667991061
 GameObject:
   m_ObjectHideFlags: 0

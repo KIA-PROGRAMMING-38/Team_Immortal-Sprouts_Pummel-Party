@@ -962,7 +962,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3321060860750121531}
   - component: {fileID: -8057916155861099099}
-  - component: {fileID: 2491714011082784604}
+  - component: {fileID: -6258337797303655479}
   m_Layer: 0
   m_Name: Ribbon Pin 1
   m_TagString: Untagged
@@ -1004,12 +1004,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 2491714011082784604}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2491714011082784604
+--- !u!114 &-6258337797303655479
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1024,7 +1023,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 0
+  m_UseLocal: 1
 --- !u!1 &3321060860815710141
 GameObject:
   m_ObjectHideFlags: 0
