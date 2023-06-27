@@ -16,6 +16,9 @@ TagManager:
   - Stone
   - FxTemporaire
   - LobbyPlayer
+  - DucklingCollector
+  - BirdCage
+  - Duckling
   layers:
   - Default
   - TransparentFX
@@ -23,8 +26,10 @@ TagManager:
   - Island
   - Water
   - UI
-  - Player
-  - 
+
+  - DucklingCollector
+  - Duckling
+
   - 
   - 
   - 
