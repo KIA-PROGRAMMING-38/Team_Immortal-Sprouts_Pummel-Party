@@ -5,26 +5,40 @@ using UnityEngine.InputSystem;
 
 public class BoardgamePlayer : MonoBehaviour
 {
-    [SerializeField] private Dice dice;
     [SerializeField] private Roulette roulette;
     private Rigidbody rigidbody;
     private Animator animator;
     private Inventory inventory;
-    public Inventory Inventory { get 
+    public Inventory Inventory
+    {
+        get
         {
-            if(inventory == null)
+            if (inventory == null)
             {
                 inventory = new Inventory(this);
             }
             return inventory;
-        } }
+        }
+    }
+
+    private PlayerInput playerInput;
+    private InputAction rouletteTouchAction;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        roulette.OnStoppedRoulette.RemoveAllListeners();
-        roulette.OnStoppedRoulette.AddListener(GetRouletteResult);
+
+        playerInput = GetComponent<PlayerInput>();
+        rouletteTouchAction = playerInput.actions["RouletteTouch"];
+        roulette.OnRouletteFinished.RemoveAllListeners();
+        roulette.OnRouletteFinished.AddListener(getRouletteResult);
+    }
+
+    private void OnEnable()
+    {
+        rouletteTouchAction.started -= rollRoulette;
+        rouletteTouchAction.started += rollRoulette;
     }
 
     private void Start()
@@ -34,25 +48,28 @@ public class BoardgamePlayer : MonoBehaviour
         isOnStartIsland = true;
     }
 
+    private void OnDisable()
+    {
+        rouletteTouchAction.started -= rollRoulette;
+    }
+
     private int moveCount;
     public bool CanUseItem = false;
 
-    public void OnDiceStoped()
-    {
-        moveCount = dice.ConveyDiceReuslt();
-        helpMoveAsync().Forget();
-    }
-
-    public void GetRouletteResult(int rouletteResult)
+    private void rollRoulette(InputAction.CallbackContext context) => roulette.showDiceResult().Forget();
+    private void getRouletteResult(int rouletteResult)
     {
         moveCount = rouletteResult;
-        helpMoveAsync().Forget();
+        enableRoulette(false);
+        playerMove().Forget();
     }
+
+    private void enableRoulette(bool shouldTurnOn) => roulette.gameObject.SetActive(shouldTurnOn);
 
     private Island currentIsland;
     private const int WAIT_TIME_BEFORE_MOVE = 1000;
     private bool canMoveOnDirectionIsland;
-    private async UniTaskVoid helpMoveAsync()
+    private async UniTaskVoid playerMove()
     {
         await checkDepartureIsland();
 
@@ -83,12 +100,12 @@ public class BoardgamePlayer : MonoBehaviour
 
     private async UniTask checkTransitIsland()
     {
-        
+
     }
 
     private async UniTask checkDestIsland()
     {
-        if(currentIsland is ItemIsland)
+        if (currentIsland is ItemIsland)
         {
             await currentIsland.GetComponent<ItemIsland>().Activate(this);
         }
@@ -196,10 +213,6 @@ public class BoardgamePlayer : MonoBehaviour
 
 
         await checkDestIsland();
-
-
-        // TODO: 추후 턴 시작을 알리는 곳에서 해야 함
-        dice.OnAppearDice();
     }
 
     private const int JUMP_HEIGHT = 5;
@@ -251,7 +264,7 @@ public class BoardgamePlayer : MonoBehaviour
         }
         else if (moveCount == -1)
         {
-            if(isOnStartIsland == true)
+            if (isOnStartIsland == true)
             {
                 moveCount = 0;
             }

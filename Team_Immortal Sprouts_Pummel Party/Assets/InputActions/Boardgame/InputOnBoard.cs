@@ -61,7 +61,7 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""921a2f1e-56fa-4fb0-a1c5-d963bc65df46"",
-                    ""path"": ""<Touchscreen>/Press"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
