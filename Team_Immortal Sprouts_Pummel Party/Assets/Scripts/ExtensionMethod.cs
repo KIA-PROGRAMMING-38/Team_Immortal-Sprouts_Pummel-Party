@@ -364,7 +364,16 @@ public static class ExtensionMethod
 
     #endregion
 
+    #region 보간 함수
 
+    public static float Lerp(float start, float end, float t)
+    {
+        return start + (end - start) * t;
+    }
+
+
+
+    #endregion
 
 
 }
