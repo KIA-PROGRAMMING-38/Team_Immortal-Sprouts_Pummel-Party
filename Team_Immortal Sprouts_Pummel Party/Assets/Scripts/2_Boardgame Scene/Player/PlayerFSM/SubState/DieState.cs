@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DieState : DamagedState
 {
-    public DieState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, string animName) : base(control, machine, anim, rigid, animName)
+    public DieState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, int animName) : base(control, machine, anim, rigid, animName)
     {
     }
 

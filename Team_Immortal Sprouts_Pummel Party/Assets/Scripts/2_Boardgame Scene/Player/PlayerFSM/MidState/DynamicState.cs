@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DynamicState : PlayerState
 {
-    public DynamicState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, string animName) : base(control, machine, anim, rigid, animName)
+    public DynamicState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, int animName) : base(control, machine, anim, rigid, animName)
     {
     }
 

@@ -440,8 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9597ae9578eab4192b5a23700be642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dice: {fileID: 0}
-  roulette: {fileID: 0}
+  roulette: {fileID: 5392129591856151518}
   CanUseItem: 1
   onDamagedParticle: {fileID: 603057851279288489}
   Hp: 30
@@ -916,6 +915,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc0e897c0d35bed48a5931d4bb5d6949, type: 3}
+--- !u!114 &5392129591856151518 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1912699986696028195, guid: dc0e897c0d35bed48a5931d4bb5d6949, type: 3}
+  m_PrefabInstance: {fileID: 5791620095153044477}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3382a3d4a65f1a46b304ec38ba1a2cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6246961394089571461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 499439416408133496, guid: dc0e897c0d35bed48a5931d4bb5d6949, type: 3}

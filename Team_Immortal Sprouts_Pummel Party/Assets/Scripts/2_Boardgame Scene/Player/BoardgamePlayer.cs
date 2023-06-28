@@ -134,7 +134,7 @@ public class BoardgamePlayer : MonoBehaviour
             return;
         }
 
-        animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
+        //animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
         await onExitDepartureIsland();
 
         while (moveCount >= 1)
@@ -163,7 +163,7 @@ public class BoardgamePlayer : MonoBehaviour
             await UniTask.Yield(this.GetCancellationTokenOnDestroy());
         }
 
-        animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false);
+        //animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false);
 
         await lookForward();
     }
@@ -292,7 +292,7 @@ public class BoardgamePlayer : MonoBehaviour
     {
         Hp -= power;
         onDamagedParticle?.Play();
-        animator.SetTrigger(BoardgamePlayerAnimID.DAMAGED);
+        //animator.SetTrigger(BoardgamePlayerAnimID.DAMAGED);
     }
     #endregion
 

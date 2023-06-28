@@ -8,9 +8,9 @@ public abstract class PlayerState
     protected StateMachine stateMachine;
     protected Animator animator;
     protected Rigidbody rigidbody;
-    private string animParameter;
+    private int animParameter;
 
-    public PlayerState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, string animName)
+    public PlayerState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, int animName)
     {
         controller = control;
         stateMachine = machine;

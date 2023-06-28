@@ -4,8 +4,12 @@ using UnityEngine;
 
 public static class BoardgamePlayerAnimID
 {
-    public static readonly int IS_MOVING = Animator.StringToHash("isMoving");
-    public static readonly int DAMAGED = Animator.StringToHash("Damaged");
+    public static readonly int HOVERING = Animator.StringToHash("Hovering");
+    public static readonly int WAIT = Animator.StringToHash("Wait");
+    public static readonly int LOOKBACK = Animator.StringToHash("LookBack");
+    public static readonly int MOVING = Animator.StringToHash("Moving");
+    public static readonly int TACKLING = Animator.StringToHash("Tackling");
+    public static readonly int BUMPED = Animator.StringToHash("Bumped");
+    public static readonly int DRAGGED = Animator.StringToHash("Dragged");
     public static readonly int DIE = Animator.StringToHash("Die");
-    public static readonly int DISSOLVED = Animator.StringToHash("Dissolved");
 }
