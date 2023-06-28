@@ -4,28 +4,28 @@ using UnityEngine;
 
 public abstract class PlayerState
 {
-    protected BoardPlayerController controller;
+    protected BoardPlayerController playerController;
     protected StateMachine stateMachine;
-    protected Animator animator;
-    protected Rigidbody rigidbody;
+    protected Animator playerAnimator;
+    protected Rigidbody playerRigid;
     private int animParameter;
 
     public PlayerState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, int animName)
     {
-        controller = control;
+        playerController = control;
         stateMachine = machine;
-        animator = anim;
-        rigidbody = rigid;
+        playerAnimator = anim;
+        playerRigid = rigid;
         animParameter = animName;
     }
 
     public virtual void Enter()
     {
-        animator.SetBool(animParameter, true);
+        playerAnimator.SetBool(animParameter, true);
     }
 
     public virtual void Exit()
     {
-        animator.SetBool(animParameter, false);
+        playerAnimator.SetBool(animParameter, false);
     }
 }

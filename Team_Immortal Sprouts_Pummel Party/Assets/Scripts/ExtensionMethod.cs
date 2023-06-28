@@ -116,7 +116,7 @@ public static class ExtensionMethod
             Vector3 m1 = Vector3.Lerp(controlVector, targetVector, t);
             transform.position = Vector3.Lerp(m0, m1, t);
             elapsedTime += Time.deltaTime;
-            await UniTask.Yield();
+            await UniTask.WaitForFixedUpdate(); // fixedUpdate으로 처리
         }
     }
 

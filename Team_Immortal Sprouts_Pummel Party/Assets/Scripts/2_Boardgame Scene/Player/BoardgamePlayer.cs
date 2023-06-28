@@ -56,7 +56,7 @@ public class BoardgamePlayer : MonoBehaviour
     private int moveCount;
     public bool CanUseItem = false;
 
-    private void rollRoulette(InputAction.CallbackContext context) => roulette.showDiceResult().Forget();
+    private void rollRoulette(InputAction.CallbackContext context) => roulette.ShowDiceResult().Forget();
     private void getRouletteResult(int rouletteResult)
     {
         moveCount = rouletteResult;
@@ -64,7 +64,7 @@ public class BoardgamePlayer : MonoBehaviour
         playerMove().Forget();
     }
 
-    private void enableRoulette(bool shouldTurnOn) => roulette.gameObject.SetActive(shouldTurnOn);
+    private void enableRoulette(bool shouldTurnOn) => roulette.gameObject.SetActive(shouldTurnOn); // oo
 
     private Island currentIsland;
     private const int WAIT_TIME_BEFORE_MOVE = 1000;
@@ -238,7 +238,7 @@ public class BoardgamePlayer : MonoBehaviour
         return primaryBezierCurve(m0, m1, t);
     }
 
-    private void updateCurrentIsland()
+    private void updateCurrentIsland() // 했음 ㅇㅇ
     {
         RaycastHit hit;
         Physics.Raycast(transform.position, Vector3.down * 10f, out hit, int.MaxValue, LayerMask.GetMask("Island"));

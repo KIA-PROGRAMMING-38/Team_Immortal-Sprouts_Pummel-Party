@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class BoardPlayerController : MonoBehaviour
 {
+    [SerializeField] private Roulette roulette;
     private Animator animator;
     private Rigidbody rigidbody;
 
@@ -12,6 +14,7 @@ public class BoardPlayerController : MonoBehaviour
     private InputAction rouletteTouchAction;
 
     public StateMachine stateMachine { get; private set; }
+
 
     #region 플레이어 상태
     public HoveringState HoveringState { get; private set; }
@@ -24,6 +27,9 @@ public class BoardPlayerController : MonoBehaviour
     public DieState DieState { get; private set; }
 
     #endregion
+
+    public UnityEvent<int> OnConveyDiceResult = new UnityEvent<int>();
+
 
     private void Awake()
     {
@@ -39,7 +45,10 @@ public class BoardPlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        rouletteTouchAction.started -= stopRoulette;
+        rouletteTouchAction.started += stopRoulette;
+        roulette.OnRouletteFinished.RemoveListener(conveyDiceResult);
+        roulette.OnRouletteFinished.AddListener(conveyDiceResult);
     }
 
     private void Start()
@@ -49,8 +58,44 @@ public class BoardPlayerController : MonoBehaviour
 
     private void Update()
     {
-        
+        Debug.Log($"현재 상태 = {stateMachine.currentState}");
     }
+
+    private void OnDisable()
+    {
+        rouletteTouchAction.started -= stopRoulette;
+        roulette.OnRouletteFinished.RemoveListener(conveyDiceResult);
+    }
+
+
+    private void stopRoulette(InputAction.CallbackContext context)
+    {
+        roulette.ShowDiceResult().Forget();
+    }
+    
+
+    private void conveyDiceResult(int diceResult)
+    {
+        enableRoulette(false);
+        if (1 <= diceResult)
+        {
+            OnConveyDiceResult?.Invoke(diceResult);
+        }
+    }
+
+    private void enableRoulette(bool shouldTurnOn) => roulette.gameObject.SetActive(shouldTurnOn);
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void initializePlayerStates()
     {

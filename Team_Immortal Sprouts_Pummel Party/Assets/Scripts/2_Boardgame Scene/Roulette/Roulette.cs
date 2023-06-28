@@ -59,7 +59,7 @@ public class Roulette : MonoBehaviour
     
     [SerializeField] [Range(3f, 5f)] private float slowTime = 3f;
     [SerializeField] [Range(1f, 3f)] private float changeTime = 1f;
-    public async UniTaskVoid showDiceResult()
+    public async UniTaskVoid ShowDiceResult()
     {
         if (isStoppable == false)
         {
