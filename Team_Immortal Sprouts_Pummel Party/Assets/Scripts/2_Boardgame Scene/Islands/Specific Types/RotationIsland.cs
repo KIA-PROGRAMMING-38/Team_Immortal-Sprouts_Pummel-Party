@@ -68,10 +68,7 @@ public class RotationIsland : Island
     /// 회전의 종료여부를 반환하는 함수
     /// </summary>
     /// <returns></returns>
-    public bool GetRotationStatus()
-    {
-        return isRotationFinished;
-    }
+    public bool GetRotationStatus() => isRotationFinished;
 
     private async UniTaskVoid Rotate(Quaternion targetRotation)
     {
@@ -107,6 +104,7 @@ public class RotationIsland : Island
         if (isResetting == false) // 화살표 방향을 누르고, 회전이 끝나면 isRotationFinished를 true로 만들어준다
         {
             isRotationFinished = true;
+            playerTransform.GetComponent<BoardPlayerController>().EnableCanMove();
         }
         else // 다시 원상복구 시키는 회전이라면 애초에 isRotationFinished를 사용할 일이 없다
         {

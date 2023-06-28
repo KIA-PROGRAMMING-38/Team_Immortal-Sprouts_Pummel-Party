@@ -15,10 +15,12 @@ public class MovingState : DynamicState
 
     private int moveCount = 0;
     private Island currentIsland = null;
+    public bool canMove { private get; set; } = true;
     public override void Enter()
     {
         base.Enter();
         updateCurrentIsland();
+        activateIsland();
         playerMovement().Forget();
     }
 
@@ -38,10 +40,23 @@ public class MovingState : DynamicState
 
     private async UniTaskVoid playerMovement()
     {
-        Debug.Log($"이동횟수 = {moveCount}");
+        await UniTask.WaitUntil(() => canMove); 
         await checkDepartureIsland();
         checkReachableIsland();
         move().Forget();
+    }
+
+    protected override void activateIsland()
+    {
+        RaycastHit hit;
+        Physics.Raycast(playerController.transform.position, Vector3.down, out hit, int.MaxValue, LayerMask.GetMask("Island"));
+
+        if (hit.collider.gameObject.CompareTag("RotationIsland"))
+        {
+            IActiveIsland island = hit.collider.transform.parent.GetComponent<IActiveIsland>();
+            island.ActivateIsland(playerController.transform);
+            canMove = false;
+        }
     }
 
     private void updateCurrentIsland()
@@ -53,11 +68,6 @@ public class MovingState : DynamicState
         {
             currentIsland = hit.collider.gameObject.GetComponentInParent<Island>();
             currentIsland.SetPlayerPresence(false);
-            Debug.Log($"현재 섬 = {currentIsland.gameObject.name}");
-        }
-        else
-        {
-            Debug.Log("섬 감지 안됨");
         }
     }
 

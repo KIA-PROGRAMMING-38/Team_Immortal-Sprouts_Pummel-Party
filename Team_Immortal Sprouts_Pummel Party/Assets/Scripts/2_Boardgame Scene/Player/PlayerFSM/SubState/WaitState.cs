@@ -19,15 +19,16 @@ public class WaitState : IdleState
         base.Exit();
     }
 
-    private void activateIsland()
+    protected override void activateIsland()
     {
         RaycastHit hit;
         Physics.Raycast(playerController.transform.position, Vector3.down, out hit, int.MaxValue, LayerMask.GetMask("Island"));
 
-        if (hit.collider != null)
+        if (!hit.collider.gameObject.CompareTag("RotationIsland"))
         {
             IActiveIsland island = hit.collider.transform.parent.GetComponent<IActiveIsland>();
             island.ActivateIsland(playerController.transform);
         }
     }
+
 }

@@ -85,7 +85,7 @@ public class BoardPlayerController : MonoBehaviour
 
     private void enableRoulette(bool shouldTurnOn) => roulette.gameObject.SetActive(shouldTurnOn);
 
-
+    public void EnableCanMove() => MovingState.canMove = true;
 
 
 

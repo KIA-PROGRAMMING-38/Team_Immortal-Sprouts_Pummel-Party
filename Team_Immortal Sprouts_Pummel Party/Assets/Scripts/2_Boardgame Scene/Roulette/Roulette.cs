@@ -68,7 +68,7 @@ public class Roulette : MonoBehaviour
 
         isStoppable = false;
         //rouletteResult = UnityEngine.Random.Range(MIN_RESULT, MAX_RESULT + 1); // 룰렛 값 추출
-        rouletteResult = 3;
+        rouletteResult = 5;
         controlToken = cancelTokenSource.Token; // 무한 돌기 멈춤
 
         await ExtensionMethod.DoRotate(roulette, rotateSpeed, 0f, rotationAxis, slowTime); // 회전을 천천히 멈춤

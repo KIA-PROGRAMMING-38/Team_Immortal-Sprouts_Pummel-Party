@@ -28,4 +28,10 @@ public abstract class PlayerState
     {
         playerAnimator.SetBool(animParameter, false);
     }
+
+
+    protected virtual void activateIsland()
+    {
+        
+    }
 }

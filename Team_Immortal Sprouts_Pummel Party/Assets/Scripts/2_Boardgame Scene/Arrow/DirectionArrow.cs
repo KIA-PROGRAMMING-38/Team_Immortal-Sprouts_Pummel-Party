@@ -16,7 +16,9 @@ public class DirectionArrow : MonoBehaviour
     private void Awake()
     {
         initialPosition = transform.position;
-        downPosition.Set(initialPosition.x, initialPosition.y - 3f, initialPosition.z);
+        downPosition = initialPosition;
+        downPosition.y -= 3f;
+        transform.position = downPosition;
         gameObject.SetActive(false);
     }
 
