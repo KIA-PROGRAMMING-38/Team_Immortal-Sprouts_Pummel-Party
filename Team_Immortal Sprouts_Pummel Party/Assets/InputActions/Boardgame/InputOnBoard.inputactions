@@ -6,15 +6,6 @@
             "id": "e1bf4480-00ea-4237-ab3e-0bdfef7ff028",
             "actions": [
                 {
-                    "name": "RollDice",
-                    "type": "Button",
-                    "id": "bbe5cb70-c7b6-4fac-b01e-62306a6be361",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "RouletteTouch",
                     "type": "Button",
                     "id": "89f8e80e-7198-4600-98b9-8ddab454f0ab",
@@ -27,51 +18,12 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "0233eeb7-65d8-4381-9a39-fd3fcf4567f9",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RollDice",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "921a2f1e-56fa-4fb0-a1c5-d963bc65df46",
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "RouletteTouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "PlayerTouch",
-            "id": "251371d0-e733-47e7-ab1b-8ae90622bf04",
-            "actions": [
-                {
-                    "name": "ScreenTouch",
-                    "type": "Button",
-                    "id": "2f29eb6f-53c4-4774-a3c0-ecf8e7b953a4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "bc560a96-ebf6-47cc-9fb5-0146b36d0d16",
-                    "path": "<Touchscreen>/Press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ScreenTouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
