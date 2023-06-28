@@ -22,70 +22,43 @@ public class DirectionArrow : MonoBehaviour
 
     private void OnEnable()
     {
-        ArrowAppear();
+        ArrowAppear().Forget();
     }
 
 
-    private void OnMouseUpAsButton() // °ÔÀÓºä¿¡¼­ ÀÌ ½ºÅ©¸³Æ®¸¦ µé°í ÀÖ´Â °ÔÀÓ¿ÀºêÁ§Æ®¸¦ ÅÍÄ¡ÇßÀ» ¶§
+    private void OnMouseUpAsButton() // ê²Œì„ë·°ì—ì„œ ì´ ìŠ¤í¬ë¦½íŠ¸ë¥¼ ë“¤ê³  ìˆëŠ” ê²Œì„ì˜¤ë¸Œì íŠ¸ë¥¼ í„°ì¹˜í–ˆì„ ë•Œ
     {
-        if (isTouchable) // ÅÍÄ¡°¡ °¡´ÉÇÑ »óÅÂÀÏ ¶§
+        if (isTouchable) // í„°ì¹˜ê°€ ê°€ëŠ¥í•œ ìƒíƒœì¼ ë•Œ
         {
-            arrowSwitch.TurnOffSwitch(); // ¹æÇâ È­»ìÇ¥¸¦ ²¨ÁØ´Ù
+            arrowSwitch.TurnOffSwitch(); // ë°©í–¥ í™”ì‚´í‘œë¥¼ êº¼ì¤€ë‹¤
 
-            // ´ÙÀ½ ¸ñÀûÁö¸¦ Á¤ÇØÁØ´Ù
+            // ë‹¤ìŒ ëª©ì ì§€ë¥¼ ì •í•´ì¤€ë‹¤
             Vector3 nextPosition = nextIsland.GetCurrentPosition();
             curIsland.SetNextPosition(nextPosition);
 
-            // È¸ÀüÇÒ °¢µµ¸¦ ±¸ÇÏ°í È¸Àü½ÃÅ²´Ù
+            // íšŒì „í•  ê°ë„ë¥¼ êµ¬í•˜ê³  íšŒì „ì‹œí‚¨ë‹¤
             Quaternion targetRotation = Quaternion.LookRotation(curIsland.GetCurrentPosition() - nextPosition);
             curIsland.ActivateRotatation(targetRotation);
         }
     }
 
     /// <summary>
-    /// ¹æÇâ È­»ìÇ¥°¡ ¼ö¸é ¾Æ·¡¿¡¼­ ¿Ã¶ó¿À´Â ÇÔ¼ö
+    /// ë°©í–¥ í™”ì‚´í‘œê°€ ìˆ˜ë©´ ì•„ë˜ì—ì„œ ì˜¬ë¼ì˜¤ëŠ” í•¨ìˆ˜
     /// </summary>
-    public void ArrowAppear()
+    public async UniTaskVoid ArrowAppear()
     {
-        ArrowGoesUp().Forget();
+        await ExtensionMethod.Vector3LerpExtension(transform, downPosition, initialPosition, appearTime);
+
+        isTouchable = true; // ë‹¤ ì˜¬ë¼ì˜¤ë©´ í„°ì¹˜ê°€ ê°€ëŠ¥í•œ ìƒíƒœë¡œ ë§Œë“¤ì–´ì¤€ë‹¤
     }
 
     /// <summary>
-    /// ¹æÇâ È­»ìÇ¥°¡ ¼ö¸é ¾Æ·¡·Î ³»·Á°¡´Â ÇÔ¼ö
+    /// ë°©í–¥ í™”ì‚´í‘œê°€ ìˆ˜ë©´ ì•„ë˜ë¡œ ë‚´ë ¤ê°€ëŠ” í•¨ìˆ˜
     /// </summary>
-    public void ArrowDisappear()
+    public async UniTaskVoid ArrowDisappear()
     {
-        ArrowGoesDown().Forget();
-    }
+        await ExtensionMethod.Vector3LerpExtension(transform, initialPosition, downPosition, appearTime);
 
-    private async UniTaskVoid ArrowGoesUp()
-    {
-        float elapsedTime = 0f;
-
-        while (elapsedTime <= appearTime)
-        {
-            transform.position = Vector3.Lerp(downPosition, initialPosition, elapsedTime / appearTime);
-            elapsedTime += Time.deltaTime;
-            await UniTask.Yield();
-        }
-
-        isTouchable = true; // ´Ù ¿Ã¶ó¿À¸é ÅÍÄ¡°¡ °¡´ÉÇÑ »óÅÂ·Î ¸¸µé¾îÁØ´Ù
-    }
-
-    private async UniTaskVoid ArrowGoesDown()
-    {
-        float elapsedTime = 0f;
-
-        isTouchable = false; // ³»·Á°¡´Â µµÁß ÅÍÄ¡¸¦ ÇÏÁö ¸øÇÏ°Ô ¸¸µé¾îÁØ´Ù
-
-        while (elapsedTime <= appearTime)
-        {
-            transform.position = Vector3.Lerp(initialPosition, downPosition, elapsedTime / appearTime);
-            elapsedTime += Time.deltaTime;
-            await UniTask.Yield();
-        }
-
-        
         gameObject.SetActive(false);
     }
 }

@@ -20,7 +20,7 @@ public class HealIsland : Island
         player.OnRecover(15);
     }
 
-    public override void ActivateIsland()
+    public override void ActivateIsland(Transform playerTransform = null)
     {
         // 힐 해주는 로직
     }

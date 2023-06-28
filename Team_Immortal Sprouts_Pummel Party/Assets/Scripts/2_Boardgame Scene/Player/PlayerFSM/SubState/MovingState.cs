@@ -47,7 +47,7 @@ public class MovingState : DynamicState
     private void updateCurrentIsland()
     {
         RaycastHit hit;
-        Physics.Raycast(playerController.transform.position, Vector3.down * int.MaxValue, out hit, int.MaxValue, LayerMask.GetMask("Island"));
+        Physics.Raycast(playerController.transform.position, Vector3.down, out hit, int.MaxValue, LayerMask.GetMask("Island"));
 
         if (hit.collider != null)
         {

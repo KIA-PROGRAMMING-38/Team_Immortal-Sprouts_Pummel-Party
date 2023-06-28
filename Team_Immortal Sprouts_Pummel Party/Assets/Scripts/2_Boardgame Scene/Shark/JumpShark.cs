@@ -1,4 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -113,6 +113,7 @@ public class JumpShark : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("플레이어 닿음");
             playerTransform = collision.gameObject.GetComponent<Transform>();
             kidnapPlayer(playerTransform);
         }

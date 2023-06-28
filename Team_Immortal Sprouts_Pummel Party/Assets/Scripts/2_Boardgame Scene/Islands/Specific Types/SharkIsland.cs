@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class SharkIsland : Island
 {
+    private BaseShark shark;
     void Start()
     {
         InitPositionSettings().Forget();
+        shark = GetComponentInChildren<BaseShark>();
     }
 
-    public override void ActivateIsland()
+    public override void ActivateIsland(Transform playerTransform = null)
     {
-        // 상어 뛰게 하는 로직
+        shark.JumpAttack();
     }
 }
