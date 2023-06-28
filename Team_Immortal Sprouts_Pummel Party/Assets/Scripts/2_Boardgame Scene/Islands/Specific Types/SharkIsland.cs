@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class SharkIsland : Island
 {
-    // Start is called before the first frame update
     void Start()
     {
         InitPositionSettings().Forget();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void ActivateIsland()
     {
-        
+        // 상어 뛰게 하는 로직
     }
 }
