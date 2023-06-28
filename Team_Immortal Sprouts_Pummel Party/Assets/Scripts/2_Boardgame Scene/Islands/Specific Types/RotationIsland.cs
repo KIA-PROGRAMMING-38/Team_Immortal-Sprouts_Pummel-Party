@@ -17,7 +17,7 @@ public class RotationIsland : Island
     private Quaternion defaultRotation;
     private bool isRotationFinished;
 
-    void Start()
+    private void Start()
     {
         InitPositionSettings().Forget();
         SaveInitialRotation();
@@ -144,5 +144,8 @@ public class RotationIsland : Island
         virtualCamProperty.m_AmplitudeGain = 0f;
     }
 
-    
+    public override void ActivateIsland()
+    {
+        // 화살표 띄어주는 로직
+    }
 }

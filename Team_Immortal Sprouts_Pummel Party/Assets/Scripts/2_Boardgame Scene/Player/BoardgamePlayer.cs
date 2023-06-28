@@ -79,10 +79,10 @@ public class BoardgamePlayer : MonoBehaviour
 
     private async UniTask checkDestIsland()
     {
-        if(currentIsland is ItemIsland)
-        {
-            await currentIsland.GetComponent<ItemIsland>().Activate(this);
-        }
+        //if(currentIsland is ItemIsland)
+        //{
+        //    await currentIsland.GetComponent<ItemIsland>().Activate(this);
+        //}
     }
 
     private async UniTask checkHealIsland()

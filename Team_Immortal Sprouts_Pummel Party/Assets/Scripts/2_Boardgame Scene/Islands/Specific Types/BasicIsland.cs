@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class BasicIsland : Island
 {
+    public override void ActivateIsland()
+    {
+        // 아무것도 안함
+    }
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         InitPositionSettings().Forget();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
