@@ -19,8 +19,6 @@ public class BoardPlayerController : MonoBehaviour
 
     private PlayerInput playerInput;
     private InputAction rouletteTouchAction;
-    private InputAction itemTouch;
-    private InputAction itemSelect;
 
     #endregion
 
@@ -64,9 +62,6 @@ public class BoardPlayerController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
         rouletteTouchAction = playerInput.actions["RouletteTouch"];
-        itemTouch = playerInput.actions["ItemTouch"];
-        itemSelect = playerInput.actions["ItemSelect"];
-        playerInput.defaultActionMap = "ItemControl";
 
         stateMachine = new StateMachine(); // 스테이트 머신 초기화
 
@@ -92,7 +87,7 @@ public class BoardPlayerController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"현재 상태 = {stateMachine.currentState}");
+        //Debug.Log($"현재 상태 = {stateMachine.currentState}");
     }
 
     private void OnDisable()
@@ -103,6 +98,8 @@ public class BoardPlayerController : MonoBehaviour
 
 
     #region Public 함수들
+
+    public RealInventory GetPlayerInventory() => inventory; 
 
     /// <summary>
     /// 플레이어의 재소환 끝 여부를 반환하는 함수
@@ -166,7 +163,6 @@ public class BoardPlayerController : MonoBehaviour
 
     #region Private 함수들
     private void stopRoulette(InputAction.CallbackContext context) => roulette.ShowDiceResult().Forget();
-
     private void conveyDiceResult(int diceResult)
     {
         enableRoulette(false); // 룰렛을 꺼주고

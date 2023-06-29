@@ -35,24 +35,6 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""ItemTouch"",
-                    ""type"": ""Button"",
-                    ""id"": ""bf420175-982f-478e-b711-237853fc81e6"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""ItemSelect"",
-                    ""type"": ""Button"",
-                    ""id"": ""e409764d-1362-4991-a617-1f662cbd9c05"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -64,28 +46,6 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RouletteTouch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""555803e4-df74-4b55-bd7f-cdd2feba0b93"",
-                    ""path"": ""<Gamepad>/start"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ItemTouch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ee2977c1-5040-40e4-b0a5-98437d454b4b"",
-                    ""path"": ""<Gamepad>/start"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ItemSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -145,8 +105,6 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_RouletteTouch = m_Player.FindAction("RouletteTouch", throwIfNotFound: true);
-        m_Player_ItemTouch = m_Player.FindAction("ItemTouch", throwIfNotFound: true);
-        m_Player_ItemSelect = m_Player.FindAction("ItemSelect", throwIfNotFound: true);
         // ItemControl
         m_ItemControl = asset.FindActionMap("ItemControl", throwIfNotFound: true);
         m_ItemControl_ItemMove = m_ItemControl.FindAction("ItemMove", throwIfNotFound: true);
@@ -213,15 +171,11 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_RouletteTouch;
-    private readonly InputAction m_Player_ItemTouch;
-    private readonly InputAction m_Player_ItemSelect;
     public struct PlayerActions
     {
         private @InputOnBoard m_Wrapper;
         public PlayerActions(@InputOnBoard wrapper) { m_Wrapper = wrapper; }
         public InputAction @RouletteTouch => m_Wrapper.m_Player_RouletteTouch;
-        public InputAction @ItemTouch => m_Wrapper.m_Player_ItemTouch;
-        public InputAction @ItemSelect => m_Wrapper.m_Player_ItemSelect;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -234,12 +188,6 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
             @RouletteTouch.started += instance.OnRouletteTouch;
             @RouletteTouch.performed += instance.OnRouletteTouch;
             @RouletteTouch.canceled += instance.OnRouletteTouch;
-            @ItemTouch.started += instance.OnItemTouch;
-            @ItemTouch.performed += instance.OnItemTouch;
-            @ItemTouch.canceled += instance.OnItemTouch;
-            @ItemSelect.started += instance.OnItemSelect;
-            @ItemSelect.performed += instance.OnItemSelect;
-            @ItemSelect.canceled += instance.OnItemSelect;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -247,12 +195,6 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
             @RouletteTouch.started -= instance.OnRouletteTouch;
             @RouletteTouch.performed -= instance.OnRouletteTouch;
             @RouletteTouch.canceled -= instance.OnRouletteTouch;
-            @ItemTouch.started -= instance.OnItemTouch;
-            @ItemTouch.performed -= instance.OnItemTouch;
-            @ItemTouch.canceled -= instance.OnItemTouch;
-            @ItemSelect.started -= instance.OnItemSelect;
-            @ItemSelect.performed -= instance.OnItemSelect;
-            @ItemSelect.canceled -= instance.OnItemSelect;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -327,8 +269,6 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnRouletteTouch(InputAction.CallbackContext context);
-        void OnItemTouch(InputAction.CallbackContext context);
-        void OnItemSelect(InputAction.CallbackContext context);
     }
     public interface IItemControlActions
     {

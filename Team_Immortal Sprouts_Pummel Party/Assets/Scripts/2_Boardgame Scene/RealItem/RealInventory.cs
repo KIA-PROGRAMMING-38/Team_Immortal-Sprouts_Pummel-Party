@@ -8,7 +8,8 @@ public class RealInventory
     public RealInventory(ItemData itemData)
     {
         inventory = new List<(RealItem item, int count)>();
-        for (int i = 0; i < itemData.GetItemNumber() ;++i)
+        totalItemCount = itemData.GetItemCount();
+        for (int i = 0; i < totalItemCount ;++i)
         {
             RealItem storedItem = itemData.GetItemPrefab(i);
             inventory.Add((item : storedItem, count : 0));
@@ -16,8 +17,13 @@ public class RealInventory
     }
 
     private List<(RealItem item, int count)> inventory;
+    private int totalItemCount;
 
     public UnityEvent OnInventoryUpdate = new UnityEvent(); 
+
+
+
+    public int GetTotalItemCount() => totalItemCount;
 
     /// <summary>
     /// 아이템을 반환하는 함수
@@ -25,6 +31,13 @@ public class RealInventory
     /// <param name="itemID"></param>
     /// <returns></returns>
     public RealItem GetItem(int itemID) => inventory[itemID].item;
+
+    /// <summary>
+    /// 아이템의 개수를 반환하는 함수
+    /// </summary>
+    /// <param name="itemID"></param>
+    /// <returns></returns>
+    public int GetItemCount(int itemID) => inventory[itemID].count;
 
     /// <summary>
     /// 인벤토리에 아이템을 추가하는 함수

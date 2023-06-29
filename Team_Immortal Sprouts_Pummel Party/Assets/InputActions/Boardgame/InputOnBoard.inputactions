@@ -13,24 +13,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "ItemTouch",
-                    "type": "Button",
-                    "id": "bf420175-982f-478e-b711-237853fc81e6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ItemSelect",
-                    "type": "Button",
-                    "id": "e409764d-1362-4991-a617-1f662cbd9c05",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -42,28 +24,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "RouletteTouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "555803e4-df74-4b55-bd7f-cdd2feba0b93",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ItemTouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ee2977c1-5040-40e4-b0a5-98437d454b4b",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ItemSelect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

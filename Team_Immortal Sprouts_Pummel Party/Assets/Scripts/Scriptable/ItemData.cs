@@ -12,7 +12,7 @@ public class ItemData : ScriptableObject
     public bool[] isControllable = new bool[numberOfItems];
     public RealItem[] prefabs = new RealItem[numberOfItems];   
 
-    public int GetItemNumber() => numberOfItems;    
+    public int GetItemCount() => numberOfItems;    
     public int GetItemID(int index) => itemIDs[index];
     public string GetItemName(int index) => itemNames[index];   
     public Sprite GetItemIcon(int index) => Icons[index];
