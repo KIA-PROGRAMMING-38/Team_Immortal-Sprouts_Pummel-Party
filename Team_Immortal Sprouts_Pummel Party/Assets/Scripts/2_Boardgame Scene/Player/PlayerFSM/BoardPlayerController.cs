@@ -20,8 +20,8 @@ public class BoardPlayerController : MonoBehaviour
 
     #region 플레이어 상태
     public HoveringState Hovering { get; private set; }
-    public MoveStartState MoveStart { get; private set; }   
-    public MoveInProgressState MoveInProgress { get; private set; }    
+    public MoveStartState MoveStart { get; private set; }
+    public MoveInProgressState MoveInProgress { get; private set; }
     public MoveEndState MoveEnd { get; private set; }
     public TacklingState Tackling { get; private set; }
     public BumpedState Bumped { get; private set; }
@@ -62,6 +62,7 @@ public class BoardPlayerController : MonoBehaviour
     private void Update()
     {
         Debug.Log($"현재 상태 = {stateMachine.currentState}");
+        
     }
 
     private void OnDisable()
@@ -75,25 +76,27 @@ public class BoardPlayerController : MonoBehaviour
     {
         roulette.ShowDiceResult().Forget();
     }
-    
+
 
     private void conveyDiceResult(int diceResult)
     {
-        enableRoulette(false);
-        if (1 <= diceResult)
-        {
-            OnRouletteStopped?.Invoke(diceResult);
-        }
+        enableRoulette(false); // 룰렛을 꺼주고
+        OnRouletteStopped?.Invoke(diceResult); // 값을 전달한다
     }
 
     private void enableRoulette(bool shouldTurnOn) => roulette.gameObject.SetActive(shouldTurnOn);
 
-    public async UniTaskVoid EnableCanMove()
+    
+
+    public void ControlCanMove(bool isMovable)
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(1f));
+        MoveInProgress.canMove = isMovable;
     }
 
-
+    public void ControlMoveFinished(bool isFinished)
+    {
+        MoveEnd.isMoveFinished = isFinished;
+    }
 
 
 

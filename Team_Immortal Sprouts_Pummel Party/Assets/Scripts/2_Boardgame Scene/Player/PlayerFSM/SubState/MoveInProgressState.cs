@@ -13,7 +13,8 @@ public class MoveInProgressState : MoveState
     }
 
     private int moveCount = 0;
-    
+    public bool canMove { get; set; } = true;
+
     public override async void Enter()
     {
         base.Enter();
@@ -27,8 +28,10 @@ public class MoveInProgressState : MoveState
     {
         currentIsland.SetPlayerPresence(true); // 현재 섬에 존재함을 체크함
         playerController.isEggGettable = true; // 황금알 수령 가능
+        canMove = true;
     }
 
+    
 
     [SerializeField] private float moveTime = 1f;
     [SerializeField] private float jumpHeight = 5f;
@@ -40,11 +43,12 @@ public class MoveInProgressState : MoveState
         currentIsland.SetPlayerPresence(false); // 현재 섬에서 벗어나기때문에 없음 처리해줌
         while (moveCount != 0)
         {
+            await UniTask.WaitUntil(() => canMove); // 움직임이 가능할때까지 기다린다
+
             updateCurrentIsland(); // 현재 섬을 파악한다
             ActivateIsland(); // 트로피섬이라면 효과를 작동시킨다
             updateNextIsland(); // 다음섬을 정한다
 
-            await UniTask.WaitUntil(() => canMove); // 움직임이 가능할때까지 기다린다
             moveCount -= 1;
 
             setMovePos(playerController.transform.position, nextPosition);
@@ -92,7 +96,10 @@ public class MoveInProgressState : MoveState
         await ExtensionMethod.QuaternionLerpExtension(playerController.transform, start, end, rotateTime);
     }
 
-    public void SetMoveCount(int rouletteOutput) => moveCount = rouletteOutput;
+    public void SetMoveCount(int rouletteOutput)
+    {
+        moveCount = rouletteOutput;
+    }
 
     
 

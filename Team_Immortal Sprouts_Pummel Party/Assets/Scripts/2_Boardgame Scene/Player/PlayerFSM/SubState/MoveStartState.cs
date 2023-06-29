@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,14 +31,13 @@ public class MoveStartState : MoveState
         rouletteResult = rouletteOutput;
     }
 
-
     protected override void ActivateIsland() // 여기서 Activate할껀 회전섬
     {
         if (currentIsland is RotationIsland)
         {
             IActiveIsland island = currentIsland.GetComponent<IActiveIsland>();
             island.ActivateIsland(playerController.transform);
-            canMove = false;
+            playerController.MoveInProgress.canMove = false;
             Debug.Log("회전섬임");
         }
         else if(currentIsland.CompareTag("StartIsland"))

@@ -12,7 +12,7 @@ public class MoveState : PlayerState
 
     
     protected Island currentIsland = null;
-    protected bool canMove = true;
+    
     public override void Enter()
     {
         base.Enter();
@@ -23,8 +23,6 @@ public class MoveState : PlayerState
     {
         base.Exit();
     }
-
-
     protected void updateCurrentIsland()
     {
         RaycastHit hit;

@@ -28,6 +28,11 @@ public class HoveringState : PlayerState
     private void changeToMoveStart(int rouletteResult)
     {
         OnChangeToMoveStart?.Invoke(rouletteResult); // 주사위수를 먼저 전달해줘야함
-        stateMachine.ChangeState(playerController.MoveStart);
+        if (rouletteResult != 0)
+        {
+            playerController.ControlCanMove(true);
+            stateMachine.ChangeState(playerController.MoveStart);
+        }
+        
     }
 }

@@ -73,7 +73,7 @@ public class Roulette : MonoBehaviour
         rouletteResult = 5;
         controlToken = cancelTokenSource.Token; // 무한 돌기 멈춤
 
-        ExtensionMethod.ShakeSpherePosition(transform, shakeTime, shakeIntensity).Forget();
+        //ExtensionMethod.ShakeSpherePosition(transform, shakeTime, shakeIntensity).Forget();
 
         await ExtensionMethod.DoRotate(roulette, rotateSpeed, 0f, rotationAxis, slowTime); // 회전을 천천히 멈춤
         
