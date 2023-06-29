@@ -30,7 +30,7 @@ public class MoveState : PlayerState
         currentIsland = hit.collider.gameObject.GetComponentInParent<Island>();
     }
 
-    protected readonly Quaternion forwardRotation = Quaternion.Euler(0f, 180f, 0f);
+    private readonly Quaternion forwardRotation = Quaternion.Euler(0f, 180f, 0f);
     protected float rotateTime = 1f;
     protected async UniTask lookForward()
     {

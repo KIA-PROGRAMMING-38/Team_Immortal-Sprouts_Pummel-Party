@@ -13,7 +13,7 @@ public class MoveInProgressState : MoveState
     }
 
     private int moveCount = 0;
-    public bool canMove { get; set; } = true;
+    private bool canMove = true;
 
     public override async void Enter()
     {
@@ -21,17 +21,18 @@ public class MoveInProgressState : MoveState
         await move(); // 이동함
         
         updateCurrentIsland(); // 현재 섬을 업데이트함
-        stateMachine.ChangeState(playerController.MoveEnd);
+        playerController.ChangeToDesiredState(BoardgamePlayerAnimID.MOVEEND);
     }
 
     public override void Exit()
     {
+        base.Exit();
         currentIsland.SetPlayerPresence(true); // 현재 섬에 존재함을 체크함
-        playerController.isEggGettable = true; // 황금알 수령 가능
-        canMove = true;
+        playerController.SetPlayerEggable(true);// 황금알 수령 가능
+        ControlCanMove(true);
     }
 
-    
+    public void ControlCanMove(bool isMovable) => canMove = isMovable;
 
     [SerializeField] private float moveTime = 1f;
     [SerializeField] private float jumpHeight = 5f;
@@ -58,7 +59,7 @@ public class MoveInProgressState : MoveState
 
             await ExtensionMethod.SecondaryBezierCurve(playerController.transform, initialPos, controlPos, targetPos, moveTime);
 
-            await UniTask.Yield();
+            await UniTask.WaitForFixedUpdate(); // FixedUpdate으로 처리
         }
     }
 
@@ -105,12 +106,12 @@ public class MoveInProgressState : MoveState
 
     protected override async void ActivateIsland() // 여기서 Activate할껀 황금알섬
     {
-        if (playerController.isEggGettable && currentIsland is TrophyIsland)
+        if (playerController.GetIsPlayerEggable() && currentIsland is TrophyIsland)
         {
             await lookForward();
             IActiveIsland island = currentIsland.GetComponent<IActiveIsland>();
             island.ActivateIsland(playerController.transform);
-            canMove = false;
+            ControlCanMove(false);
             Debug.Log("트로피섬임");
         }
     }

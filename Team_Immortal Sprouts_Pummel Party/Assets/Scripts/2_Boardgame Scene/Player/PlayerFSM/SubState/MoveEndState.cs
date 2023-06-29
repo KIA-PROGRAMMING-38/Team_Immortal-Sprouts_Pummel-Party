@@ -23,6 +23,7 @@ public class MoveEndState : MoveState
 
     public override void Exit()
     {
+        base.Exit();
         isMoveFinished = false;
     }
 
@@ -43,7 +44,7 @@ public class MoveEndState : MoveState
     private async UniTaskVoid changeToHoveringState()
     {
         await UniTask.WaitUntil(() => isMoveFinished);
-        stateMachine.ChangeState(playerController.Hovering);
+        playerController.ChangeToDesiredState(BoardgamePlayerAnimID.HOVERING);
     }
 
     

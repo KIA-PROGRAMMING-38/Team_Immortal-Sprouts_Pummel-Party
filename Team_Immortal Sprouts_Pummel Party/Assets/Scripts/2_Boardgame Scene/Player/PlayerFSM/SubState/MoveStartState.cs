@@ -8,8 +8,8 @@ public class MoveStartState : MoveState
 {
     public MoveStartState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, int animName) : base(control, machine, anim, rigid, animName)
     {
-        playerController.Hovering.OnChangeToMoveStart.RemoveListener(getRouletteResult);
-        playerController.Hovering.OnChangeToMoveStart.AddListener(getRouletteResult);
+        playerController.GetDesiredState<HoveringState>(BoardgamePlayerAnimID.HOVERING).OnChangeToMoveStart.RemoveListener(getRouletteResult);
+        playerController.GetDesiredState<HoveringState>(BoardgamePlayerAnimID.HOVERING).OnChangeToMoveStart.AddListener(getRouletteResult);
     }
 
     private int rouletteResult = 0;
@@ -17,13 +17,13 @@ public class MoveStartState : MoveState
     {
         base.Enter();
         ActivateIsland(); // 회전섬 또는 시작섬에 위치한다면 작동한다
-        stateMachine.ChangeState(playerController.MoveInProgress);
+        playerController.ChangeToDesiredState(BoardgamePlayerAnimID.MOVING);
     }
 
     public override void Exit()
     {
         base.Exit();
-        playerController.MoveInProgress.SetMoveCount(rouletteResult);
+        playerController.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVING).SetMoveCount(rouletteResult);
     }
 
     private void getRouletteResult(int rouletteOutput)
@@ -37,13 +37,13 @@ public class MoveStartState : MoveState
         {
             IActiveIsland island = currentIsland.GetComponent<IActiveIsland>();
             island.ActivateIsland(playerController.transform);
-            playerController.MoveInProgress.canMove = false;
+            playerController.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVING).ControlCanMove(false);
             Debug.Log("회전섬임");
         }
         else if(currentIsland.CompareTag("StartIsland"))
         {
             Debug.Log("시작섬임");
-            playerController.isEggGettable = false;
+            playerController.SetPlayerEggable(false);
         }
     }
 }

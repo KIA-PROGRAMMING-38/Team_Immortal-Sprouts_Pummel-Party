@@ -17,12 +17,12 @@ public class HoveringState : PlayerState
 
     public override void Enter()
     {
-        
+        base.Enter();
     }
-
+    
     public override void Exit()
     {
-        
+        base.Exit();
     }
 
     private void changeToMoveStart(int rouletteResult)
@@ -31,7 +31,7 @@ public class HoveringState : PlayerState
         if (rouletteResult != 0)
         {
             playerController.ControlCanMove(true);
-            stateMachine.ChangeState(playerController.MoveStart);
+            playerController.ChangeToDesiredState(BoardgamePlayerAnimID.MOVESTART);
         }
         
     }
