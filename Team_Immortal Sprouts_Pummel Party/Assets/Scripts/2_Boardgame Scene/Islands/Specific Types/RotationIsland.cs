@@ -16,7 +16,6 @@ public class RotationIsland : Island
     [SerializeField] [Range(1f, 10f)] private float shakeIntensity = 5f;
     private Transform playerTransform; // 플레이어를 함께 회전시켜주기 위한 변수
     private Quaternion defaultRotation;
-    private bool isRotationFinished;
 
     private void Start()
     {
@@ -64,11 +63,6 @@ public class RotationIsland : Island
         Rotate(defaultRotation).Forget(); // 리셋
     }
 
-    /// <summary>
-    /// 회전의 종료여부를 반환하는 함수
-    /// </summary>
-    /// <returns></returns>
-    public bool GetRotationStatus() => isRotationFinished;
 
     private async UniTaskVoid Rotate(Quaternion targetRotation)
     {
@@ -103,12 +97,7 @@ public class RotationIsland : Island
 
         if (isResetting == false) // 화살표 방향을 누르고, 회전이 끝나면 isRotationFinished를 true로 만들어준다
         {
-            isRotationFinished = true;
             playerTransform.GetComponent<BoardPlayerController>().ControlCanMove(true);
-        }
-        else // 다시 원상복구 시키는 회전이라면 애초에 isRotationFinished를 사용할 일이 없다
-        {
-            isRotationFinished = false;
         }
     }
 
@@ -129,7 +118,6 @@ public class RotationIsland : Island
 
     public override void ActivateIsland(Transform playerTransform = null)
     {
-        Debug.Log("방향 화살표 팝업 시킬꺼임");
         PopUpDirectionArrow(playerTransform);
     }
 }

@@ -15,9 +15,6 @@ public class JumpShark : MonoBehaviour
     [SerializeField] private float jumpTime = 2f;
     [SerializeField] private float downSpeed = 10f;
 
-    
-
-
     private void OnEnable()
     {
         sharkWaitJump().Forget();

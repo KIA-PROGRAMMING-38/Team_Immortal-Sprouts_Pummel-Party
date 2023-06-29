@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 
@@ -17,8 +18,18 @@ public class BaseShark : MonoBehaviour
     [SerializeField][Range(30f, 150f)] private float rotateSpeed = 40f;
     [SerializeField] private float disappearTime = 2f;
 
-    private bool isAttack = false; // 테스트 위해 SerializeField 함
     private bool isAttackFinished = false;
+
+    private CancellationTokenSource playResource;
+    private CancellationTokenSource cancelResource;
+    private CancellationToken token;
+    private void Awake()
+    {
+        playResource = new CancellationTokenSource();
+        cancelResource = new CancellationTokenSource();
+        cancelResource.Cancel();
+        token = playResource.Token;
+    }
 
     private void Start()
     {
@@ -37,16 +48,16 @@ public class BaseShark : MonoBehaviour
     private Vector3 rotateAxis = Vector3.up;
     private async UniTaskVoid rotateAroundIsland()
     {
-        while (!isAttack && this != null)
+        while (true)
         {
             transform.RotateAround(sharkIslandTransform.position, rotateAxis, -rotateSpeed * Time.deltaTime);
-            await UniTask.Yield();
+            await UniTask.Yield(token);
         }
     }
 
     private async UniTaskVoid sharkGoDownWater(float disappearTime)
     {
-        isAttack = true;
+        token = cancelResource.Token; // 상어 회전 멈춤
 
         float elapsedTime = 0f;
 
@@ -70,8 +81,8 @@ public class BaseShark : MonoBehaviour
             await UniTask.Yield();
         }
 
-        isAttack = false;
         isAttackFinished = false;
+        token = playResource.Token;
         rotateAroundIsland().Forget();
     }
 

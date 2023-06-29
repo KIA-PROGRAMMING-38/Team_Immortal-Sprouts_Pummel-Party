@@ -85,7 +85,7 @@ public class BoardgamePlayer : MonoBehaviour
         {
             currentIsland.GetComponent<RotationIsland>().PopUpDirectionArrow(transform);
 
-            await UniTask.WaitUntil(() => currentIsland.GetComponent<RotationIsland>().GetRotationStatus() == true);
+            //await UniTask.WaitUntil(() => currentIsland.GetComponent<RotationIsland>().GetRotationStatus() == true);
             canMoveOnDirectionIsland = true;
         }
     }

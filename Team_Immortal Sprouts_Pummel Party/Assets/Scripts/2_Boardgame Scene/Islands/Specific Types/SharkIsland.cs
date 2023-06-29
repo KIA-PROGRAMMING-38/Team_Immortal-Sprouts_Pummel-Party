@@ -13,7 +13,6 @@ public class SharkIsland : Island
 
     public override void ActivateIsland(Transform playerTransform = null)
     {
-        Debug.Log("공격 상어 발동함");
         shark.JumpAttack();
     }
 }
