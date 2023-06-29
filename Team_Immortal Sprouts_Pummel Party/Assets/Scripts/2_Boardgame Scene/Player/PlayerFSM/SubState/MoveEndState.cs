@@ -18,7 +18,7 @@ public class MoveEndState : MoveState
         playerController.ControlCanMove(false);
         await lookForward(); // 이동이 끝나면 앞을 봄
         ActivateIsland();
-        waitUntilMoveFinished().Forget();
+        changeToHoveringState().Forget();
     }
 
     public override void Exit()
@@ -30,15 +30,21 @@ public class MoveEndState : MoveState
     {
         if (currentIsland is SharkIsland || currentIsland is HealIsland)
         {
+            CameraTrace.DisConnectFollow(); // 상어에게 공격받으면 쳐다만 보기로
             IActiveIsland island = currentIsland.GetComponent<IActiveIsland>();
             island.ActivateIsland(playerController.transform);
-            Debug.Log($"{island} 임");
+        }
+        else
+        {
+            isMoveFinished = true;
         }
     }
 
-    private async UniTaskVoid waitUntilMoveFinished()
+    private async UniTaskVoid changeToHoveringState()
     {
         await UniTask.WaitUntil(() => isMoveFinished);
         stateMachine.ChangeState(playerController.Hovering);
     }
+
+    
 }

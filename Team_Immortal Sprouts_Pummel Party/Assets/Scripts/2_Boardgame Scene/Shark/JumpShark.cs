@@ -121,6 +121,7 @@ public class JumpShark : MonoBehaviour
     private void kidnapPlayer(Transform playerTransform)
     {
         playerTransform.SetParent(transform);
+        playerTransform.GetComponent<BoardPlayerController>().ChangeToDraggedState();
     }
 
     private void releasePlayer()

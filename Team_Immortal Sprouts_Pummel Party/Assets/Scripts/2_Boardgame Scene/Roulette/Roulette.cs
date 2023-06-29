@@ -70,7 +70,7 @@ public class Roulette : MonoBehaviour
 
         isStoppable = false;
         //rouletteResult = UnityEngine.Random.Range(MIN_RESULT, MAX_RESULT + 1); // 룰렛 값 추출
-        rouletteResult = 5;
+        rouletteResult = 3;
         controlToken = cancelTokenSource.Token; // 무한 돌기 멈춤
 
         //ExtensionMethod.ShakeSpherePosition(transform, shakeTime, shakeIntensity).Forget();

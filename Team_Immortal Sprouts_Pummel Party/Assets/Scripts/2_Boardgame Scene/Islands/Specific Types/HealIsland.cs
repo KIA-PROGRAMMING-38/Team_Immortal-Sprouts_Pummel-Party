@@ -24,5 +24,8 @@ public class HealIsland : Island
     {
         // 힐 해주는 로직
         Debug.Log("힐 해줄꺼임");
+
+        // 힐이 끝나면
+        playerTransform.GetComponent<BoardPlayerController>().ControlMoveFinished(true);
     }
 }

@@ -11,6 +11,7 @@ public class DamagedState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        playerController.PlayerDamagedParticle();
     }
 
     public override void Exit()
