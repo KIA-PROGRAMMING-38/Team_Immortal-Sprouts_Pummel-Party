@@ -381,7 +381,7 @@ public static class ExtensionMethod
         float elapsedTime = 0f;
         while (elapsedTime <= shakeDuration)
         {
-            transform.position = UnityEngine.Random.insideUnitSphere * shakeIntensity;
+            transform.position = UnityEngine.Random.insideUnitSphere * shakeIntensity * Time.deltaTime;
             elapsedTime += Time.deltaTime;
             await UniTask.Yield();
         }

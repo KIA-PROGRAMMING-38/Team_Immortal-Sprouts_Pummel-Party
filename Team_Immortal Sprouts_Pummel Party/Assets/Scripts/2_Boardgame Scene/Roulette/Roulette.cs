@@ -59,6 +59,8 @@ public class Roulette : MonoBehaviour
     
     [SerializeField] [Range(3f, 5f)] private float slowTime = 3f;
     [SerializeField] [Range(1f, 3f)] private float changeTime = 1f;
+    [SerializeField] [Range(0.5f, 1.5f)] private float shakeTime = 1f;
+    [SerializeField] [Range(1f, 5f)] private float shakeIntensity = 3f;
     public async UniTaskVoid ShowDiceResult()
     {
         if (isStoppable == false)
@@ -70,6 +72,8 @@ public class Roulette : MonoBehaviour
         //rouletteResult = UnityEngine.Random.Range(MIN_RESULT, MAX_RESULT + 1); // 룰렛 값 추출
         rouletteResult = 5;
         controlToken = cancelTokenSource.Token; // 무한 돌기 멈춤
+
+        ExtensionMethod.ShakeSpherePosition(transform, shakeTime, shakeIntensity).Forget();
 
         await ExtensionMethod.DoRotate(roulette, rotateSpeed, 0f, rotationAxis, slowTime); // 회전을 천천히 멈춤
         

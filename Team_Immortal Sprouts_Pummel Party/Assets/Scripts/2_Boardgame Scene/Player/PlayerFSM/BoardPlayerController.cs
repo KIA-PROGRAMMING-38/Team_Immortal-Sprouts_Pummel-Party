@@ -30,7 +30,7 @@ public class BoardPlayerController : MonoBehaviour
 
     #endregion
 
-    public UnityEvent<int> OnConveyDiceResult = new UnityEvent<int>();
+    public UnityEvent<int> OnRouletteStopped = new UnityEvent<int>();
 
     public bool isEggGettable { get; set; }
 
@@ -82,7 +82,7 @@ public class BoardPlayerController : MonoBehaviour
         enableRoulette(false);
         if (1 <= diceResult)
         {
-            OnConveyDiceResult?.Invoke(diceResult);
+            OnRouletteStopped?.Invoke(diceResult);
         }
     }
 

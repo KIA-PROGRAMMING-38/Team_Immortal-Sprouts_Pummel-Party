@@ -1821,7 +1821,7 @@ GameObject:
   - component: {fileID: 2939949677933529724}
   m_Layer: 3
   m_Name: Start Island
-  m_TagString: Untagged
+  m_TagString: StartIsland
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

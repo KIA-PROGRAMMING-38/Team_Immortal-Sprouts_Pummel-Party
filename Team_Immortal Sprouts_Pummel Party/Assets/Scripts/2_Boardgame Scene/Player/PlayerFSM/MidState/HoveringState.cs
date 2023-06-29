@@ -9,15 +9,25 @@ public class HoveringState : PlayerState
 {
     public HoveringState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, int animName) : base(control, machine, anim, rigid, animName)
     {
+        playerController.OnRouletteStopped.RemoveListener(changeToMoveStart);
+        playerController.OnRouletteStopped.AddListener(changeToMoveStart);
     }
+
+    public UnityEvent<int> OnChangeToMoveStart = new UnityEvent<int>();
 
     public override void Enter()
     {
-        base.Enter();
+        
     }
 
     public override void Exit()
     {
-        base.Exit();
+        
+    }
+
+    private void changeToMoveStart(int rouletteResult)
+    {
+        OnChangeToMoveStart?.Invoke(rouletteResult); // 주사위수를 먼저 전달해줘야함
+        stateMachine.ChangeState(playerController.MoveStart);
     }
 }
