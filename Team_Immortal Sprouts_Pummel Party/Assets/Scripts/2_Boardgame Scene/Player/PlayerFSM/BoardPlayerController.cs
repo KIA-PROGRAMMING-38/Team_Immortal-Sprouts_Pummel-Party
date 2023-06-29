@@ -19,6 +19,8 @@ public class BoardPlayerController : MonoBehaviour
 
     private PlayerInput playerInput;
     private InputAction rouletteTouchAction;
+    private InputAction itemTouch;
+    private InputAction itemSelect;
 
     #endregion
 
@@ -62,6 +64,9 @@ public class BoardPlayerController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
         rouletteTouchAction = playerInput.actions["RouletteTouch"];
+        itemTouch = playerInput.actions["ItemTouch"];
+        itemSelect = playerInput.actions["ItemSelect"];
+        playerInput.defaultActionMap = "ItemControl";
 
         stateMachine = new StateMachine(); // 스테이트 머신 초기화
 

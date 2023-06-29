@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RealInventory
 {
@@ -16,6 +17,7 @@ public class RealInventory
 
     private List<(RealItem item, int count)> inventory;
 
+    public UnityEvent OnInventoryUpdate = new UnityEvent(); 
 
     /// <summary>
     /// 아이템을 반환하는 함수
@@ -31,6 +33,7 @@ public class RealInventory
     public void IncreaseItemCount(int itemID)
     {
         inventory[itemID] = (inventory[itemID].item, inventory[itemID].count + 1); // 어쨰서 inventory[itemID].count++ 은 안되는가...?
+        OnInventoryUpdate?.Invoke();
     }
 
     /// <summary>
@@ -40,6 +43,7 @@ public class RealInventory
     public void DecreaseItemCount(int itemID)
     {
         inventory[itemID] = (inventory[itemID].item, Mathf.Max(0, inventory[itemID].count - 1));
+        OnInventoryUpdate?.Invoke();
     }
 
     

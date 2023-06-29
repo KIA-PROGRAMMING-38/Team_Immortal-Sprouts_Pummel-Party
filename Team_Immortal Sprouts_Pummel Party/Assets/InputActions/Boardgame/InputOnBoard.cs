@@ -35,6 +35,24 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ItemTouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""bf420175-982f-478e-b711-237853fc81e6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ItemSelect"",
+                    ""type"": ""Button"",
+                    ""id"": ""e409764d-1362-4991-a617-1f662cbd9c05"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,15 +66,37 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""action"": ""RouletteTouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""555803e4-df74-4b55-bd7f-cdd2feba0b93"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ItemTouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee2977c1-5040-40e4-b0a5-98437d454b4b"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ItemSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
         {
-            ""name"": ""HotAirBalloonControl"",
+            ""name"": ""ItemControl"",
             ""id"": ""93d7e391-dd2b-4943-8f0a-753eee81cb6c"",
             ""actions"": [
                 {
-                    ""name"": ""BalloonMove"",
+                    ""name"": ""ItemMove"",
                     ""type"": ""Value"",
                     ""id"": ""80a8b026-e4d6-448f-8385-39f63758a982"",
                     ""expectedControlType"": ""Vector2"",
@@ -65,7 +105,7 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""BalloonAction"",
+                    ""name"": ""ItemUse"",
                     ""type"": ""Button"",
                     ""id"": ""77337cce-8aed-4890-a57e-32e12fe3ebb3"",
                     ""expectedControlType"": ""Button"",
@@ -82,7 +122,7 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""BalloonMove"",
+                    ""action"": ""ItemMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -93,7 +133,7 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""BalloonAction"",
+                    ""action"": ""ItemUse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -105,10 +145,12 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_RouletteTouch = m_Player.FindAction("RouletteTouch", throwIfNotFound: true);
-        // HotAirBalloonControl
-        m_HotAirBalloonControl = asset.FindActionMap("HotAirBalloonControl", throwIfNotFound: true);
-        m_HotAirBalloonControl_BalloonMove = m_HotAirBalloonControl.FindAction("BalloonMove", throwIfNotFound: true);
-        m_HotAirBalloonControl_BalloonAction = m_HotAirBalloonControl.FindAction("BalloonAction", throwIfNotFound: true);
+        m_Player_ItemTouch = m_Player.FindAction("ItemTouch", throwIfNotFound: true);
+        m_Player_ItemSelect = m_Player.FindAction("ItemSelect", throwIfNotFound: true);
+        // ItemControl
+        m_ItemControl = asset.FindActionMap("ItemControl", throwIfNotFound: true);
+        m_ItemControl_ItemMove = m_ItemControl.FindAction("ItemMove", throwIfNotFound: true);
+        m_ItemControl_ItemUse = m_ItemControl.FindAction("ItemUse", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -171,11 +213,15 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_RouletteTouch;
+    private readonly InputAction m_Player_ItemTouch;
+    private readonly InputAction m_Player_ItemSelect;
     public struct PlayerActions
     {
         private @InputOnBoard m_Wrapper;
         public PlayerActions(@InputOnBoard wrapper) { m_Wrapper = wrapper; }
         public InputAction @RouletteTouch => m_Wrapper.m_Player_RouletteTouch;
+        public InputAction @ItemTouch => m_Wrapper.m_Player_ItemTouch;
+        public InputAction @ItemSelect => m_Wrapper.m_Player_ItemSelect;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -188,6 +234,12 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
             @RouletteTouch.started += instance.OnRouletteTouch;
             @RouletteTouch.performed += instance.OnRouletteTouch;
             @RouletteTouch.canceled += instance.OnRouletteTouch;
+            @ItemTouch.started += instance.OnItemTouch;
+            @ItemTouch.performed += instance.OnItemTouch;
+            @ItemTouch.canceled += instance.OnItemTouch;
+            @ItemSelect.started += instance.OnItemSelect;
+            @ItemSelect.performed += instance.OnItemSelect;
+            @ItemSelect.canceled += instance.OnItemSelect;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -195,6 +247,12 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
             @RouletteTouch.started -= instance.OnRouletteTouch;
             @RouletteTouch.performed -= instance.OnRouletteTouch;
             @RouletteTouch.canceled -= instance.OnRouletteTouch;
+            @ItemTouch.started -= instance.OnItemTouch;
+            @ItemTouch.performed -= instance.OnItemTouch;
+            @ItemTouch.canceled -= instance.OnItemTouch;
+            @ItemSelect.started -= instance.OnItemSelect;
+            @ItemSelect.performed -= instance.OnItemSelect;
+            @ItemSelect.canceled -= instance.OnItemSelect;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -213,66 +271,68 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
-    // HotAirBalloonControl
-    private readonly InputActionMap m_HotAirBalloonControl;
-    private List<IHotAirBalloonControlActions> m_HotAirBalloonControlActionsCallbackInterfaces = new List<IHotAirBalloonControlActions>();
-    private readonly InputAction m_HotAirBalloonControl_BalloonMove;
-    private readonly InputAction m_HotAirBalloonControl_BalloonAction;
-    public struct HotAirBalloonControlActions
+    // ItemControl
+    private readonly InputActionMap m_ItemControl;
+    private List<IItemControlActions> m_ItemControlActionsCallbackInterfaces = new List<IItemControlActions>();
+    private readonly InputAction m_ItemControl_ItemMove;
+    private readonly InputAction m_ItemControl_ItemUse;
+    public struct ItemControlActions
     {
         private @InputOnBoard m_Wrapper;
-        public HotAirBalloonControlActions(@InputOnBoard wrapper) { m_Wrapper = wrapper; }
-        public InputAction @BalloonMove => m_Wrapper.m_HotAirBalloonControl_BalloonMove;
-        public InputAction @BalloonAction => m_Wrapper.m_HotAirBalloonControl_BalloonAction;
-        public InputActionMap Get() { return m_Wrapper.m_HotAirBalloonControl; }
+        public ItemControlActions(@InputOnBoard wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ItemMove => m_Wrapper.m_ItemControl_ItemMove;
+        public InputAction @ItemUse => m_Wrapper.m_ItemControl_ItemUse;
+        public InputActionMap Get() { return m_Wrapper.m_ItemControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(HotAirBalloonControlActions set) { return set.Get(); }
-        public void AddCallbacks(IHotAirBalloonControlActions instance)
+        public static implicit operator InputActionMap(ItemControlActions set) { return set.Get(); }
+        public void AddCallbacks(IItemControlActions instance)
         {
-            if (instance == null || m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Add(instance);
-            @BalloonMove.started += instance.OnBalloonMove;
-            @BalloonMove.performed += instance.OnBalloonMove;
-            @BalloonMove.canceled += instance.OnBalloonMove;
-            @BalloonAction.started += instance.OnBalloonAction;
-            @BalloonAction.performed += instance.OnBalloonAction;
-            @BalloonAction.canceled += instance.OnBalloonAction;
+            if (instance == null || m_Wrapper.m_ItemControlActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ItemControlActionsCallbackInterfaces.Add(instance);
+            @ItemMove.started += instance.OnItemMove;
+            @ItemMove.performed += instance.OnItemMove;
+            @ItemMove.canceled += instance.OnItemMove;
+            @ItemUse.started += instance.OnItemUse;
+            @ItemUse.performed += instance.OnItemUse;
+            @ItemUse.canceled += instance.OnItemUse;
         }
 
-        private void UnregisterCallbacks(IHotAirBalloonControlActions instance)
+        private void UnregisterCallbacks(IItemControlActions instance)
         {
-            @BalloonMove.started -= instance.OnBalloonMove;
-            @BalloonMove.performed -= instance.OnBalloonMove;
-            @BalloonMove.canceled -= instance.OnBalloonMove;
-            @BalloonAction.started -= instance.OnBalloonAction;
-            @BalloonAction.performed -= instance.OnBalloonAction;
-            @BalloonAction.canceled -= instance.OnBalloonAction;
+            @ItemMove.started -= instance.OnItemMove;
+            @ItemMove.performed -= instance.OnItemMove;
+            @ItemMove.canceled -= instance.OnItemMove;
+            @ItemUse.started -= instance.OnItemUse;
+            @ItemUse.performed -= instance.OnItemUse;
+            @ItemUse.canceled -= instance.OnItemUse;
         }
 
-        public void RemoveCallbacks(IHotAirBalloonControlActions instance)
+        public void RemoveCallbacks(IItemControlActions instance)
         {
-            if (m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_ItemControlActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IHotAirBalloonControlActions instance)
+        public void SetCallbacks(IItemControlActions instance)
         {
-            foreach (var item in m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_ItemControlActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_ItemControlActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public HotAirBalloonControlActions @HotAirBalloonControl => new HotAirBalloonControlActions(this);
+    public ItemControlActions @ItemControl => new ItemControlActions(this);
     public interface IPlayerActions
     {
         void OnRouletteTouch(InputAction.CallbackContext context);
+        void OnItemTouch(InputAction.CallbackContext context);
+        void OnItemSelect(InputAction.CallbackContext context);
     }
-    public interface IHotAirBalloonControlActions
+    public interface IItemControlActions
     {
-        void OnBalloonMove(InputAction.CallbackContext context);
-        void OnBalloonAction(InputAction.CallbackContext context);
+        void OnItemMove(InputAction.CallbackContext context);
+        void OnItemUse(InputAction.CallbackContext context);
     }
 }

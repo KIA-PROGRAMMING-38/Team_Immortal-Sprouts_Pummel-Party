@@ -13,6 +13,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ItemTouch",
+                    "type": "Button",
+                    "id": "bf420175-982f-478e-b711-237853fc81e6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ItemSelect",
+                    "type": "Button",
+                    "id": "e409764d-1362-4991-a617-1f662cbd9c05",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -26,15 +44,37 @@
                     "action": "RouletteTouch",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "555803e4-df74-4b55-bd7f-cdd2feba0b93",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemTouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee2977c1-5040-40e4-b0a5-98437d454b4b",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "HotAirBalloonControl",
+            "name": "ItemControl",
             "id": "93d7e391-dd2b-4943-8f0a-753eee81cb6c",
             "actions": [
                 {
-                    "name": "BalloonMove",
+                    "name": "ItemMove",
                     "type": "Value",
                     "id": "80a8b026-e4d6-448f-8385-39f63758a982",
                     "expectedControlType": "Vector2",
@@ -43,7 +83,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "BalloonAction",
+                    "name": "ItemUse",
                     "type": "Button",
                     "id": "77337cce-8aed-4890-a57e-32e12fe3ebb3",
                     "expectedControlType": "Button",
@@ -60,7 +100,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "BalloonMove",
+                    "action": "ItemMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -71,7 +111,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "BalloonAction",
+                    "action": "ItemUse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
