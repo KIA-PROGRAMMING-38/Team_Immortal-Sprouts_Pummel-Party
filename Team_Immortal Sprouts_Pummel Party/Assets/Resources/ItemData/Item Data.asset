@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78fdaa210c189da41a201afaed220ba8, type: 3}
   m_Name: Item Data
   m_EditorClassIdentifier: 
-  itemIDs: 010000000200000003000000
+  itemIDs: 000000000100000002000000
   itemNames:
   - Pistol
   - HotAirBalloon
