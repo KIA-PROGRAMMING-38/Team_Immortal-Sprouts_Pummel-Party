@@ -23,5 +23,6 @@ public class HealIsland : Island
     public override void ActivateIsland(Transform playerTransform = null)
     {
         // 힐 해주는 로직
+        Debug.Log("힐 해줄꺼임");
     }
 }

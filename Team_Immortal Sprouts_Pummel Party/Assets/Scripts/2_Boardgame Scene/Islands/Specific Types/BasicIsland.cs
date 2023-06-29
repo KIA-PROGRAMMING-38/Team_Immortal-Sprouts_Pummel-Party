@@ -11,5 +11,6 @@ public class BasicIsland : Island
     public override void ActivateIsland(Transform playerTransform = null)
     {
         // 아무것도 안함
+        Debug.Log("기본섬이라 아무것도 안함");
     }
 }

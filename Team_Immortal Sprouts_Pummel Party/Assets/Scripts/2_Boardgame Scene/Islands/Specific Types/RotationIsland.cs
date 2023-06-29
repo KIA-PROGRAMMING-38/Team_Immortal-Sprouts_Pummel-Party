@@ -59,7 +59,7 @@ public class RotationIsland : Island
     public async UniTaskVoid ActivateResetRotation()
     {
         await UniTask.WaitUntil(() => GetPlayerPresence() == false); // 섬위에 플레이어가 없을떄까지 기다린다
-        await UniTask.Delay(TimeSpan.FromSeconds(1f)); // 1초 기다리고
+        await UniTask.Delay(TimeSpan.FromSeconds(4f)); // 4초 기다리고
 
         Rotate(defaultRotation).Forget(); // 리셋
     }
@@ -104,7 +104,7 @@ public class RotationIsland : Island
         if (isResetting == false) // 화살표 방향을 누르고, 회전이 끝나면 isRotationFinished를 true로 만들어준다
         {
             isRotationFinished = true;
-            playerTransform.GetComponent<BoardPlayerController>().EnableCanMove();
+            playerTransform.GetComponent<BoardPlayerController>().EnableCanMove().Forget();
         }
         else // 다시 원상복구 시키는 회전이라면 애초에 isRotationFinished를 사용할 일이 없다
         {
@@ -129,6 +129,7 @@ public class RotationIsland : Island
 
     public override void ActivateIsland(Transform playerTransform = null)
     {
+        Debug.Log("방향 화살표 팝업 시킬꺼임");
         PopUpDirectionArrow(playerTransform);
     }
 }

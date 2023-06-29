@@ -12,6 +12,7 @@ public class TrophyIsland : Island
     }
     public override void ActivateIsland(Transform playerTransform = null)
     {
+        Debug.Log("황금알 줄꺼임");
         // 황금알 주는 로직
     }
 }

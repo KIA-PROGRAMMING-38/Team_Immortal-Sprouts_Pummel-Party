@@ -5,9 +5,9 @@ using UnityEngine;
 public static class BoardgamePlayerAnimID
 {
     public static readonly int HOVERING = Animator.StringToHash("Hovering");
-    public static readonly int WAIT = Animator.StringToHash("Wait");
-    public static readonly int LOOKBACK = Animator.StringToHash("LookBack");
+    public static readonly int MOVESTART = Animator.StringToHash("MoveStart");
     public static readonly int MOVING = Animator.StringToHash("Moving");
+    public static readonly int MOVEEND = Animator.StringToHash("MoveEnd");
     public static readonly int TACKLING = Animator.StringToHash("Tackling");
     public static readonly int BUMPED = Animator.StringToHash("Bumped");
     public static readonly int DRAGGED = Animator.StringToHash("Dragged");
