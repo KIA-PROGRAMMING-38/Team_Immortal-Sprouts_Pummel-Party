@@ -118,12 +118,12 @@ public class JumpShark : MonoBehaviour
     private void kidnapPlayer(Transform playerTransform)
     {
         playerTransform.SetParent(transform);
-        //playerTransform.GetComponent<BoardPlayerController>().ChangeToDraggedState();
         playerTransform.GetComponent<BoardPlayerController>().ChangeToDesiredState(BoardgamePlayerAnimID.DRAGGED);
     }
 
     private void releasePlayer()
     {
+        playerTransform.GetComponent<BoardPlayerController>().ChangeToDesiredState(BoardgamePlayerAnimID.DIE);
         playerTransform.SetParent(null);
         playerTransform = null;
     }

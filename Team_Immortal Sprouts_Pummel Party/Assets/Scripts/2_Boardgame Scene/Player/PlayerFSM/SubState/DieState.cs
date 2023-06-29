@@ -23,6 +23,7 @@ public class DieState : DamagedState
     {
         base.Exit();
         resetPlayerMaterial();
+        playerController.ChangeToDesiredState(BoardgamePlayerAnimID.RESPAWN);
     }
 
     private void getPlayerMaterials(Material[] playerBodyMaterials) => playerMaterials = playerBodyMaterials;

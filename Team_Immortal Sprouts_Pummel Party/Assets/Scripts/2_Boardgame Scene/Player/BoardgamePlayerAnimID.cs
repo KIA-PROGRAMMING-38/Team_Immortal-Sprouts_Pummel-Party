@@ -12,4 +12,5 @@ public static class BoardgamePlayerAnimID
     public static readonly int BUMPED = Animator.StringToHash("Bumped");
     public static readonly int DRAGGED = Animator.StringToHash("Dragged");
     public static readonly int DIE = Animator.StringToHash("Die");
+    public static readonly int RESPAWN = Animator.StringToHash("Respawn");
 }

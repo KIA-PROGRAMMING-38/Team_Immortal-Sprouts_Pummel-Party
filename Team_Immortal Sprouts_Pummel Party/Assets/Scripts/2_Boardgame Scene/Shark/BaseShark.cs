@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-
-
 using static UnityEngine.Rendering.DebugUI;
 
 
@@ -36,6 +34,10 @@ public class BaseShark : MonoBehaviour
         rotateAroundIsland().Forget();
     }
 
+    private void OnDestroy()
+    {
+        token = cancelResource.Token;
+    }
 
     /// <summary>
     /// 상어의 공격을 활성화하는 함수입니다

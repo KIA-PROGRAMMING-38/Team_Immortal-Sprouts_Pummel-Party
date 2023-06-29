@@ -15,11 +15,21 @@ public class BoardPlayerController : MonoBehaviour
     private Animator animator;
     private Rigidbody rigidbody;
 
+    #region Input System 관련
+
     private PlayerInput playerInput;
     private InputAction rouletteTouchAction;
 
+    #endregion
+
+
+
+    #region 상태머신 컨트롤
     public StateMachine stateMachine { get; private set; }
     private Dictionary<int, PlayerState> stateDictionary = new Dictionary<int, PlayerState>();
+
+    #endregion
+
 
     #region 플레이어 상태
     private HoveringState Hovering;
@@ -30,6 +40,7 @@ public class BoardPlayerController : MonoBehaviour
     private BumpedState Bumped;
     private DraggedState Dragged;
     private DieState Die;
+    private RespawnState Respawn;
 
     #endregion
 
@@ -37,7 +48,7 @@ public class BoardPlayerController : MonoBehaviour
     public UnityEvent<Material[]> OnSetPlayerMaterial = new UnityEvent<Material[]>();
 
     private bool isEggable = false;
-
+    private bool isRespawned = false;
     
 
     public CinemachineVirtualCamera virtualCam; // 프레임워크가 해줘야하나 그냥 지금 임시로
@@ -82,6 +93,18 @@ public class BoardPlayerController : MonoBehaviour
 
 
     #region Public 함수들
+
+    /// <summary>
+    /// 플레이어의 재소환 끝 여부를 반환하는 함수
+    /// </summary>
+    /// <returns></returns>
+    public bool IsPlayerRespawned() => isRespawned;
+
+    /// <summary>
+    /// 플레이어의 재소환 끝 여부를 설정하는 함수
+    /// </summary>
+    /// <param name="isRespawnFinished"></param>
+    public void SetIsPlayerRespawned(bool isRespawnFinished) => isRespawned = isRespawnFinished; 
 
     /// <summary>
     /// 플레이어의 황금알 획득 가능여부를 반환하는 함수
@@ -168,6 +191,8 @@ public class BoardPlayerController : MonoBehaviour
         Die = new DieState(this, stateMachine, animator, rigidbody, BoardgamePlayerAnimID.DIE);
         stateDictionary.Add(BoardgamePlayerAnimID.DIE, Die);
 
+        Respawn = new RespawnState(this, stateMachine, animator, rigidbody, BoardgamePlayerAnimID.RESPAWN);
+        stateDictionary.Add(BoardgamePlayerAnimID.RESPAWN, Respawn);
 
         OnSetPlayerMaterial?.Invoke(playerMaterials); // Die 상태의 PlayerMaterials 초기세팅
     }

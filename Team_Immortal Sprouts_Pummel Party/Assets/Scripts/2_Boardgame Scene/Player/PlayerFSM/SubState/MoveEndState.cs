@@ -31,7 +31,6 @@ public class MoveEndState : MoveState
     {
         if (currentIsland is SharkIsland || currentIsland is HealIsland)
         {
-            CameraTrace.DisConnectFollow(); // 상어에게 공격받으면 쳐다만 보기로
             IActiveIsland island = currentIsland.GetComponent<IActiveIsland>();
             island.ActivateIsland(playerController.transform);
         }

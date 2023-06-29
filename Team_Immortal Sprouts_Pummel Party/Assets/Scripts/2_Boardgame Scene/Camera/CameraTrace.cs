@@ -44,7 +44,7 @@ public static class CameraTrace
     /// 카메라의 Follow를 해제하는 함수
     /// </summary>
     /// <param name="camera"></param>
-    public static void DisConnectFollow() => virtualCam.Follow = null;
+    public static void DisconnectFollow() => virtualCam.Follow = null;
 
     /// <summary>
     /// 카메라의 LookAt을 해제하는 함수
