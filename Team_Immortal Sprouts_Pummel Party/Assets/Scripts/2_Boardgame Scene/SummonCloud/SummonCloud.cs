@@ -138,7 +138,7 @@ public class SummonCloud : MonoBehaviour
         }
 
         emitSpotLight(isSummonPlayer, true); // 빛을 비추고
-        playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
+        //playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
         Vector3 playerPosition = playerTransform.position;
         Vector3 cloudPosition = transform.position;
 
@@ -151,7 +151,7 @@ public class SummonCloud : MonoBehaviour
         {
             await playerBodyControl(cloudPosition, playerSummonPosition, moveTime); // 플레이어를 구름 밖으로 빼낸다
             await resetPlayerRotation(playerInitialRotation); // 플레이어를 다시 원래 회전값으로 리셋한다
-            playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false); // 플레이어를 IDLE 상태로 세팅한다
+            //playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false); // 플레이어를 IDLE 상태로 세팅한다
         }
         else // 플레이어를 무인도에서 탈출시키는 경우라면
         {

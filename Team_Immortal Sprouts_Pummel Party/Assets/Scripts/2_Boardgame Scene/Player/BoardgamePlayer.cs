@@ -56,7 +56,7 @@ public class BoardgamePlayer : MonoBehaviour
     private int moveCount;
     public bool CanUseItem = false;
 
-    private void rollRoulette(InputAction.CallbackContext context) => roulette.showDiceResult().Forget();
+    private void rollRoulette(InputAction.CallbackContext context) => roulette.ShowDiceResult().Forget();
     private void getRouletteResult(int rouletteResult)
     {
         moveCount = rouletteResult;
@@ -64,7 +64,7 @@ public class BoardgamePlayer : MonoBehaviour
         playerMove().Forget();
     }
 
-    private void enableRoulette(bool shouldTurnOn) => roulette.gameObject.SetActive(shouldTurnOn);
+    private void enableRoulette(bool shouldTurnOn) => roulette.gameObject.SetActive(shouldTurnOn); // oo
 
     private Island currentIsland;
     private const int WAIT_TIME_BEFORE_MOVE = 1000;
@@ -85,7 +85,7 @@ public class BoardgamePlayer : MonoBehaviour
         {
             currentIsland.GetComponent<RotationIsland>().PopUpDirectionArrow(transform);
 
-            await UniTask.WaitUntil(() => currentIsland.GetComponent<RotationIsland>().GetRotationStatus() == true);
+            //await UniTask.WaitUntil(() => currentIsland.GetComponent<RotationIsland>().GetRotationStatus() == true);
             canMoveOnDirectionIsland = true;
         }
     }
@@ -134,7 +134,7 @@ public class BoardgamePlayer : MonoBehaviour
             return;
         }
 
-        animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
+        //animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
         await onExitDepartureIsland();
 
         while (moveCount >= 1)
@@ -163,7 +163,7 @@ public class BoardgamePlayer : MonoBehaviour
             await UniTask.Yield(this.GetCancellationTokenOnDestroy());
         }
 
-        animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false);
+        //animator.SetBool(BoardgamePlayerAnimID.IS_MOVING, false);
 
         await lookForward();
     }
@@ -238,7 +238,7 @@ public class BoardgamePlayer : MonoBehaviour
         return primaryBezierCurve(m0, m1, t);
     }
 
-    private void updateCurrentIsland()
+    private void updateCurrentIsland() // 했음 ㅇㅇ
     {
         RaycastHit hit;
         Physics.Raycast(transform.position, Vector3.down * 10f, out hit, int.MaxValue, LayerMask.GetMask("Island"));
@@ -292,7 +292,7 @@ public class BoardgamePlayer : MonoBehaviour
     {
         Hp -= power;
         onDamagedParticle?.Play();
-        animator.SetTrigger(BoardgamePlayerAnimID.DAMAGED);
+        //animator.SetTrigger(BoardgamePlayerAnimID.DAMAGED);
     }
     #endregion
 

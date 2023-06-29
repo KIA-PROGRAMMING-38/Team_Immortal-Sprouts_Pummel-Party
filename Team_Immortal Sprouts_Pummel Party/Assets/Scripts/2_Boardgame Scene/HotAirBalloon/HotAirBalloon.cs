@@ -126,7 +126,7 @@ public class HotAirBalloon : Item, IControllable
 
     private async UniTask playerOnBoard()
     {
-        playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
+        //playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
         float elapsedTime = 0f;
         Vector3 initialPos = playerTransform.position;
         Vector3 targetPos = playerBoardPosition.position;

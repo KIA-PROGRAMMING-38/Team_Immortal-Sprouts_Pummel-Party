@@ -17,7 +17,7 @@ public static class ExtensionMethod
     /// <param name="targetVector"></param>
     /// <param name="duration"></param>
     /// <returns></returns>
-    public static async UniTaskVoid Vector3LerpExtension(Transform transform, Vector3 startVector, Vector3 targetVector, float duration)
+    public static async UniTask Vector3LerpExtension(Transform transform, Vector3 startVector, Vector3 targetVector, float duration)
     {
         if (transform == null || transform.position == targetVector || startVector == targetVector)
         {
@@ -116,7 +116,7 @@ public static class ExtensionMethod
             Vector3 m1 = Vector3.Lerp(controlVector, targetVector, t);
             transform.position = Vector3.Lerp(m0, m1, t);
             elapsedTime += Time.deltaTime;
-            await UniTask.Yield();
+            await UniTask.WaitForFixedUpdate(); // fixedUpdate으로 처리
         }
     }
 
@@ -381,7 +381,7 @@ public static class ExtensionMethod
         float elapsedTime = 0f;
         while (elapsedTime <= shakeDuration)
         {
-            transform.position = UnityEngine.Random.insideUnitSphere * shakeIntensity;
+            transform.position = UnityEngine.Random.insideUnitSphere * shakeIntensity * Time.deltaTime;
             elapsedTime += Time.deltaTime;
             await UniTask.Yield();
         }

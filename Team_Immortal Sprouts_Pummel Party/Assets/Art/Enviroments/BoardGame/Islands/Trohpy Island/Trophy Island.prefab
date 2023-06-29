@@ -993,7 +993,7 @@ GameObject:
   - component: {fileID: 4622146797714083667}
   m_Layer: 3
   m_Name: Trophy Island
-  m_TagString: Untagged
+  m_TagString: TrophyIsland
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
