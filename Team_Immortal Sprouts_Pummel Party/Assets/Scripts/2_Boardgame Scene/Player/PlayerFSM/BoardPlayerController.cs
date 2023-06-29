@@ -150,8 +150,8 @@ public class BoardPlayerController : MonoBehaviour
         MoveStart = new MoveStartState(this, stateMachine, animator, rigidbody, BoardgamePlayerAnimID.MOVESTART);
         stateDictionary.Add(BoardgamePlayerAnimID.MOVESTART, MoveStart);
 
-        MoveInProgress = new MoveInProgressState(this, stateMachine, animator, rigidbody, BoardgamePlayerAnimID.MOVING);
-        stateDictionary.Add(BoardgamePlayerAnimID.MOVING, MoveInProgress);
+        MoveInProgress = new MoveInProgressState(this, stateMachine, animator, rigidbody, BoardgamePlayerAnimID.MOVEINPROGRESS);
+        stateDictionary.Add(BoardgamePlayerAnimID.MOVEINPROGRESS, MoveInProgress);
 
         MoveEnd = new MoveEndState(this, stateMachine, animator, rigidbody, BoardgamePlayerAnimID.MOVEEND);
         stateDictionary.Add(BoardgamePlayerAnimID.MOVEEND, MoveEnd);

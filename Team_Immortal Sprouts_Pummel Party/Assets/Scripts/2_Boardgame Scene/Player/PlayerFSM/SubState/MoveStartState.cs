@@ -17,13 +17,13 @@ public class MoveStartState : MoveState
     {
         base.Enter();
         ActivateIsland(); // 회전섬 또는 시작섬에 위치한다면 작동한다
-        playerController.ChangeToDesiredState(BoardgamePlayerAnimID.MOVING);
+        playerController.ChangeToDesiredState(BoardgamePlayerAnimID.MOVEINPROGRESS);
     }
 
     public override void Exit()
     {
         base.Exit();
-        playerController.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVING).SetMoveCount(rouletteResult);
+        playerController.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVEINPROGRESS).SetMoveCount(rouletteResult);
     }
 
     private void getRouletteResult(int rouletteOutput)
@@ -37,7 +37,7 @@ public class MoveStartState : MoveState
         {
             IActiveIsland island = currentIsland.GetComponent<IActiveIsland>();
             island.ActivateIsland(playerController.transform);
-            playerController.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVING).ControlCanMove(false);
+            playerController.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVEINPROGRESS).ControlCanMove(false);
             Debug.Log("회전섬임");
         }
         else if(currentIsland.CompareTag("StartIsland"))
