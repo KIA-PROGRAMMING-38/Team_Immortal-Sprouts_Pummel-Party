@@ -12,13 +12,13 @@ public class Pistol : Item, IControllable
 
     private Transform playerTransform;
     private Rigidbody playerRigidbody;
-    public override void SetForUse(BoardgamePlayer usePlayer)
-    {
-        base.SetForUse(usePlayer);
-        playerTransform = usePlayer.transform;
-        playerRigidbody = usePlayer.GetComponent<Rigidbody>();
-        gameObject.transform.SetParent(playerTransform, false);
-    }
+    //public override void SetForUse(BoardgamePlayer usePlayer)
+    //{
+    //    base.SetForUse(usePlayer);
+    //    playerTransform = usePlayer.transform;
+    //    playerRigidbody = usePlayer.GetComponent<Rigidbody>();
+    //    gameObject.transform.SetParent(playerTransform, false);
+    //}
 
     [SerializeField] private LineRenderer laser;
     public override void Use()
@@ -42,7 +42,7 @@ public class Pistol : Item, IControllable
 
         if (hit.collider != null)
         {
-            hit.collider.GetComponent<BoardgamePlayer>().GetDamage(DAMAGE);
+            //hit.collider.GetComponent<BoardgamePlayer>().GetDamage(DAMAGE);
         }
     }
 

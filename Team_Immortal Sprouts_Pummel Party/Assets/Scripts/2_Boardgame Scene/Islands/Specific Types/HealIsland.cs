@@ -11,12 +11,12 @@ public class HealIsland : Island
     }
 
     // 사용 안하는 함수
-    public async UniTask OnActiveHealIsland(BoardgamePlayer player)
-    {
-        //await UniTask.Delay(1500);
+    //public async UniTask OnActiveHealIsland(BoardgamePlayer player)
+    //{
+    //    //await UniTask.Delay(1500);
 
-        //player.OnRecover(15);
-    }
+    //    //player.OnRecover(15);
+    //}
 
     public override void ActivateIsland(Transform playerTransform = null)
     {

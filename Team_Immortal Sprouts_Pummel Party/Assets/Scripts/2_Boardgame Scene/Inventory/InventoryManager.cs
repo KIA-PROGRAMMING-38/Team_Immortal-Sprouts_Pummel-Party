@@ -12,39 +12,39 @@ public class InventoryManager : MonoBehaviour
     
     [SerializeField] private GameObject slotPrefab;
 
-    private BoardgamePlayer[] players;
+    //private BoardgamePlayer[] players;
     private void Awake()
     {
         CreateSlots();
 
         // TODO: 게임매니저 연결 시 전체 플레이어 정보 참조, 현재 클라이언트의 플레이어가 누구인지 따로 저장해야 함 (현재 테스트로 currentPlayer 사용)
-        players = FindObjectsOfType<BoardgamePlayer>();
+        //players = FindObjectsOfType<BoardgamePlayer>();
     }
 
     private void OnEnable()
     {
-        foreach (BoardgamePlayer player in players)
-        {
-            // TODO: 포톤 연결 시 isMine으로 확인
-            if (player != currentPlayer) continue;
+        //foreach (BoardgamePlayer player in players)
+        //{
+        //    // TODO: 포톤 연결 시 isMine으로 확인
+        //    if (player != currentPlayer) continue;
 
-            player.Inventory.OnInventoryInit.RemoveAllListeners();
-            player.Inventory.OnInventoryUpdate.RemoveAllListeners();
-            player.Inventory.OnInventoryInit.AddListener(InitInventorySlots);
-            player.Inventory.OnInventoryUpdate.AddListener(UpdateInventory);
-        }
+        //    player.Inventory.OnInventoryInit.RemoveAllListeners();
+        //    player.Inventory.OnInventoryUpdate.RemoveAllListeners();
+        //    player.Inventory.OnInventoryInit.AddListener(InitInventorySlots);
+        //    player.Inventory.OnInventoryUpdate.AddListener(UpdateInventory);
+        //}
     }
 
     private void OnDestroy()
     {
-        foreach (BoardgamePlayer player in players)
-        {
-            // TODO: 포톤 연결 시 isMine으로 확인
-            if (player != currentPlayer) continue;
+        //foreach (BoardgamePlayer player in players)
+        //{
+        //    // TODO: 포톤 연결 시 isMine으로 확인
+        //    if (player != currentPlayer) continue;
 
-            player.Inventory.OnInventoryInit.RemoveAllListeners();
-            player.Inventory.OnInventoryUpdate.RemoveAllListeners();
-        }
+        //    player.Inventory.OnInventoryInit.RemoveAllListeners();
+        //    player.Inventory.OnInventoryUpdate.RemoveAllListeners();
+        //}
     }
 
     private void CreateSlots()
@@ -156,22 +156,22 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public BoardgamePlayer currentPlayer;
+    //public BoardgamePlayer currentPlayer;
     [SerializeField] private ItemControllGroup itemControllGroup;
     /// <summary>
     /// 사용할 아이템을 선택하는 버튼 클릭 이벤트로 호출
     /// </summary>
     public void SelectItem()
     {
-        IUsable item = Instantiate(selectedItem.Prefab).GetComponent<IUsable>();
-        item.SetForUse(currentPlayer);
+        //IUsable item = Instantiate(selectedItem.Prefab).GetComponent<IUsable>();
+        //item.SetForUse(currentPlayer);
 
-        currentPlayer.Inventory.Remove(selectedItem);
+        //currentPlayer.Inventory.Remove(selectedItem);
 
-        if(selectedItem.isControllable)
-        {
-            itemControllGroup.gameObject.SetActive(true);
-        }
+        //if(selectedItem.isControllable)
+        //{
+        //    itemControllGroup.gameObject.SetActive(true);
+        //}
 
         selectedSlot.ChangeState(InventorySlot.SlotState.UnSelected);
         setSelectedData(null);

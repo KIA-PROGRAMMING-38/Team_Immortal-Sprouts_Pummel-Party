@@ -5,8 +5,8 @@ using UnityEngine.Events;
 
 public class Inventory
 {
-    public Inventory(BoardgamePlayer owner) => Owner = owner;
-    public BoardgamePlayer Owner;
+    //public Inventory(BoardgamePlayer owner) => Owner = owner;
+    //public BoardgamePlayer Owner;
 
     public UnityEvent<Inventory> OnInventoryInit = new UnityEvent<Inventory>();
     public UnityEvent OnInventoryUpdate = new UnityEvent();
@@ -46,7 +46,7 @@ public class Inventory
             item.AddToInventory();
             OnInventoryUpdate?.Invoke();
 
-            Debug.Log($"[{Owner.name}]Inventory 업데이트: {itemData.Name} -> {item.Number}");
+            //Debug.Log($"[{Owner.name}]Inventory 업데이트: {itemData.Name} -> {item.Number}");
         }
         else
         {

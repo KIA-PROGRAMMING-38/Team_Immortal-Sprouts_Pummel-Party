@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdaa210c189da41a201afaed220ba8, type: 3}
+  m_Name: Item Data
+  m_EditorClassIdentifier: 
+  itemIDs: 010000000200000003000000
+  itemNames:
+  - Pistol
+  - HotAirBalloon
+  - EmptyBowl
+  Icons:
+  - {fileID: 21300000, guid: dad5695e1fb1caf4cbd55c0310caf8d2, type: 3}
+  - {fileID: 21300000, guid: 85e43810278c1e641a3404c49de64cab, type: 3}
+  - {fileID: 21300000, guid: f7aa8959c5f54ae4bbfe9b7d9007bba4, type: 3}
+  descriptions:
+  - 'James Bond.. '
+  - Your Place? is My Place !!!
+  - Someone stole my food.....!!!!!
+  isControllable: 010100
+  prefabs:
+  - {fileID: 2268709913833931000, guid: 8b4f004668166744683bdd2a8eddf023, type: 3}
+  - {fileID: 8710634005940527435, guid: f3b2498a42edcab4f839c0628ddeda11, type: 3}
+  - {fileID: 6667394449194759867, guid: f515e05a91a0fee45bcac3ec4bd35e8a, type: 3}
