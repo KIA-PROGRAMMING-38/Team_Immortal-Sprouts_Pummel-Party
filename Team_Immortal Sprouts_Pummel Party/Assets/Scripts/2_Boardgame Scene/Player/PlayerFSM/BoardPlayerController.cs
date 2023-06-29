@@ -49,8 +49,11 @@ public class BoardPlayerController : MonoBehaviour
 
     private bool isEggable = false;
     private bool isRespawned = false;
-    
 
+    private RealInventory inventory;
+
+
+    public ItemData itemData; // 보드게임 매니저가 해줘야 하나 그냥 지금 임시로
     public CinemachineVirtualCamera virtualCam; // 프레임워크가 해줘야하나 그냥 지금 임시로
 
     private void Awake()
@@ -61,6 +64,8 @@ public class BoardPlayerController : MonoBehaviour
         rouletteTouchAction = playerInput.actions["RouletteTouch"];
 
         stateMachine = new StateMachine(); // 스테이트 머신 초기화
+
+        inventory = new RealInventory(itemData);
 
         initializePlayerStates(); // 플레이어 상태 초기화
         

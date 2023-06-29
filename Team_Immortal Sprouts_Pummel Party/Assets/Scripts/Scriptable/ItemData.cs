@@ -10,8 +10,9 @@ public class ItemData : ScriptableObject
     public Sprite[] Icons = new Sprite[numberOfItems]; 
     public string[] descriptions = new string[numberOfItems];
     public bool[] isControllable = new bool[numberOfItems];
-    public GameObject[] prefabs = new GameObject[numberOfItems];   
+    public RealItem[] prefabs = new RealItem[numberOfItems];   
 
+    public int GetItemNumber() => numberOfItems;    
     public int GetItemID(int index) => itemIDs[index];
     public string GetItemName(int index) => itemNames[index];   
     public Sprite GetItemIcon(int index) => Icons[index];
@@ -19,6 +20,6 @@ public class ItemData : ScriptableObject
 
     public bool GetItemIsControllable(int index) => isControllable[index];  
 
-    public GameObject GetItemPrefab(int index) => prefabs[index];
+    public RealItem GetItemPrefab(int index) => prefabs[index];
 
 }

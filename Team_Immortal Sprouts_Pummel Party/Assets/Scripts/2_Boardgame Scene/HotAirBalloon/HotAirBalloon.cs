@@ -7,7 +7,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HotAirBalloon : Item, IControllable
+public class HotAirBalloon : RealItem, IControllable
 {
     [SerializeField] private Transform playerBoardPosition;
     [SerializeField] private Light spotLight;
@@ -197,5 +197,11 @@ public class HotAirBalloon : Item, IControllable
             spotLight.color = defualtColor;
             playerTransform = null;
         }
+    }
+
+
+    public override void Use()
+    {
+        throw new NotImplementedException();
     }
 }
