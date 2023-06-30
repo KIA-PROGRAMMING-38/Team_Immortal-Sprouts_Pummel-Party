@@ -74,7 +74,7 @@ public class ItemSlot : MonoBehaviour
 
     #endregion
 
-    public void StopSelectedUI()
+    public void CancleSelectItem()
     {
         isSelected = false;
         token = cancelSource.Token;

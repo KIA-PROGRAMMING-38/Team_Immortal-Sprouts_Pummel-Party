@@ -41,15 +41,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "ItemUse",
-                    "type": "Button",
-                    "id": "77337cce-8aed-4890-a57e-32e12fe3ebb3",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -61,17 +52,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "ItemMove",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "99183221-9338-41b0-b17f-2fcfc7918763",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ItemUse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -12,6 +12,7 @@ public class RealInventory
         for (int i = 0; i < totalItemCount ;++i)
         {
             RealItem storedItem = itemData.GetItemPrefab(i);
+            storedItem.SetItemInfo(itemData, i);
             inventory.Add((item : storedItem, count : 0));
         }
     }
@@ -19,10 +20,11 @@ public class RealInventory
     private List<(RealItem item, int count)> inventory;
     private int totalItemCount;
 
-    public UnityEvent OnInventoryUpdate = new UnityEvent(); 
 
-
-
+    /// <summary>
+    /// 아이템 종류 개수를 반환하는 함수 
+    /// </summary>
+    /// <returns></returns>
     public int GetTotalItemCount() => totalItemCount;
 
     /// <summary>
@@ -46,7 +48,6 @@ public class RealInventory
     public void IncreaseItemCount(int itemID)
     {
         inventory[itemID] = (inventory[itemID].item, inventory[itemID].count + 1); // 어쨰서 inventory[itemID].count++ 은 안되는가...?
-        OnInventoryUpdate?.Invoke();
     }
 
     /// <summary>
@@ -56,7 +57,7 @@ public class RealInventory
     public void DecreaseItemCount(int itemID)
     {
         inventory[itemID] = (inventory[itemID].item, Mathf.Max(0, inventory[itemID].count - 1));
-        OnInventoryUpdate?.Invoke();
+        Debug.Log(inventory[itemID].count);
     }
 
     

@@ -63,15 +63,6 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""ItemUse"",
-                    ""type"": ""Button"",
-                    ""id"": ""77337cce-8aed-4890-a57e-32e12fe3ebb3"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -83,17 +74,6 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ItemMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""99183221-9338-41b0-b17f-2fcfc7918763"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ItemUse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -108,7 +88,6 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
         // ItemControl
         m_ItemControl = asset.FindActionMap("ItemControl", throwIfNotFound: true);
         m_ItemControl_ItemMove = m_ItemControl.FindAction("ItemMove", throwIfNotFound: true);
-        m_ItemControl_ItemUse = m_ItemControl.FindAction("ItemUse", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -217,13 +196,11 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_ItemControl;
     private List<IItemControlActions> m_ItemControlActionsCallbackInterfaces = new List<IItemControlActions>();
     private readonly InputAction m_ItemControl_ItemMove;
-    private readonly InputAction m_ItemControl_ItemUse;
     public struct ItemControlActions
     {
         private @InputOnBoard m_Wrapper;
         public ItemControlActions(@InputOnBoard wrapper) { m_Wrapper = wrapper; }
         public InputAction @ItemMove => m_Wrapper.m_ItemControl_ItemMove;
-        public InputAction @ItemUse => m_Wrapper.m_ItemControl_ItemUse;
         public InputActionMap Get() { return m_Wrapper.m_ItemControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -236,9 +213,6 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
             @ItemMove.started += instance.OnItemMove;
             @ItemMove.performed += instance.OnItemMove;
             @ItemMove.canceled += instance.OnItemMove;
-            @ItemUse.started += instance.OnItemUse;
-            @ItemUse.performed += instance.OnItemUse;
-            @ItemUse.canceled += instance.OnItemUse;
         }
 
         private void UnregisterCallbacks(IItemControlActions instance)
@@ -246,9 +220,6 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
             @ItemMove.started -= instance.OnItemMove;
             @ItemMove.performed -= instance.OnItemMove;
             @ItemMove.canceled -= instance.OnItemMove;
-            @ItemUse.started -= instance.OnItemUse;
-            @ItemUse.performed -= instance.OnItemUse;
-            @ItemUse.canceled -= instance.OnItemUse;
         }
 
         public void RemoveCallbacks(IItemControlActions instance)
@@ -273,6 +244,5 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
     public interface IItemControlActions
     {
         void OnItemMove(InputAction.CallbackContext context);
-        void OnItemUse(InputAction.CallbackContext context);
     }
 }

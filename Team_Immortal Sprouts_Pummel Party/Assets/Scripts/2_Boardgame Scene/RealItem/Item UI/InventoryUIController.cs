@@ -85,6 +85,12 @@ public class InventoryUIController : MonoBehaviour
             player.ChangeToDesiredState(BoardgamePlayerAnimID.HOVERING);
         }
     }
+
+    public void UseItem()
+    {
+        selectedItem.Use(); // 선택한 아이템을 사용한다
+        playerInventory.DecreaseItemCount(selectedItem.GetId());
+    }
     #endregion
 
 
@@ -121,7 +127,7 @@ public class InventoryUIController : MonoBehaviour
         {
             if (itemID != slotNumber)
             {
-                itemSlots[slotNumber].StopSelectedUI();
+                itemSlots[slotNumber].CancleSelectItem();
             }
         }
     }
