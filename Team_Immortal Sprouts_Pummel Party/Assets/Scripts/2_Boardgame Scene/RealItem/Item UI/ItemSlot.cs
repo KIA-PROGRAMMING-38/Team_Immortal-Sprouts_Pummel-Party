@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour
@@ -16,6 +17,10 @@ public class ItemSlot : MonoBehaviour
     private CancellationTokenSource playSource;
     private CancellationTokenSource cancelSource;
     private CancellationToken token;
+
+    private const int nullID = -9999;
+
+    public UnityEvent<int> OnTouchItemSlot = new UnityEvent<int>();
 
     private void Awake()
     {
@@ -49,23 +54,32 @@ public class ItemSlot : MonoBehaviour
 
     #region OnClick Event 함수
 
-    private bool isSelected = false;
+    [SerializeField] private bool isSelected = false;
     public void SelectItem()
     {
         isSelected = !isSelected;
         if (isSelected)
         {
             token = playSource.Token;
+            OnTouchItemSlot?.Invoke(itemID);
             showSelected().Forget();
         }
         else
         {
             token = cancelSource.Token;
+            OnTouchItemSlot?.Invoke(nullID);
             image.fillAmount = 1f;
         }
     }
 
     #endregion
+
+    public void StopSelectedUI()
+    {
+        isSelected = false;
+        token = cancelSource.Token;
+        image.fillAmount = 1f;
+    }
 
     [SerializeField] [Range(0.5f, 1.5f)] private float fillTime = 1f;
     private async UniTaskVoid showSelected()
@@ -97,12 +111,8 @@ public class ItemSlot : MonoBehaviour
     private void EnableButton(int[] itemCounts)
     {
         if (1 <= itemCounts[itemID])
-        {
             button.interactable = true;
-        }
         else
-        {
             button.interactable = false;
-        }
     }
 }
