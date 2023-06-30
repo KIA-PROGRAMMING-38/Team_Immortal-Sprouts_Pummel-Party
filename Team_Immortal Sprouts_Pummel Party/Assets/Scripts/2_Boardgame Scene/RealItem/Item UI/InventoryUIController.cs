@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -26,6 +27,9 @@ public class InventoryUIController : MonoBehaviour
 
     public UnityEvent<int[]> OnEnableItemSlot = new UnityEvent<int[]>();
 
+
+    // 턴이 시작되었을 때, 아이템 선택 캔버스가 켜져야함 => 프레임워크가 필요함
+
     private void Awake()
     {
         itemSlots = GetComponentsInChildren<ItemSlot>();
@@ -36,14 +40,24 @@ public class InventoryUIController : MonoBehaviour
         foreach (ItemSlot slot in itemSlots)
         {
             slot.OnTouchItemSlot.RemoveListener(stopOtherSlots);
-            slot.OnTouchItemSlot.AddListener(stopOtherSlots);
             slot.OnTouchItemSlot.RemoveListener(setSelectedItem);
-            slot.OnTouchItemSlot.AddListener(setSelectedItem);
             slot.OnTouchItemSlot.RemoveListener(showItemDescription);
-            slot.OnTouchItemSlot.AddListener(showItemDescription);
             slot.OnTouchItemSlot.RemoveListener(enableSelectButton);
+            slot.OnTouchItemSlot.AddListener(stopOtherSlots);
+            slot.OnTouchItemSlot.AddListener(setSelectedItem);
+            slot.OnTouchItemSlot.AddListener(showItemDescription);
             slot.OnTouchItemSlot.AddListener(enableSelectButton);
+
+
+            WaitForDictionaryInitialization().Forget();
         }
+    }
+
+    private async UniTaskVoid WaitForDictionaryInitialization()
+    {
+        await UniTask.Delay(2000);
+        player.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVEINPROGRESS).OnPlayerMove.RemoveListener(enableSelectCanvas);
+        player.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVEINPROGRESS).OnPlayerMove.AddListener(enableSelectCanvas);
     }
 
     private void Start()
@@ -61,10 +75,12 @@ public class InventoryUIController : MonoBehaviour
             slot.OnTouchItemSlot.RemoveListener(setSelectedItem);
             slot.OnTouchItemSlot.RemoveListener(showItemDescription);
             slot.OnTouchItemSlot.RemoveListener(enableSelectButton);
+
+            player.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVEINPROGRESS).OnPlayerMove.RemoveListener(enableSelectCanvas);
         }
     }
 
-    
+
     #region OnClick 이벤트 함수
     /// <summary>
     /// 아이템 버튼을 눌렀을 때 아이템슬롯과 설명 캔버스를 조정하는 함수
@@ -115,10 +131,11 @@ public class InventoryUIController : MonoBehaviour
     {
         selectedItem.Use(); // 선택한 아이템을 사용한다
         playerInventory.DecreaseItemCount(selectedItem.GetId());
+        inventoryCanvas[SELECT_CANVAS].enabled = false;
     }
     #endregion
 
-
+    private void enableSelectCanvas(bool shouldTurnOn) => inventoryCanvas[SELECT_CANVAS].enabled = shouldTurnOn;
 
     private void enableControlCanvas(bool shouldTurnOn)
     {
@@ -143,7 +160,7 @@ public class InventoryUIController : MonoBehaviour
             itemCountArray[i] = playerInventory.GetItemCount(i);
         }
 
-        return itemCountArray;  
+        return itemCountArray;
     }
 
     private void stopOtherSlots(int itemID)

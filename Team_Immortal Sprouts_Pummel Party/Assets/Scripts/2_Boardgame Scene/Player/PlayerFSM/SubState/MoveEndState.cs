@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MoveEndState : MoveState
 {
@@ -10,7 +11,7 @@ public class MoveEndState : MoveState
     }
 
 
-    public bool isMoveFinished { get; set; } = false;    
+    public bool isMoveFinished { get; set; } = false; 
 
     public override async void Enter()
     {

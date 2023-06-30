@@ -13,10 +13,11 @@ public class MoveInProgressState : MoveState
 
     private int moveCount = 0;
     private bool canMove = true;
-
+    public UnityEvent<bool> OnPlayerMove  = new UnityEvent<bool>();
     public override async void Enter()
     {
         base.Enter();
+        OnPlayerMove?.Invoke(false); // 아이템 캔버스를 꺼줌
         await move(); // 이동함
         
         updateCurrentIsland(); // 현재 섬을 업데이트함
