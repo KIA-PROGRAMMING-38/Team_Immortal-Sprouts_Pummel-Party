@@ -41,6 +41,7 @@ public class BoardPlayerController : MonoBehaviour
     private DraggedState Dragged;
     private DieState Die;
     private RespawnState Respawn;
+    private ItemState Item;
 
     #endregion
 
@@ -199,6 +200,9 @@ public class BoardPlayerController : MonoBehaviour
 
         Respawn = new RespawnState(this, stateMachine, animator, rigidbody, BoardgamePlayerAnimID.RESPAWN);
         stateDictionary.Add(BoardgamePlayerAnimID.RESPAWN, Respawn);
+
+        Item = new ItemState(this, stateMachine, animator, rigidbody, BoardgamePlayerAnimID.ITEM);
+        stateDictionary.Add(BoardgamePlayerAnimID.ITEM, Item);
 
         OnSetPlayerMaterial?.Invoke(playerMaterials); // Die 상태의 PlayerMaterials 초기세팅
     }

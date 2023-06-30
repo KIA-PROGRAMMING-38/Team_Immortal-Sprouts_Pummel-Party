@@ -75,6 +75,15 @@ public class InventoryUIController : MonoBehaviour
 
         if (selectedItem != null) // 선택한 아이템이 존재한다면
             enableControlCanvas(isUsingItem);
+
+        if (isUsingItem)
+        {
+            player.ChangeToDesiredState(BoardgamePlayerAnimID.ITEM);
+        }
+        else
+        {
+            player.ChangeToDesiredState(BoardgamePlayerAnimID.HOVERING);
+        }
     }
     #endregion
 
