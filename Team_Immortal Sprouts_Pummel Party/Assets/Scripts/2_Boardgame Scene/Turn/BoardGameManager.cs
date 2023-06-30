@@ -1,14 +1,14 @@
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-
+using System.Collections.Generic;
 
 public class BoardGameManager : MonoBehaviour
 {
-    [SerializeField] BoardGameFrameWork gameFrameWork;
-    [SerializeField] CustomData customData;
-    [SerializeField] PositionData spawnPoint;
-
+    [SerializeField] private BoardGameFrameWork gameFrameWork;
+    [SerializeField] private CustomData customData;
+    [SerializeField] private PositionData spawnPoint;
+   
     private void Start()
     {
         if (Turn.isFirst)

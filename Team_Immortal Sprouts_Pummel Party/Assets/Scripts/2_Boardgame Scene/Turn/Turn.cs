@@ -86,6 +86,4 @@ public static class Turn
     {
         return TurnOrder.Dequeue();
     }
-
-    
 }
