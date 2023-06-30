@@ -337,37 +337,37 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         hatPropertise = new Hashtable()
         {
-            { PropertiseKey.hatKey, new int()}
+            { Propertise.hatKey, new int()}
         };
 
         namePropertise = new Hashtable()
         {
-            { PropertiseKey.nameKey, "" }
+            { Propertise.nameKey, "" }
         };
 
         colorPropertise = new Hashtable()
         {
-            { PropertiseKey.colorKey, new int() }
+            { Propertise.colorKey, new int() }
         };
 
         enterOrderPropertise = new Hashtable()
         {
-            { PropertiseKey.enterOrderKey, new int() }
+            { Propertise.enterOrderKey, new int() }
         };
 
         hpPropertise = new Hashtable()
         {
-            { PropertiseKey.hpKey, new int() }
+            { Propertise.hpKey, new int() }
         };
 
         eggPropertise = new Hashtable()
         {
-            { PropertiseKey.eggCountKey, new int() }
+            { Propertise.eggCountKey, new int() }
         };
 
         positionPoropertise = new Hashtable()
         {
-            { PropertiseKey.positionKey, new Vector3() }
+            { Propertise.positionKey, new Vector3() }
         };
     }
     #endregion
@@ -399,10 +399,10 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
                 player.SetCustomProperties(eggPropertise);
                 player.SetCustomProperties(positionPoropertise);
 
-                player.CustomProperties[PropertiseKey.nameKey] = savedNickName;
-                player.CustomProperties[PropertiseKey.colorKey] = savedColorIndex;
-                player.CustomProperties[PropertiseKey.hatKey] = savedHatIndex;
-                player.CustomProperties[PropertiseKey.enterOrderKey] = playerEnterOrder;
+                player.CustomProperties[Propertise.nameKey] = savedNickName;
+                player.CustomProperties[Propertise.colorKey] = savedColorIndex;
+                player.CustomProperties[Propertise.hatKey] = savedHatIndex;
+                player.CustomProperties[Propertise.enterOrderKey] = playerEnterOrder;
             }
         }
     }

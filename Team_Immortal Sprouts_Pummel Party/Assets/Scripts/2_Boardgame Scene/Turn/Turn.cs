@@ -14,7 +14,7 @@ public enum GAME_TYPE
 
 public static class Turn
 {
-    public static Queue<int> TurnOrder;
+    public static Queue<int> Order;
     public static Stack<int> LastEnterOrder;
     public static SortedSet<(int, int)> PointOrder;
     public static bool isFirst = true;
@@ -29,7 +29,7 @@ public static class Turn
         switch (type)
         {
             case GAME_TYPE.FIRST_ENTER_PRIZE:
-                TurnOrder.Enqueue(playerEnterOrder);
+                Order.Enqueue(playerEnterOrder);
                 break;
 
             case GAME_TYPE.LAST_ENTER_PRTZE:
@@ -57,7 +57,7 @@ public static class Turn
     /// </summary>
     public static void SetContainer()
     {
-        if (TurnOrder.Count != 0)
+        if (Order.Count != 0)
         {
             return;
         }
@@ -66,7 +66,7 @@ public static class Turn
         {
             for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
             {
-                TurnOrder.Enqueue(PointOrder.Last().Item2);
+                Order.Enqueue(PointOrder.Last().Item2);
                 PointOrder.Remove(PointOrder.Last());
             }
         }
@@ -74,7 +74,7 @@ public static class Turn
         {
             for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
             {
-                TurnOrder.Enqueue(LastEnterOrder.Pop());
+                Order.Enqueue(LastEnterOrder.Pop());
             }
         }
     }
@@ -84,7 +84,7 @@ public static class Turn
     /// <returns></returns>
     public static int OnPlayer()
     {
-        return TurnOrder.Dequeue();
+        return Order.Dequeue();
     }
 
     

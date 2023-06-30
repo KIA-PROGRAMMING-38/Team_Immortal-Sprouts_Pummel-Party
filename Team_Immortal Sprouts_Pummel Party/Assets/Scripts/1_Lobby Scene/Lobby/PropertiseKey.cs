@@ -1,5 +1,5 @@
 
-public static class PropertiseKey
+public static class Propertise
 {
     public static readonly string nameKey = "NickName";
     public static readonly string colorKey = "ColorIndex";
