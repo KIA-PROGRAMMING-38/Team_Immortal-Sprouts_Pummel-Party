@@ -102,4 +102,9 @@ public class Pistol : Item, IControllable
     {
         Destroy(gameObject);
     }
+
+    public override void SetForUse(BoardPlayerController player = null)
+    {
+        
+    }
 }
