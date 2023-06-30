@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -8,17 +9,20 @@ public class InventoryUIController : MonoBehaviour
 {
     [SerializeField] private Canvas[] inventoryCanvas;
     [SerializeField] private GameObject virtualJoyStick;
+    [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private Button selectButton;
     private ItemSlot[] itemSlots;
     public BoardPlayerController player; // 지금은 임시로 한거임 => 보드게임매니저가 나중에 해줘야함
 
     private const int SELECT_CANVAS = 0;
     private const int ITEMSLOT_CANVAS = 1;
     private const int CONTROL_CANVAS = 2;
+    private const int DESCRIPTION_CANVAS = 3;
 
     private RealInventory playerInventory;
     private int totalItemCount;
     private int[] itemCountArray;
-    [SerializeField] private RealItem selectedItem;
+    [SerializeField] private RealItem selectedItem; // 보기 위해서 SerializeField 
 
     public UnityEvent<int[]> OnEnableItemSlot = new UnityEvent<int[]>();
 
@@ -35,6 +39,10 @@ public class InventoryUIController : MonoBehaviour
             slot.OnTouchItemSlot.AddListener(stopOtherSlots);
             slot.OnTouchItemSlot.RemoveListener(setSelectedItem);
             slot.OnTouchItemSlot.AddListener(setSelectedItem);
+            slot.OnTouchItemSlot.RemoveListener(showItemDescription);
+            slot.OnTouchItemSlot.AddListener(showItemDescription);
+            slot.OnTouchItemSlot.RemoveListener(enableSelectButton);
+            slot.OnTouchItemSlot.AddListener(enableSelectButton);
         }
     }
 
@@ -51,17 +59,30 @@ public class InventoryUIController : MonoBehaviour
         {
             slot.OnTouchItemSlot.RemoveListener(stopOtherSlots);
             slot.OnTouchItemSlot.RemoveListener(setSelectedItem);
+            slot.OnTouchItemSlot.RemoveListener(showItemDescription);
+            slot.OnTouchItemSlot.RemoveListener(enableSelectButton);
         }
     }
 
     
     #region OnClick 이벤트 함수
     /// <summary>
-    /// 아이템 버튼을 눌렀을 때 아이템슬롯 캔버스를 조정하는 함수
+    /// 아이템 버튼을 눌렀을 때 아이템슬롯과 설명 캔버스를 조정하는 함수
     /// </summary>
+    private string emptyText = string.Empty;
     public void ManipulateItemSlotCanvas()
     {
         inventoryCanvas[ITEMSLOT_CANVAS].enabled = !inventoryCanvas[ITEMSLOT_CANVAS].enabled; // 껏다 켜주기
+        inventoryCanvas[DESCRIPTION_CANVAS].enabled = !inventoryCanvas[DESCRIPTION_CANVAS].enabled;
+        if (!inventoryCanvas[DESCRIPTION_CANVAS].enabled)
+        {
+            descriptionText.text = emptyText;
+            selectedItem = null;
+            foreach (ItemSlot slot in itemSlots)
+            {
+                slot.CancleSelectItem();
+            }
+        }
         OnEnableItemSlot?.Invoke(getItemCounts());
     }
 
@@ -74,15 +95,19 @@ public class InventoryUIController : MonoBehaviour
         isUsingItem = !isUsingItem;
 
         if (selectedItem != null) // 선택한 아이템이 존재한다면
+        {
             enableControlCanvas(isUsingItem);
+        }
 
         if (isUsingItem)
         {
             player.ChangeToDesiredState(BoardgamePlayerAnimID.ITEM);
+            inventoryCanvas[DESCRIPTION_CANVAS].enabled = false;
         }
         else
         {
             player.ChangeToDesiredState(BoardgamePlayerAnimID.HOVERING);
+            inventoryCanvas[DESCRIPTION_CANVAS].enabled = true;
         }
     }
 
@@ -138,5 +163,30 @@ public class InventoryUIController : MonoBehaviour
             selectedItem = null;
         else
             selectedItem = playerInventory.GetItem(itemID);
+    }
+
+    private void showItemDescription(int itemID)
+    {
+        if (selectedItem != null)
+        {
+            inventoryCanvas[DESCRIPTION_CANVAS].enabled = true;
+            descriptionText.text = selectedItem.GetDescription();
+        }
+        else if (itemID < 0)
+        {
+            descriptionText.text = emptyText;
+        }
+    }
+
+    private void enableSelectButton(int itemID)
+    {
+        if (itemID < 0)
+        {
+            selectButton.interactable = false;
+        }
+        else
+        {
+            selectButton.interactable = true;
+        }
     }
 }
