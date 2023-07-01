@@ -5,5 +5,7 @@ using UnityEngine.UIElements;
 
 public abstract class Item : MonoBehaviour, IUsable
 {
+    public abstract void OnTimeOut();
+
     public abstract void Use(BoardPlayerController player = null);
 }

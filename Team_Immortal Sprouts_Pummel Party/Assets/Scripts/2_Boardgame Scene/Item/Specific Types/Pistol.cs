@@ -88,22 +88,17 @@ public class Pistol : Item, IControllable
         playerRigidbody.MoveRotation(Quaternion.Euler(0f, Mathf.Atan2(moveDir.x, moveDir.y) * Mathf.Rad2Deg, 0f));
     }
 
-    public void OnUseButtonInput(InputAction.CallbackContext context)
+    public void OnUseButtonInput()
     {
-        if(!context.performed)
-        {
-            return;
-        }
-
         Use();
     }
 
-    public void OnTimeOut()
+    public override void Use(BoardPlayerController player = null)
     {
-        Destroy(gameObject);
+        throw new System.NotImplementedException();
     }
 
-    public override void Use(BoardPlayerController player = null)
+    public override void OnTimeOut()
     {
         throw new System.NotImplementedException();
     }

@@ -10,14 +10,9 @@ public class RealPistol : RealItem, IControllable
         
     }
 
-    public void OnTimeOut()
+    public override void OnTimeOut()
     {
-        
-    }
-
-    public void OnUseButtonInput(InputAction.CallbackContext context)
-    {
-        
+        // 시간 다되었을떄 로직
     }
 
     public override void Use(BoardPlayerController player = null)

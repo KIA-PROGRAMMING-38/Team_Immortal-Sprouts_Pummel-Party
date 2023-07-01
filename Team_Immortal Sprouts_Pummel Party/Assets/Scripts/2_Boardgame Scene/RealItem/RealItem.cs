@@ -22,4 +22,5 @@ public abstract class RealItem : MonoBehaviour, IUsable
     public string GetDescription() => description;
 
     public abstract void Use(BoardPlayerController player = null);
+    public abstract void OnTimeOut();
 }
