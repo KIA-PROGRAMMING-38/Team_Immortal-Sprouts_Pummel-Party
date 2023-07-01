@@ -8,7 +8,6 @@ public class MoveInProgressState : MoveState
 {
     public MoveInProgressState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, int animName) : base(control, machine, anim, rigid, animName)
     {
-        
     }
 
     private int moveCount = 0;
@@ -59,7 +58,7 @@ public class MoveInProgressState : MoveState
 
             await ExtensionMethod.SecondaryBezierCurve(playerController.transform, initialPos, controlPos, targetPos, moveTime);
 
-            await UniTask.WaitForFixedUpdate(); // FixedUpdate으로 처리
+            await UniTask.Yield();
         }
     }
 
@@ -91,10 +90,10 @@ public class MoveInProgressState : MoveState
 
     private async UniTask lookNextDestIsland(Vector3 dir)
     {
-        Quaternion start = playerController.transform.rotation;
+        Quaternion start = bodyTransform.rotation;
         Quaternion end = Quaternion.LookRotation(dir);
 
-        await ExtensionMethod.QuaternionLerpExtension(playerController.transform, start, end, rotateTime);
+        await ExtensionMethod.QuaternionLerpExtension(bodyTransform, start, end, rotateTime);
     }
 
     public void SetMoveCount(int rouletteOutput)

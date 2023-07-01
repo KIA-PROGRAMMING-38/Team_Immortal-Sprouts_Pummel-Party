@@ -7,10 +7,10 @@ public class MoveState : PlayerState
 {
     public MoveState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, int animName) : base(control, machine, anim, rigid, animName)
     {
-        
+        bodyTransform = control.transform.GetChild(BODY_INDEX); // Body를 가져옴
     }
-
-    
+    private const int BODY_INDEX = 0;
+    protected Transform bodyTransform;
     protected Island currentIsland = null;
     
     public override void Enter()
@@ -34,8 +34,8 @@ public class MoveState : PlayerState
     protected float rotateTime = 1f;
     protected async UniTask lookForward()
     {
-        Quaternion start = playerController.transform.rotation;
-        await ExtensionMethod.QuaternionLerpExtension(playerController.transform, start, forwardRotation, rotateTime);
+        Quaternion start = bodyTransform.rotation;
+        await ExtensionMethod.QuaternionLerpExtension(bodyTransform, start, forwardRotation, rotateTime);
     }
 
 
