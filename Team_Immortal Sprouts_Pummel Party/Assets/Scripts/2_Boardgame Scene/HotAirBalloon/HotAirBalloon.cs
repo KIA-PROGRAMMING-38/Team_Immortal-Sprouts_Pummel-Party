@@ -199,15 +199,8 @@ public class HotAirBalloon : RealItem, IControllable
         }
     }
 
-    public override void SetForUse(BoardPlayerController player = null)
+    public override void Use(BoardPlayerController player = null)
     {
-
+        // 사용 로직
     }
-
-    public override void Use()
-    {
-        
-    }
-
-    
 }

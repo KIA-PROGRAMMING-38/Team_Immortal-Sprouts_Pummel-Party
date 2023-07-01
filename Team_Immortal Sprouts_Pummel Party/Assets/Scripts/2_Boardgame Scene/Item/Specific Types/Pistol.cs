@@ -21,15 +21,15 @@ public class Pistol : Item, IControllable
     //}
 
     [SerializeField] private LineRenderer laser;
-    public override void Use()
-    {
-        base.Use();
+    //public override void Use()
+    //{
+    //    base.Use();
 
-        laser.enabled = false;
+    //    laser.enabled = false;
 
-        hitPlayer();
-        recoil().Forget();
-    }
+    //    hitPlayer();
+    //    recoil().Forget();
+    //}
 
     [SerializeField] private Transform shootPoint;
     private const float MAX_DISTANCE = 15f;
@@ -103,8 +103,8 @@ public class Pistol : Item, IControllable
         Destroy(gameObject);
     }
 
-    public override void SetForUse(BoardPlayerController player = null)
+    public override void Use(BoardPlayerController player = null)
     {
-        
+        throw new System.NotImplementedException();
     }
 }

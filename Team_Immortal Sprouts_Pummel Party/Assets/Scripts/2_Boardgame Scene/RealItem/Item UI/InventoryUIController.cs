@@ -55,7 +55,7 @@ public class InventoryUIController : MonoBehaviour
 
     private async UniTaskVoid WaitForDictionaryInitialization()
     {
-        await UniTask.Delay(2000);
+        await UniTask.Delay(2000); // 플레이어 상태사전이 완료됨을 기다리기 위해
         player.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVEINPROGRESS).OnPlayerMove.RemoveListener(enableSelectCanvas);
         player.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVEINPROGRESS).OnPlayerMove.AddListener(enableSelectCanvas);
     }
@@ -127,11 +127,15 @@ public class InventoryUIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 아이템 USE 버튼을 눌렀을 떄
+    /// </summary>
     public void UseItem()
     {
-        selectedItem.Use(); // 선택한 아이템을 사용한다
+        selectedItem.Use(player); // 선택한 아이템을 사용한다
         playerInventory.DecreaseItemCount(selectedItem.GetId());
         inventoryCanvas[SELECT_CANVAS].enabled = false;
+        inventoryCanvas[CONTROL_CANVAS].enabled = false;
     }
     #endregion
 
