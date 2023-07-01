@@ -7,10 +7,13 @@ using UnityEngine;
 
 public class AwardLightController : MonoBehaviour
 {
+    [SerializeField] private AwardProvider awardProvider;
+
+    [Header("---------------------------Controllable---------------------------")]
     [SerializeField] [Range(50f, 150f)] private float moveSpeed = 80f;
-    [SerializeField] [Range(0.3f, 1f)] private float winnerReachTime = 0.5f;
     [SerializeField] [Range(45f, 60f)] private float minXRotation = 45f;
     [SerializeField] [Range(110f, 135f)] private float maxXRotation = 135f;
+    [SerializeField] [Range(0.3f, 1f)] private float winnerReachTime = 0.5f;
 
 
     private const float MIN_Y_ROTATION = 0f;
@@ -19,9 +22,6 @@ public class AwardLightController : MonoBehaviour
     private CancellationTokenSource playSource;
     private CancellationTokenSource stopSource;
     private CancellationToken token;
-
-
-    public Transform testWinnerTransform;
 
     private void Awake()
     {
@@ -33,31 +33,18 @@ public class AwardLightController : MonoBehaviour
 
     private void OnEnable()
     {
+        awardProvider.OnGiveAward.RemoveListener(lightWinner);
+        awardProvider.OnGiveAward.AddListener(lightWinner);
         lightRandomMove().Forget();
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (testWinnerShowing)
-            {
-                testWinnerShowing= false;
-                lightRandomMove().Forget();
-            }
-            else
-            {
-                testWinnerShowing = true;
-                LightWinner(testWinnerTransform);
-            }
-            
-        }
+        awardProvider.OnGiveAward.RemoveListener(lightWinner);
     }
 
 
-    private bool testWinnerShowing = false;
-
-    public void LightWinner(Transform winnerTransform)
+    private void lightWinner(Transform winnerTransform)
     {
         stopRandomMovement();
         Vector3 winnerDirection = winnerTransform.position - transform.position;  
@@ -68,10 +55,10 @@ public class AwardLightController : MonoBehaviour
         ExtensionMethod.QuaternionLerpExtension(transform, initialRotation, targetRotation, winnerReachTime).Forget();
     }
 
-
     private async UniTask lightRandomMove()
     {
         token= playSource.Token;
+
         Quaternion targetRotation = getRandomRotation();
 
         while (3f <= Quaternion.Angle(transform.rotation, targetRotation))
