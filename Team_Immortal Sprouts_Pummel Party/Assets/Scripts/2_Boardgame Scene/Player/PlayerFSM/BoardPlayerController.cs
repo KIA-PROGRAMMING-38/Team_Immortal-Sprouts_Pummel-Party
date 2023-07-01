@@ -45,7 +45,9 @@ public class BoardPlayerController : MonoBehaviour
 
     #endregion
 
+    [HideInInspector]
     public UnityEvent<int> OnRouletteStopped = new UnityEvent<int>();
+    [HideInInspector]
     public UnityEvent<Material[]> OnSetPlayerMaterial = new UnityEvent<Material[]>();
 
     private bool isEggable = false;
@@ -69,7 +71,7 @@ public class BoardPlayerController : MonoBehaviour
         inventory = new RealInventory(itemData);
 
         initializePlayerStates(); // 플레이어 상태 초기화
-        
+
         CameraTrace.InitializeCamera(virtualCam, transform); // 임시로 하는거임
     }
 
@@ -100,7 +102,7 @@ public class BoardPlayerController : MonoBehaviour
 
     #region Public 함수들
 
-    public RealInventory GetPlayerInventory() => inventory; 
+    public RealInventory GetPlayerInventory() => inventory;
 
     /// <summary>
     /// 플레이어의 재소환 끝 여부를 반환하는 함수
@@ -112,7 +114,7 @@ public class BoardPlayerController : MonoBehaviour
     /// 플레이어의 재소환 끝 여부를 설정하는 함수
     /// </summary>
     /// <param name="isRespawnFinished"></param>
-    public void SetIsPlayerRespawned(bool isRespawnFinished) => isRespawned = isRespawnFinished; 
+    public void SetIsPlayerRespawned(bool isRespawnFinished) => isRespawned = isRespawnFinished;
 
     /// <summary>
     /// 플레이어의 황금알 획득 가능여부를 반환하는 함수
@@ -129,7 +131,7 @@ public class BoardPlayerController : MonoBehaviour
     /// <summary>
     /// 플레이어가 공격 당했을때 파티클 재생 함수
     /// </summary>
-    public void PlayerDamagedParticle() => damagedParticle.Play();
+    public void PlayDamagedParticle() => damagedParticle.Play();
 
     /// <summary>
     /// 플레이어의 이동이 가능하게끔 만들어주는 함수
