@@ -11,13 +11,13 @@ public class AwardLightController : MonoBehaviour
 
     [Header("---------------------------Controllable---------------------------")]
     [SerializeField] [Range(50f, 150f)] private float moveSpeed = 80f;
-    [SerializeField] [Range(45f, 60f)] private float minXRotation = 45f;
-    [SerializeField] [Range(110f, 135f)] private float maxXRotation = 135f;
+    [SerializeField] [Range(30f, 50f)] private float minXRotation = 45f;
+    [SerializeField] [Range(80f, 95f)] private float maxXRotation = 90f;
     [SerializeField] [Range(0.3f, 1f)] private float winnerReachTime = 0.5f;
 
 
-    private const float MIN_Y_ROTATION = 0f;
-    private const float MAX_Y_ROTATION = 359f;
+    private const float MIN_Y_ROTATION = -90f;
+    private const float MAX_Y_ROTATION = 90f;
 
     private CancellationTokenSource playSource;
     private CancellationTokenSource stopSource;
