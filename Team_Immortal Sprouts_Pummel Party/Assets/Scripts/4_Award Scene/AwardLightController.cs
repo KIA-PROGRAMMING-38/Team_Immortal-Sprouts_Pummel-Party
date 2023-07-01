@@ -8,8 +8,9 @@ using UnityEngine;
 public class AwardLightController : MonoBehaviour
 {
     [SerializeField] [Range(50f, 150f)] private float moveSpeed = 80f;
-    [SerializeField] private float minXRotation = 45f;
-    [SerializeField] private float maxXRotation = 135f;
+    [SerializeField] [Range(0.3f, 1f)] private float winnerReachTime = 0.5f;
+    [SerializeField] [Range(45f, 60f)] private float minXRotation = 45f;
+    [SerializeField] [Range(110f, 135f)] private float maxXRotation = 135f;
 
 
     private const float MIN_Y_ROTATION = 0f;
@@ -18,6 +19,9 @@ public class AwardLightController : MonoBehaviour
     private CancellationTokenSource playSource;
     private CancellationTokenSource stopSource;
     private CancellationToken token;
+
+
+    public Transform winnerTransform;
 
     private void Awake()
     {
@@ -36,9 +40,33 @@ public class AwardLightController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            stopRandomMovement();
+            if (testWinnerShowing)
+            {
+                testWinnerShowing= false;
+                lightRandomMove().Forget();
+            }
+            else
+            {
+                testWinnerShowing = true;
+                Vector3 winnerPosition = winnerTransform.position;
+                LightWinner(winnerPosition - transform.position).Forget();
+            }
+            
         }
     }
+
+
+    private bool testWinnerShowing = false;
+
+    public async UniTask LightWinner(Vector3 lookDirection)
+    {
+        stopRandomMovement();
+        Quaternion initialRotation = transform.rotation;
+        Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+
+        ExtensionMethod.QuaternionLerpExtension(transform, initialRotation, targetRotation, winnerReachTime).Forget();
+    }
+
 
     private async UniTask lightRandomMove()
     {
