@@ -11,7 +11,7 @@ public class SharkIsland : Island
         shark = GetComponentInChildren<BaseShark>();
     }
 
-    public override void ActivateIsland(Transform playerTransform = null)
+    public override void ActivateOnMoveEnd(Transform playerTransform = null)
     {
         shark.JumpAttack();
     }

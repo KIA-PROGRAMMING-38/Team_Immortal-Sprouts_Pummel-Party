@@ -7,7 +7,9 @@ using UnityEngine;
 
 public interface IActiveIsland
 {
-
-    void ActivateIsland(Transform playerTransform = null);
+    void ActivateOnMoveStart(Transform playerTransform = null);
+    void ActivateOnMoveInProgress(Transform playerTransform = null);
+    void ActivateOnMoveEnd(Transform playerTransform = null);
+    //void ActivateIsland(Transform playerTransform = null);
 }
 

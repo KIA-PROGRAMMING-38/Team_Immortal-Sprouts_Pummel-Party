@@ -27,17 +27,10 @@ public class MoveEndState : MoveState
         isMoveFinished = false;
     }
 
-    protected override void ActivateIsland() // 여기서 Activate 할껀 1) 상어섬 2) 힐섬
+    protected override void ActivateIsland()
     {
-        if (currentIsland is SharkIsland || currentIsland is HealIsland)
-        {
-            IActiveIsland island = currentIsland.GetComponent<IActiveIsland>();
-            island.ActivateIsland(playerController.transform);
-        }
-        else
-        {
-            isMoveFinished = true;
-        }
+        //isMoveFinished = true; // 이걸 섬에서 해줘야할듯?
+        currentIsland.ActivateOnMoveEnd();
     }
 
     private async UniTaskVoid changeToHoveringState()
