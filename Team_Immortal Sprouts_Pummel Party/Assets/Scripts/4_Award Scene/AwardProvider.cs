@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +9,15 @@ public class AwardProvider : MonoBehaviour
 {
     [SerializeField] private Transform[] playerTransforms;
     [SerializeField] private AwardLightController[] lightControllers;
+    [SerializeField] private ParticleSystem[] lightBombParticles;
 
+    [HideInInspector]
     public UnityEvent<Transform> OnGiveAward = new UnityEvent<Transform>();
     
 
     private void Awake()
     {
-
+        lightBombDelayTime = lightControllers[0].GetReachTime() + 0.5f;
     }
 
     private void Start()
@@ -25,15 +29,30 @@ public class AwardProvider : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            giveAward();
+            giveAwardToPlayer(1);
         }
     }
 
-    private void giveAward()
+    private void giveAwardToPlayer(int playerEnterOrder)
     {
-        Transform winnerTransform = playerTransforms[1];
+        Transform winnerTransform = playerTransforms[playerEnterOrder];
         OnGiveAward?.Invoke(winnerTransform);
+        playLightBombParticles(winnerTransform).Forget();
     }
 
+    private float lightBombDelayTime;
+    [SerializeField] private float lightBombGapTime = 0.1f;
+    private async UniTask playLightBombParticles(Transform winnerTransform)
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(lightBombDelayTime));
 
+        for (int playCount = 0; playCount < lightBombParticles.Length; ++playCount)
+        {
+            Vector3 offSet = UnityEngine.Random.insideUnitCircle * 2f;
+            lightBombParticles[playCount].gameObject.SetActive(true); // 지가 알아서 자동으로 꺼지기 떄문에 SetActive(False) 불필요
+            lightBombParticles[playCount].transform.position = winnerTransform.position + offSet;
+            lightBombParticles[playCount].Play();
+            await UniTask.Delay(TimeSpan.FromSeconds(lightBombGapTime));
+        }
+    }
 }

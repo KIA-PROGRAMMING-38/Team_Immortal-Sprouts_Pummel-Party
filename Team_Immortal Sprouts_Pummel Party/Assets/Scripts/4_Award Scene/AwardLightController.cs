@@ -80,6 +80,8 @@ public class AwardLightController : MonoBehaviour
         return targetRotation;
     }
 
-    private void stopRandomMovement() => token = stopSource.Token;  
+    private void stopRandomMovement() => token = stopSource.Token;
+
+    public float GetReachTime() => winnerReachTime;
     
 }
