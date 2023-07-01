@@ -742,10 +742,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 80
-  winnerReachTime: 0.5
+  winnerReachTime: 0.3
   minXRotation: 45
   maxXRotation: 135
-  winnerTransform: {fileID: 566509071}
+  testWinnerTransform: {fileID: 566509073}
 --- !u!43 &315726260
 Mesh:
   m_ObjectHideFlags: 0
@@ -1799,10 +1799,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 80
-  winnerReachTime: 0.5
+  winnerReachTime: 0.3
   minXRotation: 45
   maxXRotation: 135
-  winnerTransform: {fileID: 566509071}
+  testWinnerTransform: {fileID: 566509073}
 --- !u!43 &407546036
 Mesh:
   m_ObjectHideFlags: 0
@@ -3694,10 +3694,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 80
-  winnerReachTime: 0.5
+  winnerReachTime: 0.3
   minXRotation: 45
   maxXRotation: 135
-  winnerTransform: {fileID: 566509071}
+  testWinnerTransform: {fileID: 566509073}
 --- !u!43 &997471722
 Mesh:
   m_ObjectHideFlags: 0
@@ -7851,7 +7851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 80
-  winnerReachTime: 0.5
+  winnerReachTime: 0.3
   minXRotation: 45
   maxXRotation: 135
-  winnerTransform: {fileID: 566509071}
+  testWinnerTransform: {fileID: 566509073}

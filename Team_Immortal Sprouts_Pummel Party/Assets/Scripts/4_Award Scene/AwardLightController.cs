@@ -21,7 +21,7 @@ public class AwardLightController : MonoBehaviour
     private CancellationToken token;
 
 
-    public Transform winnerTransform;
+    public Transform testWinnerTransform;
 
     private void Awake()
     {
@@ -48,8 +48,7 @@ public class AwardLightController : MonoBehaviour
             else
             {
                 testWinnerShowing = true;
-                Vector3 winnerPosition = winnerTransform.position;
-                LightWinner(winnerPosition - transform.position).Forget();
+                LightWinner(testWinnerTransform);
             }
             
         }
@@ -58,11 +57,13 @@ public class AwardLightController : MonoBehaviour
 
     private bool testWinnerShowing = false;
 
-    public async UniTask LightWinner(Vector3 lookDirection)
+    public void LightWinner(Transform winnerTransform)
     {
         stopRandomMovement();
+        Vector3 winnerDirection = winnerTransform.position - transform.position;  
+
         Quaternion initialRotation = transform.rotation;
-        Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+        Quaternion targetRotation = Quaternion.LookRotation(winnerDirection);
 
         ExtensionMethod.QuaternionLerpExtension(transform, initialRotation, targetRotation, winnerReachTime).Forget();
     }
