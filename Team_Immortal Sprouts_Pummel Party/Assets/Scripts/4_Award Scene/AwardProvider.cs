@@ -33,6 +33,14 @@ public class AwardProvider : MonoBehaviour
         }
     }
 
+
+    private void giveFinalWinnerAward(int playerEnterOrder)
+    {
+
+    }
+
+
+    private int miniAwardCount = 3;
     private void giveAwardToPlayer(int playerEnterOrder)
     {
         Transform winnerTransform = playerTransforms[playerEnterOrder];
@@ -44,7 +52,7 @@ public class AwardProvider : MonoBehaviour
     [SerializeField] private float lightBombGapTime = 0.1f;
     private async UniTask playLightBombParticles(Transform winnerTransform)
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(lightBombDelayTime));
+        await UniTask.Delay(TimeSpan.FromSeconds(lightBombDelayTime)); // 조명이 비출때까지 기다린다
 
         for (int playCount = 0; playCount < lightBombParticles.Length; ++playCount)
         {
