@@ -13,7 +13,7 @@ public class AwardProvider : MonoBehaviour
 
     [HideInInspector]
     public UnityEvent<Transform> OnGiveAward = new UnityEvent<Transform>();
-    
+    [Range(0, 3)] public int testNumber;
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class AwardProvider : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            giveAwardToPlayer(1);
+            giveAwardToPlayer(testNumber);
         }
     }
 
