@@ -16,17 +16,25 @@ public class AwardLightController : MonoBehaviour
     [SerializeField] [Range(80f, 95f)] private float maxXRotation = 90f;
     [SerializeField] [Range(0.3f, 1f)] private float winnerReachTime = 0.5f;
 
-    private float initialIntensity;
-    private float initialLightRangeOpacity;
+    
     private const float MIN_Y_ROTATION = -90f;
     private const float MAX_Y_ROTATION = 90f;
 
+    #region 토큰
     private CancellationTokenSource playSource;
     private CancellationTokenSource stopSource;
     private CancellationToken token;
+    #endregion
+
+    #region 불빛 세기
     private Light spotLight;
+    private float initialIntensity;
+
     private Material lightRangeMaterial;
+    private float initialLightRangeOpacity;
     private const string OPACITY_KEY = "_Opacity";
+    #endregion
+
 
     private void Awake()
     {
@@ -61,7 +69,7 @@ public class AwardLightController : MonoBehaviour
 
     private async UniTask gradualLightIntensityControl()
     {
-        float elapsedTime = 0f;
+        float elapsedTime = 0f; // 나중에 ExtensionMethod에 추가해야할듯
         while (elapsedTime <= intensityControlTime)
         {
             spotLight.intensity = Lerp(0f, initialIntensity, elapsedTime / intensityControlTime);

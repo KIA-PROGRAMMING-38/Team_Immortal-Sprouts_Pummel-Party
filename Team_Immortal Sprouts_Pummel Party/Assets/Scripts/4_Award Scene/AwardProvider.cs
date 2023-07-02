@@ -40,7 +40,7 @@ public class AwardProvider : MonoBehaviour
     private async UniTaskVoid giveAwardToPlayer(int playerEnterOrder)
     {
         Transform winnerTransform = playerTransforms[playerEnterOrder];
-        OnGiveAward?.Invoke(winnerTransform);
+        OnGiveAward?.Invoke(winnerTransform); // 수상자를 spotLight으로 비춰준다
 
         if (SUB_AWARD_COUNT <= awardCount) // 마지막 상 수여
         {
@@ -54,7 +54,7 @@ public class AwardProvider : MonoBehaviour
             ++awardCount;
             await playLightBombParticles(winnerTransform);
             await UniTask.Delay(3000); // 테스트 => 플레이어의 승리 연출이 끝나면 으로 조건이 나중에 바껴야함
-            OnAwardGiven?.Invoke();
+            OnAwardGiven?.Invoke(); // spotLight이 다시 랜덤하게 움직인다
         }
     }
 
