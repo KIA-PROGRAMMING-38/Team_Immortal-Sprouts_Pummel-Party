@@ -16,6 +16,6 @@ public class HealIsland : Island
         Debug.Log("힐 해줄꺼임");
 
         // 힐이 끝나면
-        playerTransform.GetComponent<BoardPlayerController>().ControlMoveFinished(true); //
+        playerTransform.parent.GetComponent<BoardPlayerController>().ControlMoveFinished(true); // body를 넘겨주기로 해서 이래 함
     }
 }

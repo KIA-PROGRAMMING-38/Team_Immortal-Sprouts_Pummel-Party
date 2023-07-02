@@ -97,7 +97,7 @@ public class RotationIsland : Island
 
         if (isResetting == false) // 화살표 방향을 누르고, 회전이 끝나면 isRotationFinished를 true로 만들어준다
         {
-            playerTransform.GetComponent<BoardPlayerController>().ControlCanMove(true);
+            playerTransform.parent.GetComponent<BoardPlayerController>().ControlCanMove(true);
         }
     }
 
