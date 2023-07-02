@@ -13,6 +13,7 @@ public class AwardProvider : MonoBehaviour
 
     [HideInInspector]
     public UnityEvent<Transform> OnGiveAward = new UnityEvent<Transform>();
+    public UnityEvent OnAwardGiven = new UnityEvent();
     [Range(0, 3)] public int testNumber;
 
     private void Awake()
@@ -22,30 +23,39 @@ public class AwardProvider : MonoBehaviour
 
     private void Start()
     {
-        
+
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            giveAwardToPlayer(testNumber);
+            giveAwardToPlayer(testNumber).Forget();
         }
     }
 
 
-    private void giveFinalWinnerAward(int playerEnterOrder)
-    {
-
-    }
-
-
-    private int miniAwardCount = 3;
-    private void giveAwardToPlayer(int playerEnterOrder)
+    private const int SUB_AWARD_COUNT = 3;
+    private int awardCount;
+    private async UniTaskVoid giveAwardToPlayer(int playerEnterOrder)
     {
         Transform winnerTransform = playerTransforms[playerEnterOrder];
         OnGiveAward?.Invoke(winnerTransform);
-        playLightBombParticles(winnerTransform).Forget();
+
+        if (SUB_AWARD_COUNT <= awardCount) // 마지막 상 수여
+        {
+            await playLightBombParticles(winnerTransform);
+            await playLightBombParticles(winnerTransform);
+            await playLightBombParticles(winnerTransform);
+            await playLightBombParticles(winnerTransform);
+        }
+        else
+        {
+            ++awardCount;
+            await playLightBombParticles(winnerTransform);
+            await UniTask.Delay(3000); // 테스트 => 플레이어의 승리 연출이 끝나면 으로 조건이 나중에 바껴야함
+            OnAwardGiven?.Invoke();
+        }
     }
 
     private float lightBombDelayTime;
