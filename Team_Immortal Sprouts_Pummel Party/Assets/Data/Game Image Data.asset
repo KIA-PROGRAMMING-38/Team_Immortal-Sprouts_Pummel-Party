@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Game Image Data
   m_EditorClassIdentifier: 
   miniGameImages:
-  - {fileID: 0}
   - {fileID: 21300000, guid: 896863c8d143a984d933d46aba8d9bd9, type: 3}
   - {fileID: 21300000, guid: 1c1b0627473f457419ee8be65735deec, type: 3}
   - {fileID: 21300000, guid: 3ac2f4543c5a088429c0c6455a3df430, type: 3}
