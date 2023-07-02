@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,8 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public List<Dictionary<string, string>> miniGameDialog;
-    public int minigameCount;
+    public List<Dictionary<string, object>> miniGameDialogs;
     private static GameManager instance = null;
 
     public static GameManager Instance
@@ -33,17 +33,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        miniGameDialog = CSVReader<string>.Read("MinigameInfo");
-        minigameCount = miniGameDialog.Count;
+        miniGameDialogs = CSVReader.Read("MiniGameInfo");
     }
 
-    private void Update()
+    public void SellectMiniGameNumber()
     {
-        Debug.Log(SetMiniGameNumber());
-    }
-
-    public int SetMiniGameNumber()
-    {
-        return Random.Range(int.Parse(miniGameDialog.First()["Num"]),int.Parse(miniGameDialog.Last()["Num"]));
+        PhotonNetwork.CurrentRoom.CustomProperties[Propertise.miniGameKey] =
+            Random.Range((int)miniGameDialogs.First()["Num"], (int)miniGameDialogs.Last()["Num"] + 1);
     }
 }

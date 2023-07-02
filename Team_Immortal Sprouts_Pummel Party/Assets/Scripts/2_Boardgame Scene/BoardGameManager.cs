@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
 public class BoardGameManager : MonoBehaviour
@@ -50,4 +51,18 @@ public class BoardGameManager : MonoBehaviour
     //        }
     //    }
     //}
+
+    Hashtable miniGameNumber;
+    public void SetRoomPropertise()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            miniGameNumber = new Hashtable()
+            {
+                {Propertise.miniGameKey, new int()}
+            };
+
+            PhotonNetwork.CurrentRoom.SetCustomProperties(miniGameNumber);
+        }
+    }
 }

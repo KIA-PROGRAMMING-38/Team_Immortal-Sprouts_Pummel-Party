@@ -8,4 +8,5 @@ public static class Propertise
     public static readonly string eggCountKey = "EggCount";
     public static readonly string positionKey = "Position";
     public static readonly string enterOrderKey = "EnterOrder";
+    public static readonly string miniGameKey = "gameKey";
 }

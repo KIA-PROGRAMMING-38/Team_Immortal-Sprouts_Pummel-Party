@@ -1,19 +1,25 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-public class BoardGamePresenter : MonoBehaviour
+public class UIPresenter : MonoBehaviour
 {
+    public UnityEvent Info;
+
     [SerializeField] private TMP_Text miniGameName;
     [SerializeField] private TMP_Text miniGameInfo;
-
-  //  public UnityEvent MiniGameStart;
-
+    [SerializeField] private Image miniGameImage;
     public void SetInfo()
     {
-        miniGameName.text = GameManager.Instance.miniGameDialog[GameManager.Instance.minigameCount]["Name"].ToString();
-        miniGameInfo.text = GameManager.Instance.miniGameDialog[GameManager.Instance.minigameCount]["Text"].ToString();
+        GameManager.Instance.SellectMiniGameNumber();
+        int miniGameNumber = (int)PhotonNetwork.CurrentRoom.CustomProperties[Propertise.miniGameKey];
+
+        miniGameName.text = GameManager.Instance.miniGameDialogs[miniGameNumber]["Name"].ToString();
+        miniGameInfo.text = GameManager.Instance.miniGameDialogs[miniGameNumber]["Text"].ToString();
     }
+
 }

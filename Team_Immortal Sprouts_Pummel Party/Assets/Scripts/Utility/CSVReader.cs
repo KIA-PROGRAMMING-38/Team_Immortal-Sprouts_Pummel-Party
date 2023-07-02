@@ -4,15 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-public class CSVReader<T> where T : class
+public class CSVReader
 {
     static string SPLIT_RE = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
     static string LINE_SPLIT_RE = @"\r\n|\n\r|\n|\r";
     static char[] TRIM_CHARS = { '\"' };
 
-    public static List<Dictionary<string, T>> Read(string file)
+    public static List<Dictionary<string, object>> Read(string file)
     {
-        var list = new List<Dictionary<string, T>>();
+        var list = new List<Dictionary<string, object>>();
         TextAsset data = Resources.Load(file) as TextAsset;
 
         var lines = Regex.Split(data.text, LINE_SPLIT_RE);
@@ -26,7 +26,7 @@ public class CSVReader<T> where T : class
             var values = Regex.Split(lines[i], SPLIT_RE);
             if (values.Length == 0 || values[0] == "") continue;
 
-            var entry = new Dictionary<string, T>();
+            var entry = new Dictionary<string, object>();
             for (var j = 0; j < header.Length && j < values.Length; j++)
             {
                 string value = values[j];
@@ -42,7 +42,7 @@ public class CSVReader<T> where T : class
                 {
                     finalvalue = f;
                 }
-                entry[header[j]] = finalvalue as T;
+                entry[header[j]] = finalvalue;
             }
             list.Add(entry);
         }
