@@ -12,7 +12,7 @@ public class DamagedState : PlayerState
     {
         base.Enter();
         CameraTrace.DisconnectFollow(); // 데미지를 입으면 추적을 멈춤
-        playerController.PlayerDamagedParticle();
+        playerController.PlayDamagedParticle();
     }
 
     public override void Exit()

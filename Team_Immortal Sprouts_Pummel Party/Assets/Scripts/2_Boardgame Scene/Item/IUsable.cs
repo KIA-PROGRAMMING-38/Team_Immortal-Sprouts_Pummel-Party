@@ -2,6 +2,7 @@ using UnityEngine;
 
 public interface IUsable
 {
-    //void SetForUse(BoardgamePlayer usePlayer);
-    void Use();
+    void Use(BoardPlayerController player = null);
+    
+    void OnTimeOut();
 }

@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,15 +8,15 @@ public class MoveInProgressState : MoveState
 {
     public MoveInProgressState(BoardPlayerController control, StateMachine machine, Animator anim, Rigidbody rigid, int animName) : base(control, machine, anim, rigid, animName)
     {
-        
     }
 
     private int moveCount = 0;
     private bool canMove = true;
-
+    public UnityEvent<bool> OnPlayerMove  = new UnityEvent<bool>();
     public override async void Enter()
     {
         base.Enter();
+        OnPlayerMove?.Invoke(false); // 아이템 캔버스를 꺼줌
         await move(); // 이동함
         
         updateCurrentIsland(); // 현재 섬을 업데이트함
@@ -59,7 +58,7 @@ public class MoveInProgressState : MoveState
 
             await ExtensionMethod.SecondaryBezierCurve(playerController.transform, initialPos, controlPos, targetPos, moveTime);
 
-            await UniTask.WaitForFixedUpdate(); // FixedUpdate으로 처리
+            await UniTask.Yield();
         }
     }
 
@@ -91,10 +90,10 @@ public class MoveInProgressState : MoveState
 
     private async UniTask lookNextDestIsland(Vector3 dir)
     {
-        Quaternion start = playerController.transform.rotation;
+        Quaternion start = bodyTransform.rotation;
         Quaternion end = Quaternion.LookRotation(dir);
 
-        await ExtensionMethod.QuaternionLerpExtension(playerController.transform, start, end, rotateTime);
+        await ExtensionMethod.QuaternionLerpExtension(bodyTransform, start, end, rotateTime);
     }
 
     public void SetMoveCount(int rouletteOutput)

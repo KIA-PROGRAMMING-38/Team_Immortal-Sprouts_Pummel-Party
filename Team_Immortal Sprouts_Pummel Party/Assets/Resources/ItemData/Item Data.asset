@@ -27,6 +27,6 @@ MonoBehaviour:
   - Someone stole my food.....!!!!!
   isControllable: 010100
   prefabs:
-  - {fileID: 2268709913833931000, guid: 8b4f004668166744683bdd2a8eddf023, type: 3}
-  - {fileID: 8710634005940527435, guid: f3b2498a42edcab4f839c0628ddeda11, type: 3}
-  - {fileID: 6667394449194759867, guid: f515e05a91a0fee45bcac3ec4bd35e8a, type: 3}
+  - {fileID: 7791811838100158590, guid: 8b4f004668166744683bdd2a8eddf023, type: 3}
+  - {fileID: 2607019616234106825, guid: f3b2498a42edcab4f839c0628ddeda11, type: 3}
+  - {fileID: -1689569181822593707, guid: f515e05a91a0fee45bcac3ec4bd35e8a, type: 3}

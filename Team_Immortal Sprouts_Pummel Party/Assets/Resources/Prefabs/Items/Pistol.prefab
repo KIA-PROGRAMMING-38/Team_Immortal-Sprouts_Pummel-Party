@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 2268709913833931005}
   - component: {fileID: 2268709913833931002}
   - component: {fileID: 2268709913833931003}
-  - component: {fileID: 588033772552586847}
   - component: {fileID: 2372441458120128991}
+  - component: {fileID: 7791811838100158590}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -348,21 +348,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &588033772552586847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2268709913833931000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7b6a673149c80f42a84cfd9727d7510, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ItemData: {fileID: 11400000, guid: c481bb4fc1effbb4ca2b70aa40e7fca1, type: 2}
-  laser: {fileID: 2431242997332319498}
-  shootPoint: {fileID: 2268709914812324850}
 --- !u!114 &2372441458120128991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +375,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 588033772552586847}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ControllItem, Assembly-CSharp
         m_MethodName: OnJoystickInput
         m_Mode: 0
@@ -406,7 +391,7 @@ MonoBehaviour:
     m_ActionName: Item/Joystick
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 588033772552586847}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ControllItem, Assembly-CSharp
         m_MethodName: OnUseButtonInput
         m_Mode: 0
@@ -425,6 +410,18 @@ MonoBehaviour:
   m_DefaultActionMap: Item
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &7791811838100158590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2268709913833931000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 515e1961984037e49aa770bf87a8d8f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2268709914812324846
 GameObject:
   m_ObjectHideFlags: 0

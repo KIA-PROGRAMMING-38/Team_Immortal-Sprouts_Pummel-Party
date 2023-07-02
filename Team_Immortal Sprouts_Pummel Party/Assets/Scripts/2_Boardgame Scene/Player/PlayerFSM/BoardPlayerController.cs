@@ -41,16 +41,22 @@ public class BoardPlayerController : MonoBehaviour
     private DraggedState Dragged;
     private DieState Die;
     private RespawnState Respawn;
+    private ItemState Item;
 
     #endregion
 
+    [HideInInspector]
     public UnityEvent<int> OnRouletteStopped = new UnityEvent<int>();
+    [HideInInspector]
     public UnityEvent<Material[]> OnSetPlayerMaterial = new UnityEvent<Material[]>();
 
     private bool isEggable = false;
     private bool isRespawned = false;
-    
 
+    private RealInventory inventory;
+
+
+    public ItemData itemData; // 보드게임 매니저가 해줘야 하나 그냥 지금 임시로
     public CinemachineVirtualCamera virtualCam; // 프레임워크가 해줘야하나 그냥 지금 임시로
 
     private void Awake()
@@ -62,8 +68,10 @@ public class BoardPlayerController : MonoBehaviour
 
         stateMachine = new StateMachine(); // 스테이트 머신 초기화
 
+        inventory = new RealInventory(itemData);
+
         initializePlayerStates(); // 플레이어 상태 초기화
-        
+
         CameraTrace.InitializeCamera(virtualCam, transform); // 임시로 하는거임
     }
 
@@ -82,7 +90,7 @@ public class BoardPlayerController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"현재 상태 = {stateMachine.currentState}");
+        //Debug.Log($"현재 상태 = {stateMachine.currentState}");
     }
 
     private void OnDisable()
@@ -94,6 +102,8 @@ public class BoardPlayerController : MonoBehaviour
 
     #region Public 함수들
 
+    public RealInventory GetPlayerInventory() => inventory;
+
     /// <summary>
     /// 플레이어의 재소환 끝 여부를 반환하는 함수
     /// </summary>
@@ -104,7 +114,7 @@ public class BoardPlayerController : MonoBehaviour
     /// 플레이어의 재소환 끝 여부를 설정하는 함수
     /// </summary>
     /// <param name="isRespawnFinished"></param>
-    public void SetIsPlayerRespawned(bool isRespawnFinished) => isRespawned = isRespawnFinished; 
+    public void SetIsPlayerRespawned(bool isRespawnFinished) => isRespawned = isRespawnFinished;
 
     /// <summary>
     /// 플레이어의 황금알 획득 가능여부를 반환하는 함수
@@ -121,7 +131,7 @@ public class BoardPlayerController : MonoBehaviour
     /// <summary>
     /// 플레이어가 공격 당했을때 파티클 재생 함수
     /// </summary>
-    public void PlayerDamagedParticle() => damagedParticle.Play();
+    public void PlayDamagedParticle() => damagedParticle.Play();
 
     /// <summary>
     /// 플레이어의 이동이 가능하게끔 만들어주는 함수
@@ -156,7 +166,6 @@ public class BoardPlayerController : MonoBehaviour
 
     #region Private 함수들
     private void stopRoulette(InputAction.CallbackContext context) => roulette.ShowDiceResult().Forget();
-
     private void conveyDiceResult(int diceResult)
     {
         enableRoulette(false); // 룰렛을 꺼주고
@@ -193,6 +202,9 @@ public class BoardPlayerController : MonoBehaviour
 
         Respawn = new RespawnState(this, stateMachine, animator, rigidbody, BoardgamePlayerAnimID.RESPAWN);
         stateDictionary.Add(BoardgamePlayerAnimID.RESPAWN, Respawn);
+
+        Item = new ItemState(this, stateMachine, animator, rigidbody, BoardgamePlayerAnimID.ITEM);
+        stateDictionary.Add(BoardgamePlayerAnimID.ITEM, Item);
 
         OnSetPlayerMaterial?.Invoke(playerMaterials); // Die 상태의 PlayerMaterials 초기세팅
     }
