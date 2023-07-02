@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b154a3cfdac3de141ac72dce75c20ad7, type: 3}
   m_Name: Game Image Data
   m_EditorClassIdentifier: 
-  miniGameImages: []
+  miniGameImages:
+  - {fileID: 0}
+  - {fileID: 21300000, guid: 896863c8d143a984d933d46aba8d9bd9, type: 3}
+  - {fileID: 21300000, guid: 1c1b0627473f457419ee8be65735deec, type: 3}
+  - {fileID: 21300000, guid: 3ac2f4543c5a088429c0c6455a3df430, type: 3}
+  - {fileID: 21300000, guid: c09b505c23c8171418faa7c7a3b2d2f6, type: 3}

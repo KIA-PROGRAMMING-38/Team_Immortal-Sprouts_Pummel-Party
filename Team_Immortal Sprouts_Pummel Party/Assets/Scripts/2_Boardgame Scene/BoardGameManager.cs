@@ -53,6 +53,8 @@ public class BoardGameManager : MonoBehaviour
     //}
 
     Hashtable miniGameNumber;
+    Hashtable maxTurn;
+    Hashtable turnTime;
     public void SetRoomPropertise()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -62,7 +64,19 @@ public class BoardGameManager : MonoBehaviour
                 {Propertise.miniGameKey, new int()}
             };
 
+            maxTurn = new Hashtable()
+            {
+                {Propertise.turnKey, new int()}
+            };
+
+            turnTime = new Hashtable()
+            {
+                {Propertise.timeKey, new float()}
+            };
+
             PhotonNetwork.CurrentRoom.SetCustomProperties(miniGameNumber);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(maxTurn);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(turnTime);
         }
     }
 }
