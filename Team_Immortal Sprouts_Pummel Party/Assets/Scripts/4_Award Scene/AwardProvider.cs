@@ -56,18 +56,22 @@ public class AwardProvider : MonoBehaviour
         Transform winnerTransform = playerTransforms[playerEnterOrder - 1];
         OnGiveAward?.Invoke(winnerTransform); // 수상자를 spotLight으로 비춰준다
 
-        await goldenEggAppear(winnerTransform);
-
-        await UniTask.Delay(TimeSpan.FromSeconds(eggStayTime));
-
-        await goldenEggDisappear();
-
         if (SUB_AWARD_COUNT <= awardCount) // 마지막 상 수여
         {
-            
+            await goldenEggAppear(winnerTransform, initialEggSize * 2f);
+
+            await UniTask.Delay(TimeSpan.FromSeconds(eggStayTime));
+
+            await goldenEggDisappear(initialEggSize * 2f);
         }
         else
         {
+            await goldenEggAppear(winnerTransform, initialEggSize);
+
+            await UniTask.Delay(TimeSpan.FromSeconds(eggStayTime));
+
+            await goldenEggDisappear(initialEggSize);
+
             ++awardCount;
             await UniTask.Delay(3000); // 테스트 => 플레이어의 승리 연출이 끝나면 으로 조건이 나중에 바껴야함
             OnAwardGiven?.Invoke(); // spotLight이 다시 랜덤하게 움직인다
@@ -75,24 +79,24 @@ public class AwardProvider : MonoBehaviour
     }
 
     
-    private async UniTask goldenEggAppear(Transform winnerTransform)
+    private async UniTask goldenEggAppear(Transform winnerTransform, Vector3 startSize)
     {
         goldenEgg.SetActive(true);
-        goldenEgg.transform.localScale = initialEggSize;
+        goldenEgg.transform.localScale = startSize;
 
         Vector3 initialPosition = winnerTransform.position + Vector3.up * 5f;
-        Vector3 targetPosition = winnerTransform.position + Vector3.up * 1.5f;
+        Vector3 targetPosition = winnerTransform.position + Vector3.up * 1.8f;
 
         await ExtensionMethod.Vector3LerpExtension(goldenEggWhole, initialPosition, targetPosition, eggAppearTime);
     }
 
-    private async UniTask goldenEggDisappear()
+    private async UniTask goldenEggDisappear(Vector3 startSize)
     {
         float elapsedTime = 0f;
 
         while (elapsedTime <= eggDisappearTime)
         {
-            goldenEgg.transform.localScale = Vector3.Lerp(initialEggSize, Vector3.zero, elapsedTime / eggDisappearTime);
+            goldenEgg.transform.localScale = Vector3.Lerp(startSize, Vector3.zero, elapsedTime / eggDisappearTime);
             elapsedTime += Time.deltaTime;
             await UniTask.Yield();
         }
