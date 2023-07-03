@@ -17,7 +17,7 @@ public static class ExtensionMethod
     /// <param name="targetVector"></param>
     /// <param name="duration"></param>
     /// <returns></returns>
-    public static async UniTaskVoid Vector3LerpExtension(Transform transform, Vector3 startVector, Vector3 targetVector, float duration)
+    public static async UniTask Vector3LerpExtension(Transform transform, Vector3 startVector, Vector3 targetVector, float duration)
     {
         if (transform == null || transform.position == targetVector || startVector == targetVector)
         {
