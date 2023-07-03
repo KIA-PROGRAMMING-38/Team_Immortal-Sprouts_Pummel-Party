@@ -30,19 +30,48 @@ public class AwardProvider : MonoBehaviour
     private void Awake()
     {
         initialEggSize = goldenEgg.transform.localScale;
+        initWinnerList();
     }
 
     private void Start()
     {
-        testAwardLoop().Forget();
+        activateAwardLoop().Forget();
     }
-    private async UniTaskVoid testAwardLoop()
+
+
+    private List<int>[] playerLists;
+    private const int MVP_INDEX = 0;
+    private const int LOSER_INDEX = 1;
+    private const int FIGHTER_INDEX = 2;
+    private const int FINAL_WINNER_INDEX = 3;
+
+    private void initWinnerList()
+    {
+        playerLists = new List<int>[4];
+
+        playerLists[MVP_INDEX] = Statistics.GetMVPIndex();
+        playerLists[LOSER_INDEX] = Statistics.GetLoserIndex();
+        playerLists[FIGHTER_INDEX] = Statistics.GetFighterIndex();
+        playerLists[FINAL_WINNER_INDEX] = Statistics.GetFinalWinner();
+    }
+
+    private async UniTaskVoid activateAwardLoop()
     {
         await UniTask.Delay(15000);
 
-        for (int i = 0; i <= SUB_AWARD_COUNT; ++i)
+        for (int awardOrder = 0; awardOrder < SUB_AWARD_COUNT + 1; ++awardOrder) // 마지막 상이 존재하기에 +1 해줌
         {
+
+
             int playerNum = UnityEngine.Random.Range(1, 5);
+
+            List<int> winnerList = Statistics.GetLoserIndex();
+
+            foreach (int winnerCount in winnerList)
+            {
+                await giveAwardToPlayer(winnerCount);
+            }
+
             await giveAwardToPlayer(playerNum);
             await UniTask.Delay(5000);
         }

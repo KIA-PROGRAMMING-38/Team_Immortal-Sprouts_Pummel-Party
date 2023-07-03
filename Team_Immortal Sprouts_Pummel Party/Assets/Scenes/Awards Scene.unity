@@ -11044,7 +11044,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1419435061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11192,6 +11192,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   eggAppearTime: 4
+  eggStayTime: 2
   eggDisappearTime: 0.3
 --- !u!1001 &1507434300
 PrefabInstance:
