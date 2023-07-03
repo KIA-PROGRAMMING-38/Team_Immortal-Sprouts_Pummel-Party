@@ -11,6 +11,7 @@ public class AwardProvider : MonoBehaviour
     [SerializeField] private AwardLightController[] lightControllers;
     [SerializeField] private Transform goldenEggWhole;
     [SerializeField] private GameObject goldenEgg;
+    [SerializeField] private ParticleSystem popParticleSystem;
 
     [HideInInspector]
     public UnityEvent<Transform> OnGiveAward = new UnityEvent<Transform>();
@@ -19,11 +20,16 @@ public class AwardProvider : MonoBehaviour
 
     [Header("--------------- Golden Egg Control -----------------")]
     [SerializeField] private float eggAppearTime = 3f;
-    [SerializeField] private float spiralSpeed = 1000f;
-    [SerializeField] private float spiralRadius = 4f;
+    [SerializeField] private float eggStayTime = 2f;
+    [SerializeField] private float eggDisappearTime = 0.3f;
+    
+    private float spiralSpeed = 1000f;
+    private float spiralRadius = 4f;
+    private Vector3 initialEggSize;
 
     private void Awake()
     {
+        initialEggSize = goldenEgg.transform.localScale;
     }
 
     private void Start()
@@ -49,7 +55,12 @@ public class AwardProvider : MonoBehaviour
     {
         Transform winnerTransform = playerTransforms[playerEnterOrder - 1];
         OnGiveAward?.Invoke(winnerTransform); // 수상자를 spotLight으로 비춰준다
+
         await goldenEggAppear(winnerTransform);
+
+        await UniTask.Delay(TimeSpan.FromSeconds(eggStayTime));
+
+        await goldenEggDisappear();
 
         if (SUB_AWARD_COUNT <= awardCount) // 마지막 상 수여
         {
@@ -67,20 +78,32 @@ public class AwardProvider : MonoBehaviour
     private async UniTask goldenEggAppear(Transform winnerTransform)
     {
         goldenEgg.SetActive(true);
+        goldenEgg.transform.localScale = initialEggSize;
 
         Vector3 initialPosition = winnerTransform.position + Vector3.up * 5f;
         Vector3 targetPosition = winnerTransform.position + Vector3.up * 1.5f;
 
-        eggSprialMovement(goldenEgg.transform, eggAppearTime).Forget();
         await ExtensionMethod.Vector3LerpExtension(goldenEggWhole, initialPosition, targetPosition, eggAppearTime);
+    }
 
-        await UniTask.Delay(2000);
+    private async UniTask goldenEggDisappear()
+    {
+        float elapsedTime = 0f;
 
-        eggSprialMovement(goldenEgg.transform, eggAppearTime).Forget();
-        await ExtensionMethod.Vector3LerpExtension(goldenEggWhole, targetPosition, initialPosition, eggAppearTime);
+        while (elapsedTime <= eggDisappearTime)
+        {
+            goldenEgg.transform.localScale = Vector3.Lerp(initialEggSize, Vector3.zero, elapsedTime / eggDisappearTime);
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield();
+        }
 
+        popParticleSystem.Play();
         goldenEgg.SetActive(false);
     }
+
+
+
+    #region 교수님한테 빠꾸먹은 노맛 sprial move
 
     private async UniTaskVoid eggSprialMovement(Transform eggTransform, float duration)
     {
@@ -100,4 +123,6 @@ public class AwardProvider : MonoBehaviour
             await UniTask.Yield();
         }
     }
+
+    #endregion
 }
