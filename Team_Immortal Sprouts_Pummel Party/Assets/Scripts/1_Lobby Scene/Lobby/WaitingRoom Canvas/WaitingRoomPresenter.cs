@@ -411,6 +411,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            WrapObject.SCENE_CHANGER.BoardGameLoadPlay();
             PhotonNetwork.LoadLevel(2);
         }
     }
