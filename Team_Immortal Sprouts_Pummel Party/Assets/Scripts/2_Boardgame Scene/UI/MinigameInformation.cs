@@ -8,6 +8,6 @@ public class MinigameInformation : MonoBehaviour
     [SerializeField] UIPresenter presenter;
     private void OnEnable()
     {
-        presenter.Info.Invoke();
+        presenter.OnSetupMinigameInfo?.Invoke();
     }
 }

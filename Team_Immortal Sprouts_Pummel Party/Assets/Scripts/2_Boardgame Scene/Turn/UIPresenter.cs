@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class UIPresenter : MonoBehaviour
 {
-    public UnityEvent Info;
+    public UnityEvent OnSetupMinigameInfo;
 
     [SerializeField] private TMP_Text miniGameName;
     [SerializeField] private TMP_Text miniGameInfo;

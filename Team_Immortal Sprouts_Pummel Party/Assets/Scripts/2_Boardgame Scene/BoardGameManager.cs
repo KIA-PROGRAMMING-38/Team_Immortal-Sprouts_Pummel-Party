@@ -14,13 +14,13 @@ public class BoardGameManager : MonoBehaviour
     {
         if (Turn.isFirst)
         {
-            gameFrameWork.OnFirtstStartBoardGame.Invoke();
+            gameFrameWork.OnFirtstStartBoardGame?.Invoke();
 
             Turn.isFirst = false;
         }
         else
         {
-            gameFrameWork.OnStartBoardGame.Invoke();
+            gameFrameWork.OnStartBoardGame?.Invoke();
         }
     }
 
