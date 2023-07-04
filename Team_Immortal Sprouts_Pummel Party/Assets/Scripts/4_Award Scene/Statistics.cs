@@ -18,7 +18,8 @@ public static class Statistics
     /// <param name="playerEnterOrder"></param>
     public static void UpdateEggStatus(int playerEnterOrder)
     {
-        ++playerRank[playerEnterOrder].eggCount; // 한바퀴당 1개씩 준다는 가정하에
+        //++playerRank[playerEnterOrder].eggCount; // 한바퀴당 1개씩 준다는 가정하에
+        playerRank[playerEnterOrder].eggCount += 1;
     }
 
 

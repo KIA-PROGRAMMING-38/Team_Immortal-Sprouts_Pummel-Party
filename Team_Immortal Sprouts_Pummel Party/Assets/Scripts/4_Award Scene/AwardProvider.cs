@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Triggers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,15 +23,19 @@ public class AwardProvider : MonoBehaviour
     [SerializeField] private float eggAppearTime = 3f;
     [SerializeField] private float eggStayTime = 2f;
     [SerializeField] private float eggDisappearTime = 0.3f;
-    
+
+    private AwardData awardData;
     private float spiralSpeed = 1000f;
     private float spiralRadius = 4f;
     private Vector3 initialEggSize;
+    private const int AWARD_TYPE_COUNT = 4;
+
+    public event Func<AwardType, List<int>> OnGetWinnerList;
 
     private void Awake()
     {
         initialEggSize = goldenEgg.transform.localScale;
-        initWinnerList();
+        awardData = new AwardData(this, AWARD_TYPE_COUNT);
     }
 
     private void Start()
@@ -38,76 +43,64 @@ public class AwardProvider : MonoBehaviour
         activateAwardLoop().Forget();
     }
 
-
-    private List<int>[] playerLists;
-    private const int MVP_INDEX = 0;
-    private const int LOSER_INDEX = 1;
-    private const int FIGHTER_INDEX = 2;
-    private const int FINAL_WINNER_INDEX = 3;
-
-    private void initWinnerList()
+    private void Test()
     {
-        playerLists = new List<int>[4];
+        Statistics.UpdateEggStatus(1);
 
-        playerLists[MVP_INDEX] = Statistics.GetMVPIndex();
-        playerLists[LOSER_INDEX] = Statistics.GetLoserIndex();
-        playerLists[FIGHTER_INDEX] = Statistics.GetFighterIndex();
-        playerLists[FINAL_WINNER_INDEX] = Statistics.GetFinalWinner();
+        Statistics.UpdateEggStatus(2);
+
+        Statistics.UpdateEggStatus(3);
+
+        Statistics.UpdateEggStatus(4);
+
+        Statistics.UpdateMinigameStatus(1, 2);
+        Statistics.UpdateMinigameStatus(3, 2);
+        Statistics.UpdateMinigameStatus(1, 3);
+
+        Statistics.UpdateDamageStatus(1, 15);
     }
 
     private async UniTaskVoid activateAwardLoop()
     {
+        Test();
         await UniTask.Delay(15000);
 
-        for (int awardOrder = 0; awardOrder < SUB_AWARD_COUNT + 1; ++awardOrder) // 마지막 상이 존재하기에 +1 해줌
+        for (int awardOrder = 0; awardOrder < AWARD_TYPE_COUNT; ++awardOrder) // 마지막 상이 존재하기에 +1 해줌
         {
+            AwardType awardType = (AwardType)awardOrder;
+            List<int> winnerList = OnGetWinnerList?.Invoke(awardType);
 
-
-            int playerNum = UnityEngine.Random.Range(1, 5);
-
-            List<int> winnerList = Statistics.GetLoserIndex();
-
-            foreach (int winnerCount in winnerList)
+            foreach (int winnerIndex in winnerList)
             {
-                await giveAwardToPlayer(winnerCount);
+                await giveAwardToPlayer(winnerIndex, awardType);
             }
 
-            await giveAwardToPlayer(playerNum);
+            OnAwardGiven?.Invoke(); // spotLight이 다시 랜덤하게 움직인다
             await UniTask.Delay(5000);
         }
     }
 
-
-    private const int SUB_AWARD_COUNT = 3;
-    private int awardCount;
-    private async UniTask giveAwardToPlayer(int playerEnterOrder)
+    private async UniTask giveAwardToPlayer(int playerEnterOrder, AwardType awardType)
     {
         Transform winnerTransform = playerTransforms[playerEnterOrder - 1];
         OnGiveAward?.Invoke(winnerTransform); // 수상자를 spotLight으로 비춰준다
 
-        if (SUB_AWARD_COUNT <= awardCount) // 마지막 상 수여
+        if (awardType == AwardType.FINAL)
         {
             await goldenEggAppear(winnerTransform, initialEggSize * 2f);
-
             await UniTask.Delay(TimeSpan.FromSeconds(eggStayTime));
-
             await goldenEggDisappear(initialEggSize * 2f);
         }
         else
         {
             await goldenEggAppear(winnerTransform, initialEggSize);
-
             await UniTask.Delay(TimeSpan.FromSeconds(eggStayTime));
-
             await goldenEggDisappear(initialEggSize);
-
-            ++awardCount;
-            await UniTask.Delay(3000); // 테스트 => 플레이어의 승리 연출이 끝나면 으로 조건이 나중에 바껴야함
-            OnAwardGiven?.Invoke(); // spotLight이 다시 랜덤하게 움직인다
+            await UniTask.Delay(2000); // 테스트 => 플레이어의 승리 연출이 끝나면 으로 조건이 나중에 바껴야함
         }
     }
 
-    
+
     private async UniTask goldenEggAppear(Transform winnerTransform, Vector3 startSize)
     {
         goldenEgg.SetActive(true);
