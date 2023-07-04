@@ -97,7 +97,7 @@ public class RotationIsland : Island
 
         if (isResetting == false) // 화살표 방향을 누르고, 회전이 끝나면 isRotationFinished를 true로 만들어준다
         {
-            playerTransform.GetComponent<BoardPlayerController>().ControlCanMove(true);
+            playerTransform.parent.GetComponent<BoardPlayerController>().ControlCanMove(true);
         }
     }
 
@@ -116,8 +116,10 @@ public class RotationIsland : Island
         virtualCamProperty.m_AmplitudeGain = intensity;
     }
 
-    public override void ActivateIsland(Transform playerTransform = null)
+    public override void ActivateOnMoveStart(Transform playerTransform = null)
     {
+        BoardPlayerController player = playerTransform.parent.GetComponent<BoardPlayerController>();
+        player.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVEINPROGRESS).ControlCanMove(false);
         PopUpDirectionArrow(playerTransform);
     }
 }

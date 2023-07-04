@@ -81,6 +81,11 @@ public abstract class Island : MonoBehaviour, IActiveIsland
             prevPosition = prevPlayerSpot.GetCurrentPosition();
     }
 
-    public abstract void ActivateIsland(Transform playerTransform = null);
-    
+    //public abstract void ActivateIsland(Transform playerTransform = null);
+
+    public virtual void ActivateOnMoveStart(Transform playerTransform = null) { }
+
+    public virtual void ActivateOnMoveInProgress(Transform playerTransform = null) { }
+
+    public virtual void ActivateOnMoveEnd(Transform playerTransform = null) { }
 }

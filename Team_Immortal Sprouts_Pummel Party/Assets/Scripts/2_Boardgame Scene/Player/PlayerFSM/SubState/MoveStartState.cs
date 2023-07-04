@@ -33,17 +33,6 @@ public class MoveStartState : MoveState
 
     protected override void ActivateIsland() // 여기서 Activate할껀 회전섬
     {
-        if (currentIsland is RotationIsland)
-        {
-            IActiveIsland island = currentIsland.GetComponent<IActiveIsland>();
-            island.ActivateIsland(playerController.transform);
-            playerController.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVEINPROGRESS).ControlCanMove(false);
-            Debug.Log("회전섬임");
-        }
-        else if(currentIsland.CompareTag("StartIsland"))
-        {
-            Debug.Log("시작섬임");
-            playerController.SetPlayerEggable(false);
-        }
+        currentIsland.ActivateOnMoveStart(playerController.transform.GetChild(0).transform);
     }
 }

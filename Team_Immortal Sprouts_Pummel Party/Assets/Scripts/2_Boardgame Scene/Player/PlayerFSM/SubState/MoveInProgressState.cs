@@ -105,13 +105,11 @@ public class MoveInProgressState : MoveState
 
     protected override async void ActivateIsland() // 여기서 Activate할껀 황금알섬
     {
-        if (playerController.GetIsPlayerEggable() && currentIsland is TrophyIsland)
+        if (playerController.GetIsPlayerEggable())
         {
             await lookForward();
-            IActiveIsland island = currentIsland.GetComponent<IActiveIsland>();
-            island.ActivateIsland(playerController.transform);
+            currentIsland.ActivateOnMoveInProgress();
             ControlCanMove(false);
-            Debug.Log("트로피섬임");
         }
     }
 }
