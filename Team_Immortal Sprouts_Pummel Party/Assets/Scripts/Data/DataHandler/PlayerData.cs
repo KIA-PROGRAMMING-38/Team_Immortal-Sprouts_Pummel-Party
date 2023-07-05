@@ -1,18 +1,41 @@
 using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemType
+{
+    Pistol,
+    HotAirBalloon,
+    EmptyBowl
+}
+
 public class PlayerData
 {
-    
-    
+    public List<Dictionary<string, object>> HatDialog; // PrefabPool
+    public List<Dictionary<string, object>> BodyDialog; // PrefabPool
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="playerCount"></param>
     public void Init(int playerCount)
     {
         photonPlayers = new Player[playerCount];
+        HatDialog = CSVReader.Read("CSVs/HatTable");
+        BodyDialog = CSVReader.Read("CSVs/BodyTable");
     }
 
+    /// <summary>
+    /// 대기실에서 보드게임씬으로 넘어갈때 호출해줘야하는 함수
+    /// </summary>
+    /// <param name="player"></param>
+    public void InitItemArray(Player player)
+    {
+        itemCountDict.Add(player, new int[Enum.GetValues(typeof(ItemType)).Length]);
+    }
 
     #region 포톤 플레이어
 
@@ -91,6 +114,62 @@ public class PlayerData
     #endregion
 
 
+    #region 보드게임 용
+
+    private Dictionary<Player, Vector3> prevPosDict = new Dictionary<Player, Vector3>();
+    private Dictionary<Player, int> hpDict = new Dictionary<Player, int>();
+    private Dictionary<Player, int[]> itemCountDict = new Dictionary<Player, int[]>();
+    private Dictionary<Player, int> eggCountDict = new Dictionary<Player, int>();
 
 
+    /// <summary>
+    /// 이전 좌표를 저장하는 함수
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="pos"></param>
+    public void SavePrevPos(Player player, Vector3 pos) => prevPosDict[player] = pos;
+
+    /// <summary>
+    /// 이전 좌표를 반환하는 함수
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public Vector3 GetPrevPos(Player player) => prevPosDict[player];
+
+    /// <summary>
+    /// HP를 저장하는 함수
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="hp"></param>
+    public void SaveLastHP(Player player, int hp) => hpDict[player] = hp;
+
+    /// <summary>
+    /// HP를 반환하는 함수
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public int GetHP(Player player) => hpDict[player];
+
+    /// <summary>
+    /// 아이템 개수를 +1 더해주는 함수
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="itemType"></param>
+    public void AddItem(Player player, ItemType itemType) => ++itemCountDict[player][(int)itemType];
+
+    /// <summary>
+    /// 아이템 개수를 -1 빼주는 함수
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="itemType"></param>
+    public void RemoveItem(Player player, ItemType itemType)
+    {
+        itemCountDict[player][(int)itemType] = Mathf.Max(0, --itemCountDict[player][(int)itemType]);
+    }
+
+    public void AddEggCount(Player player) => ++eggCountDict[player];
+    public int GetEggCount(Player player) => eggCountDict[player];
+
+
+    #endregion
 }
