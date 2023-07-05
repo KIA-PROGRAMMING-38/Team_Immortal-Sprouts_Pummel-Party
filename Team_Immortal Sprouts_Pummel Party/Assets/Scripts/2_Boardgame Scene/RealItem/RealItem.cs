@@ -8,7 +8,7 @@ public abstract class RealItem : MonoBehaviour, IUsable
     private string name;
     private Sprite icon;
     private string description;
-    public void SetItemInfo(ItemData itemData, int id)
+    public void SetItemInfo(FakeItemData itemData, int id)
     {
         ID = itemData.GetItemID(id);
         name = itemData.GetItemName(id);

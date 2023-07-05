@@ -6,5 +6,6 @@ public class DataManager
 {
     public static RoomData Room = new RoomData();
     public static PlayerData Player = new PlayerData();
+    public static ItemData Item =new ItemData();
     public static MiniGameData MiniGame = new MiniGameData();
 }

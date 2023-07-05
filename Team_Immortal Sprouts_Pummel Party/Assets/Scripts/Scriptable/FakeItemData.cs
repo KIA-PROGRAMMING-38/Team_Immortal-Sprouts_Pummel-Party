@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu]
-public class ItemData : ScriptableObject
+public class FakeItemData : ScriptableObject
 {
     private readonly static int numberOfItems = 3;
 

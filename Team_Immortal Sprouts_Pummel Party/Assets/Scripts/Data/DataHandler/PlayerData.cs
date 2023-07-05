@@ -4,18 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType
-{
-    Pistol,
-    HotAirBalloon,
-    EmptyBowl
-}
 
 public class PlayerData
 {
     public List<Dictionary<string, object>> HatDialog; // PrefabPool
     public List<Dictionary<string, object>> BodyDialog; // PrefabPool
 
+    public void ReadCSV()
+    {
+        HatDialog = CSVReader.Read("CSVs/HatTable");
+        BodyDialog = CSVReader.Read("CSVs/BodyTable");
+    }
 
     /// <summary>
     /// 
@@ -24,8 +23,6 @@ public class PlayerData
     public void Init(int playerCount)
     {
         photonPlayers = new Player[playerCount];
-        HatDialog = CSVReader.Read("CSVs/HatTable");
-        BodyDialog = CSVReader.Read("CSVs/BodyTable");
     }
 
     /// <summary>

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class ItemUseTest : MonoBehaviour
 {
-    public ItemData item;
+    public FakeItemData item;
     //public BoardgamePlayer player;
     //public BoardgamePlayer otherPlayer;
 

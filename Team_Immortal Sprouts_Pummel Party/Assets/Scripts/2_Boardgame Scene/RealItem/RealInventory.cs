@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class RealInventory
 {
-    public RealInventory(ItemData itemData)
+    public RealInventory(FakeItemData itemData)
     {
         inventory = new List<(RealItem item, int count)>();
         totalItemCount = itemData.GetItemCount();
