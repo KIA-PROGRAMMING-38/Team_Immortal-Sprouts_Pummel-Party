@@ -3,11 +3,11 @@ using UnityEngine;
 [SerializeField]
 public class BelongingItemData
 {
-    public ItemData ItemData;
+    public FakeItemData ItemData;
     public int Number;
     public bool IsHolding;
 
-    public BelongingItemData(ItemData item)
+    public BelongingItemData(FakeItemData item)
     {
         ItemData = item;
         Number = 0;

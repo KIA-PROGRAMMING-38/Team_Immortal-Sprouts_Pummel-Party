@@ -56,7 +56,7 @@ public class BoardPlayerController : MonoBehaviour
     private RealInventory inventory;
 
 
-    public ItemData itemData; // 보드게임 매니저가 해줘야 하나 그냥 지금 임시로
+    public FakeItemData itemData; // 보드게임 매니저가 해줘야 하나 그냥 지금 임시로
     public CinemachineVirtualCamera virtualCam; // 프레임워크가 해줘야하나 그냥 지금 임시로
 
     private void Awake()

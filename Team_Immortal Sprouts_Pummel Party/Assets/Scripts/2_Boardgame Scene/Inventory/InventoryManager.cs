@@ -120,7 +120,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     private InventorySlot selectedSlot;
-    private ItemData selectedItem;
+    private FakeItemData selectedItem;
     [SerializeField] private Button itemSelectButton;
 
     private void setSelectedData(InventorySlot slot)

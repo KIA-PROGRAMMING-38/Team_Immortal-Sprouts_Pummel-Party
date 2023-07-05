@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class ItemProvider
 {
-    public static ItemData[] ItemTable = Resources.LoadAll<ItemData>("ItemData");
+    public static FakeItemData[] ItemTable = Resources.LoadAll<FakeItemData>("ItemData");
     
     private static int totalWeight;
 
