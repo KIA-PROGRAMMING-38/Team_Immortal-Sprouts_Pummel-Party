@@ -6,7 +6,7 @@ public class Managers : MonoBehaviour
 {
 
     public static FrameWorkManager FrameWorkManager = new FrameWorkManager();
-    public static BoardGameManager BoardGameManager = new BoardGameManager();
+    public static TurnManager BoardGameManager = new TurnManager();
     public static LoadManager LoadManager = new LoadManager();  
     public static DataManager DataManager = new DataManager();
 

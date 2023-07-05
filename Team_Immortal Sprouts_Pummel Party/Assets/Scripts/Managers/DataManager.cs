@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class DataManager
 {
-    
+    public static RoomData Room = new RoomData();
+    public static PlayerData Player = new PlayerData();
+    public static MiniGameData MiniGame = new MiniGameData();
 }
