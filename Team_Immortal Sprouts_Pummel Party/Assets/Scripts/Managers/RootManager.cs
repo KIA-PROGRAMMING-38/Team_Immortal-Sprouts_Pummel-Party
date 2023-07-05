@@ -20,7 +20,7 @@ public class RootManager : MonoBehaviour
     }
 
     public static FrameWorkManager FrameWorkManager = new FrameWorkManager();
-    public static TurnManager BoardGameManager = new TurnManager();
+    public static TurnManager TurnManager = new TurnManager();
     public static LoadManager LoadManager = new LoadManager();  
     public static DataManager DataManager = new DataManager();
     public static DefaultPool PrefabManager;
