@@ -7,14 +7,14 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HotAirBalloon : Item, IControllable
+public class HotAirBalloon : RealItem, IControllable
 {
     [SerializeField] private Transform playerBoardPosition;
     [SerializeField] private Light spotLight;
     [SerializeField] private BoxCollider detectCollider;
 
     [Header("----------------------Hot Air Balloon--------------------------------")]
-    [SerializeField] [Range(1f, 2f)] private float balloonMoveSpeed = 1f;
+    [SerializeField][Range(1f, 2f)] private float balloonMoveSpeed = 1f;
     [SerializeField] private float downDistance = 4f;
     [SerializeField][Range(1f, 3f)] private float flyTime = 3f;
 
@@ -36,16 +36,6 @@ public class HotAirBalloon : Item, IControllable
         spotLight.color = defualtColor;
     }
 
-    private CancellationTokenSource cancelResource;
-    private CancellationTokenSource playResource;
-    private CancellationToken token;
-    private void initMoveTokenSettings()
-    {
-        playResource = new CancellationTokenSource();
-        cancelResource = new CancellationTokenSource();
-        cancelResource.Cancel();
-        token = playResource.Token;
-    }
 
     public void OnJoystickInput(InputAction.CallbackContext context)
     {
@@ -67,6 +57,28 @@ public class HotAirBalloon : Item, IControllable
         }
     }
 
+    public override void Use(BoardPlayerController player = null)
+    {
+        // 사용 로직
+    }
+
+    public override void OnTimeOut()
+    {
+        // 사용시간 다되었을때 로직
+    }
+
+
+    private CancellationTokenSource cancelResource;
+    private CancellationTokenSource playResource;
+    private CancellationToken token;
+    private void initMoveTokenSettings()
+    {
+        playResource = new CancellationTokenSource();
+        cancelResource = new CancellationTokenSource();
+        cancelResource.Cancel();
+        token = playResource.Token;
+    }
+
     private float frontInput;
     private float sideInput;
     private async UniTaskVoid balloonMovement()
@@ -76,27 +88,23 @@ public class HotAirBalloon : Item, IControllable
             Vector3 newDirection = (transform.forward * frontInput + transform.right * sideInput);
             newDirection *= balloonMoveSpeed * Time.deltaTime;
             transform.Translate(newDirection);
-            await UniTask.Yield(token); 
+            await UniTask.Yield(token);
         }
     }
-    
-    public async void OnUseButtonInput(InputAction.CallbackContext context)
+
+    public async void OnUseButtonInput()
     {
-        if (context.started)
+        spotLight.enabled = false;
+        detectCollider.enabled = false;
+        SetTargetPlayer(playerTransform);
+        await BalloonSink();
+        if (playerTransform != null)
         {
-            spotLight.enabled = false;
-            detectCollider.enabled = false;
-            SetTargetPlayer(playerTransform);
-            await BalloonSink();
-            if (playerTransform != null)
-            {
-                await playerOnBoard();
-                HoldPlayer().Forget();
-            }
-            await UniTask.Delay(TimeSpan.FromSeconds(1f)); // 자연스러운 대기를 위해 
-            balloonDisappear().Forget();
-            
+            await playerOnBoard();
+            HoldPlayer().Forget();
         }
+        await UniTask.Delay(TimeSpan.FromSeconds(1f)); // 자연스러운 대기를 위해 
+        balloonDisappear().Forget();
     }
 
     private void SetTargetPlayer(Transform playerTrans)
@@ -126,7 +134,7 @@ public class HotAirBalloon : Item, IControllable
 
     private async UniTask playerOnBoard()
     {
-        playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
+        //playerAnimator.SetBool(BoardgamePlayerAnimID.IS_MOVING, true);
         float elapsedTime = 0f;
         Vector3 initialPos = playerTransform.position;
         Vector3 targetPos = playerBoardPosition.position;
@@ -139,19 +147,19 @@ public class HotAirBalloon : Item, IControllable
     }
 
     private bool isHoldPlayer = false;
-    [SerializeField] [Range(0.5f, 3f)] private float disappearTime = 2f;
-    [SerializeField] [Range(20f, 50f)] private float balloonUpFactor = 20f;
+    [SerializeField][Range(0.5f, 3f)] private float disappearTime = 2f;
+    [SerializeField][Range(20f, 50f)] private float balloonUpFactor = 20f;
     private async UniTask balloonDisappear()
     {
         Vector3 initialPostion = transform.position;
         Vector3 targetPosition = initialPostion + Vector3.up * balloonUpFactor;
-        
+
         float elapsedTime = 0f;
         while (elapsedTime <= disappearTime)
         {
             transform.position = Vector3.Lerp(initialPostion, targetPosition, elapsedTime / disappearTime);
             elapsedTime += Time.deltaTime;
-            await UniTask.Yield();  
+            await UniTask.Yield();
         }
 
         isHoldPlayer = false;
@@ -169,12 +177,8 @@ public class HotAirBalloon : Item, IControllable
         }
     }
 
-    public void OnTimeOut()
-    {
-        // 뭔가 해줘야함
-    }
 
-    
+
 
     private Color defualtColor = Color.red;
     private Color detectColor = Color.green;
@@ -187,7 +191,7 @@ public class HotAirBalloon : Item, IControllable
         }
     }
 
-    
+
 
 
     private void OnTriggerExit(Collider other)
@@ -198,4 +202,5 @@ public class HotAirBalloon : Item, IControllable
             playerTransform = null;
         }
     }
+
 }

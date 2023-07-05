@@ -172,7 +172,7 @@ public static class ExtensionMethod
     /// <param name="targetRotation"></param>
     /// <param name="duration"></param>
     /// <returns></returns>
-    public static async UniTaskVoid QuaternionLerpExtension(Transform transform, Quaternion startRotation, Quaternion targetRotation, float duration)
+    public static async UniTask QuaternionLerpExtension(Transform transform, Quaternion startRotation, Quaternion targetRotation, float duration)
     {
         if (transform == null || transform.rotation == targetRotation || startRotation == targetRotation)
         {
@@ -209,6 +209,33 @@ public static class ExtensionMethod
         while (elapsedTime <= duration)
         {
             transform.Rotate(axis, rotationSpeed);
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield();
+        }
+    }
+
+    /// <summary>
+    /// axis 축을 기반으로 회전 시키되, 회전속도의 변화를 줄 수 있는 함수
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <param name="startRotateSpeed"></param>
+    /// <param name="targetRotateSpeed"></param>
+    /// <param name="axis"></param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
+    public static async UniTask DoRotate(Transform transform, float startRotateSpeed, float targetRotateSpeed, Vector3 axis, float duration)
+    {
+        if (transform == null || startRotateSpeed == targetRotateSpeed)
+        {
+            return;
+        }
+
+        float elapsedTime = 0f;
+        float currentSpeed = 0f;
+        while (elapsedTime <= duration)
+        {
+            currentSpeed = Lerp(startRotateSpeed, targetRotateSpeed, elapsedTime / duration);
+            transform.Rotate(axis, currentSpeed * Time.deltaTime);
             elapsedTime += Time.deltaTime;
             await UniTask.Yield();
         }
@@ -354,7 +381,7 @@ public static class ExtensionMethod
         float elapsedTime = 0f;
         while (elapsedTime <= shakeDuration)
         {
-            transform.position = UnityEngine.Random.insideUnitSphere * shakeIntensity;
+            transform.position = UnityEngine.Random.insideUnitSphere * shakeIntensity * Time.deltaTime;
             elapsedTime += Time.deltaTime;
             await UniTask.Yield();
         }
@@ -362,9 +389,34 @@ public static class ExtensionMethod
         transform.position = initialPosition;
     }
 
+    /// <summary>
+    /// transform의 사이즈를 동적으로 조절하는 함수
+    /// </summary>
+    public static async UniTask SizeChange(Transform transform, Vector3 startSize, Vector3 targetSize, float duration)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime <= duration)
+        {
+            transform.localScale = Vector3.Lerp(startSize, targetSize, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield();
+        }
+    }
+
+
     #endregion
 
+    #region 보간 함수
 
+    public static float Lerp(float start, float end, float t)
+    {
+        return start + (end - start) * t;
+    }
+
+
+
+    #endregion
 
 
 }

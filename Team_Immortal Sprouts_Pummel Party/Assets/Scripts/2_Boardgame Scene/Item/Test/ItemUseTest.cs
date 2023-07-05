@@ -7,8 +7,8 @@ using UnityEngine.Events;
 public class ItemUseTest : MonoBehaviour
 {
     public ItemData item;
-    public BoardgamePlayer player;
-    public BoardgamePlayer otherPlayer;
+    //public BoardgamePlayer player;
+    //public BoardgamePlayer otherPlayer;
 
     void Start()
     {
@@ -21,11 +21,11 @@ public class ItemUseTest : MonoBehaviour
 
     private void GetTest()
     {
-        player.Inventory.Add(item);
+        //player.Inventory.Add(item);
     }
 
     private void OtherPlayerGet()
     {
-        otherPlayer.Inventory.Add(item);
+        //otherPlayer.Inventory.Add(item);
     }
 }

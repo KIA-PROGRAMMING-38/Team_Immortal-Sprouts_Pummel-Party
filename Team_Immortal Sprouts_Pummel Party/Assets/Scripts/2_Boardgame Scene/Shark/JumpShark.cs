@@ -1,4 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +14,6 @@ public class JumpShark : MonoBehaviour
     [SerializeField] private Transform bezierPoint;
     [SerializeField] private float jumpTime = 2f;
     [SerializeField] private float downSpeed = 10f;
-
-    
-
 
     private void OnEnable()
     {
@@ -121,10 +118,12 @@ public class JumpShark : MonoBehaviour
     private void kidnapPlayer(Transform playerTransform)
     {
         playerTransform.SetParent(transform);
+        playerTransform.GetComponent<BoardPlayerController>().ChangeToDesiredState(BoardgamePlayerAnimID.DRAGGED);
     }
 
     private void releasePlayer()
     {
+        playerTransform.GetComponent<BoardPlayerController>().ChangeToDesiredState(BoardgamePlayerAnimID.DIE);
         playerTransform.SetParent(null);
         playerTransform = null;
     }

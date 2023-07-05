@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class TrophyIsland : Island
 {
-    void Start()
+    private void Start()
     {
         InitPositionSettings().Forget();
     }
 
-    void Update()
+    public override void ActivateOnMoveInProgress(Transform playerTransform = null)
     {
-        
+        Debug.Log("황금알 줄꺼임");
+        // 황금알 주는 로직
     }
 }

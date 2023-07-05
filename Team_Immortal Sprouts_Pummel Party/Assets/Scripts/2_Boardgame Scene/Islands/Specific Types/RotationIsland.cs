@@ -1,5 +1,6 @@
 using Cinemachine;
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,9 +16,8 @@ public class RotationIsland : Island
     [SerializeField] [Range(1f, 10f)] private float shakeIntensity = 5f;
     private Transform playerTransform; // 플레이어를 함께 회전시켜주기 위한 변수
     private Quaternion defaultRotation;
-    private bool isRotationFinished;
 
-    void Start()
+    private void Start()
     {
         InitPositionSettings().Forget();
         SaveInitialRotation();
@@ -49,24 +49,20 @@ public class RotationIsland : Island
     public void ActivateRotatation(Quaternion targetRotation)
     {
         Rotate(targetRotation).Forget();
+        ActivateResetRotation().Forget();
     }
 
     /// <summary>
     /// 섬을 다시 원상복구 회전시키는 함수
     /// </summary>
-    public void ActivateResetRotation()
+    public async UniTaskVoid ActivateResetRotation()
     {
-        Rotate(defaultRotation).Forget();
+        await UniTask.WaitUntil(() => GetPlayerPresence() == false); // 섬위에 플레이어가 없을떄까지 기다린다
+        await UniTask.Delay(TimeSpan.FromSeconds(4f)); // 4초 기다리고
+
+        Rotate(defaultRotation).Forget(); // 리셋
     }
 
-    /// <summary>
-    /// 회전의 종료여부를 반환하는 함수
-    /// </summary>
-    /// <returns></returns>
-    public bool GetRotationStatus()
-    {
-        return isRotationFinished;
-    }
 
     private async UniTaskVoid Rotate(Quaternion targetRotation)
     {
@@ -85,42 +81,23 @@ public class RotationIsland : Island
             initialRotation = defaultRotation;
         }
 
-        float elapsedTime = 0f;
-        
-        ActivateCameraShake();
+        controlCameraShake(shakeIntensity); // 카메라 지진 활성화
 
-        if (playerTransform == null) // 플레이어가 섬위에 없다면
-        {
-            while (elapsedTime <= rotateTime) // 섬만 회전시킨다
-            {
-                transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / rotateTime);
-                elapsedTime += Time.deltaTime;
-                await UniTask.Yield();
-            }
-        }
-        else // 플레이어가 섬위에 존재한다면
+        ExtensionMethod.QuaternionLerpExtension(transform, initialRotation, targetRotation, rotateTime).Forget(); // 섬 회전
+        
+        if (playerTransform != null) // 플레이어 회전
         {
             Quaternion playerInitialRotation = playerTransform.rotation;
             Quaternion playerTargetRotation = Quaternion.Euler(0f, playerInitialRotation.eulerAngles.y + targetRotation.eulerAngles.y, 0f);
-            while (elapsedTime <= rotateTime) // 플레이어와 섬을 같이 회전시킨다
-            {
-                transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / rotateTime);
-                playerTransform.rotation = Quaternion.Lerp(playerInitialRotation, playerTargetRotation, elapsedTime / rotateTime);
-                elapsedTime += Time.deltaTime;
-                await UniTask.Yield();
-            }
+            ExtensionMethod.QuaternionLerpExtension(playerTransform, playerInitialRotation, playerTargetRotation, rotateTime).Forget();
         }
 
-        DeactivateCameraShake();
+        controlCameraShake(0f); // 지진 X
         
 
         if (isResetting == false) // 화살표 방향을 누르고, 회전이 끝나면 isRotationFinished를 true로 만들어준다
         {
-            isRotationFinished = true;
-        }
-        else // 다시 원상복구 시키는 회전이라면 애초에 isRotationFinished를 사용할 일이 없다
-        {
-            isRotationFinished = false;
+            playerTransform.parent.GetComponent<BoardPlayerController>().ControlCanMove(true);
         }
     }
 
@@ -134,15 +111,15 @@ public class RotationIsland : Island
         playerTransform = null;
     }
 
-    private void ActivateCameraShake()
+    private void controlCameraShake(float intensity)
     {
-        virtualCamProperty.m_AmplitudeGain = shakeIntensity;
+        virtualCamProperty.m_AmplitudeGain = intensity;
     }
 
-    private void DeactivateCameraShake()
+    public override void ActivateOnMoveStart(Transform playerTransform = null)
     {
-        virtualCamProperty.m_AmplitudeGain = 0f;
+        BoardPlayerController player = playerTransform.parent.GetComponent<BoardPlayerController>();
+        player.GetDesiredState<MoveInProgressState>(BoardgamePlayerAnimID.MOVEINPROGRESS).ControlCanMove(false);
+        PopUpDirectionArrow(playerTransform);
     }
-
-    
 }

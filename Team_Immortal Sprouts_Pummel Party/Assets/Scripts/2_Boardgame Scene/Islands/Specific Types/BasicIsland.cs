@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class BasicIsland : Island
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         InitPositionSettings().Forget();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

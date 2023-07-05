@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class SharkIsland : Island
 {
-    // Start is called before the first frame update
+    private BaseShark shark;
     void Start()
     {
         InitPositionSettings().Forget();
+        shark = GetComponentInChildren<BaseShark>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void ActivateOnMoveEnd(Transform playerTransform = null)
     {
-        
+        shark.JumpAttack();
     }
 }

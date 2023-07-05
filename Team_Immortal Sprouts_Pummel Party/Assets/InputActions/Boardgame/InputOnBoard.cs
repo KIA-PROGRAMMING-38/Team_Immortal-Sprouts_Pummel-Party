@@ -28,9 +28,9 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
             ""id"": ""e1bf4480-00ea-4237-ab3e-0bdfef7ff028"",
             ""actions"": [
                 {
-                    ""name"": ""RollDice"",
+                    ""name"": ""RouletteTouch"",
                     ""type"": ""Button"",
-                    ""id"": ""bbe5cb70-c7b6-4fac-b01e-62306a6be361"",
+                    ""id"": ""89f8e80e-7198-4600-98b9-8ddab454f0ab"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -40,66 +40,29 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""0233eeb7-65d8-4381-9a39-fd3fcf4567f9"",
+                    ""id"": ""921a2f1e-56fa-4fb0-a1c5-d963bc65df46"",
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RollDice"",
+                    ""action"": ""RouletteTouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
             ]
         },
         {
-            ""name"": ""PlayerTouch"",
-            ""id"": ""251371d0-e733-47e7-ab1b-8ae90622bf04"",
-            ""actions"": [
-                {
-                    ""name"": ""ScreenTouch"",
-                    ""type"": ""Button"",
-                    ""id"": ""2f29eb6f-53c4-4774-a3c0-ecf8e7b953a4"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""bc560a96-ebf6-47cc-9fb5-0146b36d0d16"",
-                    ""path"": ""<Touchscreen>/Press"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ScreenTouch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""HotAirBalloonControl"",
+            ""name"": ""ItemControl"",
             ""id"": ""93d7e391-dd2b-4943-8f0a-753eee81cb6c"",
             ""actions"": [
                 {
-                    ""name"": ""BalloonMove"",
+                    ""name"": ""ItemMove"",
                     ""type"": ""Value"",
                     ""id"": ""80a8b026-e4d6-448f-8385-39f63758a982"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""BalloonAction"",
-                    ""type"": ""Button"",
-                    ""id"": ""77337cce-8aed-4890-a57e-32e12fe3ebb3"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -110,18 +73,7 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""BalloonMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""99183221-9338-41b0-b17f-2fcfc7918763"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""BalloonAction"",
+                    ""action"": ""ItemMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -132,14 +84,10 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_RollDice = m_Player.FindAction("RollDice", throwIfNotFound: true);
-        // PlayerTouch
-        m_PlayerTouch = asset.FindActionMap("PlayerTouch", throwIfNotFound: true);
-        m_PlayerTouch_ScreenTouch = m_PlayerTouch.FindAction("ScreenTouch", throwIfNotFound: true);
-        // HotAirBalloonControl
-        m_HotAirBalloonControl = asset.FindActionMap("HotAirBalloonControl", throwIfNotFound: true);
-        m_HotAirBalloonControl_BalloonMove = m_HotAirBalloonControl.FindAction("BalloonMove", throwIfNotFound: true);
-        m_HotAirBalloonControl_BalloonAction = m_HotAirBalloonControl.FindAction("BalloonAction", throwIfNotFound: true);
+        m_Player_RouletteTouch = m_Player.FindAction("RouletteTouch", throwIfNotFound: true);
+        // ItemControl
+        m_ItemControl = asset.FindActionMap("ItemControl", throwIfNotFound: true);
+        m_ItemControl_ItemMove = m_ItemControl.FindAction("ItemMove", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -201,12 +149,12 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_RollDice;
+    private readonly InputAction m_Player_RouletteTouch;
     public struct PlayerActions
     {
         private @InputOnBoard m_Wrapper;
         public PlayerActions(@InputOnBoard wrapper) { m_Wrapper = wrapper; }
-        public InputAction @RollDice => m_Wrapper.m_Player_RollDice;
+        public InputAction @RouletteTouch => m_Wrapper.m_Player_RouletteTouch;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -216,16 +164,16 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @RollDice.started += instance.OnRollDice;
-            @RollDice.performed += instance.OnRollDice;
-            @RollDice.canceled += instance.OnRollDice;
+            @RouletteTouch.started += instance.OnRouletteTouch;
+            @RouletteTouch.performed += instance.OnRouletteTouch;
+            @RouletteTouch.canceled += instance.OnRouletteTouch;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @RollDice.started -= instance.OnRollDice;
-            @RollDice.performed -= instance.OnRollDice;
-            @RollDice.canceled -= instance.OnRollDice;
+            @RouletteTouch.started -= instance.OnRouletteTouch;
+            @RouletteTouch.performed -= instance.OnRouletteTouch;
+            @RouletteTouch.canceled -= instance.OnRouletteTouch;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -244,116 +192,57 @@ public partial class @InputOnBoard: IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
-    // PlayerTouch
-    private readonly InputActionMap m_PlayerTouch;
-    private List<IPlayerTouchActions> m_PlayerTouchActionsCallbackInterfaces = new List<IPlayerTouchActions>();
-    private readonly InputAction m_PlayerTouch_ScreenTouch;
-    public struct PlayerTouchActions
+    // ItemControl
+    private readonly InputActionMap m_ItemControl;
+    private List<IItemControlActions> m_ItemControlActionsCallbackInterfaces = new List<IItemControlActions>();
+    private readonly InputAction m_ItemControl_ItemMove;
+    public struct ItemControlActions
     {
         private @InputOnBoard m_Wrapper;
-        public PlayerTouchActions(@InputOnBoard wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ScreenTouch => m_Wrapper.m_PlayerTouch_ScreenTouch;
-        public InputActionMap Get() { return m_Wrapper.m_PlayerTouch; }
+        public ItemControlActions(@InputOnBoard wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ItemMove => m_Wrapper.m_ItemControl_ItemMove;
+        public InputActionMap Get() { return m_Wrapper.m_ItemControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerTouchActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerTouchActions instance)
+        public static implicit operator InputActionMap(ItemControlActions set) { return set.Get(); }
+        public void AddCallbacks(IItemControlActions instance)
         {
-            if (instance == null || m_Wrapper.m_PlayerTouchActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerTouchActionsCallbackInterfaces.Add(instance);
-            @ScreenTouch.started += instance.OnScreenTouch;
-            @ScreenTouch.performed += instance.OnScreenTouch;
-            @ScreenTouch.canceled += instance.OnScreenTouch;
+            if (instance == null || m_Wrapper.m_ItemControlActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ItemControlActionsCallbackInterfaces.Add(instance);
+            @ItemMove.started += instance.OnItemMove;
+            @ItemMove.performed += instance.OnItemMove;
+            @ItemMove.canceled += instance.OnItemMove;
         }
 
-        private void UnregisterCallbacks(IPlayerTouchActions instance)
+        private void UnregisterCallbacks(IItemControlActions instance)
         {
-            @ScreenTouch.started -= instance.OnScreenTouch;
-            @ScreenTouch.performed -= instance.OnScreenTouch;
-            @ScreenTouch.canceled -= instance.OnScreenTouch;
+            @ItemMove.started -= instance.OnItemMove;
+            @ItemMove.performed -= instance.OnItemMove;
+            @ItemMove.canceled -= instance.OnItemMove;
         }
 
-        public void RemoveCallbacks(IPlayerTouchActions instance)
+        public void RemoveCallbacks(IItemControlActions instance)
         {
-            if (m_Wrapper.m_PlayerTouchActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_ItemControlActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPlayerTouchActions instance)
+        public void SetCallbacks(IItemControlActions instance)
         {
-            foreach (var item in m_Wrapper.m_PlayerTouchActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_ItemControlActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerTouchActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_ItemControlActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PlayerTouchActions @PlayerTouch => new PlayerTouchActions(this);
-
-    // HotAirBalloonControl
-    private readonly InputActionMap m_HotAirBalloonControl;
-    private List<IHotAirBalloonControlActions> m_HotAirBalloonControlActionsCallbackInterfaces = new List<IHotAirBalloonControlActions>();
-    private readonly InputAction m_HotAirBalloonControl_BalloonMove;
-    private readonly InputAction m_HotAirBalloonControl_BalloonAction;
-    public struct HotAirBalloonControlActions
-    {
-        private @InputOnBoard m_Wrapper;
-        public HotAirBalloonControlActions(@InputOnBoard wrapper) { m_Wrapper = wrapper; }
-        public InputAction @BalloonMove => m_Wrapper.m_HotAirBalloonControl_BalloonMove;
-        public InputAction @BalloonAction => m_Wrapper.m_HotAirBalloonControl_BalloonAction;
-        public InputActionMap Get() { return m_Wrapper.m_HotAirBalloonControl; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(HotAirBalloonControlActions set) { return set.Get(); }
-        public void AddCallbacks(IHotAirBalloonControlActions instance)
-        {
-            if (instance == null || m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Add(instance);
-            @BalloonMove.started += instance.OnBalloonMove;
-            @BalloonMove.performed += instance.OnBalloonMove;
-            @BalloonMove.canceled += instance.OnBalloonMove;
-            @BalloonAction.started += instance.OnBalloonAction;
-            @BalloonAction.performed += instance.OnBalloonAction;
-            @BalloonAction.canceled += instance.OnBalloonAction;
-        }
-
-        private void UnregisterCallbacks(IHotAirBalloonControlActions instance)
-        {
-            @BalloonMove.started -= instance.OnBalloonMove;
-            @BalloonMove.performed -= instance.OnBalloonMove;
-            @BalloonMove.canceled -= instance.OnBalloonMove;
-            @BalloonAction.started -= instance.OnBalloonAction;
-            @BalloonAction.performed -= instance.OnBalloonAction;
-            @BalloonAction.canceled -= instance.OnBalloonAction;
-        }
-
-        public void RemoveCallbacks(IHotAirBalloonControlActions instance)
-        {
-            if (m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IHotAirBalloonControlActions instance)
-        {
-            foreach (var item in m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_HotAirBalloonControlActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public HotAirBalloonControlActions @HotAirBalloonControl => new HotAirBalloonControlActions(this);
+    public ItemControlActions @ItemControl => new ItemControlActions(this);
     public interface IPlayerActions
     {
-        void OnRollDice(InputAction.CallbackContext context);
+        void OnRouletteTouch(InputAction.CallbackContext context);
     }
-    public interface IPlayerTouchActions
+    public interface IItemControlActions
     {
-        void OnScreenTouch(InputAction.CallbackContext context);
-    }
-    public interface IHotAirBalloonControlActions
-    {
-        void OnBalloonMove(InputAction.CallbackContext context);
-        void OnBalloonAction(InputAction.CallbackContext context);
+        void OnItemMove(InputAction.CallbackContext context);
     }
 }

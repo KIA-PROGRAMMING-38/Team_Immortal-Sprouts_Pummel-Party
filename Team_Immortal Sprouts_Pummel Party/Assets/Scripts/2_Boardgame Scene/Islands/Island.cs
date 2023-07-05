@@ -4,93 +4,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Island : MonoBehaviour
+public abstract class Island : MonoBehaviour, IActiveIsland
 {
     [SerializeField] Island nextPlayerSpot;
     [SerializeField] Island prevPlayerSpot;
     [SerializeField] Transform currentPlayerSpot;
 
-    [SerializeField] private bool isPlayerPresent; // Å×½ºÆ® À§ÇØ SerializeField ÀÔ·Â
-    [SerializeField] private Vector3 nextPosition; // Å×½ºÆ® À§ÇØ SerializeField ÀÔ·Â
-    [SerializeField] private Vector3 prevPosition; // Å×½ºÆ® À§ÇØ SerializeField ÀÔ·Â
-    [SerializeField] private Vector3 currentPosition; // Å×½ºÆ® À§ÇØ SerializeField ÀÔ·Â
+    [SerializeField] private bool isPlayerPresent; // í…ŒìŠ¤íŠ¸ ìœ„í•´ SerializeField ì…ë ¥
+    [SerializeField] private Vector3 nextPosition; // í…ŒìŠ¤íŠ¸ ìœ„í•´ SerializeField ì…ë ¥
+    [SerializeField] private Vector3 prevPosition; // í…ŒìŠ¤íŠ¸ ìœ„í•´ SerializeField ì…ë ¥
+    [SerializeField] private Vector3 currentPosition; // í…ŒìŠ¤íŠ¸ ìœ„í•´ SerializeField ì…ë ¥
 
     /// <summary>
-    /// ÇöÀç ¼¶ÀÇ ÇÃ·¹ÀÌ¾î Á¸Àç¿©ºÎ¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// í˜„ì¬ ì„¬ì˜ í”Œë ˆì´ì–´ ì¡´ì¬ì—¬ë¶€ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <returns></returns>
-    public bool GetPlayerPresence()
-    {
-        return isPlayerPresent;
-    }
+    public bool GetPlayerPresence() => isPlayerPresent;
 
     /// <summary>
-    /// ÇöÀç ¼¶ÀÇ ÇÃ·¹ÀÌ¾î Á¸Àç¿©ºÎ¸¦ ¼³Á¤ÇÒ ¼ö ÀÖ´Â ÇÔ¼ö
+    /// í˜„ì¬ ì„¬ì˜ í”Œë ˆì´ì–´ ì¡´ì¬ì—¬ë¶€ë¥¼ ì„¤ì •í•  ìˆ˜ ìˆëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="_isPlayerOut"></param>
-    public void SetPlayerPresence(bool _isPlayerOut)
-    {
-        isPlayerPresent = _isPlayerOut;
-    }
+    public void SetPlayerPresence(bool _isPlayerOut) => isPlayerPresent = _isPlayerOut;
 
     /// <summary>
-    /// ÇöÀç ¼¶ÀÇ ÇÃ·¹ÀÌ¾î À§Ä¡¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// í˜„ì¬ ì„¬ì˜ í”Œë ˆì´ì–´ ìœ„ì¹˜ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <returns></returns>
-    public Vector3 GetCurrentPosition()
-    {
-        return currentPosition;
-    }
+    public Vector3 GetCurrentPosition() => currentPosition;
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ÇâÇÒ ´ÙÀ½ ¼¶ÀÇ À§Ä¡¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// í”Œë ˆì´ì–´ê°€ í–¥í•  ë‹¤ìŒ ì„¬ì˜ ìœ„ì¹˜ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <returns></returns>
-    public Vector3 GetNextPosition()
-    {
-        Debug.Assert(nextPosition != null);
-        return nextPosition;
-    }
+    public Vector3 GetNextPosition() => nextPosition;
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ÇâÇÒ ÀÌÀü ¼¶ÀÇ À§Ä¡¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// í”Œë ˆì´ì–´ê°€ í–¥í•  ì´ì „ ì„¬ì˜ ìœ„ì¹˜ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <returns></returns>
-    public Vector3 GetPrevPosition()
-    {
-        Debug.Assert(prevPosition != null);
-        return prevPosition;
-    }
+    public Vector3 GetPrevPosition() => prevPosition;
 
     /// <summary>
-    /// ÇöÀç ¼¶ÀÇ ÇÃ·¹ÀÌ¾î À§Ä¡¸¦ ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    /// í˜„ì¬ ì„¬ì˜ í”Œë ˆì´ì–´ ìœ„ì¹˜ë¥¼ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="_position"></param>
-    public void SetCurrentPosition(Vector3 _position)
-    {
-        currentPosition = _position;
-    }
+    public void SetCurrentPosition(Vector3 _position) => currentPosition = _position;
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ÇâÇÒ ´ÙÀ½ ¼¶ÀÇ À§Ä¡¸¦ ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    /// í”Œë ˆì´ì–´ê°€ í–¥í•  ë‹¤ìŒ ì„¬ì˜ ìœ„ì¹˜ë¥¼ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="_nextPosition"></param>
-    public void SetNextPosition(Vector3 _nextPosition)
-    {
-        nextPosition = _nextPosition;
-    }
+    public void SetNextPosition(Vector3 _nextPosition) => nextPosition = _nextPosition;
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ÇâÇÒ ÀÌÀü ¼¶ÀÇ À§Ä¡¸¦ ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    /// í”Œë ˆì´ì–´ê°€ í–¥í•  ì´ì „ ì„¬ì˜ ìœ„ì¹˜ë¥¼ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="_prevPosition"></param>
-    public void SetPrevPosition(Vector3 _prevPosition)
-    {
-        prevPosition = _prevPosition;
-    }
+    public void SetPrevPosition(Vector3 _prevPosition) => prevPosition = _prevPosition;
 
     /// <summary>
-    /// ÇöÀç¼¶ÀÇ ´ÙÀ½, ÀÌÀü¼¶ÀÇ À§Ä¡¸¦ ÃÊ±âÈ­ÇÏ´Â ÇÔ¼ö
+    /// í˜„ì¬ì„¬ì˜ ë‹¤ìŒ, ì´ì „ì„¬ì˜ ìœ„ì¹˜ë¥¼ ì´ˆê¸°í™”í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <returns></returns>
     protected async UniTaskVoid InitPositionSettings()
@@ -98,7 +72,7 @@ public abstract class Island : MonoBehaviour
         if (currentPlayerSpot != null)
             currentPosition = currentPlayerSpot.position;
 
-        await UniTask.Delay(TimeSpan.FromSeconds(2)); // ¸ğµç ¼¶µéÀÇ currentPositionÀÌ Á¤ÇØÁö±â±îÁö ±â´Ù¸®±â À§ÇÏ¿© delay ÇÔ
+        await UniTask.Delay(TimeSpan.FromSeconds(2)); // ëª¨ë“  ì„¬ë“¤ì˜ currentPositionì´ ì •í•´ì§€ê¸°ê¹Œì§€ ê¸°ë‹¤ë¦¬ê¸° ìœ„í•˜ì—¬ delay í•¨
 
         if (nextPlayerSpot != null)
             nextPosition = nextPlayerSpot.GetCurrentPosition();
@@ -107,6 +81,11 @@ public abstract class Island : MonoBehaviour
             prevPosition = prevPlayerSpot.GetCurrentPosition();
     }
 
-    
+    //public abstract void ActivateIsland(Transform playerTransform = null);
 
+    public virtual void ActivateOnMoveStart(Transform playerTransform = null) { }
+
+    public virtual void ActivateOnMoveInProgress(Transform playerTransform = null) { }
+
+    public virtual void ActivateOnMoveEnd(Transform playerTransform = null) { }
 }

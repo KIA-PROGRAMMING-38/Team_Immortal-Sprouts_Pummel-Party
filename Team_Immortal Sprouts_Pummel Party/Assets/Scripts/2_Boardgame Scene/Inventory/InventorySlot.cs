@@ -79,23 +79,23 @@ public class InventorySlot : MonoBehaviour
     public void SetSlotItem(BelongingItemData item, InventoryManager manager)
     {
         this.item = item;
-        icon.sprite = item.ItemData.Icon;
+        //icon.sprite = item.ItemData.Icon;
 
         inventoryManager = manager;
     }
 
     public void OnClick_ItemSlot()
     {
-        if (inventoryManager.currentPlayer.CanUseItem == false)
-        {
-            return;
-        }
+        //if (inventoryManager.currentPlayer.CanUseItem == false)
+        //{
+        //    return;
+        //}
 
-        if (item.Number == 0)
-        {
-            return;
-        }
+        //if (item.Number == 0)
+        //{
+        //    return;
+        //}
 
-        inventoryManager.SetSelectedSlot(this);
+        //inventoryManager.SetSelectedSlot(this);
     }
 }

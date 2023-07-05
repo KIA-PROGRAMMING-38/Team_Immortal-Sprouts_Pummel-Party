@@ -5,8 +5,7 @@ using UnityEngine.UIElements;
 
 public abstract class Item : MonoBehaviour, IUsable
 {
-    public ItemData ItemData;
-    public virtual void SetForUse(BoardgamePlayer usePlayer) { }
+    public abstract void OnTimeOut();
 
-    public virtual void Use() { }
+    public abstract void Use(BoardPlayerController player = null);
 }

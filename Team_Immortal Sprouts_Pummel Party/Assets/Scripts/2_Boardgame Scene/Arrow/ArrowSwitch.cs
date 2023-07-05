@@ -7,7 +7,7 @@ public class ArrowSwitch : MonoBehaviour
     [SerializeField] private DirectionArrow[] arrows;
     
     /// <summary>
-    /// È­»ìÇ¥¸¦ ÄÑ´Â ÇÔ¼ö
+    /// í™”ì‚´í‘œë¥¼ ì¼œëŠ” í•¨ìˆ˜
     /// </summary>
     public void TurnOnSwitch()
     {
@@ -18,13 +18,13 @@ public class ArrowSwitch : MonoBehaviour
     }
 
     /// <summary>
-    /// È­»ìÇ¥¸¦ ²ô´Â ÇÔ¼ö
+    /// í™”ì‚´í‘œë¥¼ ë„ëŠ” í•¨ìˆ˜
     /// </summary>
     public void TurnOffSwitch()
     {
         foreach (DirectionArrow arrow in arrows)
         {
-            arrow.ArrowDisappear();
+            arrow.ArrowDisappear().Forget();
         }
     }
 

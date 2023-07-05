@@ -5,18 +5,17 @@ using UnityEngine;
 
 public class HealIsland : Island
 {
-    void Start()
+    private void Start()
     {
         InitPositionSettings().Forget();
     }
 
-    /// <summary>
-    /// Èú ¼¶À» È°¼ºÈ­, ÇÃ·¹ÀÌ¾î°¡ ÅÏ¿¡¼­ ÃÖÁ¾ µµÂøÇÑ À§Ä¡°¡ Èú ¼¶ÀÏ °æ¿ì È£Ãâ
-    /// </summary>
-    public async UniTask OnActiveHealIsland(BoardgamePlayer player)
+    public override void ActivateOnMoveEnd(Transform playerTransform = null)
     {
-        await UniTask.Delay(1500);
+        // í í•´ì£¼ëŠ” ë¡œì§
+        Debug.Log("í í•´ì¤„êº¼ì„");
 
-        player.OnRecover(15);
+        // íì´ ëë‚˜ë©´
+        playerTransform.parent.GetComponent<BoardPlayerController>().ControlMoveFinished(true); // bodyë¥¼ ë„˜ê²¨ì£¼ê¸°ë¡œ í•´ì„œ ì´ë˜ í•¨
     }
 }

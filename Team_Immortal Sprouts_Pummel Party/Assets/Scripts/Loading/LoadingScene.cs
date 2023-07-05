@@ -11,6 +11,7 @@ public class LoadingScene : MonoBehaviour
         if (loadAnime.Length == 1)
         {
             DontDestroyOnLoad(gameObject);
+            WrapObject.SCENE_CHANGER = this;
         }
         else
         {
@@ -21,7 +22,7 @@ public class LoadingScene : MonoBehaviour
         miniGameLoader = transform.GetChild(1).gameObject;
     }
     /// <summary>
-    /// º¸µå°ÔÀÓ ·ÎµåÈ­¸é
+    /// ë³´ë“œê²Œìž„ ë¡œë“œí™”ë©´
     /// </summary>
     public void BoardGameLoadPlay()
     {
@@ -29,7 +30,7 @@ public class LoadingScene : MonoBehaviour
     }
 
     /// <summary>
-    /// ¹Ì´Ï°ÔÀÓ ·ÎµåÈ­¸é
+    /// ë¯¸ë‹ˆê²Œìž„ ë¡œë“œí™”ë©´
     /// </summary>
     public void MiniGameLoadPlay()
     {

@@ -1014,6 +1014,8 @@ MonoBehaviour:
   boardTime: 1
   playerTransform: {fileID: 0}
   cam: {fileID: 0}
+  disappearTime: 2
+  balloonUpFactor: 20
 --- !u!65 &6921950684488926195
 BoxCollider:
   m_ObjectHideFlags: 0
