@@ -14,9 +14,15 @@ public enum AwardSortType
 
 public class PlayerData
 {
-    public List<Dictionary<string, object>> HatDialog; // PrefabPool
-    public List<Dictionary<string, object>> BodyDialog; // PrefabPool
+    public List<Dictionary<string, object>> HatDialog; 
+    public List<Dictionary<string, object>> BodyDialog; 
     public List<Dictionary<string, object>> AwardDialog;
+
+
+    #region Init 함수들
+    /// <summary>
+    /// CSV를 읽어오는 초기화 함수
+    /// </summary>
     public void ReadCSV()
     {
         HatDialog = CSVReader.Read("CSVs/HatTable");
@@ -28,7 +34,7 @@ public class PlayerData
     /// 대기실에서 보드게임씬으로 넘어갈때 호출해줘야 하는 함수
     /// </summary>
     /// <param name="playerCount"></param>
-    public void Init(int playerCount)
+    public void InitPlayerDataContainer(int playerCount)
     {
         photonPlayers = new Player[playerCount];
         initItemArray();
@@ -52,7 +58,10 @@ public class PlayerData
         }
     }
 
-    #region 포톤 플레이어
+    #endregion
+
+
+    #region 포톤 플레이어 - 포톤 플레이어 캐싱
 
     private Player[] photonPlayers;
 
@@ -78,8 +87,7 @@ public class PlayerData
     #endregion
 
 
-
-    #region 커스터마이즈
+    #region 커스터마이즈 - 모자, 몸색, 닉네임
     private Dictionary<Player, int> hatDict = new Dictionary<Player, int>();
     private Dictionary<Player, int> bodyDict = new Dictionary<Player, int>();
     private Dictionary<Player, string> nickNameDict = new Dictionary<Player, string>();
@@ -129,7 +137,7 @@ public class PlayerData
     #endregion
 
 
-    #region 보드게임 용
+    #region 보드게임 용 - 이전좌표, HP, 아이템 개수, 황금알 개수
 
     private Dictionary<Player, Vector3> prevPosDict = new Dictionary<Player, Vector3>();
     private Dictionary<Player, int> hpDict = new Dictionary<Player, int>();
@@ -188,9 +196,11 @@ public class PlayerData
     #endregion
 
 
-    #region Award 용
+    #region Award 용 - MVP, Loser, Fighter, 최종 우승자
 
     private Dictionary<Player, (int victoryCount, int loseCount, int dealtDamage)> statisticsDict = new Dictionary<Player, (int victoryCount, int loseCount, int dealtDamage)>();
+    private List<Player>[] winnerContainer = new List<Player>[Enum.GetValues(typeof(AwardSortType)).Length];
+    private int[] eggPlus = new int[Enum.GetValues(typeof(AwardSortType)).Length];
 
     /// <summary>
     /// 해당 플레이어들의 미니게임 관련 통계데이터를 업데이트 하는 함수
@@ -222,8 +232,6 @@ public class PlayerData
 
         statisticsDict[player] = newData;
     }
-
-    private int[] eggPlus = new int[Enum.GetValues(typeof(AwardSortType)).Length];
 
     /// <summary>
     /// 상 타입에 따른 플레이어 리스트를 반환하는 함수
@@ -271,7 +279,6 @@ public class PlayerData
         return finalWinners;
     }
 
-
     private void calculateReward(List<Player> playerList, int rewardEggCount) // 상 종류에 따른 황금알 더해주는 함수
     {
         foreach (Player player in playerList)
@@ -279,10 +286,6 @@ public class PlayerData
             eggCountDict[player] += rewardEggCount;
         }
     }
-
-    private List<Player>[] winnerContainer = new List<Player>[Enum.GetValues(typeof(AwardSortType)).Length];
-    // [0] = MVP, [1] = LOSER, [2] = FIGHTER
-
 
     private List<Player> getWinnerListBySortName(List<Player> playerList, AwardSortType sortName) // 코드 중복을 예방하기 위한 함수화
     {
@@ -324,5 +327,4 @@ public class PlayerData
         return playerList;
     }
     #endregion
-
 }
