@@ -23,7 +23,7 @@ public class RootManager : MonoBehaviour
     public static TurnManager BoardGameManager = new TurnManager();
     public static LoadManager LoadManager = new LoadManager();  
     public static DataManager DataManager = new DataManager();
-    public static DefaultPool PrefabPool;
+    public static DefaultPool PrefabManager;
 
     private void Awake()
     {
@@ -37,21 +37,12 @@ public class RootManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        PrefabPool = PhotonNetwork.PrefabPool as DefaultPool;
+        PrefabManager = PhotonNetwork.PrefabPool as DefaultPool;
     }
 
 
-    private async void Start()
+    private void Start()
     {
-        initCSV();
-    }
-
-    
-
-    private void initCSV()
-    {
-        DataManager.Player.ReadCSV();
-        DataManager.Item.ReadCSV();
-        DataManager.MiniGame.ReadCSV();
+        DataManager.InitCSV();
     }
 }
