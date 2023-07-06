@@ -29,7 +29,7 @@ public class LobbyCanvases : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Lobby CanvasµéÀ» ¸ğµÎ ºñÈ°¼ºÈ­
+    /// Lobby Canvasë“¤ì„ ëª¨ë‘ ë¹„í™œì„±í™”
     /// </summary>
     public void DeactiveLobbyCanvases()
     {
@@ -37,38 +37,27 @@ public class LobbyCanvases : MonoBehaviourPunCallbacks
         Create_Or_Find_RoomCanvas.Deactive();
     }
 
-
-    public int GetRoomCount() => entireRooms.Count;
-    
-
-    private Dictionary<string, RoomInfo> entireRooms = new Dictionary<string, RoomInfo>();
-
-    public bool CheckIfRoomExist(string roomName)
-    {
-        bool isExist = false;
-        if (entireRooms.ContainsKey(roomName))
-        {
-            isExist = true;
-        }
-
-        return isExist;
-    }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-
-        foreach (RoomInfo roomInfo in roomList)
+        foreach (RoomInfo updatedRoomInfo in roomList)
         {
-            if (roomInfo.RemovedFromList) // »èÁ¦°¡ µÈ´Ù¸é
+            string updatedRoomName = updatedRoomInfo.Name;
+            bool isNewlyCreated;
+            if (updatedRoomInfo.RemovedFromList) // ë°©ì´ ì‚­ì œë˜ì—ˆë‹¤ë©´
             {
-                entireRooms.Remove(roomInfo.Name);
+                isNewlyCreated = false;
+                RootManager.DataManager.Room.UpdateRoomData(isNewlyCreated, updatedRoomName);
             }
-            else
+            else // ë°©ì´ ì‚­ì œ ëœê²Œ ì•„ë‹ˆë¼ë©´
             {
-                if (!entireRooms.ContainsKey(roomInfo.Name)) // »õ·Î »ı¼ºµÈ ¹æÀÌ¶ó¸é
+                if (!RootManager.DataManager.Room.CheckIfRoomExist(updatedRoomName)) // ìƒˆë¡œ ìƒì„±ëœ ë°©ì´ë¼ë©´
                 {
-                    entireRooms.Add(roomInfo.Name, roomInfo);
+                    isNewlyCreated = true;
+                    RootManager.DataManager.Room.UpdateRoomData(isNewlyCreated, updatedRoomName, updatedRoomInfo);
                 }
             }
         }
+
+        
     }
 }
