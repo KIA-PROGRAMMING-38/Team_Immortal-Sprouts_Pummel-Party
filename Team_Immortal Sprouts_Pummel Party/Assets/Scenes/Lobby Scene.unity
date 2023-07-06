@@ -1709,7 +1709,7 @@ PrefabInstance:
       objectReference: {fileID: 1541126837}
     - target: {fileID: 5818730322863919387, guid: ca47737d70fa7e64ebc5b80cc76e0e9d, type: 3}
       propertyPath: m_Name
-      value: LobbyManager
+      value: PhotonInitializer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca47737d70fa7e64ebc5b80cc76e0e9d, type: 3}

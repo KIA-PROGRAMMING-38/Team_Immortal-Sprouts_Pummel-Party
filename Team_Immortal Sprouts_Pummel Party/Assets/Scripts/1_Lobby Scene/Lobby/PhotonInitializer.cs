@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LobbyManager : MonoBehaviourPunCallbacks
+public class PhotonInitializer : MonoBehaviourPunCallbacks
 {
     private const string LOBBY_NAME = "Duck Duck Party";
     private const string GAME_VERSION = "0.0.1";
@@ -25,15 +25,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.JoinLobby();
         }
-
-        Debug.Log("서버에 연결되었습니다.");
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         PhotonNetwork.ConnectUsingSettings();
-
-        Debug.Log($"{cause}의 이유로 서버 연결에 실패하였습니다.");
     }
 
     public override void OnJoinedLobby()
@@ -44,12 +40,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LeaveLobby();
         }
         PhotonNetwork.CurrentLobby.Name = LOBBY_NAME;
-        Debug.Log("로비에 연결되었습니다.");
     }
 
     public override void OnLeftLobby()
     {
         PhotonNetwork.JoinLobby();
-        Debug.Log("로비를 떠났습니다.");
     }
 }
