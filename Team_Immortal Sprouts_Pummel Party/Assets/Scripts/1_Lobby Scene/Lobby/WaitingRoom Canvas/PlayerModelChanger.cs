@@ -66,18 +66,25 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
             RootManager.PrefabManager.Destroy(currentHat);
         }
 
-        GameObject newHat = customData.GetHatFromData(hatIndex);
-        
-        if (newHat != null)
+        //GameObject newHat = customData.GetHatFromData(hatIndex);
+        string hatPath = RootManager.DataManager.Player.HatDialog[hatIndex]["Name"].ToString();
+        if (hatPath != "-")
         {
-            //newHat = defaultPrefabPool.Instantiate(newHat.name, GetHatPosition(), Quaternion.identity);
-            string hatPath = RootManager.DataManager.Player.HatDialog[hatIndex]["Name"].ToString(); 
-            newHat = RootManager.PrefabManager.Instantiate(hatPath, GetHatPosition(), Quaternion.identity);
+            GameObject newHat = RootManager.PrefabManager.Instantiate(hatPath, GetHatPosition(), Quaternion.identity);
             newHat.transform.parent = hatTransform;
             newHat.SetActive(true);
+            currentHat = newHat;
         }
+
+        //if (newHat != null)
+        //{
+        //    newHat = defaultPrefabPool.Instantiate(newHat.name, GetHatPosition(), Quaternion.identity);
+        //    newHat = RootManager.PrefabManager.Instantiate(hatPath, GetHatPosition(), Quaternion.identity);
+        //    newHat.transform.parent = hatTransform;
+        //    newHat.SetActive(true);
+        //}
         
-        currentHat = newHat;
+        //currentHat = newHat;
     }
 
     /// <summary>
