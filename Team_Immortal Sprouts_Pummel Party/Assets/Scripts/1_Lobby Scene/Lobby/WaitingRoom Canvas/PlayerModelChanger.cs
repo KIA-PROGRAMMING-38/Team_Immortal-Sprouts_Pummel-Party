@@ -9,7 +9,7 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     [SerializeField] private Transform hatTransform;
     [SerializeField] private Material bodyMaterial;
     [SerializeField] private CustomData customData;
-    public DefaultPool defaultPrefabPool { get; private set; } // Æ÷Åæ¿¡¼­ Á¦°øÇÏ´Â ¿ÀºêÁ§Æ® Ç®
+    public DefaultPool defaultPrefabPool { get; private set; } // í¬í†¤ì—ì„œ ì œê³µí•˜ëŠ” ì˜¤ë¸Œì íŠ¸ í’€
 
     private void Awake()
     {
@@ -18,7 +18,7 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
 
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ¸ğÀÚÀ§Ä¡¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// í”Œë ˆì´ì–´ì˜ ëª¨ììœ„ì¹˜ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <returns></returns>
     public Vector3 GetHatPosition()
@@ -27,7 +27,7 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ÇöÀç ¸ğÀÚ¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// í”Œë ˆì´ì–´ì˜ í˜„ì¬ ëª¨ìë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <returns></returns>
     public GameObject GetCurrentHat()
@@ -41,18 +41,20 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ¸ö»öÀ» Á÷Á¢ ¹Ù²ãÁÖ´Â ÇÔ¼ö
+    /// í”Œë ˆì´ì–´ì˜ ëª¸ìƒ‰ì„ ì§ì ‘ ë°”ê¿”ì£¼ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="bodyColorIndex"></param>
     [PunRPC]
     private void SetBodyColor(int bodyColorIndex)
     {
-        Texture2D bodyColor = customData.GetBodyColorFromData(bodyColorIndex);
+        //Texture2D bodyColor = customData.GetBodyColorFromData(bodyColorIndex);
+        string bodyTexturePath = RootManager.DataManager.Player.BodyDialog[bodyColorIndex]["Name"].ToString();
+        Texture2D bodyColor = Resources.Load<Texture2D>(bodyTexturePath);
         bodyMaterial.mainTexture = bodyColor;
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ¸ğÀÚ¸¦ Á÷Á¢ ¹Ù²ãÁÖ´Â ÇÔ¼ö
+    /// í”Œë ˆì´ì–´ì˜ ëª¨ìë¥¼ ì§ì ‘ ë°”ê¿”ì£¼ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="hatIndex"></param>
     [PunRPC]
@@ -60,14 +62,17 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     {
         if (currentHat != null)
         {
-            defaultPrefabPool.Destroy(currentHat);
+            //defaultPrefabPool.Destroy(currentHat);
+            RootManager.PrefabManager.Destroy(currentHat);
         }
 
         GameObject newHat = customData.GetHatFromData(hatIndex);
         
         if (newHat != null)
         {
-            newHat = defaultPrefabPool.Instantiate(newHat.name, GetHatPosition(), Quaternion.identity);
+            //newHat = defaultPrefabPool.Instantiate(newHat.name, GetHatPosition(), Quaternion.identity);
+            string hatPath = RootManager.DataManager.Player.HatDialog[hatIndex]["Name"].ToString(); 
+            newHat = RootManager.PrefabManager.Instantiate(hatPath, GetHatPosition(), Quaternion.identity);
             newHat.transform.parent = hatTransform;
             newHat.SetActive(true);
         }
@@ -76,7 +81,7 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// ÇöÀç ¸ğÀÚ¸¦ »èÁ¦ÇØÁÖ´Â ÇÔ¼ö
+    /// í˜„ì¬ ëª¨ìë¥¼ ì‚­ì œí•´ì£¼ëŠ” í•¨ìˆ˜
     /// </summary>
     public void RemoveCurrentHat()
     {

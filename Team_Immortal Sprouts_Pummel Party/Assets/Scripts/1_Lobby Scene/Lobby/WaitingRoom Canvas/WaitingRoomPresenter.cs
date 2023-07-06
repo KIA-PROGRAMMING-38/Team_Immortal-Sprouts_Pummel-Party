@@ -82,13 +82,15 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         wantBodyIndex = playerData.GetCapableBodyIndex(lastIndex, wantBodyIndex, isRightButton, isFirstEntry);
 
-        UpdateBodyData(enterOrder, wantBodyIndex); // 플레이어의 몸색깔 데이터를 갱신해줌
+        //UpdateBodyData(enterOrder, wantBodyIndex); // 플레이어의 몸색깔 데이터를 갱신해줌
+        Player askedPlayer = RootManager.DataManager.Player.GetPhotonPlayer(enterOrder);
+        RootManager.DataManager.Player.SetBodyID(askedPlayer, wantBodyIndex);
 
         modelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, wantBodyIndex); // 플레이어의 몸색깔을 바꿔줌
         waitingViews[enterOrder].GetViewPV().RPC("UpdateBodyIndex", RpcTarget.AllBuffered, wantBodyIndex);
 
-        Player askPlayer = players[enterOrder];
-        waitingViews[enterOrder].GetViewPV().RPC("SetBackgroundColor", askPlayer, wantBodyIndex);
+        //Player askPlayer = players[enterOrder];
+        waitingViews[enterOrder].GetViewPV().RPC("SetBackgroundColor", askedPlayer, wantBodyIndex);
     }
 
 
@@ -253,11 +255,12 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // 모델체인저 뽑아옴
             modelChangers[enterOrder] = modelChanger; // 모델 체인저 저장해둠 --> 마스터가 다 컨트롤할라구
             modelPVs[enterOrder] = PhotonView.Get(model); // 모델체인저와 연동된 포톤뷰 저장해둠 -> 마스터가 다 컨트롤하라구
+            modelPVs[enterOrder].ViewID = enterOrder * 999; // 포톤뷰 ID를 메뉴얼하게 설정해줘야한다고 함....
 
             waitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder); // View 의 입장순서를 업데이트해줌
 
             players[enterOrder] = PhotonNetwork.LocalPlayer;
-            //AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
+            AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
         }
     }
 
