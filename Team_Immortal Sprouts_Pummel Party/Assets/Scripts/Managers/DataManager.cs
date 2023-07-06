@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class DataManager
 {
-    public static RoomData Room = new RoomData();
-    public static PlayerData Player = new PlayerData();
-    public static ItemData Item =new ItemData();
-    public static MiniGameData MiniGame = new MiniGameData();
+    public RoomData Room = new RoomData();
+    public PlayerData Player = new PlayerData();
+    public ItemData Item =new ItemData();
+    public MiniGameData MiniGame = new MiniGameData();
 
     public void InitCSV()
     {

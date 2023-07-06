@@ -11,7 +11,7 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
 {
     private LobbyCanvases _lobbyCanvases;
 
-    //Ãß°¡
+    //ì¶”ê°€
     private LoadingScene levelLoader;
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
 
    
     /// <summary>
-    /// Lobby¸¦ ±¸¼ºÇÏ´Â CanvasµéÀÌ ¼­·Î ÂüÁ¶ÇÒ ¼ö ÀÖµµ·Ï ÃÊ±â ¼¼ÆÃ
+    /// Lobbyë¥¼ êµ¬ì„±í•˜ëŠ” Canvasë“¤ì´ ì„œë¡œ ì°¸ì¡°í•  ìˆ˜ ìˆë„ë¡ ì´ˆê¸° ì„¸íŒ…
     /// </summary>
     public void CanvasInitialize(LobbyCanvases canvases)
     {
@@ -28,7 +28,7 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Create Room Canvas¸¦ È°¼ºÈ­
+    /// Create Room Canvasë¥¼ í™œì„±í™”
     /// </summary>
     public void Active()
     {
@@ -36,19 +36,19 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Create Room Canvas¸¦ ºñÈ°¼ºÈ­
+    /// Create Room Canvasë¥¼ ë¹„í™œì„±í™”
     /// </summary>
     public void Deactive()
     {
         gameObject.SetActive(false);
     }
 
-    #region OnClick ÀÌº¥Æ® ÇÔ¼ö
+    #region OnClick ì´ë²¤íŠ¸ í•¨ìˆ˜
 
     [SerializeField] private TMP_Text roomName;
     private const int defaultLength = 1;
     /// <summary>
-    /// Create Room CanvasÀÇ OK ¹öÆ° ÀÔ·Â ÀÌº¥Æ®
+    /// Create Room Canvasì˜ OK ë²„íŠ¼ ì…ë ¥ ì´ë²¤íŠ¸
     /// </summary>
     public void OnClick_From_Room_OK()
     {
@@ -59,29 +59,29 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
 
         string ActualRoomName;
 
-        if (_lobbyCanvases.MultiGameCanvas.GetIsCreatingRoom() == true) // ¹æ ¸¸µé±â ¹öÆ°À» ´­·¶´Ù¸é
+        if (_lobbyCanvases.MultiGameCanvas.GetIsCreatingRoom() == true) // ë°© ë§Œë“¤ê¸° ë²„íŠ¼ì„ ëˆŒë €ë‹¤ë©´
         {
             RoomOptions option = new RoomOptions();
             option.BroadcastPropsChangeToAll = true;
             option.PublishUserId = true;
             option.MaxPlayers = 4;
 
-            if (roomName.text.Length == defaultLength) // ¾Æ¹«°Íµµ ÀÔ·ÂÇÏÁö ¾Ê¾ÒÀ»¶§, text.Length == 1ÀÌ ³ª¿Â´Ù´Â°É µğ¹ö±ëÀ» ÅëÇØ¼­ È®ÀÎÇÏ¿´À½
+            if (roomName.text.Length == defaultLength) // ì•„ë¬´ê²ƒë„ ì…ë ¥í•˜ì§€ ì•Šì•˜ì„ë•Œ, text.Length == 1ì´ ë‚˜ì˜¨ë‹¤ëŠ”ê±¸ ë””ë²„ê¹…ì„ í†µí•´ì„œ í™•ì¸í•˜ì˜€ìŒ
             {
-                // ·£´ıÇÑ ³Ñ¹ö¸¦ ÁØ´Ù
+                // ëœë¤í•œ ë„˜ë²„ë¥¼ ì¤€ë‹¤
                 int randomNumber = Random.Range(0, 10000);
                 ActualRoomName = randomNumber.ToString();
             }
-            else // ÄÚµå¸¦ ÀÔ·ÂÇß´Ù¸é
+            else // ì½”ë“œë¥¼ ì…ë ¥í–ˆë‹¤ë©´
             {
                 ActualRoomName = roomName.text;
             }
 
-            bool isCreatable = _lobbyCanvases.CheckIfRoomExist(ActualRoomName);
+            bool isCreatable = RootManager.DataManager.Room.CheckIfRoomExist(ActualRoomName);
 
-            if (!isCreatable) // Á¸ÀçÇÏ´Â ¹æÀÌ ¾ø´Ù¸é
+            if (!isCreatable) // ì¡´ì¬í•˜ëŠ” ë°©ì´ ì—†ë‹¤ë©´
             {
-                PhotonNetwork.CreateRoom(ActualRoomName, option, TypedLobby.Default); // ¹æÀ» ¸¸µç´Ù
+                PhotonNetwork.CreateRoom(ActualRoomName, option, TypedLobby.Default); // ë°©ì„ ë§Œë“ ë‹¤
                 PhotonNetwork.LoadLevel(1);
                 levelLoader.BoardGameLoadPlay();
             }
@@ -90,22 +90,22 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
                 ActiveFailedPanel();
             }
         }
-        else // ¹æ Ã£±â ¹öÆ°À» ´­·¶´Ù¸é
+        else // ë°© ì°¾ê¸° ë²„íŠ¼ì„ ëˆŒë €ë‹¤ë©´
         {
             ActualRoomName = roomName.text;
-            bool isJoinSuccess = _lobbyCanvases.CheckIfRoomExist(ActualRoomName);
+            bool isJoinSuccess = RootManager.DataManager.Room.CheckIfRoomExist(ActualRoomName);
 
             if (isJoinSuccess)
             {
-                PhotonNetwork.JoinRoom(ActualRoomName); // ÀÔ·ÂµÈ ÄÚµåÀÇ ¹æÀ» µé¾î°£´Ù
-                Debug.Log($"{ActualRoomName}¹æ¿¡ µé¾î¿Ô½À´Ï´Ù");
+                PhotonNetwork.JoinRoom(ActualRoomName); // ì…ë ¥ëœ ì½”ë“œì˜ ë°©ì„ ë“¤ì–´ê°„ë‹¤
+                Debug.Log($"{ActualRoomName}ë°©ì— ë“¤ì–´ì™”ìŠµë‹ˆë‹¤");
                 PhotonNetwork.LoadLevel(1);
                 levelLoader.BoardGameLoadPlay(); 
 
             }
             else
             {
-                Debug.Log($"¹æ ÀÔÀå¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+                Debug.Log($"ë°© ì…ì¥ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
                 ActiveFailedPanel();
             }
         }
@@ -113,7 +113,7 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
 
 
     /// <summary>
-    /// Create Room CanvasÀÇ Cancel ¹öÆ° ÀÔ·Â ÀÌº¥Æ®
+    /// Create Room Canvasì˜ Cancel ë²„íŠ¼ ì…ë ¥ ì´ë²¤íŠ¸
     /// </summary>
     public void OnClick_Cancel()
     {
@@ -127,11 +127,11 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
     [SerializeField] private FindRoomFailedPanel _findRoomFailedPanel;
     private void ActiveFailedPanel()
     {
-        if (_lobbyCanvases.MultiGameCanvas.GetIsCreatingRoom() == true) // ¹æ ¸¸µé±â¸¦ ´­·¶´Ù¸é
+        if (_lobbyCanvases.MultiGameCanvas.GetIsCreatingRoom() == true) // ë°© ë§Œë“¤ê¸°ë¥¼ ëˆŒë €ë‹¤ë©´
         {
             _createRoomFailedPanel.Active();
         }
-        else // ¹æ Ã£±â¸¦ ´­·¶´Ù¸é
+        else // ë°© ì°¾ê¸°ë¥¼ ëˆŒë €ë‹¤ë©´
         {
             _findRoomFailedPanel.Active();
         }

@@ -7,11 +7,11 @@ public class MultiGameCanvas : MonoBehaviour
 {
     private LobbyCanvases _lobbyCanvases;
     private CanvasGroup _canvasGroup;
-    [SerializeField] private bool isCreatingRoom; // Å×½ºÆ® À§ÇØ SerializeField ÀÔ·Â
+    [SerializeField] private bool isCreatingRoom; // í…ŒìŠ¤íŠ¸ ìœ„í•´ SerializeField ì…ë ¥
     [SerializeField] GameObject failedJoinRoomCanvas;
 
     /// <summary>
-    /// Lobby¸¦ ±¸¼ºÇÏ´Â CanvasµéÀÌ ¼­·Î ÂüÁ¶ÇÒ ¼ö ÀÖµµ·Ï ÃÊ±â ¼¼ÆÃ
+    /// Lobbyë¥¼ êµ¬ì„±í•˜ëŠ” Canvasë“¤ì´ ì„œë¡œ ì°¸ì¡°í•  ìˆ˜ ìˆë„ë¡ ì´ˆê¸° ì„¸íŒ…
     /// </summary>
     public void CanvasInitialize(LobbyCanvases canvases)
     {
@@ -27,16 +27,15 @@ public class MultiGameCanvas : MonoBehaviour
     #region OnClick Events
 
     /// <summary>
-    /// °ÔÀÓ½ºÅ¸Æ® ¹öÆ° Å¬¸¯½Ã ÀÛµ¿ÇÏ´Â ÀÌº¥Æ® ÇÔ¼ö
+    /// ê²Œì„ìŠ¤íƒ€íŠ¸ ë²„íŠ¼ í´ë¦­ì‹œ ì‘ë™í•˜ëŠ” ì´ë²¤íŠ¸ í•¨ìˆ˜
     /// </summary>
     public void OnClick_GameStartButton()
     {
         OnJoinRandomRoom();
-        Debug.Log("GameStart ¹öÆ°ÀÌ Å¬¸¯µÊ");
     }
 
     /// <summary>
-    /// Create ¶Ç´Â Find Room ¹öÆ° Å¬¸¯½Ã ÀÛµ¿ÇÏ´Â ÀÌº¥Æ® ÇÔ¼ö
+    /// Create ë˜ëŠ” Find Room ë²„íŠ¼ í´ë¦­ì‹œ ì‘ë™í•˜ëŠ” ì´ë²¤íŠ¸ í•¨ìˆ˜
     /// </summary>
     public void OnClick_CreateRoom()
     {
@@ -46,30 +45,28 @@ public class MultiGameCanvas : MonoBehaviour
     }
 
     /// <summary>
-    /// Find Room ¹öÆ° Å¬¸¯½Ã ÀÛµ¿ÇÏ´Â ÀÌº¥Æ® ÇÔ¼ö
+    /// Find Room ë²„íŠ¼ í´ë¦­ì‹œ ì‘ë™í•˜ëŠ” ì´ë²¤íŠ¸ í•¨ìˆ˜
     /// </summary>
     public void OnClick_FindRoom()
     {
         _lobbyCanvases.Create_Or_Find_RoomCanvas.Active();
         isCreatingRoom = false;
-        //_lobbyCanvases.FindRoomCanvas.Active();
         TurnOffRaycast();
     }
 
 
     /// <summary>
-    /// °ÔÀÓÁ¾·á ¹öÆ° Å¬¸¯½Ã ÀÛµ¿ÇÏ´Â ÀÌº¥Æ® ÇÔ¼ö
+    /// ê²Œì„ì¢…ë£Œ ë²„íŠ¼ í´ë¦­ì‹œ ì‘ë™í•˜ëŠ” ì´ë²¤íŠ¸ í•¨ìˆ˜
     /// </summary>
     public void OnClick_LeaveGameButton()
     {
         Application.Quit();
-        Debug.Log("°ÔÀÓÀ» ¶°³µ½À´Ï´Ù.");
     }
 
     #endregion
 
     /// <summary>
-    /// MultiGame Canvas¿¡ raycast ÀÔ·ÂÀ» Â÷´Ü
+    /// MultiGame Canvasì— raycast ì…ë ¥ì„ ì°¨ë‹¨
     /// </summary>
     public void TurnOffRaycast()
     {
@@ -77,7 +74,7 @@ public class MultiGameCanvas : MonoBehaviour
     }
 
     /// <summary>
-    /// MultiGame Canvas¿¡ raycast ÀÔ·ÂÀ» ¹ŞÀ» ¼ö ÀÖµµ·Ï ¼³Á¤
+    /// MultiGame Canvasì— raycast ì…ë ¥ì„ ë°›ì„ ìˆ˜ ìˆë„ë¡ ì„¤ì •
     /// </summary>
     public void TurnOnRaycast()
     {
@@ -85,7 +82,7 @@ public class MultiGameCanvas : MonoBehaviour
     }
 
     /// <summary>
-    /// MultiGame Canvas¸¦ È°¼ºÈ­
+    /// MultiGame Canvasë¥¼ í™œì„±í™”
     /// </summary>
     public void Active()
     {
@@ -93,7 +90,7 @@ public class MultiGameCanvas : MonoBehaviour
     }
 
     /// <summary>
-    /// MultiGame Canvas¸¦ ºñÈ°¼ºÈ­
+    /// MultiGame Canvasë¥¼ ë¹„í™œì„±í™”
     /// </summary>
     public void Deactive()
     {
@@ -109,7 +106,7 @@ public class MultiGameCanvas : MonoBehaviour
     {
         if (PhotonNetwork.IsConnected)
         {
-            if (1 <= _lobbyCanvases.GetRoomCount())
+            if (1 <= RootManager.DataManager.Room.Count)
             {
                 PhotonNetwork.JoinRandomRoom();
                 PhotonNetwork.LoadLevel("WaitingRoomScene");
