@@ -24,18 +24,15 @@ public class AwardProvider : MonoBehaviour
     [SerializeField] private float eggStayTime = 2f;
     [SerializeField] private float eggDisappearTime = 0.3f;
 
-    private AwardData awardData;
     private float spiralSpeed = 1000f;
     private float spiralRadius = 4f;
     private Vector3 initialEggSize;
     private const int AWARD_TYPE_COUNT = 4;
 
-    public event Func<AwardType, List<int>> OnGetWinnerList;
 
     private void Awake()
     {
         initialEggSize = goldenEgg.transform.localScale;
-        awardData = new AwardData(this, AWARD_TYPE_COUNT);
     }
 
     private void Start()
@@ -45,19 +42,6 @@ public class AwardProvider : MonoBehaviour
 
     private void Test()
     {
-        Statistics.UpdateEggStatus(1);
-
-        Statistics.UpdateEggStatus(2);
-
-        Statistics.UpdateEggStatus(3);
-
-        Statistics.UpdateEggStatus(4);
-
-        Statistics.UpdateMinigameStatus(1, 2);
-        Statistics.UpdateMinigameStatus(3, 2);
-        Statistics.UpdateMinigameStatus(1, 3);
-
-        Statistics.UpdateDamageStatus(1, 15);
     }
 
     private async UniTaskVoid activateAwardLoop()
@@ -67,37 +51,29 @@ public class AwardProvider : MonoBehaviour
 
         for (int awardOrder = 0; awardOrder < AWARD_TYPE_COUNT; ++awardOrder) // 마지막 상이 존재하기에 +1 해줌
         {
-            AwardType awardType = (AwardType)awardOrder;
-            List<int> winnerList = OnGetWinnerList?.Invoke(awardType);
-
-            foreach (int winnerIndex in winnerList)
-            {
-                await giveAwardToPlayer(winnerIndex, awardType);
-            }
-
             OnAwardGiven?.Invoke(); // spotLight이 다시 랜덤하게 움직인다
             await UniTask.Delay(5000);
         }
     }
 
-    private async UniTask giveAwardToPlayer(int playerEnterOrder, AwardType awardType)
+    private async UniTask giveAwardToPlayer(int playerEnterOrder)
     {
         Transform winnerTransform = playerTransforms[playerEnterOrder - 1];
         OnGiveAward?.Invoke(winnerTransform); // 수상자를 spotLight으로 비춰준다
 
-        if (awardType == AwardType.FINAL)
-        {
-            await goldenEggAppear(winnerTransform, initialEggSize * 2f);
-            await UniTask.Delay(TimeSpan.FromSeconds(eggStayTime));
-            await goldenEggDisappear(initialEggSize * 2f);
-        }
-        else
-        {
-            await goldenEggAppear(winnerTransform, initialEggSize);
-            await UniTask.Delay(TimeSpan.FromSeconds(eggStayTime));
-            await goldenEggDisappear(initialEggSize);
-            await UniTask.Delay(2000); // 테스트 => 플레이어의 승리 연출이 끝나면 으로 조건이 나중에 바껴야함
-        }
+        //if (awardType == AwardType.FINAL)
+        //{
+        //    await goldenEggAppear(winnerTransform, initialEggSize * 2f);
+        //    await UniTask.Delay(TimeSpan.FromSeconds(eggStayTime));
+        //    await goldenEggDisappear(initialEggSize * 2f);
+        //}
+        //else
+        //{
+        //    await goldenEggAppear(winnerTransform, initialEggSize);
+        //    await UniTask.Delay(TimeSpan.FromSeconds(eggStayTime));
+        //    await goldenEggDisappear(initialEggSize);
+        //    await UniTask.Delay(2000); // 테스트 => 플레이어의 승리 연출이 끝나면 으로 조건이 나중에 바껴야함
+        //}
     }
 
 
