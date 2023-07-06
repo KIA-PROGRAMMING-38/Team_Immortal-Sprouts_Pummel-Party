@@ -139,6 +139,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     /// <param name="hatIndex"></param>
     public void AddPlayerData(Player newPlayer, int enterOrder, string nickName, int bodyColorIndex, int hatIndex)
     {
+        RootManager.DataManager.Player.UpdatePhotonPlayers(newPlayer, enterOrder);
         RootManager.DataManager.Player.SetNickName(newPlayer, nickName);
         RootManager.DataManager.Player.SetBodyID(newPlayer, bodyColorIndex);
         RootManager.DataManager.Player.SetHatID(newPlayer, hatIndex);

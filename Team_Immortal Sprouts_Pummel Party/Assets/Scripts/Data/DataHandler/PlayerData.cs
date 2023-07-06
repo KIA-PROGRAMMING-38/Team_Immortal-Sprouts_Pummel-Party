@@ -100,6 +100,18 @@ public class PlayerData
     private Dictionary<Player, string> nickNameDict = new Dictionary<Player, string>();
 
     /// <summary>
+    /// 모자 전체 개수를 반환하는 함수
+    /// </summary>
+    /// <returns></returns>
+    public int GetHatTypeCount() => HatDialog.Count;
+
+    /// <summary>
+    /// 몸색 전체 개수를 반환하는 함수
+    /// </summary>
+    /// <returns></returns>
+    public int GetBodyTypeCount() => BodyDialog.Count;
+
+    /// <summary>
     /// 플레이의 모자 ID를 설정하는 함수
     /// </summary>
     /// <param name="player"></param>

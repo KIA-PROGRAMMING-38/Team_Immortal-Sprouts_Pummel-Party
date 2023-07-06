@@ -20,6 +20,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
     [SerializeField] private WaitingRoomView[] waitingViews;
     [SerializeField] private PositionData positionData;
+    [SerializeField] private Transform[] positionTransforms;
 
     [SerializeField] private int enterOrder = 1;
     [SerializeField] private bool[] isReady = new bool[MAX_INDEX];
@@ -221,8 +222,10 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     #region Photon 콜백 함수들
     public override void OnJoinedRoom()
     {
-        hatTypeCount = playerData.GetHatTypeCount();
-        bodyColorCount = playerData.GetBodyColorCount();
+        //hatTypeCount = playerData.GetHatTypeCount();
+        hatTypeCount = RootManager.DataManager.Player.GetHatTypeCount();
+        //bodyColorCount = playerData.GetBodyColorCount();
+        bodyColorCount = RootManager.DataManager.Player.GetBodyTypeCount();
         roomName = PhotonNetwork.CurrentRoom.Name;
         roomNameText.text = roomName;
         amIOriginalMaster = PhotonNetwork.IsMasterClient;
@@ -234,10 +237,18 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             SetDefualtNames();
 
             isPlayerPresent[enterOrder] = true; // 들어옴 체크
-            playerData.AddPlayerData(PhotonNetwork.LocalPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model(data) 업데이트
+            //playerData.AddPlayerData(PhotonNetwork.LocalPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model(data) 업데이트
+            Player localPlayer = PhotonNetwork.LocalPlayer;
+
+            RootManager.DataManager.Player.UpdatePhotonPlayers(localPlayer, enterOrder);
+            RootManager.DataManager.Player.SetNickName(localPlayer, GetDefualtName(enterOrder));
+            RootManager.DataManager.Player.SetBodyID(localPlayer, enterOrder);
+            RootManager.DataManager.Player.SetHatID(localPlayer, 0);
 
             // 플레이어 생성
-            GameObject model = PhotonNetwork.Instantiate($"{modelPath} {enterOrder}", positionData._LobbyPositions[enterOrder].position, positionData._LobbyPositions[enterOrder].rotation);
+            //GameObject model = PhotonNetwork.Instantiate($"{modelPath} {enterOrder}", positionData._LobbyPositions[enterOrder].position, positionData._LobbyPositions[enterOrder].rotation);
+            GameObject model = RootManager.PrefabManager.Instantiate("RoomWait", positionTransforms[enterOrder].position, positionTransforms[enterOrder].rotation);
+            model.SetActive(true);
 
             PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // 모델체인저 뽑아옴
             modelChangers[enterOrder] = modelChanger; // 모델 체인저 저장해둠 --> 마스터가 다 컨트롤할라구
@@ -246,7 +257,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             waitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder); // View 의 입장순서를 업데이트해줌
 
             players[enterOrder] = PhotonNetwork.LocalPlayer;
-            AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
+            //AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
         }
     }
 

@@ -9064,6 +9064,12 @@ MonoBehaviour:
   - {fileID: 2487228349269652566}
   - {fileID: 2487228348886883728}
   positionData: {fileID: 11400000, guid: bf6421970a8f14d44a5a373be836530b, type: 2}
+  positionTransforms:
+  - {fileID: 0}
+  - {fileID: 1771741180}
+  - {fileID: 1761133832}
+  - {fileID: 1628674908}
+  - {fileID: 142986539}
   enterOrder: 1
   isReady: 0000000000
   isPlayerPresent: 0000000000
