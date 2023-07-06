@@ -31,7 +31,7 @@ public class MultiGameCanvas : MonoBehaviour
     /// </summary>
     public void OnClick_GameStartButton()
     {
-        OnJoinRandomRoom();
+        JoinRandomRoom();
     }
 
     /// <summary>
@@ -102,15 +102,14 @@ public class MultiGameCanvas : MonoBehaviour
         return isCreatingRoom;
     }
 
-    private void OnJoinRandomRoom()
+    private void JoinRandomRoom()
     {
         if (PhotonNetwork.IsConnected)
         {
             if (1 <= Managers.DataManager.Room.Count)
             {
                 PhotonNetwork.JoinRandomRoom();
-                //PhotonNetwork.LoadLevel("WaitingRoomScene");
-                _lobbyCanvases.LoadBoardGame();
+                _lobbyCanvases.LoadWaitingRoom();
             }
             else
             {

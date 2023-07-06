@@ -73,7 +73,7 @@ public class CreateOrFind_RoomCanvas : MonoBehaviourPunCallbacks
             if (isRoomExist == false) 
             {
                 PhotonNetwork.CreateRoom(ActualRoomName, option, TypedLobby.Default); // 방을 만든다
-                _lobbyCanvases.LoadBoardGame();
+                _lobbyCanvases.LoadWaitingRoom();
                 levelLoader.BoardGameLoadPlay();
             }
             else
@@ -89,7 +89,7 @@ public class CreateOrFind_RoomCanvas : MonoBehaviourPunCallbacks
             if (isJoinSuccess)
             {
                 PhotonNetwork.JoinRoom(ActualRoomName); // 입력된 코드의 방을 들어간다
-                _lobbyCanvases.LoadBoardGame();
+                _lobbyCanvases.LoadWaitingRoom();
                 levelLoader.BoardGameLoadPlay(); 
 
             }

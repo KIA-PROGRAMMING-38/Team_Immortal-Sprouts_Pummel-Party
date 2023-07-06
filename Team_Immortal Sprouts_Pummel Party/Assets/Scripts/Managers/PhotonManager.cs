@@ -12,6 +12,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private int repeatTime = 1;
 
     public UnityEvent OnConnectedToMasterServer = new UnityEvent();
+    public UnityEvent OnJoinedRoom = new UnityEvent();
 
 
     private void Awake()
@@ -44,4 +45,26 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     }
 
     public override void OnLeftLobby() => PhotonNetwork.JoinLobby();
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        foreach (RoomInfo updatedRoomInfo in roomList)
+        {
+            string updatedRoomName = updatedRoomInfo.Name;
+            bool isNewlyCreated;
+            if (updatedRoomInfo.RemovedFromList) // 방이 삭제되었다면
+            {
+                isNewlyCreated = false;
+                Managers.DataManager.Room.UpdateRoomData(isNewlyCreated, updatedRoomName);
+            }
+            else // 방이 삭제 된게 아니라면
+            {
+                if (!Managers.DataManager.Room.CheckIfRoomExist(updatedRoomName)) // 새로 생성된 방이라면
+                {
+                    isNewlyCreated = true;
+                    Managers.DataManager.Room.UpdateRoomData(isNewlyCreated, updatedRoomName, updatedRoomInfo);
+                }
+            }
+        }
+    }
 }
