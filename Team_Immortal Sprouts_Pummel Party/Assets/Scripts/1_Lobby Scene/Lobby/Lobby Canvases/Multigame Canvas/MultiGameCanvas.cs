@@ -109,7 +109,8 @@ public class MultiGameCanvas : MonoBehaviour
             if (1 <= RootManager.DataManager.Room.Count)
             {
                 PhotonNetwork.JoinRandomRoom();
-                PhotonNetwork.LoadLevel("WaitingRoomScene");
+                //PhotonNetwork.LoadLevel("WaitingRoomScene");
+                _lobbyCanvases.LoadBoardGame();
             }
             else
             {

@@ -37,6 +37,11 @@ public class LobbyCanvases : MonoBehaviourPunCallbacks
         Create_Or_Find_RoomCanvas.Deactive();
     }
 
+    public void LoadBoardGame() // 현재는 로비 캔버스에 있지만, 나중에 LoadManager 한테 가줘야함
+    {
+        PhotonNetwork.LoadLevel(1);
+    }
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         foreach (RoomInfo updatedRoomInfo in roomList)
@@ -58,6 +63,5 @@ public class LobbyCanvases : MonoBehaviourPunCallbacks
             }
         }
 
-        
     }
 }

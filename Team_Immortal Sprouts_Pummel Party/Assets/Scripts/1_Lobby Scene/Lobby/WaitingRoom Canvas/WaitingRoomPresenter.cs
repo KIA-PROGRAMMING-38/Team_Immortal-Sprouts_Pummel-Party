@@ -226,7 +226,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         roomName = PhotonNetwork.CurrentRoom.Name;
         roomNameText.text = roomName;
         amIOriginalMaster = PhotonNetwork.IsMasterClient;
-
+        RootManager.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers);
         InitializeHashTable(); // 플레이어 커스텀 프로퍼티를 사용하기 위한 초기화 과정
 
         if (PhotonNetwork.IsMasterClient)
