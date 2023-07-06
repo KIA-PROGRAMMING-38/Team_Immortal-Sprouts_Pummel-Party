@@ -39,11 +39,11 @@ public class LobbyCanvases : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        foreach (RoomInfo roomInfo in roomList)
+        foreach (RoomInfo updatedRoomInfo in roomList)
         {
-            string updatedRoomName = roomInfo.Name;
+            string updatedRoomName = updatedRoomInfo.Name;
             bool isNewlyCreated;
-            if (roomInfo.RemovedFromList) // 방이 삭제되었다면
+            if (updatedRoomInfo.RemovedFromList) // 방이 삭제되었다면
             {
                 isNewlyCreated = false;
                 RootManager.DataManager.Room.UpdateRoomData(isNewlyCreated, updatedRoomName);
@@ -53,7 +53,7 @@ public class LobbyCanvases : MonoBehaviourPunCallbacks
                 if (!RootManager.DataManager.Room.CheckIfRoomExist(updatedRoomName)) // 새로 생성된 방이라면
                 {
                     isNewlyCreated = true;
-                    RootManager.DataManager.Room.UpdateRoomData(isNewlyCreated, updatedRoomName, roomInfo);
+                    RootManager.DataManager.Room.UpdateRoomData(isNewlyCreated, updatedRoomName, updatedRoomInfo);
                 }
             }
         }
