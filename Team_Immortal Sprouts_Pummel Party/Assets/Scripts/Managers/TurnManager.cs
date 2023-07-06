@@ -21,17 +21,17 @@ public class TurnManager
     /// <summary>
     /// 미니게임에서 플레이어가 결승섬에 들어오거나 탈락할때 호출하는 메서드
     /// </summary>
-    /// <param name="type"></param>
+    /// <param name="gameType"></param>
     /// <param name="playerEnterOrder"></param>
-    public void EnterPlayer(GAME_TYPE type, int playerEnterOrder)
+    public void EnterPlayer(GameType gameType, int playerEnterOrder)
     {
-        switch (type)
+        switch (gameType)
         {
-            case GAME_TYPE.FIRST_ENTER_PRIZE:
+            case GameType.FIRST_ENTER_PRIZE:
                 TurnOrder.Enqueue(playerEnterOrder);
                 break;
 
-            case GAME_TYPE.LAST_ENTER_PRTZE:
+            case GameType.LAST_ENTER_PRTZE:
                 LastEnterOrder.Push(playerEnterOrder);
                 break;
         }
@@ -40,12 +40,12 @@ public class TurnManager
     /// <summary>
     /// 포인트로 순위를 환산하는 미니게임에서 결과가 정해진 후 호출할 메서드
     /// </summary>
-    /// <param name="type"></param>
+    /// <param name="gameType"></param>
     /// <param name="playerEnterOrder"></param>
     /// <param name="point"></param>
-    public void EnterPlayer(GAME_TYPE type, int point, int playerEnterOrder)
+    public void EnterPlayer(GameType gameType, int point, int playerEnterOrder)
     {
-        if (type == GAME_TYPE.POINT_ENTER_PRIZE)
+        if (gameType == GameType.POINT_ENTER_PRIZE)
         {
             PointOrder.Add((Point : point, EnterOrder : playerEnterOrder));
         }

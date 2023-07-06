@@ -11,16 +11,16 @@ public class FakeBoardGameManager : MonoBehaviour
 
     private void Start()
     {
-        if (Turn.isFirst)
-        {
-            gameFrameWork.OnFirtstStartBoardGame.Invoke();
+        //if (Turn.isFirst)
+        //{
+        //    gameFrameWork.OnFirtstStartBoardGame.Invoke();
 
-            Turn.isFirst = false;
-        }
-        else
-        {
-            gameFrameWork.OnStartBoardGame.Invoke();
-        }
+        //    Turn.isFirst = false;
+        //}
+        //else
+        //{
+        //    gameFrameWork.OnStartBoardGame.Invoke();
+        //}
     }
 
     private PhotonView playerView;
