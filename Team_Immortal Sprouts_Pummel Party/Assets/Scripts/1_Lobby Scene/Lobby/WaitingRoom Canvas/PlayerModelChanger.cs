@@ -85,7 +85,8 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     /// </summary>
     public void RemoveCurrentHat()
     {
-        defaultPrefabPool.Destroy(currentHat);
+        //defaultPrefabPool.Destroy(currentHat);
+        RootManager.PrefabManager.Destroy(currentHat);
     }
 
 
