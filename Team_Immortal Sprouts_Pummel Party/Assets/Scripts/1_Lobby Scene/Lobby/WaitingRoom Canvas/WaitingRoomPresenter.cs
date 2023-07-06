@@ -82,14 +82,12 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         wantBodyIndex = playerData.GetCapableBodyIndex(lastIndex, wantBodyIndex, isRightButton, isFirstEntry);
 
-        //UpdateBodyData(enterOrder, wantBodyIndex); // 플레이어의 몸색깔 데이터를 갱신해줌
         Player askedPlayer = RootManager.DataManager.Player.GetPhotonPlayer(enterOrder);
         RootManager.DataManager.Player.SetBodyID(askedPlayer, wantBodyIndex);
 
         modelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, wantBodyIndex); // 플레이어의 몸색깔을 바꿔줌
         waitingViews[enterOrder].GetViewPV().RPC("UpdateBodyIndex", RpcTarget.AllBuffered, wantBodyIndex);
 
-        //Player askPlayer = players[enterOrder];
         waitingViews[enterOrder].GetViewPV().RPC("SetBackgroundColor", askedPlayer, wantBodyIndex);
     }
 

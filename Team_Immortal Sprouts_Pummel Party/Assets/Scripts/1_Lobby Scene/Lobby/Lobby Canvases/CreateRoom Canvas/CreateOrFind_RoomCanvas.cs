@@ -7,7 +7,7 @@ using Photon.Realtime;
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.CompilerServices;
 
-public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
+public class CreateOrFind_RoomCanvas : MonoBehaviourPunCallbacks
 {
     private LobbyCanvases _lobbyCanvases;
 
@@ -22,26 +22,17 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
     /// <summary>
     /// Lobby를 구성하는 Canvas들이 서로 참조할 수 있도록 초기 세팅
     /// </summary>
-    public void CanvasInitialize(LobbyCanvases canvases)
-    {
-        _lobbyCanvases = canvases;
-    }
+    public void CanvasInitialize(LobbyCanvases canvases) => _lobbyCanvases = canvases;
 
     /// <summary>
     /// Create Room Canvas를 활성화
     /// </summary>
-    public void Active()
-    {
-        gameObject.SetActive(true);
-    }
+    public void Active() => gameObject.SetActive(true);
 
     /// <summary>
     /// Create Room Canvas를 비활성화
     /// </summary>
-    public void Deactive()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Deactive() => gameObject.SetActive(false);
 
     #region OnClick 이벤트 함수
 
@@ -77,12 +68,11 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
                 ActualRoomName = roomName.text;
             }
 
-            bool isCreatable = RootManager.DataManager.Room.CheckIfRoomExist(ActualRoomName);
+            bool isRoomExist = RootManager.DataManager.Room.CheckIfRoomExist(ActualRoomName);
 
-            if (!isCreatable) // 존재하는 방이 없다면
+            if (isRoomExist == false) 
             {
                 PhotonNetwork.CreateRoom(ActualRoomName, option, TypedLobby.Default); // 방을 만든다
-                //PhotonNetwork.LoadLevel(1);
                 _lobbyCanvases.LoadBoardGame();
                 levelLoader.BoardGameLoadPlay();
             }
@@ -99,7 +89,6 @@ public class Create_Or_Find_RoomCanvas : MonoBehaviourPunCallbacks
             if (isJoinSuccess)
             {
                 PhotonNetwork.JoinRoom(ActualRoomName); // 입력된 코드의 방을 들어간다
-                //PhotonNetwork.LoadLevel(1);
                 _lobbyCanvases.LoadBoardGame();
                 levelLoader.BoardGameLoadPlay(); 
 
