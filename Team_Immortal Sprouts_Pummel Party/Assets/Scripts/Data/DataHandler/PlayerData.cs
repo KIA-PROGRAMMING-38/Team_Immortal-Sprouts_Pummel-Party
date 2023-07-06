@@ -31,12 +31,19 @@ public class PlayerData
     }
 
     /// <summary>
-    /// 대기실에서 보드게임씬으로 넘어갈때 호출해줘야 하는 함수
+    /// 로비씬에서 대기실씬으로 넘어갈때 데이터 컨테이너를 초기화해주는 함수
     /// </summary>
-    /// <param name="playerCount"></param>
-    public void InitPlayerDataContainer(int playerCount)
+    /// <param name="maxPlayerCount"></param>
+    public void InitPhotonPlayerContainer(int maxPlayerCount)
     {
-        photonPlayers = new Player[playerCount];
+        photonPlayers = new Player[maxPlayerCount];
+    }
+
+    /// <summary>
+    /// 대기실씬에서 보드게임씬으로 넘어갈때 데이터 컨테이너를 초기화해주는 함수
+    /// </summary>
+    public void InitPlayerDataContainer()
+    {
         initItemArray();
         initEggPlusCount();
     }

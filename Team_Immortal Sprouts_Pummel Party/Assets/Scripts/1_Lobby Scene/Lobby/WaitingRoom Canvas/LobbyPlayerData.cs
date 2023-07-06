@@ -13,11 +13,12 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     private PhotonView dataPV;
     private void Start()
     {
-        colorIndexing = new bool[customData.bodyColors.Length];
+        //colorIndexing = new bool[customData.bodyColors.Length];
+        colorIndexing = new bool[RootManager.DataManager.Player.BodyDialog.Count];
     }
 
     /// <summary>
-    /// ÁÖ¾îÁø ÀÎµ¦½º¿¡ µû¶ó UI»óÀÇ ¸ö ¹è°æ»öÀ» ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// ì£¼ì–´ì§„ ì¸ë±ìŠ¤ì— ë”°ë¼ UIìƒì˜ ëª¸ ë°°ê²½ìƒ‰ì„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="colorIndex"></param>
     /// <returns></returns>
@@ -27,7 +28,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// ÁÖ¾îÁø ÀÎµ¦½º¿¡ µû¶ó UI»óÀÇ ¸ğÀÚ ÀÌ¸§À» ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// ì£¼ì–´ì§„ ì¸ë±ìŠ¤ì— ë”°ë¼ UIìƒì˜ ëª¨ì ì´ë¦„ì„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="hatIndex"></param>
     /// <returns></returns>
@@ -38,13 +39,13 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
 
 
     /// <summary>
-    /// »ö±ò ¹è¿­ÀÇ ¼±ÅÃ°¡´É ¿©ºÎ¸¦ ¾÷µ¥ÀÌÆ® ÇØÁÖ´Â ÇÔ¼ö
+    /// ìƒ‰ê¹” ë°°ì—´ì˜ ì„ íƒê°€ëŠ¥ ì—¬ë¶€ë¥¼ ì—…ë°ì´íŠ¸ í•´ì£¼ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="enterOrder"></param>
     /// <param name="isTakeOver"></param>
     public void UpdateColorIndexing(int enterOrder, bool isTakeOver)
     {
-        // true¸é ¸ø°¡Á®°¨
+        // trueë©´ ëª»ê°€ì ¸ê°
         colorIndexing[enterOrder] = isTakeOver;
     }
 
@@ -54,7 +55,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
 
 
     /// <summary>
-    /// »ö±ò ¹è¿­ÀÇ ¼±ÅÃ °¡´ÉÇÑ ÀÎµ¦½º¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// ìƒ‰ê¹” ë°°ì—´ì˜ ì„ íƒ ê°€ëŠ¥í•œ ì¸ë±ìŠ¤ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="lastIndex"></param>
     /// <param name="requestedIndex"></param>
@@ -65,7 +66,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     {
         if (!isFirstEntry)
         {
-            colorIndexing[lastIndex] = false; // ÇöÀç °®°í ÀÖ´Â »öÀ» Æ÷±âÇÑ´Ù
+            colorIndexing[lastIndex] = false; // í˜„ì¬ ê°–ê³  ìˆëŠ” ìƒ‰ì„ í¬ê¸°í•œë‹¤
         }
 
         int targetIndex = 0;
@@ -115,7 +116,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
 
 
     /// <summary>
-    /// µ¥ÀÌÅÍÀÇ Æ÷Åæºä¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// ë°ì´í„°ì˜ í¬í†¤ë·°ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <returns></returns>
     public PhotonView GetDataPV()
@@ -129,7 +130,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// µ¥ÀÌÅÍ¿¡ µé¾î¿Â ÇÃ·¹ÀÌ¾î °ü·Ã Á¤º¸¸¦ ´ã´Â ÇÔ¼ö
+    /// ë°ì´í„°ì— ë“¤ì–´ì˜¨ í”Œë ˆì´ì–´ ê´€ë ¨ ì •ë³´ë¥¼ ë‹´ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="newPlayer"></param>
     /// <param name="enterOrder"></param>
@@ -138,14 +139,19 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     /// <param name="hatIndex"></param>
     public void AddPlayerData(Player newPlayer, int enterOrder, string nickName, int bodyColorIndex, int hatIndex)
     {
-        playerOrderDictionary.Add(newPlayer, enterOrder);
-        playerNameDictionary.Add(newPlayer, nickName);
-        playerBodyColorDictionary.Add(newPlayer, bodyColorIndex);
-        playerHatDictionary.Add(newPlayer, hatIndex);
+        RootManager.DataManager.Player.UpdatePhotonPlayers(newPlayer, enterOrder);
+        RootManager.DataManager.Player.SetNickName(newPlayer, nickName);
+        RootManager.DataManager.Player.SetBodyID(newPlayer, bodyColorIndex);
+        RootManager.DataManager.Player.SetHatID(newPlayer, hatIndex);
+
+        //playerOrderDictionary.Add(newPlayer, enterOrder);
+        //playerNameDictionary.Add(newPlayer, nickName);
+        //playerBodyColorDictionary.Add(newPlayer, bodyColorIndex);
+        //playerHatDictionary.Add(newPlayer, hatIndex);
     }
 
     /// <summary>
-    /// µ¥ÀÌÅÍ¿¡¼­ ³ª°¡´Â ÇÃ·¹ÀÌ¾î °ü·Ã Á¤º¸¸¦ ¾ø¾Ö´Â ÇÔ¼ö
+    /// ë°ì´í„°ì—ì„œ ë‚˜ê°€ëŠ” í”Œë ˆì´ì–´ ê´€ë ¨ ì •ë³´ë¥¼ ì—†ì• ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="newPlayer"></param>
     public void RemovePlayerData(Player newPlayer)
@@ -157,11 +163,11 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     }
 
 
-    // ÇÃ·¹ÀÌ¾îÀÇ ÀÔÀå¼ø¼­¸¦ ´ãÀ» Dictionary
+    // í”Œë ˆì´ì–´ì˜ ì…ì¥ìˆœì„œë¥¼ ë‹´ì„ Dictionary
     private Dictionary<Player, int> playerOrderDictionary = new Dictionary<Player, int>();
 
     /// <summary>
-    /// ÁÖ¾îÁø ÇÃ·¹ÀÌ¾îÀÇ ÀÔÀå¼ø¼­¸¦ ÀúÀåµÈ µ¥ÀÌÅÍ¿¡¼­ »Ì¾Æ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// ì£¼ì–´ì§„ í”Œë ˆì´ì–´ì˜ ì…ì¥ìˆœì„œë¥¼ ì €ì¥ëœ ë°ì´í„°ì—ì„œ ë½‘ì•„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
@@ -170,11 +176,11 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
         return playerOrderDictionary[player];
     }
 
-    // ÇÃ·¹ÀÌ¾îÀÇ ´Ğ³×ÀÓÀ» ´ãÀ» Dictionary
+    // í”Œë ˆì´ì–´ì˜ ë‹‰ë„¤ì„ì„ ë‹´ì„ Dictionary
     private Dictionary<Player, string> playerNameDictionary = new Dictionary<Player, string>();
 
     /// <summary>
-    /// ÁÖ¾îÁø ÇÃ·¹ÀÌ¾îÀÇ ´Ğ³×ÀÓÀ» ÀúÀåµÈ µ¥ÀÌÅÍ¿¡¼­ »Ì¾Æ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// ì£¼ì–´ì§„ í”Œë ˆì´ì–´ì˜ ë‹‰ë„¤ì„ì„ ì €ì¥ëœ ë°ì´í„°ì—ì„œ ë½‘ì•„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
@@ -184,7 +190,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// ÁÖ¾îÁø ´Ğ³×ÀÓÀ» µ¥ÀÌÅÍ¿¡ ÀúÀåÇÏ´Â ÇÔ¼ö
+    /// ì£¼ì–´ì§„ ë‹‰ë„¤ì„ì„ ë°ì´í„°ì— ì €ì¥í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="updatePlayer"></param>
     /// <param name="newNickName"></param>
@@ -194,11 +200,11 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     }
 
 
-    // ÇÃ·¹ÀÌ¾îÀÇ ¸ö »ö±òÀ» ´ãÀ» Dictionary
+    // í”Œë ˆì´ì–´ì˜ ëª¸ ìƒ‰ê¹”ì„ ë‹´ì„ Dictionary
     private Dictionary<Player, int> playerBodyColorDictionary = new Dictionary<Player, int>();
 
     /// <summary>
-    /// ÁÖ¾îÁø ÇÃ·¹ÀÌ¾îÀÇ ¸ö»ö ÀÎµ¦½º¸¦ ÀúÀåµÈ µ¥ÀÌÅÍ¿¡¼­ »Ì¾Æ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// ì£¼ì–´ì§„ í”Œë ˆì´ì–´ì˜ ëª¸ìƒ‰ ì¸ë±ìŠ¤ë¥¼ ì €ì¥ëœ ë°ì´í„°ì—ì„œ ë½‘ì•„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
@@ -208,7 +214,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// ÁÖ¾îÁø ¸ö»ö ÀÎµ¦½º¸¦ µ¥ÀÌÅÍ¿¡ ÀúÀåÇÏ´Â ÇÔ¼ö
+    /// ì£¼ì–´ì§„ ëª¸ìƒ‰ ì¸ë±ìŠ¤ë¥¼ ë°ì´í„°ì— ì €ì¥í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="updatePlayer"></param>
     /// <param name="newBodyIndex"></param>
@@ -218,11 +224,11 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     }
 
 
-    // ÇÃ·¹ÀÌ¾î°¡ Âø¿ëÇÏ°í ÀÖ´Â ¸ğÀÚ¸¦ ´ãÀ» Dictionary
+    // í”Œë ˆì´ì–´ê°€ ì°©ìš©í•˜ê³  ìˆëŠ” ëª¨ìë¥¼ ë‹´ì„ Dictionary
     private Dictionary<Player, int> playerHatDictionary = new Dictionary<Player, int>();
 
     /// <summary>
-    /// ÁÖ¾îÁø ÇÃ·¹ÀÌ¾îÀÇ ¸ğÀÚ ÀÎµ¦½º¸¦ ÀúÀåµÈ µ¥ÀÌÅÍ¿¡¼­ »Ì¾Æ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+    /// ì£¼ì–´ì§„ í”Œë ˆì´ì–´ì˜ ëª¨ì ì¸ë±ìŠ¤ë¥¼ ì €ì¥ëœ ë°ì´í„°ì—ì„œ ë½‘ì•„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
@@ -232,7 +238,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// ÁÖ¾îÁø ¸ğÀÚ ÀÎµ¦½º¸¦ µ¥ÀÌÅÍ¿¡ ÀúÀåÇÏ´Â ÇÔ¼ö
+    /// ì£¼ì–´ì§„ ëª¨ì ì¸ë±ìŠ¤ë¥¼ ë°ì´í„°ì— ì €ì¥í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="updatePlayer"></param>
     /// <param name="newHatIndex"></param>
