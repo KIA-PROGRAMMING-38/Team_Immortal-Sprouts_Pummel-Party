@@ -82,8 +82,8 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         wantBodyIndex = playerData.GetCapableBodyIndex(lastIndex, wantBodyIndex, isRightButton, isFirstEntry);
 
-        Player askedPlayer = RootManager.DataManager.Player.GetPhotonPlayer(enterOrder);
-        RootManager.DataManager.Player.SetBodyID(askedPlayer, wantBodyIndex);
+        Player askedPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
+        Managers.DataManager.Player.SetBodyID(askedPlayer, wantBodyIndex);
 
         modelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, wantBodyIndex); // 플레이어의 몸색깔을 바꿔줌
         waitingViews[enterOrder].GetViewPV().RPC("UpdateBodyIndex", RpcTarget.AllBuffered, wantBodyIndex);
@@ -223,13 +223,13 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         //hatTypeCount = playerData.GetHatTypeCount();
-        hatTypeCount = RootManager.DataManager.Player.GetHatTypeCount();
+        hatTypeCount = Managers.DataManager.Player.GetHatTypeCount();
         //bodyColorCount = playerData.GetBodyColorCount();
-        bodyColorCount = RootManager.DataManager.Player.GetBodyTypeCount();
+        bodyColorCount = Managers.DataManager.Player.GetBodyTypeCount();
         roomName = PhotonNetwork.CurrentRoom.Name;
         roomNameText.text = roomName;
         amIOriginalMaster = PhotonNetwork.IsMasterClient;
-        RootManager.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers);
+        Managers.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers);
         InitializeHashTable(); // 플레이어 커스텀 프로퍼티를 사용하기 위한 초기화 과정
 
         if (PhotonNetwork.IsMasterClient)
@@ -240,14 +240,14 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             //playerData.AddPlayerData(PhotonNetwork.LocalPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model(data) 업데이트
             Player localPlayer = PhotonNetwork.LocalPlayer;
 
-            RootManager.DataManager.Player.UpdatePhotonPlayers(localPlayer, enterOrder);
-            RootManager.DataManager.Player.SetNickName(localPlayer, GetDefualtName(enterOrder));
-            RootManager.DataManager.Player.SetBodyID(localPlayer, enterOrder);
-            RootManager.DataManager.Player.SetHatID(localPlayer, 0);
+            Managers.DataManager.Player.UpdatePhotonPlayers(localPlayer, enterOrder);
+            Managers.DataManager.Player.SetNickName(localPlayer, GetDefualtName(enterOrder));
+            Managers.DataManager.Player.SetBodyID(localPlayer, enterOrder);
+            Managers.DataManager.Player.SetHatID(localPlayer, 0);
 
             // 플레이어 생성
             //GameObject model = PhotonNetwork.Instantiate($"{modelPath} {enterOrder}", positionData._LobbyPositions[enterOrder].position, positionData._LobbyPositions[enterOrder].rotation);
-            GameObject model = RootManager.PrefabManager.Instantiate("RoomWait", positionTransforms[enterOrder].position, positionTransforms[enterOrder].rotation);
+            GameObject model = Managers.PrefabManager.Instantiate("RoomWait", positionTransforms[enterOrder].position, positionTransforms[enterOrder].rotation);
             model.SetActive(true);
 
             PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // 모델체인저 뽑아옴

@@ -68,7 +68,7 @@ public class CreateOrFind_RoomCanvas : MonoBehaviourPunCallbacks
                 ActualRoomName = roomName.text;
             }
 
-            bool isRoomExist = RootManager.DataManager.Room.CheckIfRoomExist(ActualRoomName);
+            bool isRoomExist = Managers.DataManager.Room.CheckIfRoomExist(ActualRoomName);
 
             if (isRoomExist == false) 
             {
@@ -84,7 +84,7 @@ public class CreateOrFind_RoomCanvas : MonoBehaviourPunCallbacks
         else // 방 찾기 버튼을 눌렀다면
         {
             ActualRoomName = roomName.text;
-            bool isJoinSuccess = RootManager.DataManager.Room.CheckIfRoomExist(ActualRoomName);
+            bool isJoinSuccess = Managers.DataManager.Room.CheckIfRoomExist(ActualRoomName);
 
             if (isJoinSuccess)
             {

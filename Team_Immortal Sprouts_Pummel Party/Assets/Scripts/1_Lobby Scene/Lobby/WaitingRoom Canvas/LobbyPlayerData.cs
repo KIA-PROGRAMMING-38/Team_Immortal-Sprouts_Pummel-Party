@@ -14,7 +14,7 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     private void Start()
     {
         //colorIndexing = new bool[customData.bodyColors.Length];
-        colorIndexing = new bool[RootManager.DataManager.Player.BodyDialog.Count];
+        colorIndexing = new bool[Managers.DataManager.Player.BodyDialog.Count];
     }
 
     /// <summary>
@@ -139,10 +139,10 @@ public class LobbyPlayerData : MonoBehaviourPunCallbacks
     /// <param name="hatIndex"></param>
     public void AddPlayerData(Player newPlayer, int enterOrder, string nickName, int bodyColorIndex, int hatIndex)
     {
-        RootManager.DataManager.Player.UpdatePhotonPlayers(newPlayer, enterOrder);
-        RootManager.DataManager.Player.SetNickName(newPlayer, nickName);
-        RootManager.DataManager.Player.SetBodyID(newPlayer, bodyColorIndex);
-        RootManager.DataManager.Player.SetHatID(newPlayer, hatIndex);
+        Managers.DataManager.Player.UpdatePhotonPlayers(newPlayer, enterOrder);
+        Managers.DataManager.Player.SetNickName(newPlayer, nickName);
+        Managers.DataManager.Player.SetBodyID(newPlayer, bodyColorIndex);
+        Managers.DataManager.Player.SetHatID(newPlayer, hatIndex);
 
         //playerOrderDictionary.Add(newPlayer, enterOrder);
         //playerNameDictionary.Add(newPlayer, nickName);

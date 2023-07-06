@@ -2,12 +2,13 @@ using Cysharp.Threading.Tasks;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class RootManager : MonoBehaviour
+public class Managers : MonoBehaviour
 {
-    private static RootManager instance = null;
-    public static RootManager Instance
+    private static Managers instance = null;
+    public static Managers Instance
     {
         get
         {
@@ -19,6 +20,7 @@ public class RootManager : MonoBehaviour
         }
     }
 
+    public static PhotonManager PhotonManager;
     public static FrameWorkManager FrameWorkManager = new FrameWorkManager();
     public static TurnManager TurnManager = new TurnManager();
     public static LoadManager LoadManager = new LoadManager();  
@@ -38,11 +40,12 @@ public class RootManager : MonoBehaviour
         }
 
         PrefabManager = PhotonNetwork.PrefabPool as DefaultPool;
+        
+        
     }
-
-
     private void Start()
     {
         DataManager.InitCSV();
     }
+
 }

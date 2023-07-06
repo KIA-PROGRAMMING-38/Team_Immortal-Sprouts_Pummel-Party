@@ -3,14 +3,21 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class PhotonInitializer : MonoBehaviourPunCallbacks
+public class PhotonManager : MonoBehaviourPunCallbacks
 {
     private const string LOBBY_NAME = "Duck Duck Party";
     private const string GAME_VERSION = "0.0.1";
     private int repeatTime = 1;
 
-    [SerializeField] private GameObject touchGuide;
+    public UnityEvent OnConnectedToMasterServer = new UnityEvent();
+
+
+    private void Awake()
+    {
+        Managers.PhotonManager = this;
+    }
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -20,17 +27,11 @@ public class PhotonInitializer : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        touchGuide.SetActive(true);
-        if (!PhotonNetwork.InLobby)
-        {
-            PhotonNetwork.JoinLobby();
-        }
+        PhotonNetwork.JoinLobby();
+        OnConnectedToMasterServer?.Invoke();
     }
 
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        PhotonNetwork.ConnectUsingSettings();
-    }
+    public override void OnDisconnected(DisconnectCause cause) => PhotonNetwork.ConnectUsingSettings();
 
     public override void OnJoinedLobby()
     {
@@ -42,8 +43,5 @@ public class PhotonInitializer : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentLobby.Name = LOBBY_NAME;
     }
 
-    public override void OnLeftLobby()
-    {
-        PhotonNetwork.JoinLobby();
-    }
+    public override void OnLeftLobby() => PhotonNetwork.JoinLobby();
 }

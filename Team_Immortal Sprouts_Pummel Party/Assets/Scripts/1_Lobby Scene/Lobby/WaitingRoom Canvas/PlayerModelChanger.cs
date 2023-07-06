@@ -48,7 +48,7 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     private void SetBodyColor(int bodyColorIndex)
     {
         //Texture2D bodyColor = customData.GetBodyColorFromData(bodyColorIndex);
-        string bodyTexturePath = RootManager.DataManager.Player.BodyDialog[bodyColorIndex]["Name"].ToString();
+        string bodyTexturePath = Managers.DataManager.Player.BodyDialog[bodyColorIndex]["Name"].ToString();
         Texture2D bodyColor = Resources.Load<Texture2D>(bodyTexturePath);
         bodyMaterial.mainTexture = bodyColor;
     }
@@ -63,14 +63,14 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
         if (currentHat != null)
         {
             //defaultPrefabPool.Destroy(currentHat);
-            RootManager.PrefabManager.Destroy(currentHat);
+            Managers.PrefabManager.Destroy(currentHat);
         }
 
         //GameObject newHat = customData.GetHatFromData(hatIndex);
-        string hatPath = RootManager.DataManager.Player.HatDialog[hatIndex]["Name"].ToString();
+        string hatPath = Managers.DataManager.Player.HatDialog[hatIndex]["Name"].ToString();
         if (hatPath != "-")
         {
-            GameObject newHat = RootManager.PrefabManager.Instantiate(hatPath, GetHatPosition(), Quaternion.identity);
+            GameObject newHat = Managers.PrefabManager.Instantiate(hatPath, GetHatPosition(), Quaternion.identity);
             newHat.transform.parent = hatTransform;
             newHat.SetActive(true);
             currentHat = newHat;
@@ -93,7 +93,7 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     public void RemoveCurrentHat()
     {
         //defaultPrefabPool.Destroy(currentHat);
-        RootManager.PrefabManager.Destroy(currentHat);
+        Managers.PrefabManager.Destroy(currentHat);
     }
 
 

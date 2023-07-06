@@ -51,14 +51,14 @@ public class LobbyCanvases : MonoBehaviourPunCallbacks
             if (updatedRoomInfo.RemovedFromList) // 방이 삭제되었다면
             {
                 isNewlyCreated = false;
-                RootManager.DataManager.Room.UpdateRoomData(isNewlyCreated, updatedRoomName);
+                Managers.DataManager.Room.UpdateRoomData(isNewlyCreated, updatedRoomName);
             }
             else // 방이 삭제 된게 아니라면
             {
-                if (!RootManager.DataManager.Room.CheckIfRoomExist(updatedRoomName)) // 새로 생성된 방이라면
+                if (!Managers.DataManager.Room.CheckIfRoomExist(updatedRoomName)) // 새로 생성된 방이라면
                 {
                     isNewlyCreated = true;
-                    RootManager.DataManager.Room.UpdateRoomData(isNewlyCreated, updatedRoomName, updatedRoomInfo);
+                    Managers.DataManager.Room.UpdateRoomData(isNewlyCreated, updatedRoomName, updatedRoomInfo);
                 }
             }
         }
