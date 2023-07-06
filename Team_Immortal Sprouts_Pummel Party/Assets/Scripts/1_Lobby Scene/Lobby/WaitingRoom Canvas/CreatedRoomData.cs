@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LobbyPlayerData : MonoBehaviourPunCallbacks
+public class CreatedRoomData : MonoBehaviourPunCallbacks
 {
     [SerializeField] private WaitingRoomPresenter presenter;
     [SerializeField] private CustomData customData;

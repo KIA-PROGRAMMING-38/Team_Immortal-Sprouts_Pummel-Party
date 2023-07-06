@@ -16,10 +16,9 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text roomNameText;
 
     private PhotonView presenterPV;
-    [SerializeField] private LobbyPlayerData playerData; // 모델이 됌
+    [SerializeField] private CreatedRoomData playerData; // 모델이 됌
 
     [SerializeField] private WaitingRoomView[] waitingViews;
-    [SerializeField] private PositionData positionData;
     [SerializeField] private Transform[] positionTransforms;
 
     [SerializeField] private int enterOrder = 1;
@@ -40,6 +39,38 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
     private string[] defaultNames = new string[MAX_INDEX];
 
+    private void OnEnable()
+    {
+        
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(updateRoomText);
+        Managers.PhotonManager.OnJoinedNewRoom.AddListener(updateRoomText);
+
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => Managers.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers));
+        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => Managers.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers));
+
+
+
+
+
+
+
+        Managers.PhotonManager.OnLeftTheRoom.RemoveListener(loadLobby);
+        Managers.PhotonManager.OnLeftTheRoom.AddListener(loadLobby);
+    }
+
+    private void OnDisable()
+    {
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(updateRoomText);
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => Managers.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers));
+        
+
+
+
+
+
+
+        Managers.PhotonManager.OnLeftTheRoom.RemoveListener(loadLobby);
+    }
 
     /// <summary>
     /// 주어진 입장순서에 해당하는 플레이어의 몸색을 초기화 해주는 함수
@@ -219,18 +250,22 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
     private string modelPath = "Prefabs/Lobby/WaitingRoomCanvas/RoomWait";
 
+    private void updateRoomText()
+    {
+        roomName = PhotonNetwork.CurrentRoom.Name;
+        roomNameText.text = roomName;
+    }
+
     #region Photon 콜백 함수들
     public override void OnJoinedRoom()
     {
-        //hatTypeCount = playerData.GetHatTypeCount();
         hatTypeCount = Managers.DataManager.Player.GetHatTypeCount();
-        //bodyColorCount = playerData.GetBodyColorCount();
         bodyColorCount = Managers.DataManager.Player.GetBodyTypeCount();
-        roomName = PhotonNetwork.CurrentRoom.Name;
-        roomNameText.text = roomName;
+        //roomName = PhotonNetwork.CurrentRoom.Name;
+        //roomNameText.text = roomName;
         amIOriginalMaster = PhotonNetwork.IsMasterClient;
-        Managers.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers);
-        InitializeHashTable(); // 플레이어 커스텀 프로퍼티를 사용하기 위한 초기화 과정
+        //Managers.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers);
+        //InitializeHashTable(); // 플레이어 커스텀 프로퍼티를 사용하기 위한 초기화 과정
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -246,7 +281,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             Managers.DataManager.Player.SetHatID(localPlayer, 0);
 
             // 플레이어 생성
-            //GameObject model = PhotonNetwork.Instantiate($"{modelPath} {enterOrder}", positionData._LobbyPositions[enterOrder].position, positionData._LobbyPositions[enterOrder].rotation);
             GameObject model = Managers.PrefabManager.Instantiate("RoomWait", positionTransforms[enterOrder].position, positionTransforms[enterOrder].rotation);
             model.SetActive(true);
 
@@ -269,10 +303,19 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         {
             enterOrder = GetEmptySlot(); // 빈자리를 찾아서, 입장순서를 정해줌
             isPlayerPresent[enterOrder] = true; // 존재함 체크
-            playerData.AddPlayerData(newPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model 업데이트
+            //playerData.AddPlayerData(newPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model 업데이트
+
+
+
+            Managers.DataManager.Player.UpdatePhotonPlayers(newPlayer, enterOrder);
+            Managers.DataManager.Player.SetNickName(newPlayer, GetDefualtName(enterOrder));
+            Managers.DataManager.Player.SetBodyID(newPlayer, enterOrder);
+            Managers.DataManager.Player.SetHatID(newPlayer, 0);
 
             // 플레이어 생성
-            GameObject model = PhotonNetwork.Instantiate($"{modelPath} {enterOrder}", positionData._LobbyPositions[enterOrder].position, positionData._LobbyPositions[enterOrder].rotation);
+            //GameObject model = PhotonNetwork.Instantiate($"{modelPath} {enterOrder}", positionData._LobbyPositions[enterOrder].position, positionData._LobbyPositions[enterOrder].rotation);
+            GameObject model = Managers.PrefabManager.Instantiate("RoomWait", positionTransforms[enterOrder].position, positionTransforms[enterOrder].rotation);
+            model.SetActive(true);
 
             PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // 모델 체인저 뽑아옴
             modelChangers[enterOrder] = modelChanger; // 모델체인저 저장해둠 --> 마스터가 다 조종할라고
@@ -317,10 +360,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnLeftRoom()
-    {
-        PhotonNetwork.LoadLevel("Lobby Scene");
-    }
+    private void loadLobby() => PhotonNetwork.LoadLevel(0); // 이거도 LobbyManager가 해줘야함
 
     #endregion
 

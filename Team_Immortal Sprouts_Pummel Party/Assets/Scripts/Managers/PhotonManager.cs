@@ -12,7 +12,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private int repeatTime = 1;
 
     public UnityEvent OnConnectedToMasterServer = new UnityEvent();
-    public UnityEvent OnJoinedRoom = new UnityEvent();
+    public UnityEvent OnJoinedNewRoom = new UnityEvent();
+    public UnityEvent OnLeftTheRoom = new UnityEvent();
 
 
     private void Awake()
@@ -67,4 +68,23 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    public override void OnJoinedRoom() => OnJoinedNewRoom?.Invoke();
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        
+    }
+
+    public override void OnLeftRoom() => OnLeftTheRoom?.Invoke();
 }
