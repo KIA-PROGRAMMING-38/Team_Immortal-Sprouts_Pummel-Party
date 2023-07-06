@@ -16,14 +16,14 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text roomNameText;
 
     private PhotonView presenterPV;
-    [SerializeField] private CreatedRoomData playerData; // 모델이 됌
+    [SerializeField] private CreatedRoomData createdRoomData; // 모델이 됌
 
     [SerializeField] private WaitingRoomView[] waitingViews;
     [SerializeField] private Transform[] positionTransforms;
 
     [SerializeField] private int enterOrder = 1;
-    [SerializeField] private bool[] isReady = new bool[MAX_INDEX];
-    [SerializeField] private bool[] isPlayerPresent = new bool[MAX_INDEX];
+    //[SerializeField] private bool[] isReady = new bool[MAX_INDEX];
+    //[SerializeField] private bool[] isPlayerPresent = new bool[MAX_INDEX];
 
     [SerializeField] private GameObject[] playerModels;
     [SerializeField] private PlayerModelChanger[] modelChangers = new PlayerModelChanger[MAX_INDEX];
@@ -45,9 +45,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(updateRoomText);
         Managers.PhotonManager.OnJoinedNewRoom.AddListener(updateRoomText);
 
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => Managers.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers));
-        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => Managers.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers));
-
 
 
 
@@ -61,7 +58,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     private void OnDisable()
     {
         Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(updateRoomText);
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => Managers.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers));
         
 
 
@@ -91,12 +87,12 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     /// <returns></returns>
     public Color GetBackgroundColor(int colorIndex)
     {
-        return playerData.GetBackgroundColorData(colorIndex);
+        return createdRoomData.GetBackgroundColorData(colorIndex);
     }
 
     public string GetBackgroundHatText(int hatIndex)
     {
-        return playerData.GetBackgroundHatTextData(hatIndex);
+        return createdRoomData.GetBackgroundHatTextData(hatIndex);
     }
 
 
@@ -111,7 +107,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     [PunRPC]
     public void AskBodyColorUpdate(int enterOrder, int lastIndex, int wantBodyIndex, bool isRightButton, bool isFirstEntry) // 마스터 클라이언트에서 실행될 함수
     {
-        wantBodyIndex = playerData.GetCapableBodyIndex(lastIndex, wantBodyIndex, isRightButton, isFirstEntry);
+        wantBodyIndex = createdRoomData.GetCapableBodyIndex(lastIndex, wantBodyIndex, isRightButton, isFirstEntry);
 
         Player askedPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
         Managers.DataManager.Player.SetBodyID(askedPlayer, wantBodyIndex);
@@ -149,7 +145,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         Player updatePlayer = players[enterOrder];
 
-        playerData.UpdateBodyIndex(updatePlayer, bodyIndex);
+        createdRoomData.UpdateBodyIndex(updatePlayer, bodyIndex);
 
     }
 
@@ -162,7 +158,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         Player updatePlayer = players[enterOrder];
 
-        playerData.UpdateHatIndex(updatePlayer, hatIndex);
+        createdRoomData.UpdateHatIndex(updatePlayer, hatIndex);
     }
 
     public PhotonView GetPresenterPV()
@@ -187,22 +183,20 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetReady(int enterOrder) // 마스터 클라이언트만 실행시켜줄 함수
     {
-        if (isPlayerPresent[enterOrder])
+        if (createdRoomData.IsPlayerPresent[enterOrder] == true)
         {
-            if (isReady[enterOrder] == true) // 이미 레디한 상태라면
+            if (createdRoomData.IsReady[enterOrder] == true)
             {
-                // 레디를 해제한다
-                isReady[enterOrder] = false;
-                waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, isReady[enterOrder]);
+                createdRoomData.IsReady[enterOrder] = false;
                 --readyCount;
             }
             else // 레디를 안한 상태라면
             {
-                // 레디한다
-                isReady[enterOrder] = true;
-                waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, isReady[enterOrder]);
+                createdRoomData.IsReady[enterOrder] = true;
                 ++readyCount;
             }
+
+            waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, createdRoomData.IsReady[enterOrder]);
         }
 
         CheckIfStartable(readyCount);
@@ -271,11 +265,11 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         {
             SetDefualtNames();
 
-            isPlayerPresent[enterOrder] = true; // 들어옴 체크
+            createdRoomData.IsPlayerPresent[enterOrder] = true;
             //playerData.AddPlayerData(PhotonNetwork.LocalPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model(data) 업데이트
             Player localPlayer = PhotonNetwork.LocalPlayer;
 
-            Managers.DataManager.Player.UpdatePhotonPlayers(localPlayer, enterOrder);
+            Managers.DataManager.Player.SetEnterOrder(localPlayer, enterOrder);
             Managers.DataManager.Player.SetNickName(localPlayer, GetDefualtName(enterOrder));
             Managers.DataManager.Player.SetBodyID(localPlayer, enterOrder);
             Managers.DataManager.Player.SetHatID(localPlayer, 0);
@@ -302,18 +296,14 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             enterOrder = GetEmptySlot(); // 빈자리를 찾아서, 입장순서를 정해줌
-            isPlayerPresent[enterOrder] = true; // 존재함 체크
-            //playerData.AddPlayerData(newPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model 업데이트
+            createdRoomData.IsPlayerPresent[enterOrder] = true;
 
-
-
-            Managers.DataManager.Player.UpdatePhotonPlayers(newPlayer, enterOrder);
+            Managers.DataManager.Player.SetEnterOrder(newPlayer, enterOrder);
             Managers.DataManager.Player.SetNickName(newPlayer, GetDefualtName(enterOrder));
             Managers.DataManager.Player.SetBodyID(newPlayer, enterOrder);
             Managers.DataManager.Player.SetHatID(newPlayer, 0);
 
             // 플레이어 생성
-            //GameObject model = PhotonNetwork.Instantiate($"{modelPath} {enterOrder}", positionData._LobbyPositions[enterOrder].position, positionData._LobbyPositions[enterOrder].rotation);
             GameObject model = Managers.PrefabManager.Instantiate("RoomWait", positionTransforms[enterOrder].position, positionTransforms[enterOrder].rotation);
             model.SetActive(true);
 
@@ -337,20 +327,25 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         if (amIOriginalMaster && PhotonNetwork.IsMasterClient) // 마스터가해줘야 할 일들
         {
-            int leftPlayerEnterOrder = playerData.GetPlayerEnterOrder(otherPlayer);
+            //int leftPlayerEnterOrder = createdRoomData.GetPlayerEnterOrder(otherPlayer);
+            int leftPlayerEnterOrder = Managers.DataManager.Player.GetEnterOrder(otherPlayer);
             ResetBodyColor(leftPlayerEnterOrder);
             DestroyOtherPlayer(leftPlayerEnterOrder);
-            isPlayerPresent[playerData.GetPlayerEnterOrder(otherPlayer)] = false; // 나감 표시
-            playerData.UpdateColorIndexing(playerData.GetPlayerBodyColorIndex(otherPlayer), false);
+            createdRoomData.IsPlayerPresent[leftPlayerEnterOrder] = false;
+            //isPlayerPresent[createdRoomData.GetPlayerEnterOrder(otherPlayer)] = false; // 나감 표시
+            //createdRoomData.UpdateColorIndexing(createdRoomData.GetPlayerBodyColorIndex(otherPlayer), false);
+            createdRoomData.colorIndexing[Managers.DataManager.Player.GetBodyID(otherPlayer)] = false;
 
             // 플레이어가 나갔을때 기본값으로 돌려주는 부분
-            isReady[leftPlayerEnterOrder] = false;
+            //isReady[leftPlayerEnterOrder] = false;
+            createdRoomData.IsReady[leftPlayerEnterOrder] = false;
             waitingViews[leftPlayerEnterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, false);
             --readyCount;
             CheckIfStartable(readyCount);
             waitingViews[enterOrder].GetViewPV().RPC("ShowPlayerNickName", RpcTarget.AllBuffered, GetDefualtName(enterOrder));
             EnableRoomOpen();
-            playerData.RemovePlayerData(otherPlayer); // MoDEL 업데이트
+            //createdRoomData.RemovePlayerData(otherPlayer); // MoDEL 업데이트
+            Managers.DataManager.Player.RemovePhotonPlayer(leftPlayerEnterOrder);
         }
     }
 
@@ -428,36 +423,36 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     private Vector3 defualtPosition = Vector3.zero;
     public void LoadBoardGame()
     {
-        SavePlayerProperties().Forget(); // 혹시 메인씬으로 로드하다가 고장날까봐 비동기로 처리
+        //SavePlayerProperties().Forget(); // 혹시 메인씬으로 로드하다가 고장날까봐 비동기로 처리
     }
 
-    private async UniTaskVoid SavePlayerProperties()
-    {
-        for (int enterOrder = 1; enterOrder < players.Length; ++enterOrder)
-        {
-            Player player = PhotonNetwork.CurrentRoom.Players[enterOrder];
-            if (player != null) // 혹시 모를 널 체크
-            {
-                string savedNickName = playerData.GetPlayerNickName(player);
-                int savedColorIndex = playerData.GetPlayerBodyColorIndex(player);
-                int savedHatIndex = playerData.GetPlayerHatIndex(player);
-                int playerEnterOrder = playerData.GetPlayerEnterOrder(player);
+    //private async UniTaskVoid SavePlayerProperties()
+    //{
+    //    for (int enterOrder = 1; enterOrder < players.Length; ++enterOrder)
+    //    {
+    //        Player player = PhotonNetwork.CurrentRoom.Players[enterOrder];
+    //        if (player != null) // 혹시 모를 널 체크
+    //        {
+    //            string savedNickName = createdRoomData.GetPlayerNickName(player);
+    //            int savedColorIndex = createdRoomData.GetPlayerBodyColorIndex(player);
+    //            int savedHatIndex = createdRoomData.GetPlayerHatIndex(player);
+    //            int playerEnterOrder = createdRoomData.GetPlayerEnterOrder(player);
 
-                player.SetCustomProperties(namePropertise); // 추가함
-                player.SetCustomProperties(colorPropertise);
-                player.SetCustomProperties(hatPropertise);
-                player.SetCustomProperties(enterOrderPropertise);
-                player.SetCustomProperties(hpPropertise);
-                player.SetCustomProperties(eggPropertise);
-                player.SetCustomProperties(positionPoropertise);
+    //            player.SetCustomProperties(namePropertise); // 추가함
+    //            player.SetCustomProperties(colorPropertise);
+    //            player.SetCustomProperties(hatPropertise);
+    //            player.SetCustomProperties(enterOrderPropertise);
+    //            player.SetCustomProperties(hpPropertise);
+    //            player.SetCustomProperties(eggPropertise);
+    //            player.SetCustomProperties(positionPoropertise);
 
-                player.CustomProperties[PropertiseKey.nameKey] = savedNickName;
-                player.CustomProperties[PropertiseKey.colorKey] = savedColorIndex;
-                player.CustomProperties[PropertiseKey.hatKey] = savedHatIndex;
-                player.CustomProperties[PropertiseKey.enterOrderKey] = playerEnterOrder;
-            }
-        }
-    }
+    //            player.CustomProperties[PropertiseKey.nameKey] = savedNickName;
+    //            player.CustomProperties[PropertiseKey.colorKey] = savedColorIndex;
+    //            player.CustomProperties[PropertiseKey.hatKey] = savedHatIndex;
+    //            player.CustomProperties[PropertiseKey.enterOrderKey] = playerEnterOrder;
+    //        }
+    //    }
+    //}
 
     public void MoveToBoardGame()
     {
@@ -471,7 +466,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     private void KickEveryoneOut()
     {
         // 방장부터 나가면 MasterClient가 옮겨가기 때문에, 이렇게 처리함
-        for (int enterOrder = isPlayerPresent.Length - 1; 0 < enterOrder; --enterOrder)
+        for (int enterOrder = createdRoomData.IsPlayerPresent.Length - 1; 0 < enterOrder; --enterOrder)
         {
             DestroyOtherPlayer(enterOrder);
         }
@@ -504,16 +499,15 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     private int GetEmptySlot()
     {
         int emptyIndex = 9999;
-        for (int i = 1; i < isPlayerPresent.Length; ++i)
+        for (int i = 1; i < createdRoomData.IsPlayerPresent.Length; ++i)
         {
-            if (isPlayerPresent[i] == false)
+            if (createdRoomData.IsPlayerPresent[i] == false)
             {
                 emptyIndex = i;
                 return emptyIndex;
             }
         }
 
-        Debug.Assert(emptyIndex <= isPlayerPresent.Length);
         return emptyIndex;
     }
 
@@ -540,7 +534,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     public void SetPlayerNickName(int enterOrder, string newNickName)
     {
         Player updatePlayer = players[enterOrder];
-        playerData.UpdateNickName(updatePlayer, newNickName);
+        createdRoomData.UpdateNickName(updatePlayer, newNickName);
         waitingViews[enterOrder].GetViewPV().RPC("ShowPlayerNickName", RpcTarget.AllBuffered, newNickName);
     }
 

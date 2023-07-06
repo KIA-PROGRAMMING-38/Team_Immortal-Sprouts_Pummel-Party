@@ -31,15 +31,6 @@ public class PlayerData
     }
 
     /// <summary>
-    /// 로비씬에서 대기실씬으로 넘어갈때 데이터 컨테이너를 초기화해주는 함수
-    /// </summary>
-    /// <param name="maxPlayerCount"></param>
-    public void InitPhotonPlayerContainer(int maxPlayerCount)
-    {
-        photonPlayers = new Player[maxPlayerCount];
-    }
-
-    /// <summary>
     /// 대기실씬에서 보드게임씬으로 넘어갈때 데이터 컨테이너를 초기화해주는 함수
     /// </summary>
     public void InitPlayerDataContainer()
@@ -70,27 +61,47 @@ public class PlayerData
 
     #region 포톤 플레이어 - 포톤 플레이어 캐싱
 
-    private Player[] photonPlayers;
+    private Dictionary<Player, int> enterOrderDict = new Dictionary<Player, int>();
+    private Dictionary<int, Player> playerDict = new Dictionary<int, Player>();
 
     /// <summary>
     /// PhotonNetwork.Player와 입장순서를 바인딩해주는 함수
     /// </summary>
     /// <param name="newPlayer"></param>
     /// <param name="enterOrder"></param>
-    public void UpdatePhotonPlayers(Player newPlayer, int enterOrder) => photonPlayers[enterOrder] = newPlayer; 
+    public void SetEnterOrder(Player newPlayer, int enterOrder)
+    {
+        enterOrderDict.Add(newPlayer, enterOrder);
+        playerDict.Add(enterOrder, newPlayer);
+    }
+        
+    /// <summary>
+    /// 플레이어의 입장순서를 반환하는 함수
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public int GetEnterOrder(Player player) => enterOrderDict[player];
     
     /// <summary>
     /// 입장순서에 맞는 플레이어를 반환하는 함수
     /// </summary>
     /// <param name="enterOrder"></param>
     /// <returns></returns>
-    public Player GetPhotonPlayer(int enterOrder) => photonPlayers[enterOrder];
+    public Player GetPhotonPlayer(int enterOrder) => playerDict[enterOrder];    
 
     /// <summary>
-    /// 플레이어 아웃게임시, 초기화해주는 함수
+    /// 플레이어 아웃게임시, 데이터 삭제 하는 함수
     /// </summary>
     /// <param name="enterOrder"></param>
-    public void RemovePhotonPlayer(int enterOrder) => photonPlayers[enterOrder] = null;
+    public void RemovePhotonPlayer(int enterOrder)
+    {
+        Player outPlayer = playerDict[enterOrder];
+        enterOrderDict.Remove(outPlayer);
+        playerDict.Remove(enterOrder);
+        hatDict.Remove(outPlayer);
+        bodyDict.Remove(outPlayer);
+        nickNameDict.Remove(outPlayer);
+    }
     #endregion
 
 
@@ -152,6 +163,7 @@ public class PlayerData
     /// <param name="player"></param>
     /// <returns></returns>
     public string GetNickName(Player player) => nickNameDict[player];
+
 
     #endregion
 

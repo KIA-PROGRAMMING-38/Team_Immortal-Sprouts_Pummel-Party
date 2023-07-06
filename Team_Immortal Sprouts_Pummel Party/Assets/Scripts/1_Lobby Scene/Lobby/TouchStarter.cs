@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -7,7 +8,7 @@ using UnityEngine;
 public class TouchStarter : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject touchGuide;
-    private void OnEnable()
+    private void Start()
     {
         Managers.PhotonManager.OnConnectedToMasterServer.RemoveListener(turnOnTouchGuide);
         Managers.PhotonManager.OnConnectedToMasterServer.AddListener(turnOnTouchGuide);

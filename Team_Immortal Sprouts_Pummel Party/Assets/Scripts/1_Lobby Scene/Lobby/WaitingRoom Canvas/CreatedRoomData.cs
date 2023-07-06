@@ -3,18 +3,31 @@ using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreatedRoomData : MonoBehaviourPunCallbacks
 {
     [SerializeField] private WaitingRoomPresenter presenter;
     [SerializeField] private CustomData customData;
-    [SerializeField] private bool[] colorIndexing;
     private PhotonView dataPV;
-    private void Start()
+    [field: SerializeField] public bool[] colorIndexing { get; set; } = new bool[Managers.DataManager.Player.BodyDialog.Count];
+    [field: SerializeField] public bool[] IsPlayerPresent { get; set; }
+    [field: SerializeField] public bool[] IsReady { get; set; }
+
+    private void OnEnable()
     {
-        //colorIndexing = new bool[customData.bodyColors.Length];
-        colorIndexing = new bool[Managers.DataManager.Player.BodyDialog.Count];
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsPlayerPresent = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
+        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => IsPlayerPresent = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
+
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsReady = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
+        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => IsReady = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
+    }
+
+    private void OnDisable()
+    {
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsPlayerPresent = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsReady = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
     }
 
     /// <summary>
@@ -139,7 +152,7 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     /// <param name="hatIndex"></param>
     public void AddPlayerData(Player newPlayer, int enterOrder, string nickName, int bodyColorIndex, int hatIndex)
     {
-        Managers.DataManager.Player.UpdatePhotonPlayers(newPlayer, enterOrder);
+        Managers.DataManager.Player.SetEnterOrder(newPlayer, enterOrder);
         Managers.DataManager.Player.SetNickName(newPlayer, nickName);
         Managers.DataManager.Player.SetBodyID(newPlayer, bodyColorIndex);
         Managers.DataManager.Player.SetHatID(newPlayer, hatIndex);
@@ -156,25 +169,25 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     /// <param name="newPlayer"></param>
     public void RemovePlayerData(Player newPlayer)
     {
-        playerOrderDictionary.Remove(newPlayer);
-        playerNameDictionary.Remove(newPlayer);
-        playerBodyColorDictionary.Remove(newPlayer);
-        playerHatDictionary.Remove(newPlayer);
+        //playerOrderDictionary.Remove(newPlayer);
+        //playerNameDictionary.Remove(newPlayer);
+        //playerBodyColorDictionary.Remove(newPlayer);
+        //playerHatDictionary.Remove(newPlayer);
     }
 
 
     // 플레이어의 입장순서를 담을 Dictionary
-    private Dictionary<Player, int> playerOrderDictionary = new Dictionary<Player, int>();
+    //private Dictionary<Player, int> playerOrderDictionary = new Dictionary<Player, int>();
 
     /// <summary>
     /// 주어진 플레이어의 입장순서를 저장된 데이터에서 뽑아 반환하는 함수
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
-    public int GetPlayerEnterOrder(Player player)
-    {
-        return playerOrderDictionary[player];
-    }
+    //public int GetPlayerEnterOrder(Player player)
+    //{
+    //    return playerOrderDictionary[player];
+    //}
 
     // 플레이어의 닉네임을 담을 Dictionary
     private Dictionary<Player, string> playerNameDictionary = new Dictionary<Player, string>();
