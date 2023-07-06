@@ -11,23 +11,45 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     [SerializeField] private WaitingRoomPresenter presenter;
     [SerializeField] private CustomData customData;
     private PhotonView dataPV;
+
     [field: SerializeField] public bool[] colorIndexing { get; set; } = new bool[Managers.DataManager.Player.BodyDialog.Count];
+    [field: SerializeField] public PlayerModelChanger[] ModelChangers { get; set; }
+    [field: SerializeField] public PhotonView[] ModelPVs { get; set; }  
     [field: SerializeField] public bool[] IsPlayerPresent { get; set; }
     [field: SerializeField] public bool[] IsReady { get; set; }
+    [field: SerializeField] public bool IsOriginalMaster { get; set; } = false;
 
+    public int PlayerCount { get; set; }    
+    public int MaxPlayerCount { get; set; } 
+    public bool IsStartable { get; set; }
+    public int MaxReadyCount { get; set; }
+    public int ReadyCount { get; set; }
+    public Room CurrentRoom { get; set; }
     private void OnEnable()
     {
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsPlayerPresent = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
-        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => IsPlayerPresent = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
+        CurrentRoom = PhotonNetwork.CurrentRoom;
+        MaxPlayerCount = CurrentRoom.MaxPlayers;
+        MaxReadyCount = MaxPlayerCount;
 
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsReady = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
-        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => IsReady = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsPlayerPresent = new bool[MaxPlayerCount + 1]);
+        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => IsPlayerPresent = new bool[MaxPlayerCount + 1]);
+
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsReady = new bool[MaxPlayerCount + 1]);
+        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => IsReady = new bool[MaxPlayerCount + 1]);
+
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelChangers = new PlayerModelChanger[MaxPlayerCount + 1]);
+        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => ModelChangers = new PlayerModelChanger[MaxPlayerCount + 1]);
+
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
+        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
     }
 
     private void OnDisable()
     {
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsPlayerPresent = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsReady = new bool[PhotonNetwork.CurrentRoom.MaxPlayers]);
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsPlayerPresent = new bool[MaxPlayerCount + 1]);
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsReady = new bool[MaxPlayerCount + 1]);
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelChangers = new PlayerModelChanger[MaxPlayerCount + 1]);
+        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
     }
 
     /// <summary>
@@ -40,6 +62,18 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
         return customData.colors[colorIndex];
     }
 
+    public void UpdateStartable()
+    {
+        if (MaxReadyCount <= ReadyCount)
+        {
+            IsStartable = true;
+        }
+        else
+        {
+            IsStartable = false;
+        }
+    }
+
     /// <summary>
     /// 주어진 인덱스에 따라 UI상의 모자 이름을 반환하는 함수
     /// </summary>
@@ -50,6 +84,33 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
         return customData.hatTexts[hatIndex];
     }
 
+    public void CheckIfRoomStillOpen()
+    {
+        if (MaxPlayerCount <= PlayerCount)
+        {
+            CurrentRoom.IsOpen = false;
+        }
+        else
+        {
+            CurrentRoom.IsOpen = true;
+        }
+    }
+
+
+    public int GetEmptySlot()
+    {
+        int emptyIndex = 9999;
+        for (int slotIndex = 1; slotIndex < IsPlayerPresent.Length; ++slotIndex)
+        {
+            if (IsPlayerPresent[slotIndex] == false)
+            {
+                emptyIndex = slotIndex;
+                return emptyIndex;
+            }
+        }
+
+        return emptyIndex;
+    }
 
     /// <summary>
     /// 색깔 배열의 선택가능 여부를 업데이트 해주는 함수
@@ -152,7 +213,7 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     /// <param name="hatIndex"></param>
     public void AddPlayerData(Player newPlayer, int enterOrder, string nickName, int bodyColorIndex, int hatIndex)
     {
-        Managers.DataManager.Player.SetEnterOrder(newPlayer, enterOrder);
+        Managers.DataManager.Player.UpdatePlayerData(newPlayer, enterOrder);
         Managers.DataManager.Player.SetNickName(newPlayer, nickName);
         Managers.DataManager.Player.SetBodyID(newPlayer, bodyColorIndex);
         Managers.DataManager.Player.SetHatID(newPlayer, hatIndex);

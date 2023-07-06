@@ -69,7 +69,7 @@ public class PlayerData
     /// </summary>
     /// <param name="newPlayer"></param>
     /// <param name="enterOrder"></param>
-    public void SetEnterOrder(Player newPlayer, int enterOrder)
+    public void UpdatePlayerData(Player newPlayer, int enterOrder)
     {
         enterOrderDict.Add(newPlayer, enterOrder);
         playerDict.Add(enterOrder, newPlayer);
@@ -93,7 +93,7 @@ public class PlayerData
     /// 플레이어 아웃게임시, 데이터 삭제 하는 함수
     /// </summary>
     /// <param name="enterOrder"></param>
-    public void RemovePhotonPlayer(int enterOrder)
+    public void RemovePlayerData(int enterOrder)
     {
         Player outPlayer = playerDict[enterOrder];
         enterOrderDict.Remove(outPlayer);
