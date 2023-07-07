@@ -22,6 +22,7 @@ public class TitleDuck : MonoBehaviour
 
     private void OnBecameInvisible()
     {
+        Debug.Log("안보임!");
         TurnBack().Forget();
     }
 
@@ -37,14 +38,10 @@ public class TitleDuck : MonoBehaviour
 
     private async UniTaskVoid TurnBack()
     {
-
         await UniTask.Delay(1000);
         moveSpeed = Random.Range(minSpeed, maxSpeed);
-        if (totalTransform != null)
-        {
-            totalTransform.rotation = Quaternion.Euler(0f, totalTransform.rotation.eulerAngles.y * -1f, 0f);
-        }
-
-
+        Vector3 initialRotation = totalTransform.rotation.eulerAngles;
+        initialRotation.y *= -1f;
+        totalTransform.rotation= Quaternion.Euler(initialRotation);
     }
 }
