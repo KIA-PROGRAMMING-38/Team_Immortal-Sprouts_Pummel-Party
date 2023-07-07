@@ -8,13 +8,10 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     private GameObject currentHat; 
     [SerializeField] private Transform hatTransform;
     [SerializeField] private MeshRenderer[] bodyMeshRenderer;
-    //[SerializeField] private Material bodyMaterial;
     [SerializeField] private CustomData customData;
-    //public DefaultPool defaultPrefabPool { get; private set; } // 포톤에서 제공하는 오브젝트 풀
 
     private void Awake()
     {
-        //defaultPrefabPool = PhotonNetwork.PrefabPool as DefaultPool;
     }
 
 
@@ -48,11 +45,8 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetBodyColor(int bodyColorIndex)
     {
-        //Texture2D bodyColor = customData.GetBodyColorFromData(bodyColorIndex);
         string bodyMaterialPath = Managers.DataManager.Player.BodyDialog[bodyColorIndex]["Name"].ToString();
         Material newBodyMaterial = Resources.Load<Material>(bodyMaterialPath);
-        //Texture2D bodyColor = Resources.Load<Texture2D>(bodyTexturePath);
-        //bodyMaterial = newBodyMaterial;
         foreach (MeshRenderer mesh in bodyMeshRenderer)
         {
             mesh.material = newBodyMaterial;
@@ -68,11 +62,9 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     {
         if (currentHat != null)
         {
-            //defaultPrefabPool.Destroy(currentHat);
             Managers.PrefabManager.Destroy(currentHat);
         }
 
-        //GameObject newHat = customData.GetHatFromData(hatIndex);
         string hatPath = Managers.DataManager.Player.HatDialog[hatIndex]["Name"].ToString();
         if (hatPath != "-")
         {
@@ -81,16 +73,6 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
             newHat.SetActive(true);
             currentHat = newHat;
         }
-
-        //if (newHat != null)
-        //{
-        //    newHat = defaultPrefabPool.Instantiate(newHat.name, GetHatPosition(), Quaternion.identity);
-        //    newHat = RootManager.PrefabManager.Instantiate(hatPath, GetHatPosition(), Quaternion.identity);
-        //    newHat.transform.parent = hatTransform;
-        //    newHat.SetActive(true);
-        //}
-        
-        //currentHat = newHat;
     }
 
     /// <summary>
@@ -98,7 +80,6 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     /// </summary>
     public void RemoveCurrentHat()
     {
-        //defaultPrefabPool.Destroy(currentHat);
         Managers.PrefabManager.Destroy(currentHat);
     }
 

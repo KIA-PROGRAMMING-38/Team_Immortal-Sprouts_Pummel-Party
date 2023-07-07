@@ -130,7 +130,6 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            //presenter.LoadBoardGame();
             presenter.MoveToBoardGame();
         }
     }
@@ -139,19 +138,20 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (GetViewPV().IsMine && isChangable)
         {
-            //int lastIndex = wantBodyIndex;
-            //++wantBodyIndex;
             Player myPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
             int lastIndex = Managers.DataManager.Player.GetBodyID(myPlayer);
-            int desiredIndex = Mathf.Clamp(lastIndex + 1, 0, Managers.DataManager.Player.GetBodyTypeCount());
+            int desiredIndex = lastIndex + 1;
 
-            //if (wantBodyIndex < 0) // 인덱스를 바로잡아줌
-            //    wantBodyIndex = presenter.bodyColorCount - 1;
-            //else if (presenter.bodyColorCount <= wantBodyIndex)
-            //    wantBodyIndex = 0;
+            if (desiredIndex < 0)
+            {
+                desiredIndex = Managers.DataManager.Player.GetBodyTypeCount() - 1;
+            }
+            else if(Managers.DataManager.Player.GetBodyTypeCount() <= desiredIndex)
+            {
+                desiredIndex = 0;
+            }
 
             EnableIsChangable().Forget();
-            //presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, true, false);
             presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, desiredIndex, true, false);
         }
     }
@@ -160,22 +160,23 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (GetViewPV().IsMine && isChangable)
         {
-            //int lastIndex = wantBodyIndex;
-            //--wantBodyIndex;
-
-            //int lastIndex = wantBodyIndex;
-            //++wantBodyIndex;
             Player myPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
             int lastIndex = Managers.DataManager.Player.GetBodyID(myPlayer);
-            int desiredIndex = Mathf.Clamp(lastIndex - 1, 0, Managers.DataManager.Player.GetBodyTypeCount());
+            int desiredIndex = lastIndex - 1;
+            
 
-            //if (wantBodyIndex < 0) // 인덱스를 바로잡아줌
-            //    wantBodyIndex = presenter.bodyColorCount - 1;
-            //else if (presenter.bodyColorCount <= wantBodyIndex)
-            //    wantBodyIndex = 0;
+
+            if (desiredIndex < 0)
+            {
+                desiredIndex = Managers.DataManager.Player.GetBodyTypeCount() - 1;
+            }
+            else if (Managers.DataManager.Player.GetBodyTypeCount() <= desiredIndex)
+            {
+                desiredIndex = 0;
+            }
+
 
             EnableIsChangable().Forget();
-            //presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, false, false);
             presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, desiredIndex, false, false);
 
         }
@@ -185,15 +186,22 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (GetViewPV().IsMine && isChangable)
         {
-            ++hatIndex;
+            Player myPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
+            int lastIndex = Managers.DataManager.Player.GetHatID(myPlayer);
+            int desiredIndex = lastIndex + 1;
+            hatIndex = desiredIndex;
 
-            //if (hatIndex < 0) // 인덱스를 바로 잡아줌
-            //    hatIndex = presenter.hatTypeCount - 1;
-            //else if (presenter.hatTypeCount <= hatIndex)
-            //    hatIndex = 0;
+            if (desiredIndex < 0)
+            {
+                desiredIndex = Managers.DataManager.Player.GetHatTypeCount() - 1;
+            }
+            else if (Managers.DataManager.Player.GetHatTypeCount() <= desiredIndex)
+            {
+                desiredIndex = 0;
+            }
 
             EnableIsChangable().Forget();
-            presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, hatIndex);
+            presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, desiredIndex);
         }
     }
 
@@ -201,15 +209,22 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (GetViewPV().IsMine && isChangable)
         {
-            --hatIndex;
+            Player myPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
+            int lastIndex = Managers.DataManager.Player.GetHatID(myPlayer);
+            int desiredIndex = lastIndex - 1;
+            hatIndex = desiredIndex;
 
-            //if (hatIndex < 0) // 인덱스를 바로 잡아줌
-            //    hatIndex = presenter.hatTypeCount - 1;
-            //else if (presenter.hatTypeCount <= hatIndex)
-            //    hatIndex = 0;
+            if (desiredIndex < 0)
+            {
+                desiredIndex = Managers.DataManager.Player.GetHatTypeCount() - 1;
+            }
+            else if (Managers.DataManager.Player.GetHatTypeCount() <= desiredIndex)
+            {
+                desiredIndex = 0;
+            }
 
             EnableIsChangable().Forget();
-            presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, hatIndex);
+            presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, desiredIndex);
         }
     }
 

@@ -99,7 +99,10 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     [PunRPC]
     public void AskHatUpdate(int enterOrder, int hatIndex) // 마스터 클라이언트에서 실행될 함수
     {
-        UpdateHatData(enterOrder, hatIndex); // 플레이어의 모자 데이터를 갱신해줌
+        //UpdateHatData(enterOrder, hatIndex); // 플레이어의 모자 데이터를 갱신해줌
+
+        Player askedPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
+        Managers.DataManager.Player.SetHatID(askedPlayer, hatIndex);
 
         createdRoomData.ModelPVs[enterOrder].RPC("SetHatOnPlayer", RpcTarget.AllBuffered, hatIndex); // 플레이어 모자를 바꿔줌
 
