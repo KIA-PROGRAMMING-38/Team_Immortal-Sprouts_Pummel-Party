@@ -77,17 +77,15 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     /// <param name="isRightButton"></param>
     /// <param name="isFirstEntry"></param>
     [PunRPC]
-    public void AskBodyColorUpdate(int enterOrder, int lastIndex, int wantBodyIndex, bool isRightButton, bool isFirstEntry) // 마스터 클라이언트에서 실행될 함수
+    public void AskBodyColorUpdate(int enterOrder, bool isRightButton, bool isFirstEntry) // 마스터 클라이언트에서 실행될 함수
     {
-        wantBodyIndex = createdRoomData.GetCapableBodyIndex(lastIndex, wantBodyIndex, isRightButton, isFirstEntry);
-
         Player askedPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
-        Managers.DataManager.Player.SetBodyID(askedPlayer, wantBodyIndex);
+        int lastIndex = Managers.DataManager.Player.GetBodyID(askedPlayer);
+        int bodyIndex = createdRoomData.GetCapableBodyIndex(lastIndex, isRightButton, isFirstEntry);
 
-        createdRoomData.ModelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, wantBodyIndex); // 플레이어의 몸색깔을 바꿔줌
-        WaitingViews[enterOrder].GetViewPV().RPC("UpdateBodyIndex", RpcTarget.AllBuffered, wantBodyIndex);
-
-        WaitingViews[enterOrder].GetViewPV().RPC("SetBackgroundColor", askedPlayer, wantBodyIndex);
+        Managers.DataManager.Player.SetBodyID(askedPlayer, bodyIndex);
+        createdRoomData.ModelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, bodyIndex); // 플레이어의 몸색깔을 바꿔줌
+        WaitingViews[enterOrder].GetViewPV().RPC("SetBackgroundColor", askedPlayer, bodyIndex);
     }
 
 
@@ -97,17 +95,16 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     /// <param name="enterOrder"></param>
     /// <param name="hatIndex"></param>
     [PunRPC]
-    public void AskHatUpdate(int enterOrder, int hatIndex) // 마스터 클라이언트에서 실행될 함수
+    public void AskHatUpdate(int enterOrder, bool isRightButton) // 마스터 클라이언트에서 실행될 함수
     {
-        //UpdateHatData(enterOrder, hatIndex); // 플레이어의 모자 데이터를 갱신해줌
-
         Player askedPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
+        int lastIndex = Managers.DataManager.Player.GetHatID(askedPlayer);
+        int hatIndex = createdRoomData.GetCapableHatIndex(lastIndex, isRightButton);
+
         Managers.DataManager.Player.SetHatID(askedPlayer, hatIndex);
 
         createdRoomData.ModelPVs[enterOrder].RPC("SetHatOnPlayer", RpcTarget.AllBuffered, hatIndex); // 플레이어 모자를 바꿔줌
-
-        Player askPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
-        WaitingViews[enterOrder].GetViewPV().RPC("SetHatText", askPlayer, hatIndex);
+        WaitingViews[enterOrder].GetViewPV().RPC("SetHatText", askedPlayer, hatIndex);
     }
 
 
@@ -219,7 +216,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     //    }
     //}
 
-    public void UpdateNewPlayerData()
+    public async void UpdateNewPlayerData()
     {
         createdRoomData.IsOriginalMaster = PhotonNetwork.IsMasterClient;
 
@@ -234,17 +231,17 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             Managers.DataManager.Player.SetHatID(localPlayer, 0);
 
             // 플레이어 생성
-            GameObject model = Managers.PrefabManager.Instantiate("RoomWait", createdRoomData.PositionTransforms[enterOrder].position, createdRoomData.PositionTransforms[enterOrder].rotation);
-            model.SetActive(true);
+
+            GameObject model = PhotonNetwork.Instantiate("RoomWait", createdRoomData.PositionTransforms[enterOrder].position, createdRoomData.PositionTransforms[enterOrder].rotation);
 
             PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // 모델체인저 뽑아옴
             createdRoomData.ModelChangers[enterOrder] = modelChanger; // 모델 체인저 저장해둠 --> 마스터가 다 컨트롤할라구
             createdRoomData.ModelPVs[enterOrder] = PhotonView.Get(model); // 모델체인저와 연동된 포톤뷰 저장해둠 -> 마스터가 다 컨트롤하라구
-            createdRoomData.ModelPVs[enterOrder].ViewID = enterOrder * 999; // 포톤뷰 ID를 메뉴얼하게 설정해줘야한다고 함....
+
 
             WaitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder); // View 의 입장순서를 업데이트해줌
 
-            AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
+            AskBodyColorUpdate(enterOrder,true, true); // 색을 바꿔줌
             ++createdRoomData.PlayerCount;
         }
 
@@ -296,19 +293,17 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             Managers.DataManager.Player.SetHatID(newPlayer, 0);
 
             // 플레이어 생성
-            GameObject model = Managers.PrefabManager.Instantiate("RoomWait", createdRoomData.PositionTransforms[enterOrder].position, createdRoomData.PositionTransforms[enterOrder].rotation);
-            model.SetActive(true);
+            GameObject model = PhotonNetwork.Instantiate("RoomWait", createdRoomData.PositionTransforms[enterOrder].position, createdRoomData.PositionTransforms[enterOrder].rotation);
 
             PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // 모델 체인저 뽑아옴
             createdRoomData.ModelChangers[enterOrder] = modelChanger; // 모델체인저 저장해둠 --> 마스터가 다 조종할라고
             createdRoomData.ModelPVs[enterOrder] = PhotonView.Get(model); // 모델체인저와 연동된 포톤뷰 저장해둠 -> 마스터가 다 컨트롤하라구
-            createdRoomData.ModelPVs[enterOrder].ViewID = enterOrder * 999; // 포톤뷰 ID를 메뉴얼하게 설정해줘야한다고 함....
 
             // View 에 입장순서 할당해줌
             WaitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder);
             WaitingViews[enterOrder].GetViewPV().TransferOwnership(newPlayer); // 소유권 양도해줌
 
-            AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
+            AskBodyColorUpdate(enterOrder, true, true); // 색을 바꿔줌
             ++createdRoomData.PlayerCount;
             createdRoomData.CheckIfRoomStillOpen();
         }
@@ -342,8 +337,10 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
-    private void loadLobby() => PhotonNetwork.LoadLevel(0); // 이거도 LobbyManager가 해줘야함
-
+    private void loadLobby()
+    {
+        PhotonNetwork.LoadLevel(0); // 이거도 LobbyManager가 해줘야함
+    }
     #endregion
 
 

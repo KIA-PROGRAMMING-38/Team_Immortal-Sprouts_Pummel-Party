@@ -12,6 +12,7 @@ public class TouchStarter : MonoBehaviourPunCallbacks
     {
         Managers.PhotonManager.OnConnectedToMasterServer.RemoveListener(turnOnTouchGuide);
         Managers.PhotonManager.OnConnectedToMasterServer.AddListener(turnOnTouchGuide);
+
     }
 
     private void OnDisable()

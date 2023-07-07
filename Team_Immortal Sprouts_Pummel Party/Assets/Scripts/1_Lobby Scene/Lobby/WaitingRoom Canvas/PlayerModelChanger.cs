@@ -8,7 +8,6 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     private GameObject currentHat; 
     [SerializeField] private Transform hatTransform;
     [SerializeField] private MeshRenderer[] bodyMeshRenderer;
-    [SerializeField] private CustomData customData;
 
     private void Awake()
     {

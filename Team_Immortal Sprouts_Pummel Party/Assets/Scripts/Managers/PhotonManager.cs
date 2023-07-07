@@ -22,6 +22,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Managers.PhotonManager = this;
     }
+
+
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;

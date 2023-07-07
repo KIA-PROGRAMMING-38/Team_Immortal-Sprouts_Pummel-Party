@@ -228,6 +228,29 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     }
 
 
+    public int GetCapableHatIndex(int lastIndex, bool isRightButton)
+    {
+        if (isRightButton)
+        {
+            lastIndex += 1;
+        }
+        else
+        {
+            lastIndex -= 1;
+        }
+
+        if (lastIndex < 0)
+        {
+            lastIndex = HatTypeCount - 1;
+        }
+        else if (HatTypeCount <= lastIndex)
+        {
+            lastIndex = 0;
+        }
+
+        return lastIndex;
+    }
+
     /// <summary>
     /// 색깔 배열의 선택 가능한 인덱스를 반환하는 함수
     /// </summary>
@@ -236,14 +259,13 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     /// <param name="isRightButton"></param>
     /// <param name="isFirstEntry"></param>
     /// <returns></returns>
-    public int GetCapableBodyIndex(int lastIndex, int requestedIndex, bool isRightButton, bool isFirstEntry)
+    public int GetCapableBodyIndex(int lastIndex, bool isRightButton, bool isFirstEntry)
     {
         if (!isFirstEntry)
         {
             colorIndexing[lastIndex] = false; // 현재 갖고 있는 색을 포기한다
         }
 
-        int targetIndex = 0;
 
         int addValue = 0;
 
@@ -256,37 +278,44 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
             addValue = -1;
         }
 
-        if (colorIndexing[requestedIndex] == false)
+        int targetIndex = lastIndex + addValue;
+        if (targetIndex < 0)
         {
-            targetIndex = requestedIndex;
+            targetIndex = BodyTypeCount - 1;
+        }
+        else if (BodyTypeCount <= targetIndex)
+        {
+            targetIndex = 0;
+        }
+
+
+        if (colorIndexing[targetIndex] == false)
+        {
+            colorIndexing[targetIndex] = true;
+            return targetIndex;
         }
         else
         {
             while (true)
             {
-                lastIndex += addValue;
-                if (lastIndex < 0)
+                targetIndex += addValue;
+                if (targetIndex < 0)
                 {
-                    //lastIndex = customData.bodyColors.Length - 1;
-                    lastIndex = BodyTypeCount - 1;
+                    targetIndex = BodyTypeCount - 1;
                 }
-                else if (BodyTypeCount <= lastIndex)
+                else if (BodyTypeCount <= targetIndex)
                 {
-                    lastIndex = 0;
+                    targetIndex = 0;
                 }
 
 
-                if (colorIndexing[lastIndex] == false)
+                if (colorIndexing[targetIndex] == false)
                 {
-                    targetIndex = lastIndex;
-                    break;
+                    colorIndexing[targetIndex] = true;
+                    return targetIndex;
                 }
             }
         }
-
-
-        colorIndexing[targetIndex] = true;
-        return targetIndex;
     }
 
 

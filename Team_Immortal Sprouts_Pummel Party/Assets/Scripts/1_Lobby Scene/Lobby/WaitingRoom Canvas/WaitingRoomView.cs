@@ -8,6 +8,7 @@ using TMPro;
 using Cysharp.Threading.Tasks;
 using System;
 using Photon.Realtime;
+using Photon.Pun.Demo.Cockpit;
 
 public class WaitingRoomView : MonoBehaviourPunCallbacks
 {
@@ -29,15 +30,13 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     [Header("----------------------Editor Mode----------------------")]
     PhotonView viewPV;
     [field : SerializeField] public int enterOrder { get; set; }
-    
-    [field : SerializeField] public int wantBodyIndex { get; set; }
-    [field : SerializeField] public int hatIndex { get; set; }
     [field: SerializeField] public bool isChangable { get; private set; }
 
 
     private void Awake()
     {
         isChangable = true;
+        viewPV = GetComponent<PhotonView>();
     }
 
     #region Public 함수들
@@ -69,25 +68,19 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 
     public PhotonView GetViewPV()
     {
-        if (viewPV == null)
-        {
-            viewPV = GetComponent<PhotonView>();
-        }
+        //if (viewPV == null)
+        //{
+        //    viewPV = GetComponent<PhotonView>();
+        //}
 
         return viewPV;
     }
 
-    [PunRPC]
-    public void UpdateBodyIndex(int bodyIndex)
-    {
-        wantBodyIndex = bodyIndex;
-    }
 
     [PunRPC]
     public void SetEnterOrder(int myEnterOrder)
     {
         enterOrder = myEnterOrder;
-        wantBodyIndex = myEnterOrder;
     }
 
     public event Func<bool, Color> OnClickReadyButton;
@@ -138,21 +131,8 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (GetViewPV().IsMine && isChangable)
         {
-            Player myPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
-            int lastIndex = Managers.DataManager.Player.GetBodyID(myPlayer);
-            int desiredIndex = lastIndex + 1;
-
-            if (desiredIndex < 0)
-            {
-                desiredIndex = Managers.DataManager.Player.GetBodyTypeCount() - 1;
-            }
-            else if(Managers.DataManager.Player.GetBodyTypeCount() <= desiredIndex)
-            {
-                desiredIndex = 0;
-            }
-
             EnableIsChangable().Forget();
-            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, desiredIndex, true, false);
+            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, true, false);
         }
     }
 
@@ -160,24 +140,8 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (GetViewPV().IsMine && isChangable)
         {
-            Player myPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
-            int lastIndex = Managers.DataManager.Player.GetBodyID(myPlayer);
-            int desiredIndex = lastIndex - 1;
-            
-
-
-            if (desiredIndex < 0)
-            {
-                desiredIndex = Managers.DataManager.Player.GetBodyTypeCount() - 1;
-            }
-            else if (Managers.DataManager.Player.GetBodyTypeCount() <= desiredIndex)
-            {
-                desiredIndex = 0;
-            }
-
-
             EnableIsChangable().Forget();
-            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, desiredIndex, false, false);
+            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, false, false);
 
         }
     }
@@ -186,22 +150,8 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (GetViewPV().IsMine && isChangable)
         {
-            Player myPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
-            int lastIndex = Managers.DataManager.Player.GetHatID(myPlayer);
-            int desiredIndex = lastIndex + 1;
-            hatIndex = desiredIndex;
-
-            if (desiredIndex < 0)
-            {
-                desiredIndex = Managers.DataManager.Player.GetHatTypeCount() - 1;
-            }
-            else if (Managers.DataManager.Player.GetHatTypeCount() <= desiredIndex)
-            {
-                desiredIndex = 0;
-            }
-
             EnableIsChangable().Forget();
-            presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, desiredIndex);
+            presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, true);
         }
     }
 
@@ -209,35 +159,21 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (GetViewPV().IsMine && isChangable)
         {
-            Player myPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
-            int lastIndex = Managers.DataManager.Player.GetHatID(myPlayer);
-            int desiredIndex = lastIndex - 1;
-            hatIndex = desiredIndex;
-
-            if (desiredIndex < 0)
-            {
-                desiredIndex = Managers.DataManager.Player.GetHatTypeCount() - 1;
-            }
-            else if (Managers.DataManager.Player.GetHatTypeCount() <= desiredIndex)
-            {
-                desiredIndex = 0;
-            }
-
             EnableIsChangable().Forget();
-            presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, desiredIndex);
+            presenter.GetPresenterPV().RPC("AskHatUpdate", RpcTarget.MasterClient, enterOrder, false);
         }
     }
 
-
-    private string setNickName;
     public void OnClick_ConfirmButton()
     {
         if (GetViewPV().IsMine)
         {
             selectCanvas.enabled = true;
             customizeCanvas.enabled = false;
-            setNickName = nickNameInputField.text;
-            presenter.GetPresenterPV().RPC("SetPlayerNickName", RpcTarget.MasterClient, enterOrder, setNickName);
+            Player player = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
+            string nickName = nickNameInputField.text;
+            Managers.DataManager.Player.SetNickName(player, nickName);
+            presenter.GetPresenterPV().RPC("SetPlayerNickName", RpcTarget.MasterClient, enterOrder, nickName);
         }
     }
 
