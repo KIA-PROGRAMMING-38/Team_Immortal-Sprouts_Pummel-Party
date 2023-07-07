@@ -12,22 +12,9 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 {
-    //private string roomName;
-    //[SerializeField] private TMP_Text roomNameText;
-
     private PhotonView presenterPV;
     [SerializeField] private CreatedRoomData createdRoomData; // 모델이 됌
-
     [SerializeField] private WaitingRoomView[] waitingViews;
-    //[SerializeField] private Transform[] positionTransforms; // 플레이어가 생성될 Transform 배열
-
-
-    //public int hatTypeCount { get; private set; }
-    //public int bodyColorCount { get; private set; }
-
-    private bool amIOriginalMaster = false; // 처음 방에 들어왔을때 본인이 방장인지 아닌지를 저장하는 변수
-
-    //private string[] defaultNames = new string[MAX_INDEX];
 
     private void OnEnable()
     {
@@ -133,7 +120,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     /// <param name="bodyIndex"></param>
     private void UpdateBodyData(int enterOrder, int bodyIndex) // 데이터를 갱신하기 위해 마스터 클라이언트만 접근할 함수
     {
-        //Player updatePlayer = players[enterOrder];
         Player updatePlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
 
         createdRoomData.UpdateBodyIndex(updatePlayer, bodyIndex);
@@ -147,7 +133,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     /// <param name="hatIndex"></param>
     private void UpdateHatData(int enterOrder, int hatIndex) // 데이터를 갱신하기 위해 마스터 클라이언트만 접근할 함수
     {
-        //Player updatePlayer = players[enterOrder];
         Player updatePlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
 
         createdRoomData.UpdateHatIndex(updatePlayer, hatIndex);
@@ -164,10 +149,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     }
 
 
-    //private int readyCount = 0;
-    private const int MAX_READY_COUNT = 3;
-    private bool isStartable = false;
-
     /// <summary>
     /// 마스터가 주어진 입장순서의 플레이어를 레디시키는 함수
     /// </summary>
@@ -180,13 +161,11 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             if (createdRoomData.IsReady[enterOrder] == true)
             {
                 createdRoomData.IsReady[enterOrder] = false;
-                //--readyCount;
                 --createdRoomData.ReadyCount;
             }
             else // 레디를 안한 상태라면
             {
                 createdRoomData.IsReady[enterOrder] = true;
-                //++readyCount;
                 ++createdRoomData.ReadyCount;
             }
 
@@ -202,61 +181,23 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     /// <param name="readyCount"></param>
     private void CheckIfStartable()
     {
+        createdRoomData.UpdateStartable();
+
         if (createdRoomData.IsStartable == true)
         {
-            waitingViews[1].GetViewPV().RPC("ActivateStartButton", RpcTarget.All, isStartable); // 방장의 StartButton 활성화
+            waitingViews[1].GetViewPV().RPC("ActivateStartButton", RpcTarget.All, createdRoomData.IsStartable); // 방장의 StartButton 활성화
         }
     }
-
-    ///// <summary>
-    ///// 플레이어 기본이름을 초기화 하는 함수 
-    ///// </summary>
-    //private void SetDefualtNames()
-    //{
-    //    for (int i = 1; i < defaultNames.Length; ++i)
-    //    {
-    //        defaultNames[i] = $"Player {i}";
-    //    }
-    //}
-
-    /// <summary>
-    /// 플레이어 기본 이름을 반환하는 함수 
-    /// </summary>
-    /// <param name="enterOrder"></param>
-    /// <returns></returns>
-    //private string GetDefualtName(int enterOrder)
-    //{
-    //    return defaultNames[enterOrder];
-    //}
-
-
-    //private string modelPath = "Prefabs/Lobby/WaitingRoomCanvas/RoomWait";
-
-    //private void updateRoomText()
-    //{
-    //    roomName = PhotonNetwork.CurrentRoom.Name;
-    //    roomNameText.text = roomName;
-    //}
 
     #region Photon 콜백 함수들
     public override void OnJoinedRoom()
     {
-        //hatTypeCount = Managers.DataManager.Player.GetHatTypeCount();
-        //bodyColorCount = Managers.DataManager.Player.GetBodyTypeCount();
-        //roomName = PhotonNetwork.CurrentRoom.Name;
-        //roomNameText.text = roomName;
-        //amIOriginalMaster = PhotonNetwork.IsMasterClient;
         createdRoomData.IsOriginalMaster = PhotonNetwork.IsMasterClient;
-        //Managers.DataManager.Player.InitPhotonPlayerContainer(PhotonNetwork.CurrentRoom.MaxPlayers);
-        //InitializeHashTable(); // 플레이어 커스텀 프로퍼티를 사용하기 위한 초기화 과정
 
         if (createdRoomData.IsOriginalMaster)
         {
-            //SetDefualtNames();
-
             int enterOrder = 1;
             createdRoomData.IsPlayerPresent[enterOrder] = true;
-            //playerData.AddPlayerData(PhotonNetwork.LocalPlayer, enterOrder, GetDefualtName(enterOrder), enterOrder, 0); // Model(data) 업데이트
             Player localPlayer = PhotonNetwork.LocalPlayer;
 
             Managers.DataManager.Player.UpdatePlayerData(localPlayer, enterOrder);
@@ -274,8 +215,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             createdRoomData.ModelPVs[enterOrder].ViewID = enterOrder * 999; // 포톤뷰 ID를 메뉴얼하게 설정해줘야한다고 함....
 
             waitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder); // View 의 입장순서를 업데이트해줌
-
-            //players[enterOrder] = PhotonNetwork.LocalPlayer;
             
             AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
             ++createdRoomData.PlayerCount;
@@ -308,7 +247,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             waitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder);
             waitingViews[enterOrder].GetViewPV().TransferOwnership(newPlayer); // 소유권 양도해줌
 
-            //players[enterOrder] = newPlayer;
             AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
             ++createdRoomData.PlayerCount;
             createdRoomData.CheckIfRoomStillOpen();
@@ -320,26 +258,20 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         if (createdRoomData.IsOriginalMaster && PhotonNetwork.IsMasterClient) // 마스터가해줘야 할 일들
         {
-            //int leftPlayerEnterOrder = createdRoomData.GetPlayerEnterOrder(otherPlayer);
             int leftPlayerEnterOrder = Managers.DataManager.Player.GetEnterOrder(otherPlayer);
             ResetBodyColor(leftPlayerEnterOrder);
             DestroyOtherPlayer(leftPlayerEnterOrder);
             createdRoomData.IsPlayerPresent[leftPlayerEnterOrder] = false;
-            //isPlayerPresent[createdRoomData.GetPlayerEnterOrder(otherPlayer)] = false; // 나감 표시
-            //createdRoomData.UpdateColorIndexing(createdRoomData.GetPlayerBodyColorIndex(otherPlayer), false);
             createdRoomData.colorIndexing[Managers.DataManager.Player.GetBodyID(otherPlayer)] = false;
 
             // 플레이어가 나갔을때 기본값으로 돌려주는 부분
-            //isReady[leftPlayerEnterOrder] = false;
             createdRoomData.IsReady[leftPlayerEnterOrder] = false;
             waitingViews[leftPlayerEnterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, false);
-            //--readyCount;
             --createdRoomData.ReadyCount;
             CheckIfStartable();
             waitingViews[leftPlayerEnterOrder].GetViewPV().RPC("ShowPlayerNickName", RpcTarget.AllBuffered, createdRoomData.GetDefaultName(leftPlayerEnterOrder));
 
             createdRoomData.CheckIfRoomStillOpen();
-            //createdRoomData.RemovePlayerData(otherPlayer); // MoDEL 업데이트
             Managers.DataManager.Player.RemovePlayerData(leftPlayerEnterOrder);
         }
     }
@@ -354,102 +286,8 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
     #endregion
 
-    //private void CheckIfRoomStillOpen()
-    //{
-    //    if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
-    //    {
-    //        PhotonNetwork.CurrentRoom.IsOpen = false;
-    //    }
-    //    else
-    //    {
-    //        PhotonNetwork.CurrentRoom.IsOpen = true;
-    //    }
-    //}
 
-    #region HashTable
-    //Hashtable hatPropertise;
-    //Hashtable namePropertise;
-    //Hashtable colorPropertise;
-    //Hashtable enterOrderPropertise;
-    //Hashtable hpPropertise;
-    //Hashtable eggPropertise;
-    //Hashtable positionPoropertise;
-
-    //private void InitializeHashTable()
-    //{
-    //    hatPropertise = new Hashtable()
-    //    {
-    //        { PropertiseKey.hatKey, new int()}
-    //    };
-
-    //    namePropertise = new Hashtable()
-    //    {
-    //        { PropertiseKey.nameKey, "" }
-    //    };
-
-    //    colorPropertise = new Hashtable()
-    //    {
-    //        { PropertiseKey.colorKey, new int() }
-    //    };
-
-    //    enterOrderPropertise = new Hashtable()
-    //    {
-    //        { PropertiseKey.enterOrderKey, new int() }
-    //    };
-
-    //    hpPropertise = new Hashtable()
-    //    {
-    //        { PropertiseKey.hpKey, new int() }
-    //    };
-
-    //    eggPropertise = new Hashtable()
-    //    {
-    //        { PropertiseKey.eggCountKey, new int() }
-    //    };
-
-    //    positionPoropertise = new Hashtable()
-    //    {
-    //        { PropertiseKey.positionKey, new Vector3() }
-    //    };
-    //}
-    #endregion
-
-    //private int playerMaxHP = 30;
-    //private Vector3 defualtPosition = Vector3.zero;
-    //public void LoadBoardGame()
-    //{
-    //    //SavePlayerProperties().Forget(); // 혹시 메인씬으로 로드하다가 고장날까봐 비동기로 처리
-    //}
-
-    //private async UniTaskVoid SavePlayerProperties()
-    //{
-    //    for (int enterOrder = 1; enterOrder < players.Length; ++enterOrder)
-    //    {
-    //        Player player = PhotonNetwork.CurrentRoom.Players[enterOrder];
-    //        if (player != null) // 혹시 모를 널 체크
-    //        {
-    //            string savedNickName = createdRoomData.GetPlayerNickName(player);
-    //            int savedColorIndex = createdRoomData.GetPlayerBodyColorIndex(player);
-    //            int savedHatIndex = createdRoomData.GetPlayerHatIndex(player);
-    //            int playerEnterOrder = createdRoomData.GetPlayerEnterOrder(player);
-
-    //            player.SetCustomProperties(namePropertise); // 추가함
-    //            player.SetCustomProperties(colorPropertise);
-    //            player.SetCustomProperties(hatPropertise);
-    //            player.SetCustomProperties(enterOrderPropertise);
-    //            player.SetCustomProperties(hpPropertise);
-    //            player.SetCustomProperties(eggPropertise);
-    //            player.SetCustomProperties(positionPoropertise);
-
-    //            player.CustomProperties[PropertiseKey.nameKey] = savedNickName;
-    //            player.CustomProperties[PropertiseKey.colorKey] = savedColorIndex;
-    //            player.CustomProperties[PropertiseKey.hatKey] = savedHatIndex;
-    //            player.CustomProperties[PropertiseKey.enterOrderKey] = playerEnterOrder;
-    //        }
-    //    }
-    //}
-
-    public void MoveToBoardGame()
+    public void MoveToBoardGame() // 이것도 나중에 로드매니저가 해줘야함
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -490,21 +328,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             PhotonNetwork.Destroy(photonView); // 게임캐릭터 제거
         }
     }
-
-    //private int GetEmptySlot()
-    //{
-    //    int emptyIndex = 9999;
-    //    for (int i = 1; i < createdRoomData.IsPlayerPresent.Length; ++i)
-    //    {
-    //        if (createdRoomData.IsPlayerPresent[i] == false)
-    //        {
-    //            emptyIndex = i;
-    //            return emptyIndex;
-    //        }
-    //    }
-
-    //    return emptyIndex;
-    //}
 
 
     public void OnClick_LeaveRoom() // Leave 버튼에 들어갈 함수 => Public 이여야 함

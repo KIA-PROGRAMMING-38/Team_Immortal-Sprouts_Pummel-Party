@@ -9055,42 +9055,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c483d429dfc8db4895c384ffcb4076f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomNameText: {fileID: 2487228348940986046}
-  playerData: {fileID: 2487228348658635230}
+  createdRoomData: {fileID: 2487228348658635230}
   waitingViews:
   - {fileID: 0}
   - {fileID: 2487228348650474922}
   - {fileID: 2487228349222392584}
   - {fileID: 2487228349269652566}
   - {fileID: 2487228348886883728}
-  positionData: {fileID: 11400000, guid: bf6421970a8f14d44a5a373be836530b, type: 2}
-  positionTransforms:
-  - {fileID: 0}
-  - {fileID: 1771741180}
-  - {fileID: 1761133832}
-  - {fileID: 1628674908}
-  - {fileID: 142986539}
-  enterOrder: 1
-  isReady: 0000000000
-  isPlayerPresent: 0000000000
-  playerModels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  modelChangers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  modelPVs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &2487228348658635230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9104,8 +9075,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presenter: {fileID: 2487228348658635229}
-  customData: {fileID: 11400000, guid: dfa5577dec2b2b042aa0836b6583e052, type: 2}
-  colorIndexing: 
+  roomNameText: {fileID: 0}
+  <PositionTransforms>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 1771741180}
+  - {fileID: 1761133832}
+  - {fileID: 1628674908}
+  - {fileID: 142986539}
+  <colorIndexing>k__BackingField: 
+  <ModelChangers>k__BackingField: []
+  <ModelPVs>k__BackingField: []
+  <IsPlayerPresent>k__BackingField: 
+  <IsReady>k__BackingField: 
+  <IsOriginalMaster>k__BackingField: 0
+  <roomName>k__BackingField: 
+  <DefaultNames>k__BackingField: []
 --- !u!114 &2487228348712720208
 MonoBehaviour:
   m_ObjectHideFlags: 0
