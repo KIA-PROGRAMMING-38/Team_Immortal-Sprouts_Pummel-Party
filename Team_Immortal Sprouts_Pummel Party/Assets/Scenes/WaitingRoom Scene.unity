@@ -8800,10 +8800,10 @@ MonoBehaviour:
   nickNameInputField: {fileID: 2487228347736721607}
   colorBackground: {fileID: 2487228347912340524}
   hatShowText: {fileID: 2487228348619864919}
-  enterOrder: 0
-  wantBodyIndex: 0
-  hatIndex: 0
-  isChangable: 1
+  <enterOrder>k__BackingField: 0
+  <wantBodyIndex>k__BackingField: 0
+  <hatIndex>k__BackingField: 0
+  <isChangable>k__BackingField: 0
 --- !u!222 &2487228348655968593
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9056,7 +9056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   createdRoomData: {fileID: 2487228348658635230}
-  waitingViews:
+  <WaitingViews>k__BackingField:
   - {fileID: 0}
   - {fileID: 2487228348650474922}
   - {fileID: 2487228349222392584}
@@ -9075,7 +9075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presenter: {fileID: 2487228348658635229}
-  roomNameText: {fileID: 0}
+  roomNameText: {fileID: 2487228348940986046}
   <PositionTransforms>k__BackingField:
   - {fileID: 0}
   - {fileID: 1771741180}
@@ -9090,6 +9090,8 @@ MonoBehaviour:
   <IsOriginalMaster>k__BackingField: 0
   <roomName>k__BackingField: 
   <DefaultNames>k__BackingField: []
+  <readyColor>k__BackingField: {r: 0, g: 1, b: 0, a: 1}
+  <notReadyColor>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &2487228348712720208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10785,10 +10787,10 @@ MonoBehaviour:
   nickNameInputField: {fileID: 2487228349124737641}
   colorBackground: {fileID: 2487228349278346238}
   hatShowText: {fileID: 2487228348713992027}
-  enterOrder: 0
-  wantBodyIndex: 0
-  hatIndex: 0
-  isChangable: 1
+  <enterOrder>k__BackingField: 0
+  <wantBodyIndex>k__BackingField: 0
+  <hatIndex>k__BackingField: 0
+  <isChangable>k__BackingField: 0
 --- !u!222 &2487228348917488877
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12475,10 +12477,10 @@ MonoBehaviour:
   nickNameInputField: {fileID: 2487228347232363435}
   colorBackground: {fileID: 2487228349186437029}
   hatShowText: {fileID: 2487228348257181533}
-  enterOrder: 0
-  wantBodyIndex: 0
-  hatIndex: 0
-  isChangable: 1
+  <enterOrder>k__BackingField: 0
+  <wantBodyIndex>k__BackingField: 0
+  <hatIndex>k__BackingField: 0
+  <isChangable>k__BackingField: 0
 --- !u!114 &2487228349224554916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12830,10 +12832,10 @@ MonoBehaviour:
   nickNameInputField: {fileID: 2487228348183399135}
   colorBackground: {fileID: 2487228347276170685}
   hatShowText: {fileID: 2487228348729137784}
-  enterOrder: 0
-  wantBodyIndex: 0
-  hatIndex: 0
-  isChangable: 1
+  <enterOrder>k__BackingField: 0
+  <wantBodyIndex>k__BackingField: 0
+  <hatIndex>k__BackingField: 0
+  <isChangable>k__BackingField: 0
 --- !u!222 &2487228349278346233
 CanvasRenderer:
   m_ObjectHideFlags: 0

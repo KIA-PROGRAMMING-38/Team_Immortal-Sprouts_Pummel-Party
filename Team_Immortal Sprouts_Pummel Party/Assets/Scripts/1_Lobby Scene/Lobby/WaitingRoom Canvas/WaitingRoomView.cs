@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 using Cysharp.Threading.Tasks;
+using System;
+using Photon.Realtime;
 
 public class WaitingRoomView : MonoBehaviourPunCallbacks
 {
@@ -26,16 +28,17 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
 
     [Header("----------------------Editor Mode----------------------")]
     PhotonView viewPV;
-    [SerializeField] private int enterOrder;
-
-    private Color readyColor = Color.green;
-    private Color notReadyColor = Color.red;
-    [SerializeField] private int wantBodyIndex = 0;
-    [SerializeField] private int hatIndex = 0;
-
-    [SerializeField] private bool isChangable = true;
+    [field : SerializeField] public int enterOrder { get; set; }
+    
+    [field : SerializeField] public int wantBodyIndex { get; set; }
+    [field : SerializeField] public int hatIndex { get; set; }
+    [field: SerializeField] public bool isChangable { get; private set; }
 
 
+    private void Awake()
+    {
+        isChangable = true;
+    }
 
     #region Public 함수들
 
@@ -81,22 +84,23 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void SetEnterOrder(int enterOrder)
+    public void SetEnterOrder(int myEnterOrder)
     {
-        this.enterOrder = enterOrder;
-        this.wantBodyIndex = enterOrder;
+        enterOrder = myEnterOrder;
+        wantBodyIndex = myEnterOrder;
     }
 
+    public event Func<bool, Color> OnClickReadyButton;
     [PunRPC]
     public void SetReadyColor(bool isReady)
     {
         if (isReady == true)
         {
-            readyBar.color = readyColor;
+            readyBar.color = (Color)OnClickReadyButton?.Invoke(isReady);
         }
         else
         {
-            readyBar.color = notReadyColor;
+            readyBar.color = (Color)OnClickReadyButton?.Invoke(isReady);
         }
     }
 
@@ -135,8 +139,11 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (GetViewPV().IsMine && isChangable)
         {
-            int lastIndex = wantBodyIndex;
-            ++wantBodyIndex;
+            //int lastIndex = wantBodyIndex;
+            //++wantBodyIndex;
+            Player myPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
+            int lastIndex = Managers.DataManager.Player.GetBodyID(myPlayer);
+            int desiredIndex = Mathf.Clamp(lastIndex + 1, 0, Managers.DataManager.Player.GetBodyTypeCount());
 
             //if (wantBodyIndex < 0) // 인덱스를 바로잡아줌
             //    wantBodyIndex = presenter.bodyColorCount - 1;
@@ -144,7 +151,8 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
             //    wantBodyIndex = 0;
 
             EnableIsChangable().Forget();
-            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, true, false);
+            //presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, true, false);
+            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, desiredIndex, true, false);
         }
     }
 
@@ -152,8 +160,14 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
     {
         if (GetViewPV().IsMine && isChangable)
         {
-            int lastIndex = wantBodyIndex;
-            --wantBodyIndex;
+            //int lastIndex = wantBodyIndex;
+            //--wantBodyIndex;
+
+            //int lastIndex = wantBodyIndex;
+            //++wantBodyIndex;
+            Player myPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
+            int lastIndex = Managers.DataManager.Player.GetBodyID(myPlayer);
+            int desiredIndex = Mathf.Clamp(lastIndex - 1, 0, Managers.DataManager.Player.GetBodyTypeCount());
 
             //if (wantBodyIndex < 0) // 인덱스를 바로잡아줌
             //    wantBodyIndex = presenter.bodyColorCount - 1;
@@ -161,8 +175,9 @@ public class WaitingRoomView : MonoBehaviourPunCallbacks
             //    wantBodyIndex = 0;
 
             EnableIsChangable().Forget();
-            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, false, false);
-            
+            //presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, wantBodyIndex, false, false);
+            presenter.GetPresenterPV().RPC("AskBodyColorUpdate", RpcTarget.MasterClient, enterOrder, lastIndex, desiredIndex, false, false);
+
         }
     }
 

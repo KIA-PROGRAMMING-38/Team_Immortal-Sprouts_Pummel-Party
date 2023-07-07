@@ -14,13 +14,10 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 {
     private PhotonView presenterPV;
     [SerializeField] private CreatedRoomData createdRoomData; // 모델이 됌
-    [SerializeField] private WaitingRoomView[] waitingViews;
+    [field : SerializeField] public WaitingRoomView[] WaitingViews { get; set; }    
 
     private void OnEnable()
     {
-        
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => createdRoomData.UpdateRoomName());
-        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => createdRoomData.UpdateRoomName());
 
 
 
@@ -34,8 +31,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
     private void OnDisable()
     {
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => createdRoomData.UpdateRoomName());
-
 
 
 
@@ -90,9 +85,9 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         Managers.DataManager.Player.SetBodyID(askedPlayer, wantBodyIndex);
 
         createdRoomData.ModelPVs[enterOrder].RPC("SetBodyColor", RpcTarget.AllBuffered, wantBodyIndex); // 플레이어의 몸색깔을 바꿔줌
-        waitingViews[enterOrder].GetViewPV().RPC("UpdateBodyIndex", RpcTarget.AllBuffered, wantBodyIndex);
+        WaitingViews[enterOrder].GetViewPV().RPC("UpdateBodyIndex", RpcTarget.AllBuffered, wantBodyIndex);
 
-        waitingViews[enterOrder].GetViewPV().RPC("SetBackgroundColor", askedPlayer, wantBodyIndex);
+        WaitingViews[enterOrder].GetViewPV().RPC("SetBackgroundColor", askedPlayer, wantBodyIndex);
     }
 
 
@@ -109,7 +104,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
         createdRoomData.ModelPVs[enterOrder].RPC("SetHatOnPlayer", RpcTarget.AllBuffered, hatIndex); // 플레이어 모자를 바꿔줌
 
         Player askPlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
-        waitingViews[enterOrder].GetViewPV().RPC("SetHatText", askPlayer, hatIndex);
+        WaitingViews[enterOrder].GetViewPV().RPC("SetHatText", askPlayer, hatIndex);
     }
 
 
@@ -169,7 +164,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
                 ++createdRoomData.ReadyCount;
             }
 
-            waitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, createdRoomData.IsReady[enterOrder]);
+            WaitingViews[enterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, createdRoomData.IsReady[enterOrder]);
         }
 
         CheckIfStartable();
@@ -185,12 +180,43 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
         if (createdRoomData.IsStartable == true)
         {
-            waitingViews[1].GetViewPV().RPC("ActivateStartButton", RpcTarget.All, createdRoomData.IsStartable); // 방장의 StartButton 활성화
+            WaitingViews[1].GetViewPV().RPC("ActivateStartButton", RpcTarget.All, createdRoomData.IsStartable); // 방장의 StartButton 활성화
         }
     }
 
     #region Photon 콜백 함수들
-    public override void OnJoinedRoom()
+    //public override void OnJoinedRoom()
+    //{
+    //    createdRoomData.IsOriginalMaster = PhotonNetwork.IsMasterClient;
+
+    //    if (createdRoomData.IsOriginalMaster)
+    //    {
+    //        //int enterOrder = 1;
+    //        //createdRoomData.IsPlayerPresent[enterOrder] = true;
+    //        //Player localPlayer = PhotonNetwork.LocalPlayer;
+
+    //        //Managers.DataManager.Player.UpdatePlayerData(localPlayer, enterOrder);
+    //        //Managers.DataManager.Player.SetNickName(localPlayer, createdRoomData.GetDefaultName(enterOrder));
+    //        //Managers.DataManager.Player.SetBodyID(localPlayer, enterOrder);
+    //        //Managers.DataManager.Player.SetHatID(localPlayer, 0);
+
+    //        // 플레이어 생성
+    //        //GameObject model = Managers.PrefabManager.Instantiate("RoomWait", createdRoomData.PositionTransforms[enterOrder].position, createdRoomData.PositionTransforms[enterOrder].rotation);
+    //        //model.SetActive(true);
+
+    //        //PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // 모델체인저 뽑아옴
+    //        //createdRoomData.ModelChangers[enterOrder] = modelChanger; // 모델 체인저 저장해둠 --> 마스터가 다 컨트롤할라구
+    //        //createdRoomData.ModelPVs[enterOrder] = PhotonView.Get(model); // 모델체인저와 연동된 포톤뷰 저장해둠 -> 마스터가 다 컨트롤하라구
+    //        //createdRoomData.ModelPVs[enterOrder].ViewID = enterOrder * 999; // 포톤뷰 ID를 메뉴얼하게 설정해줘야한다고 함....
+
+    //        //waitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder); // View 의 입장순서를 업데이트해줌
+
+    //        //AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
+    //        //++createdRoomData.PlayerCount;
+    //    }
+    //}
+
+    public void UpdateNewPlayerData()
     {
         createdRoomData.IsOriginalMaster = PhotonNetwork.IsMasterClient;
 
@@ -199,7 +225,6 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             int enterOrder = 1;
             createdRoomData.IsPlayerPresent[enterOrder] = true;
             Player localPlayer = PhotonNetwork.LocalPlayer;
-
             Managers.DataManager.Player.UpdatePlayerData(localPlayer, enterOrder);
             Managers.DataManager.Player.SetNickName(localPlayer, createdRoomData.GetDefaultName(enterOrder));
             Managers.DataManager.Player.SetBodyID(localPlayer, enterOrder);
@@ -214,15 +239,48 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             createdRoomData.ModelPVs[enterOrder] = PhotonView.Get(model); // 모델체인저와 연동된 포톤뷰 저장해둠 -> 마스터가 다 컨트롤하라구
             createdRoomData.ModelPVs[enterOrder].ViewID = enterOrder * 999; // 포톤뷰 ID를 메뉴얼하게 설정해줘야한다고 함....
 
-            waitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder); // View 의 입장순서를 업데이트해줌
-            
+            WaitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder); // View 의 입장순서를 업데이트해줌
+
             AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
             ++createdRoomData.PlayerCount;
         }
+
+
     }
 
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    //public override void OnPlayerEnteredRoom(Player newPlayer)
+    //{
+    //    //if (PhotonNetwork.IsMasterClient)
+    //    //{
+    //    //    int enterOrder = createdRoomData.GetEmptySlot(); // 빈자리를 찾아서, 입장순서를 정해줌
+    //    //    createdRoomData.IsPlayerPresent[enterOrder] = true;
+
+    //    //    Managers.DataManager.Player.UpdatePlayerData(newPlayer, enterOrder);
+    //    //    Managers.DataManager.Player.SetNickName(newPlayer, createdRoomData.GetDefaultName(enterOrder));
+    //    //    Managers.DataManager.Player.SetBodyID(newPlayer, enterOrder);
+    //    //    Managers.DataManager.Player.SetHatID(newPlayer, 0);
+
+    //    //    // 플레이어 생성
+    //    //    GameObject model = Managers.PrefabManager.Instantiate("RoomWait", createdRoomData.PositionTransforms[enterOrder].position, createdRoomData.PositionTransforms[enterOrder].rotation);
+    //    //    model.SetActive(true);
+
+    //    //    PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // 모델 체인저 뽑아옴
+    //    //    createdRoomData.ModelChangers[enterOrder] = modelChanger; // 모델체인저 저장해둠 --> 마스터가 다 조종할라고
+    //    //    createdRoomData.ModelPVs[enterOrder] = PhotonView.Get(model); // 모델체인저와 연동된 포톤뷰 저장해둠 -> 마스터가 다 컨트롤하라구
+
+
+    //    //    // View 에 입장순서 할당해줌
+    //    //    WaitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder);
+    //    //    WaitingViews[enterOrder].GetViewPV().TransferOwnership(newPlayer); // 소유권 양도해줌
+
+    //    //    AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
+    //    //    ++createdRoomData.PlayerCount;
+    //    //    createdRoomData.CheckIfRoomStillOpen();
+    //    //}
+    //}
+
+    public void UpdateNewOtherPlayerData(Player newPlayer)
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -241,18 +299,17 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
             PlayerModelChanger modelChanger = model.GetComponent<PlayerModelChanger>(); // 모델 체인저 뽑아옴
             createdRoomData.ModelChangers[enterOrder] = modelChanger; // 모델체인저 저장해둠 --> 마스터가 다 조종할라고
             createdRoomData.ModelPVs[enterOrder] = PhotonView.Get(model); // 모델체인저와 연동된 포톤뷰 저장해둠 -> 마스터가 다 컨트롤하라구
-
+            createdRoomData.ModelPVs[enterOrder].ViewID = enterOrder * 999; // 포톤뷰 ID를 메뉴얼하게 설정해줘야한다고 함....
 
             // View 에 입장순서 할당해줌
-            waitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder);
-            waitingViews[enterOrder].GetViewPV().TransferOwnership(newPlayer); // 소유권 양도해줌
+            WaitingViews[enterOrder].GetViewPV().RPC("SetEnterOrder", RpcTarget.AllBuffered, enterOrder);
+            WaitingViews[enterOrder].GetViewPV().TransferOwnership(newPlayer); // 소유권 양도해줌
 
             AskBodyColorUpdate(enterOrder, enterOrder, enterOrder, true, true); // 색을 바꿔줌
             ++createdRoomData.PlayerCount;
             createdRoomData.CheckIfRoomStillOpen();
         }
     }
-
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
@@ -266,10 +323,10 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
 
             // 플레이어가 나갔을때 기본값으로 돌려주는 부분
             createdRoomData.IsReady[leftPlayerEnterOrder] = false;
-            waitingViews[leftPlayerEnterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, false);
+            WaitingViews[leftPlayerEnterOrder].GetViewPV().RPC("SetReadyColor", RpcTarget.AllBuffered, false);
             --createdRoomData.ReadyCount;
             CheckIfStartable();
-            waitingViews[leftPlayerEnterOrder].GetViewPV().RPC("ShowPlayerNickName", RpcTarget.AllBuffered, createdRoomData.GetDefaultName(leftPlayerEnterOrder));
+            WaitingViews[leftPlayerEnterOrder].GetViewPV().RPC("ShowPlayerNickName", RpcTarget.AllBuffered, createdRoomData.GetDefaultName(leftPlayerEnterOrder));
 
             createdRoomData.CheckIfRoomStillOpen();
             Managers.DataManager.Player.RemovePlayerData(leftPlayerEnterOrder);
@@ -353,7 +410,7 @@ public class WaitingRoomPresenter : MonoBehaviourPunCallbacks
     {
         Player updatePlayer = Managers.DataManager.Player.GetPhotonPlayer(enterOrder);
         createdRoomData.UpdateNickName(updatePlayer, newNickName);
-        waitingViews[enterOrder].GetViewPV().RPC("ShowPlayerNickName", RpcTarget.AllBuffered, newNickName);
+        WaitingViews[enterOrder].GetViewPV().RPC("ShowPlayerNickName", RpcTarget.AllBuffered, newNickName);
     }
 
 }

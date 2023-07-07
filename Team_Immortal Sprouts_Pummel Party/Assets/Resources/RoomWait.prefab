@@ -447,7 +447,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hatTransform: {fileID: 3554150895002548621}
-  bodyMaterial: {fileID: 2100000, guid: 502698f9b3c10f34c80594bb438653a3, type: 2}
+  bodyMeshRenderer:
+  - {fileID: 3720337570369655484}
+  - {fileID: 7546792132110935025}
+  - {fileID: 2566456640811308746}
   customData: {fileID: 11400000, guid: dfa5577dec2b2b042aa0836b6583e052, type: 2}
 --- !u!1 &4055261834927489082
 GameObject:

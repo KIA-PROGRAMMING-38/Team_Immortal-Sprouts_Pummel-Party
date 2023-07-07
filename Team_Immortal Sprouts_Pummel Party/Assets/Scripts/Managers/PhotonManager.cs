@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -12,7 +13,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private int repeatTime = 1;
 
     public UnityEvent OnConnectedToMasterServer = new UnityEvent();
-    public UnityEvent OnJoinedNewRoom = new UnityEvent();
+    public UnityEvent OnJoinedTheRoom = new UnityEvent();
+    public UnityEvent<Player> OnOtherPlayerJoinedTheRoom = new UnityEvent<Player>();
     public UnityEvent OnLeftTheRoom = new UnityEvent();
 
 
@@ -69,11 +71,14 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnJoinedRoom() => OnJoinedNewRoom?.Invoke();
+    public override void OnJoinedRoom()
+    {
+        OnJoinedTheRoom?.Invoke();
+    }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        
+        OnOtherPlayerJoinedTheRoom?.Invoke(newPlayer);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)

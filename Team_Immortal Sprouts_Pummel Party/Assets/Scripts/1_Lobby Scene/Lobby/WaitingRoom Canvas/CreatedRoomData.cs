@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CreatedRoomData : MonoBehaviourPunCallbacks
 {
@@ -14,7 +15,7 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     private PhotonView dataPV;
 
     [field : SerializeField] public Transform[] PositionTransforms { get; set; }
-    [field: SerializeField] public bool[] colorIndexing { get; set; } = new bool[Managers.DataManager.Player.BodyDialog.Count];
+    [field: SerializeField] public bool[] colorIndexing { get; set; }
     [field: SerializeField] public PlayerModelChanger[] ModelChangers { get; set; }
     [field: SerializeField] public PhotonView[] ModelPVs { get; set; }  
     [field: SerializeField] public bool[] IsPlayerPresent { get; set; }
@@ -34,37 +35,105 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     public int BodyTypeCount { get; set; }
     public int HatTypeCount { get; set; }
 
+    [field : SerializeField] public Color readyColor { get; set; } = Color.green;
+    [field : SerializeField] public Color notReadyColor { get; set; } = Color.red;
+
+    private Color getReadyColor(bool isReady)
+    {
+        if (isReady)
+        {
+            return readyColor;
+        }
+        else
+        {
+            return notReadyColor;
+        }
+    }
+
     private void OnEnable()
+    {
+        Managers.PhotonManager.OnJoinedTheRoom.RemoveListener(InitRoomData);
+        Managers.PhotonManager.OnJoinedTheRoom.AddListener(InitRoomData);
+
+        for (int enterOrder = 1; enterOrder < presenter.WaitingViews.Length ;++enterOrder)
+        {
+            presenter.WaitingViews[enterOrder].OnClickReadyButton -= getReadyColor;
+            presenter.WaitingViews[enterOrder].OnClickReadyButton += getReadyColor;
+        }
+
+
+
+        //Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(UpdateRoomName);
+        //Managers.PhotonManager.OnJoinedNewRoom.AddListener(UpdateRoomName);
+
+        //Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsPlayerPresent = new bool[MaxPlayerCount + 1]);
+        //Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => IsPlayerPresent = new bool[MaxPlayerCount + 1]);
+
+        //Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsReady = new bool[MaxPlayerCount + 1]);
+        //Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => IsReady = new bool[MaxPlayerCount + 1]);
+
+        //Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelChangers = new PlayerModelChanger[MaxPlayerCount + 1]);
+        //Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => ModelChangers = new PlayerModelChanger[MaxPlayerCount + 1]);
+
+        //Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
+        //Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
+        
+        //BodyTypeCount = Managers.DataManager.Player.GetBodyTypeCount();
+        //HatTypeCount = Managers.DataManager.Player.GetHatTypeCount();
+
+        Managers.PhotonManager.OnJoinedTheRoom.RemoveListener(presenter.UpdateNewPlayerData);
+        Managers.PhotonManager.OnJoinedTheRoom.AddListener(presenter.UpdateNewPlayerData);
+
+        Managers.PhotonManager.OnOtherPlayerJoinedTheRoom.RemoveListener(presenter.UpdateNewOtherPlayerData);
+        Managers.PhotonManager.OnOtherPlayerJoinedTheRoom.AddListener(presenter.UpdateNewOtherPlayerData);
+    }
+
+    private void InitRoomData()
+    {
+        SetRoomData();
+        InitDataContainer();
+        SetDefaultNames();
+        UpdateRoomName();
+    }
+
+    private void SetRoomData()
     {
         CurrentRoom = PhotonNetwork.CurrentRoom;
         MaxPlayerCount = CurrentRoom.MaxPlayers;
         MaxReadyCount = MaxPlayerCount;
         roomName = CurrentRoom.Name;
+    }
 
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsPlayerPresent = new bool[MaxPlayerCount + 1]);
-        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => IsPlayerPresent = new bool[MaxPlayerCount + 1]);
-
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsReady = new bool[MaxPlayerCount + 1]);
-        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => IsReady = new bool[MaxPlayerCount + 1]);
-
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelChangers = new PlayerModelChanger[MaxPlayerCount + 1]);
-        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => ModelChangers = new PlayerModelChanger[MaxPlayerCount + 1]);
-
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
-        Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
-
-        SetDefaultNames();
+    private void InitDataContainer()
+    {
+        IsPlayerPresent = new bool[MaxPlayerCount + 1];
+        IsReady = new bool[MaxPlayerCount + 1];
+        ModelChangers = new PlayerModelChanger[MaxPlayerCount + 1];
+        ModelPVs = new PhotonView[MaxPlayerCount + 1];
+        DefaultNames = new string[MaxPlayerCount + 1];
         BodyTypeCount = Managers.DataManager.Player.GetBodyTypeCount();
         HatTypeCount = Managers.DataManager.Player.GetHatTypeCount();
-        
+        colorIndexing = new bool[BodyTypeCount];
     }
 
     private void OnDisable()
     {
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsPlayerPresent = new bool[MaxPlayerCount + 1]);
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsReady = new bool[MaxPlayerCount + 1]);
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelChangers = new PlayerModelChanger[MaxPlayerCount + 1]);
-        Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
+        Managers.PhotonManager.OnJoinedTheRoom.RemoveListener(InitRoomData);
+        //Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(UpdateRoomName);
+        //Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsPlayerPresent = new bool[MaxPlayerCount + 1]);
+        //Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsReady = new bool[MaxPlayerCount + 1]);
+        //Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelChangers = new PlayerModelChanger[MaxPlayerCount + 1]);
+        //Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
+        
+
+        for (int enterOrder = 1; enterOrder < presenter.WaitingViews.Length; ++enterOrder)
+        {
+            presenter.WaitingViews[enterOrder].OnClickReadyButton -= getReadyColor;
+        }
+
+        Managers.PhotonManager.OnJoinedTheRoom.RemoveListener(presenter.UpdateNewPlayerData);
+
+        Managers.PhotonManager.OnOtherPlayerJoinedTheRoom.RemoveListener(presenter.UpdateNewOtherPlayerData);
     }
 
 
@@ -87,9 +156,10 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     /// <returns></returns>
     public Color GetBackgroundColorData(int colorIndex)
     {
-        string bodyTexturePath = Managers.DataManager.Player.BodyDialog[colorIndex]["Name"].ToString();
-        Texture2D bodyTexture = Resources.Load<Texture2D>(bodyTexturePath);
-        Color bodyColor = bodyTexture.GetPixel(0, 0);
+        string bodyMaterialPath = Managers.DataManager.Player.BodyDialog[colorIndex]["Name"].ToString();
+        Material bodyMaterial = Resources.Load<Material>(bodyMaterialPath);
+        //Texture2D bodyTexture = Resources.Load<Texture2D>(bodyTexturePath);
+        Color bodyColor = bodyMaterial.GetColor("_BaseColor");
         //return customData.colors[colorIndex];
         return bodyColor;
     }

@@ -7,7 +7,8 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
 {
     private GameObject currentHat; 
     [SerializeField] private Transform hatTransform;
-    [SerializeField] private Material bodyMaterial;
+    [SerializeField] private MeshRenderer[] bodyMeshRenderer;
+    //[SerializeField] private Material bodyMaterial;
     [SerializeField] private CustomData customData;
     //public DefaultPool defaultPrefabPool { get; private set; } // 포톤에서 제공하는 오브젝트 풀
 
@@ -48,9 +49,14 @@ public class PlayerModelChanger : MonoBehaviourPunCallbacks
     private void SetBodyColor(int bodyColorIndex)
     {
         //Texture2D bodyColor = customData.GetBodyColorFromData(bodyColorIndex);
-        string bodyTexturePath = Managers.DataManager.Player.BodyDialog[bodyColorIndex]["Name"].ToString();
-        Texture2D bodyColor = Resources.Load<Texture2D>(bodyTexturePath);
-        bodyMaterial.mainTexture = bodyColor;
+        string bodyMaterialPath = Managers.DataManager.Player.BodyDialog[bodyColorIndex]["Name"].ToString();
+        Material newBodyMaterial = Resources.Load<Material>(bodyMaterialPath);
+        //Texture2D bodyColor = Resources.Load<Texture2D>(bodyTexturePath);
+        //bodyMaterial = newBodyMaterial;
+        foreach (MeshRenderer mesh in bodyMeshRenderer)
+        {
+            mesh.material = newBodyMaterial;
+        }
     }
 
     /// <summary>
