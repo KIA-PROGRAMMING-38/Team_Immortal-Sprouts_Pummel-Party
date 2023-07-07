@@ -3,21 +3,26 @@ using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreatedRoomData : MonoBehaviourPunCallbacks
 {
     [SerializeField] private WaitingRoomPresenter presenter;
-    [SerializeField] private CustomData customData;
+    [SerializeField] private TMP_Text roomNameText;
     private PhotonView dataPV;
 
+    [field : SerializeField] public Transform[] PositionTransforms { get; set; }
     [field: SerializeField] public bool[] colorIndexing { get; set; } = new bool[Managers.DataManager.Player.BodyDialog.Count];
     [field: SerializeField] public PlayerModelChanger[] ModelChangers { get; set; }
     [field: SerializeField] public PhotonView[] ModelPVs { get; set; }  
     [field: SerializeField] public bool[] IsPlayerPresent { get; set; }
     [field: SerializeField] public bool[] IsReady { get; set; }
     [field: SerializeField] public bool IsOriginalMaster { get; set; } = false;
+    [field : SerializeField] public string roomName { get; set; }   
+    [field : SerializeField] public string[] DefaultNames { get; set; }
+
 
     public int PlayerCount { get; set; }    
     public int MaxPlayerCount { get; set; } 
@@ -25,11 +30,16 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     public int MaxReadyCount { get; set; }
     public int ReadyCount { get; set; }
     public Room CurrentRoom { get; set; }
+
+    public int BodyTypeCount { get; set; }
+    public int HatTypeCount { get; set; }
+
     private void OnEnable()
     {
         CurrentRoom = PhotonNetwork.CurrentRoom;
         MaxPlayerCount = CurrentRoom.MaxPlayers;
         MaxReadyCount = MaxPlayerCount;
+        roomName = CurrentRoom.Name;
 
         Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => IsPlayerPresent = new bool[MaxPlayerCount + 1]);
         Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => IsPlayerPresent = new bool[MaxPlayerCount + 1]);
@@ -42,6 +52,11 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
 
         Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
         Managers.PhotonManager.OnJoinedNewRoom.AddListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
+
+        SetDefaultNames();
+        BodyTypeCount = Managers.DataManager.Player.GetBodyTypeCount();
+        HatTypeCount = Managers.DataManager.Player.GetHatTypeCount();
+        
     }
 
     private void OnDisable()
@@ -52,6 +67,19 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
         Managers.PhotonManager.OnJoinedNewRoom.RemoveListener(() => ModelPVs = new PhotonView[MaxPlayerCount + 1]);
     }
 
+
+    private void SetDefaultNames()
+    {
+        for (int i = 1; i < DefaultNames.Length; ++i)
+        {
+            DefaultNames[i] = $"Player {i}";
+        }
+    }
+
+    public void UpdateRoomName() => roomNameText.text = roomName;
+
+    public string GetDefaultName(int enterOrder) => DefaultNames[enterOrder];
+
     /// <summary>
     /// 주어진 인덱스에 따라 UI상의 몸 배경색을 반환하는 함수
     /// </summary>
@@ -59,7 +87,11 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     /// <returns></returns>
     public Color GetBackgroundColorData(int colorIndex)
     {
-        return customData.colors[colorIndex];
+        string bodyTexturePath = Managers.DataManager.Player.BodyDialog[colorIndex]["Name"].ToString();
+        Texture2D bodyTexture = Resources.Load<Texture2D>(bodyTexturePath);
+        Color bodyColor = bodyTexture.GetPixel(0, 0);
+        //return customData.colors[colorIndex];
+        return bodyColor;
     }
 
     public void UpdateStartable()
@@ -81,7 +113,9 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     /// <returns></returns>
     public string GetBackgroundHatTextData(int hatIndex)
     {
-        return customData.hatTexts[hatIndex];
+        //return customData.hatTexts[hatIndex];
+        string hatName = Managers.DataManager.Player.HatDialog[hatIndex]["Name"].ToString();
+        return hatName;
     }
 
     public void CheckIfRoomStillOpen()
@@ -124,10 +158,6 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
     }
 
 
-    public int GetHatTypeCount() => customData.bodyColors.Length;
-    public int GetBodyColorCount() => customData.bodyColors.Length;
-
-
     /// <summary>
     /// 색깔 배열의 선택 가능한 인덱스를 반환하는 함수
     /// </summary>
@@ -167,9 +197,10 @@ public class CreatedRoomData : MonoBehaviourPunCallbacks
                 lastIndex += addValue;
                 if (lastIndex < 0)
                 {
-                    lastIndex = customData.bodyColors.Length - 1;
+                    //lastIndex = customData.bodyColors.Length - 1;
+                    lastIndex = BodyTypeCount - 1;
                 }
-                else if (customData.bodyColors.Length <= lastIndex)
+                else if (BodyTypeCount <= lastIndex)
                 {
                     lastIndex = 0;
                 }
