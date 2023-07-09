@@ -22,6 +22,13 @@ public class ItemDataLoader : ILoader<int, ItemData>
 {
     public List<ItemData> _itemData = new List<ItemData>();
 
+    public ItemData CreateItem()
+    {
+        ItemData newItemData = new ItemData();
+        return newItemData;
+    }
+    public void SetDataList(List<ItemData> dataSet = null) => _itemData = dataSet;
+
     public Dictionary<int, ItemData> MakeDic()
     {
         Dictionary<int, ItemData> dict = new Dictionary<int, ItemData>();
@@ -33,4 +40,6 @@ public class ItemDataLoader : ILoader<int, ItemData>
 
         return dict;
     }
+
+    
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Managers : MonoBehaviour
 {
@@ -11,6 +12,12 @@ public class Managers : MonoBehaviour
     
     private static DataManager _dataManager = new DataManager();
     public static DataManager Data { get { InitManagers(); return _dataManager; } }
+
+    private void Start()
+    {
+        //List<Dictionary<string, object>> dialog = CSVReader.Read($"CSVs/ItemTable"); //diaglog [인덱스][카테고리이름]
+        _dataManager.Init();
+    }
 
     public static void InitManagers()
     {
