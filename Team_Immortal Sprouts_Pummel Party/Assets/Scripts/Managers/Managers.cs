@@ -9,10 +9,6 @@ public class Managers : MonoBehaviour
     private static ResourceManager _resourceManager = new ResourceManager();
     public static ResourceManager Resource { get { Init(); return _resourceManager; } }
     
-    private void Awake()
-    {
-        Init();    
-    }
 
     public static void Init()
     {
