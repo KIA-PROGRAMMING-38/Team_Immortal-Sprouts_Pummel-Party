@@ -43,6 +43,6 @@ public class RootManager : MonoBehaviour
 
     private void Start()
     {
-        DataManager.InitCSV();
+        //DataManager.InitCSV();
     }
 }

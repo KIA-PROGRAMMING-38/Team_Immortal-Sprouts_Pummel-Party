@@ -31,7 +31,7 @@ public class PlayerData
     /// <param name="player"></param>
     public void InitItemArray(Player player)
     {
-        itemCountDict.Add(player, new int[Enum.GetValues(typeof(ItemType)).Length]);
+        //itemCountDict.Add(player, new int[Enum.GetValues(typeof(ItemType)).Length]);
     }
 
     #region 포톤 플레이어
@@ -152,17 +152,17 @@ public class PlayerData
     /// </summary>
     /// <param name="player"></param>
     /// <param name="itemType"></param>
-    public void AddItem(Player player, ItemType itemType) => ++itemCountDict[player][(int)itemType];
+    //public void AddItem(Player player, ItemType itemType) => ++itemCountDict[player][(int)itemType];
 
     /// <summary>
     /// 아이템 개수를 -1 빼주는 함수
     /// </summary>
     /// <param name="player"></param>
     /// <param name="itemType"></param>
-    public void RemoveItem(Player player, ItemType itemType)
-    {
-        itemCountDict[player][(int)itemType] = Mathf.Max(0, --itemCountDict[player][(int)itemType]);
-    }
+    //public void RemoveItem(Player player, ItemType itemType)
+    //{
+    //    itemCountDict[player][(int)itemType] = Mathf.Max(0, --itemCountDict[player][(int)itemType]);
+    //}
 
     public void AddEggCount(Player player) => ++eggCountDict[player];
     public int GetEggCount(Player player) => eggCountDict[player];

@@ -3,16 +3,16 @@ using UnityEngine;
 [SerializeField]
 public class BelongingItemData
 {
-    public FakeItemData ItemData;
+    //public FakeItemData ItemData;
     public int Number;
     public bool IsHolding;
 
-    public BelongingItemData(FakeItemData item)
-    {
-        ItemData = item;
-        Number = 0;
-        IsHolding = false;
-    }
+    //public BelongingItemData(FakeItemData item)
+    //{
+    //    ItemData = item;
+    //    Number = 0;
+    //    IsHolding = false;
+    //}
 
     public void AddToInventory()
     {

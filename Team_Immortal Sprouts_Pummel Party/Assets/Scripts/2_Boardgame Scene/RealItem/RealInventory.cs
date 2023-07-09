@@ -5,17 +5,17 @@ using UnityEngine.Events;
 
 public class RealInventory
 {
-    public RealInventory(FakeItemData itemData)
-    {
-        inventory = new List<(RealItem item, int count)>();
-        totalItemCount = itemData.GetItemCount();
-        for (int i = 0; i < totalItemCount ;++i)
-        {
-            RealItem storedItem = itemData.GetItemPrefab(i);
-            storedItem.SetItemInfo(itemData, i);
-            inventory.Add((item : storedItem, count : 0));
-        }
-    }
+    //public RealInventory(FakeItemData itemData)
+    //{
+    //    inventory = new List<(RealItem item, int count)>();
+    //    totalItemCount = itemData.GetItemCount();
+    //    for (int i = 0; i < totalItemCount ;++i)
+    //    {
+    //        RealItem storedItem = itemData.GetItemPrefab(i);
+    //        storedItem.SetItemInfo(itemData, i);
+    //        inventory.Add((item : storedItem, count : 0));
+    //    }
+    //}
 
     private List<(RealItem item, int count)> inventory;
     private int totalItemCount;

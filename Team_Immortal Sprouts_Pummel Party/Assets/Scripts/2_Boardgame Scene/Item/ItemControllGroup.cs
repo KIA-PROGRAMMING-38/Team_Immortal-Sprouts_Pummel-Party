@@ -11,12 +11,12 @@ public class ItemControllGroup : MonoBehaviour
     }
 
     /// <summary>
-    /// ¾ÆÀÌÅÛ »ç¿ë ¹öÆ°À» ´­·¶À» ¶§ È£Ãâ
+    /// ì•„ì´í…œ ì‚¬ìš© ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ í˜¸ì¶œ
     /// </summary>
     public void OnClick_ItemUseButton()
     {
         inventoryCanvas.SetActive(true);
-        inventoryCanvas.GetComponentInChildren<InventoryManager>().CloseInventory();
+        //inventoryCanvas.GetComponentInChildren<InventoryManager>().CloseInventory();
         gameObject.SetActive(false);
     }
 }
