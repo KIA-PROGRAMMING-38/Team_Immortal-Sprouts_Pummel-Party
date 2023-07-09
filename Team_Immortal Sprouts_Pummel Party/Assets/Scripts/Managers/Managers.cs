@@ -7,10 +7,12 @@ public class Managers : MonoBehaviour
     private static Managers s_instance;
 
     private static ResourceManager _resourceManager = new ResourceManager();
-    public static ResourceManager Resource { get { Init(); return _resourceManager; } }
+    public static ResourceManager Resource { get { InitManagers(); return _resourceManager; } }
     
+    private static DataManager _dataManager = new DataManager();
+    public static DataManager Data { get { InitManagers(); return _dataManager; } }
 
-    public static void Init()
+    public static void InitManagers()
     {
         if (s_instance is null)
         {
@@ -23,6 +25,7 @@ public class Managers : MonoBehaviour
                 s_instance = go.AddComponent<Managers>();
 
                 _resourceManager.Init();
+                _dataManager.Init();
             }
         }
         
