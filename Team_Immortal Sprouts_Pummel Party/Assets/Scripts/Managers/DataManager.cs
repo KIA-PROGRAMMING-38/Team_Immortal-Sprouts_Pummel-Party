@@ -19,12 +19,12 @@ public class DataManager
     public void Init()
     {
         Items = LoadCSV<ItemDataLoader, int, ItemData>("ItemTable").MakeDic();
+
     }
 
     private Loader LoadCSV<Loader, Key, Item>(string name) where Loader : ILoader<Key, Item >, new()
     {
-        List<Dictionary<string, object>> dialog = CSVReader.Read($"CSVs/{name}"); //diaglog [인덱스][카테고리이름]
-        // CSV 읽어옴
+        List<Dictionary<string, object>> dialog = CSVReader.Read($"CSVs/{name}");
 
         IEnumerable<string> categoryKeys = dialog[0].Keys; // 카테고리 키값 가져옴
 
@@ -43,7 +43,8 @@ public class DataManager
                 values.Add(dialog[i][category]);
             }
 
-            SetFieldValues<Item>(item, values);
+            SetPropertyValues<Item>(item, values);
+            itemList.Add(item);
         }
 
         loader.SetDataList(itemList);
@@ -51,7 +52,7 @@ public class DataManager
         return loader;
     }
 
-    private void SetFieldValues<T>(T instance, List<object> valueSet)
+    private void SetPropertyValues<T>(T instance, List<object> valueSet)
     {
         Type type = instance.GetType();
         PropertyInfo[] properties = type.GetProperties();
@@ -60,7 +61,17 @@ public class DataManager
         {
             object value = valueSet[i];
             PropertyInfo property = properties[i];
-            property.SetValue(instance, Convert.ChangeType(value, properties[i].PropertyType));
+            Type propertyType = property.PropertyType;
+
+            if (propertyType.IsEnum)
+            {
+                object enumValue = Enum.Parse(propertyType, (string)value);
+                property.SetValue(instance, enumValue);
+            }
+            else
+            {
+                property.SetValue(instance, Convert.ChangeType(value, properties[i].PropertyType));
+            }
         }
     }
 }
