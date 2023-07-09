@@ -15,11 +15,12 @@ public interface ILoader<Key, Item>
 public class DataManager
 {
     public Dictionary<int, ItemData> Items { get; private set; }    
+    public Dictionary<int, BodyData> Bodies { get; private set; }   
 
     public void Init()
     {
-        Items = LoadCSV<ItemDataLoader, int, ItemData>("ItemTable").MakeDic();
-
+        //Items = LoadCSV<ItemDataLoader, int, ItemData>("ItemTable").MakeDic();
+        Bodies = LoadCSV<BodyDataLoader, int, BodyData>("BodyTable").MakeDic();
     }
 
     private Loader LoadCSV<Loader, Key, Item>(string name) where Loader : ILoader<Key, Item >, new()
@@ -67,6 +68,11 @@ public class DataManager
             {
                 object enumValue = Enum.Parse(propertyType, (string)value);
                 property.SetValue(instance, enumValue);
+            }
+            else if (propertyType == typeof(Material))
+            {
+                Material material = Managers.Resource.Load<Material>($"{value}");
+                property.SetValue(instance, material);
             }
             else
             {

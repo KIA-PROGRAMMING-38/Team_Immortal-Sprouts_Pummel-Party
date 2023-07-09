@@ -15,8 +15,6 @@ public class Managers : MonoBehaviour
 
     private void Start()
     {
-        //List<Dictionary<string, object>> dialog = CSVReader.Read($"CSVs/ItemTable"); //diaglog [인덱스][카테고리이름]
-        _dataManager.Init();
     }
 
     public static void InitManagers()
