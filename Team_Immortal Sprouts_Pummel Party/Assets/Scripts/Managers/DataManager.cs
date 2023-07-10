@@ -1,4 +1,5 @@
 using CsvHelper;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,11 +13,19 @@ using UnityEngine;
 
 public class DataManager
 {
+    #region 정적 데이터
     public Dictionary<int, ItemData> Items { get; private set; }
     public Dictionary<int, BodyData> Bodies { get; private set; }
     public Dictionary<int, HatData> Hats { get; private set; }
     public Dictionary<int, MiniGameData> MiniGames { get; private set; }
     public Dictionary<int, AwardData> Awards { get; private set; }
+
+    #endregion
+
+    #region 동적 데이터
+    public Dictionary<Player, PlayerData> Players { get; private set; }
+
+    #endregion
 
     public void Init()
     {
