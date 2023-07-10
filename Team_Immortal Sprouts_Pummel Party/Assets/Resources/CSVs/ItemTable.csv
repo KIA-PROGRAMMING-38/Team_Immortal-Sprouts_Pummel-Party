@@ -1,4 +1,4 @@
 ID,Name,ATK,Description,Type
-1,HotAirBalloon,0,?�치�?바꿉?�다.,Controllable
-2,EmptyBowl,0,?��? ?�밥??먹었?�니???��??�니??,UnControllable
-3,Pistol,15,총잡?�리,Controllable
+1,HotAirBalloon,0,위치를 바꿉니다.,Controllable
+2,EmptyBowl,0,누가 내밥을 먹었습니다 화가납니다.,UnControllable
+3,Pistol,15,총잡오리,Controllable

@@ -14,7 +14,6 @@ using UnityEngine;
 public class DataManager
 {
     public List<ItemData> Items { get; private set; }
-
     public List<BodyData> Bodies { get; private set; }
     public List<HatData> Hats { get; private set; }
     public List<MiniGameData> MiniGames { get; private set; }

@@ -12,8 +12,7 @@ public class Managers : MonoBehaviour
     
     private static DataManager _dataManager = new DataManager();
     public static DataManager Data { get { InitManagers(); return _dataManager; } }
-
-
+    
     public static void InitManagers()
     {
         if (s_instance is null)
