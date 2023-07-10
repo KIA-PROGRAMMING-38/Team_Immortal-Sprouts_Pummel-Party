@@ -43,18 +43,18 @@ public class AwardLightController : MonoBehaviour
 
     private async void OnEnable()
     {
-        awardProvider.OnGiveAward.RemoveListener(lightWinner);
-        awardProvider.OnAwardGiven.RemoveListener(activateLightRandomMove);
-        awardProvider.OnGiveAward.AddListener(lightWinner);
-        awardProvider.OnAwardGiven.AddListener(activateLightRandomMove);
-        await gradualLightIntensityControl();
-        activateLightRandomMove();
+        //awardProvider.OnGiveAward.RemoveListener(lightWinner);
+        //awardProvider.OnAwardGiven.RemoveListener(activateLightRandomMove);
+        //awardProvider.OnGiveAward.AddListener(lightWinner);
+        //awardProvider.OnAwardGiven.AddListener(activateLightRandomMove);
+        //await gradualLightIntensityControl();
+        //activateLightRandomMove();
     }
 
     private void OnDisable()
     {
-        awardProvider.OnGiveAward.RemoveListener(lightWinner);
-        awardProvider.OnAwardGiven.RemoveListener(activateLightRandomMove);
+        //awardProvider.OnGiveAward.RemoveListener(lightWinner);
+        //awardProvider.OnAwardGiven.RemoveListener(activateLightRandomMove);
     }
 
 

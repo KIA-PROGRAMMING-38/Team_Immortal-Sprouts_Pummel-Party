@@ -1,4 +1,4 @@
 ID,Name,ATK,Description,Type
-0,HotAirBalloon,0,?„ì¹˜ë¥?ë°”ê¿‰?ˆë‹¤.,Controllable
-1,EmptyBowl,0,?„ê? ?´ë°¥??ë¨¹ì—ˆ?µë‹ˆ???”ê??©ë‹ˆ??,UnControllable
-2,Pistol,15,ì´ì¡?¤ë¦¬,Controllable
+1,HotAirBalloon,0,?„ì¹˜ë¥?ë°”ê¿‰?ˆë‹¤.,Controllable
+2,EmptyBowl,0,?„ê? ?´ë°¥??ë¨¹ì—ˆ?µë‹ˆ???”ê??©ë‹ˆ??,UnControllable
+3,Pistol,15,ì´ì¡?¤ë¦¬,Controllable
