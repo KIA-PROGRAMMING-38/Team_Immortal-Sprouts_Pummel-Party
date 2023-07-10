@@ -23,17 +23,19 @@ public class DataManager
     #endregion
 
     #region 동적 데이터
-    public Dictionary<Player, PlayerData> Players { get; private set; }
+    public Dictionary<Player, PlayerData> Players { get; private set; } = new Dictionary<Player, PlayerData>();
 
     #endregion
 
+
+    private const string csvPath = "Assets/Resources/CSVs/";
     public void Init()
     {
-        Items = ParseToDict<int, ItemData>("Assets/Resources/CSVs/ItemTable.csv", data => data.ID);
-        Bodies = ParseToDict<int, BodyData>("Assets/Resources/CSVs/BodyTable.csv", data => data.ID);
-        Hats = ParseToDict<int, HatData>("Assets/Resources/CSVs/HatTable.csv", data => data.ID);
-        MiniGames = ParseToDict<int, MiniGameData>("Assets/Resources/CSVs/MiniGameTable.csv", data => data.ID);
-        Awards = ParseToDict<int, AwardData>("Assets/Resources/CSVs/AwardTable.csv", data => data.ID);
+        Items = ParseToDict<int, ItemData>($"{csvPath}ItemTable.csv", data => data.ID);
+        Bodies = ParseToDict<int, BodyData>($"{csvPath}BodyTable.csv", data => data.ID);
+        Hats = ParseToDict<int, HatData>($"{csvPath}HatTable.csv", data => data.ID);
+        MiniGames = ParseToDict<int, MiniGameData>($"{csvPath}MiniGameTable.csv", data => data.ID);
+        Awards = ParseToDict<int, AwardData>($"{csvPath}AwardTable.csv", data => data.ID);
     }
 
     public List<T> ParseToList<T>([NotNull] string path)
