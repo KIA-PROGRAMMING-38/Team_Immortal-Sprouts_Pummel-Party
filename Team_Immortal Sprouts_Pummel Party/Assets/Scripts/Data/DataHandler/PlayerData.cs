@@ -13,8 +13,8 @@ public class PlayerData
     public string NickName { get; set; }    
     public Vector3 PrevPos { get; set; }    
     public int HP { get; set; } 
-    public int EggCount { get; set; }   
-    public int[] ItemCount { get; set; }
+    public int EggCount { get; set; }
+    public List<int> ItemCount { get; set; } = new List<int>();
     
     
     
