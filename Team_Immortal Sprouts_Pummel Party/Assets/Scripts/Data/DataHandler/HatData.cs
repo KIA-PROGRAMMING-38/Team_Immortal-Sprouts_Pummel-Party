@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class BodyData
+public class HatData
 {
-    public int ID { get; set; }
+    public int ID { get; set; } 
     public string Name { get; set; }
 }

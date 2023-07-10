@@ -15,6 +15,7 @@ public class Managers : MonoBehaviour
 
     private void Start()
     {
+        Data.Init();
     }
 
     public static void InitManagers()
