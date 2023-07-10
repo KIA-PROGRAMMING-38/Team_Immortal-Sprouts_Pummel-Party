@@ -1,9 +1,9 @@
-ID,Name
-1,
-2,Ribbon Pin 2
-3,BirthdayHat
-4,Cap
-5,FlowerHairPin
-6,Magic Hat
-7,Straw Hat
-8,Ribbon Pin 1
+ID,Name,FileName
+1,,
+2,Ribbon Pin 2,Ribbon Pin 2
+3,BirthdayHat,BirthdayHat
+4,Cap,Cap
+5,FlowerHairPin,FlowerHairPin
+6,Magic Hat,Magic Hat
+7,Straw Hat,Straw Hat
+8,Ribbon Pin 1,Ribbon Pin 1
