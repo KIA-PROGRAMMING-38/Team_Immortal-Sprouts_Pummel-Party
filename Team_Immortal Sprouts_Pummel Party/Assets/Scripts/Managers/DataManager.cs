@@ -13,29 +13,22 @@ using UnityEngine;
 
 public class DataManager
 {
-    #region 정적 데이터
-    public Dictionary<int, ItemData> Items { get; private set; }
-    public Dictionary<int, BodyData> Bodies { get; private set; }
-    public Dictionary<int, HatData> Hats { get; private set; }
-    public Dictionary<int, MiniGameData> MiniGames { get; private set; }
-    public Dictionary<int, AwardData> Awards { get; private set; }
+    public List<ItemData> Items { get; private set; }
 
-    #endregion
-
-    #region 동적 데이터
-    public Dictionary<Player, PlayerData> Players { get; private set; } = new Dictionary<Player, PlayerData>();
-
-    #endregion
+    public List<BodyData> Bodies { get; private set; }
+    public List<HatData> Hats { get; private set; }
+    public List<MiniGameData> MiniGames { get; private set; }
+    public List<AwardData> Awards { get; private set; }
 
 
-    private const string csvPath = "Assets/Resources/CSVs/";
+    private readonly string csvPath = Path.Combine("Assets", "Resources", "CSVs");
     public void Init()
     {
-        Items = ParseToDict<int, ItemData>($"{csvPath}ItemTable.csv", data => data.ID);
-        Bodies = ParseToDict<int, BodyData>($"{csvPath}BodyTable.csv", data => data.ID);
-        Hats = ParseToDict<int, HatData>($"{csvPath}HatTable.csv", data => data.ID);
-        MiniGames = ParseToDict<int, MiniGameData>($"{csvPath}MiniGameTable.csv", data => data.ID);
-        Awards = ParseToDict<int, AwardData>($"{csvPath}AwardTable.csv", data => data.ID);
+        Items = ParseToList<ItemData>(Path.Combine(csvPath, "ItemTable.csv"));
+        Bodies = ParseToList<BodyData>(Path.Combine(csvPath, "BodyTable.csv"));
+        Hats = ParseToList<HatData>(Path.Combine(csvPath, "HatTable.csv"));
+        MiniGames = ParseToList<MiniGameData>(Path.Combine(csvPath, "MiniGameTable.csv"));
+        Awards = ParseToList<AwardData>(Path.Combine(csvPath, "AwardTable.csv"));
     }
 
     public List<T> ParseToList<T>([NotNull] string path)
