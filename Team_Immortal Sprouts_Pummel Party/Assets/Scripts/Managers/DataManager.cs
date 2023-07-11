@@ -23,7 +23,6 @@ public class DataManager
     public List<HatData> Hats { get; private set; }
     public List<MiniGameData> MiniGames { get; private set; }
     public List<AwardData> Awards { get; private set; }
-    public List<LobbyTextData> LobbyTexts { get; private set; }
 
     private readonly string csvPath = Path.Combine("Assets", "Resources", "CSVs");
     public void Init()
@@ -33,7 +32,6 @@ public class DataManager
         Hats = ParseToList<HatData>(Path.Combine(csvPath, "HatTable.csv"));
         MiniGames = ParseToList<MiniGameData>(Path.Combine(csvPath, "MiniGameTable.csv"));
         Awards = ParseToList<AwardData>(Path.Combine(csvPath, "AwardTable.csv"));
-        LobbyTexts = ParseToList<LobbyTextData>(Path.Combine(csvPath, "LobbyTextTable.csv"));
         CacheResource();
     }
 

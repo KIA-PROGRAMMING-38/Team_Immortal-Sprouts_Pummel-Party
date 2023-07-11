@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LobbyView : MonoBehaviour
 {
-    // Start is called before the first frame update
+
     void Start()
     {
         
