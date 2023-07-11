@@ -1,7 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ResourceManager
 {
+    public List<Material> BodyMaterials { get; private set; } = new List<Material>();
+    public List<GameObject> Hats { get; private set; } = new List<GameObject>();
+    public List<Item> Items { get; private set; } = new List<Item>(); 
     public void Init()
     {
 

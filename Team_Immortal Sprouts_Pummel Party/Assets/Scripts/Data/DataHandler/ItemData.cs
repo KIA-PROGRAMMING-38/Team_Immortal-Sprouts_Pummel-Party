@@ -2,21 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public enum ItemType
 {
-    Pistol,
-    HotAirBalloon,
-    EmptyBowl
+    Controllable,
+    UnControllable
 }
 
-public class ItemData
+public class ItemData : ILoadable
 {
-    public List<Dictionary<string, object>> ItemDialog; // PrefabPool
+    public int ID { get; set; }
+    public string Name { get; set; }
+    public int ATK { get; set; }
+    public string Description { get; set; }
+    public ItemType Type { get; set; }
+    public string FileName { get; set; }
 
-    public void ReadCSV()
+    public void CacheResource()
     {
-        ItemDialog = CSVReader.Read("CSVs/ItemTable");
+        Item item = Managers.Resource.Load<Item>(FileName);
+        Managers.Resource.Items.Add(item);
     }
-
-
 }

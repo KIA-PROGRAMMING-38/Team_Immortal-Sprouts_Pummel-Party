@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiniGameData 
+public class MiniGameData
 {
-    public List<Dictionary<string, object>> MiniGameDialog; // PrefabPool
-
-    public void ReadCSV()
-    {
-        MiniGameDialog = CSVReader.Read("CSVs/MiniGameTable");
-    }
+    public int ID { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public int SceneNumber { get; set; }
 }
