@@ -22,8 +22,6 @@ public class ResourceCacher<T> where T : Object
         }
     }
 
-    public T GetResource(string fileName)
-    {
-        return cache[fileName];
-    }
+    public T GetResource(string fileName) => cache[fileName];
+
 }

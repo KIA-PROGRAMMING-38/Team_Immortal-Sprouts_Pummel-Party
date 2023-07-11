@@ -24,28 +24,24 @@ public class ResourceManager
     {
         ResourceCacher<T> cache = new ResourceCacher<T>();
 
-        foreach (T1 element in dataList)
+        foreach (T1 data in dataList)
         {
-            cache.LoadResource(element.GetFileName());
+            cache.LoadResource(data.GetFileName());
         }
 
         return cache;
     }
 
-    public T Load<T>(string filename) where T : UnityEngine.Object
-    {
-        return Resources.Load<T>(filename);
-    }
+    public T Load<T>(string filename) where T : UnityEngine.Object => Resources.Load<T>(filename);
 
     public T Instantiate<T>(string filename) where T : UnityEngine.Object
     {
         var resource = Load<T>(filename);
-
         return UnityEngine.Object.Instantiate(resource);
     }
     
-    public void Destroy(Object obj)
-    {
-        UnityEngine.Object.Destroy(obj);
-    }
+    public void Destroy(Object obj) => UnityEngine.Object.Destroy(obj);
+
+
+
 }
