@@ -26,8 +26,8 @@ public class Managers : MonoBehaviour
 
                 s_instance = go.AddComponent<Managers>();
 
-                _resourceManager.Init();
                 _dataManager.Init();
+                _resourceManager.Init();
             }
         }
 

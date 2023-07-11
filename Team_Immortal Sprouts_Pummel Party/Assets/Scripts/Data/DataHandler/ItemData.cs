@@ -9,7 +9,7 @@ public enum ItemType
     UnControllable
 }
 
-public class ItemData
+public class ItemData : ILoadble
 {
     public int ID { get; set; }
     public string Name { get; set; }
@@ -18,4 +18,5 @@ public class ItemData
     public ItemType Type { get; set; }
     public string FileName { get; set; }
 
+    public string GetFileName() => FileName;
 }

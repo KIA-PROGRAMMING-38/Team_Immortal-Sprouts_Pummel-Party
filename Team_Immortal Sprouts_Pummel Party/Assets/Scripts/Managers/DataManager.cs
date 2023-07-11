@@ -5,7 +5,13 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 
+
+public interface ILoadble
+{
+    string GetFileName();
+}
 public class DataManager
 {
     public List<ItemData> Items { get; private set; }
@@ -13,7 +19,7 @@ public class DataManager
     public List<HatData> Hats { get; private set; }
     public List<MiniGameData> MiniGames { get; private set; }
     public List<AwardData> Awards { get; private set; }
-
+       
 
     private readonly string csvPath = Path.Combine("Assets", "Resources", "CSVs");
     public void Init()
@@ -23,10 +29,10 @@ public class DataManager
         Hats = ParseToList<HatData>(Path.Combine(csvPath, "HatTable.csv"));
         MiniGames = ParseToList<MiniGameData>(Path.Combine(csvPath, "MiniGameTable.csv"));
         Awards = ParseToList<AwardData>(Path.Combine(csvPath, "AwardTable.csv"));
-
     }
 
 
+    
     public List<T> ParseToList<T>([NotNull] string path)
     {
         using (var reader = new StreamReader(path))
