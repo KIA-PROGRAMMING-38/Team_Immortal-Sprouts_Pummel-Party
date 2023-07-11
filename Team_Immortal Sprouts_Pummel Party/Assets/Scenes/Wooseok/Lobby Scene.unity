@@ -922,7 +922,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7037197974935718767, guid: 065474e4a65865c469d44d410bfb2224, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7037197976329230805, guid: 065474e4a65865c469d44d410bfb2224, type: 3}
       propertyPath: MultiGameCanvas
@@ -1667,6 +1667,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClick_LeaveGameButton
       objectReference: {fileID: 0}
+    - target: {fileID: 3187986915680391974, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3187986916053830715, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: m_Name
       value: CreateFailedPanel
@@ -1697,7 +1701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5527714054527570233, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5527714054527570235, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: failedJoinRoomCanvas
@@ -1771,6 +1775,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5527714055106466391, guid: cb984150341bbb34593c09b27e285b45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5527714055382120450, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClick_GameStartButton
@@ -1797,7 +1805,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5527714055423475565, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5527714055423475566, guid: cb984150341bbb34593c09b27e285b45, type: 3}
       propertyPath: m_RootOrder
