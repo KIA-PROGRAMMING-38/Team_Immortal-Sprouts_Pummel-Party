@@ -1,20 +1,10 @@
 using CsvHelper;
-using Palmmedia.ReportGenerator.Core.Plugin;
-using Photon.Realtime;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using UnityEngine;
-
-public interface ILoadable
-{
-    void CacheResource();
-}
 
 public class DataManager
 {
@@ -34,27 +24,8 @@ public class DataManager
         MiniGames = ParseToList<MiniGameData>(Path.Combine(csvPath, "MiniGameTable.csv"));
         Awards = ParseToList<AwardData>(Path.Combine(csvPath, "AwardTable.csv"));
 
-        CacheResource();
     }
 
-    private void CacheResource() // 이게 맞나?...
-    {
-        // TODO: 아이템 수정할때 캐싱 해줘야함
-        //foreach (ItemData element in Items)
-        //{
-        //    element.CacheResource();
-        //}
-
-        foreach (BodyData element in Bodies)
-        {
-            element.CacheResource();
-        }
-
-        foreach (HatData element in Hats)
-        {
-            element.CacheResource();
-        }
-    }
 
     public List<T> ParseToList<T>([NotNull] string path)
     {

@@ -9,7 +9,7 @@ public enum ItemType
     UnControllable
 }
 
-public class ItemData : ILoadable
+public class ItemData
 {
     public int ID { get; set; }
     public string Name { get; set; }
@@ -18,9 +18,4 @@ public class ItemData : ILoadable
     public ItemType Type { get; set; }
     public string FileName { get; set; }
 
-    public void CacheResource()
-    {
-        Item item = Managers.Resource.Load<Item>(FileName);
-        Managers.Resource.Items.Add(item);
-    }
 }
