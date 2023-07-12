@@ -7,7 +7,16 @@ using UnityEngine.UI;
 
 public abstract class UIBase : MonoBehaviour
 {
-    protected Dictionary<Type, UnityEngine.Object[]> Objects = new Dictionary<Type, UnityEngine.Object[]>();
+    private void Start()
+    {
+        Init();
+    }
+
+    public virtual void Init()
+    {
+        
+    }
+    
 
     /// <summary>
     /// enum 값과 오브젝트를 묶어주는 함수
@@ -21,7 +30,7 @@ public abstract class UIBase : MonoBehaviour
 
         UnityEngine.Object[] objs = new UnityEngine.Object[lengthOfKeyNames];
 
-        Objects.Add(typeof(T), objs);
+        Managers.UI.ObjectDict.Add(typeof(T), objs);
 
         for (int i = 0; i < lengthOfKeyNames; ++i)
         {
@@ -41,7 +50,7 @@ public abstract class UIBase : MonoBehaviour
     {
         UnityEngine.Object[] objectList = null;
 
-        bool isObjectPresent = Objects.TryGetValue(typeof(T), out objectList);
+        bool isObjectPresent = Managers.UI.ObjectDict.TryGetValue(typeof(T), out objectList);
 
         if (!isObjectPresent)
         {
@@ -62,4 +71,28 @@ public abstract class UIBase : MonoBehaviour
         button.onClick.AddListener(function);
     }
 
+    protected List<UnityAction> CreateFunctionList(params UnityAction[] functionSet)
+    {
+        List<UnityAction> functionList = new List<UnityAction>();
+        foreach (UnityAction element in functionSet)
+        {
+            functionList.Add(element);
+        }
+        return functionList;
+    }
+
+    protected void BindEventsWithButtons<T>(List<UnityAction> functionList) where T : Enum
+    {
+        int arrayLength = Enum.GetValues(typeof(T)).Length;
+
+        Debug.Assert(arrayLength == functionList.Count);
+
+        T[] array = (T[])Enum.GetValues(typeof(T));
+
+        for (int i = 0; i < array.Length; ++i)
+        {
+            Button button = Get<Button>(Convert.ToInt32(array[i]));
+            BindButtonEvent(button, functionList[i]);
+        }
+    }
 }
