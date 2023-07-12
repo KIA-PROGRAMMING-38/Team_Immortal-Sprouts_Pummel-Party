@@ -1,4 +1,4 @@
-ID,Name,Atk,Info
-0,HotAirBalloon,-,위치를 바꿉니다.
-1,EmptyBowl,-,누가 내밥을 먹었습니다 화가납니다.
-2,Pistol,15,총잡오리
+ID,Name,ATK,Description,Type,FileName
+1,HotAirBalloon,0,위치를 바꿉니다.,Controllable,HotAirBalloon
+2,EmptyBowl,0,누가 내밥을 먹었습니다 화가납니다.,UnControllable,EmptyBowl
+3,Pistol,15,총잡오리,Controllable,Pistol
