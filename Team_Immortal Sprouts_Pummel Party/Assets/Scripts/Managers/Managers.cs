@@ -16,6 +16,9 @@ public class Managers : MonoBehaviour
     private static PhotonManager _photonManager;
     public static PhotonManager Photon { get { InitManagers(); return _photonManager; } }
 
+    private static UIManager _uiManager;
+    public static UIManager UI { get { InitManagers(); return _uiManager; } }   
+
     public static void InitManagers()
     {
         if (s_instance is null)
@@ -32,6 +35,7 @@ public class Managers : MonoBehaviour
 
             _photonManager = CreateComponentManager<PhotonManager>();
 
+            _uiManager.Init();
             _dataManager.Init();
             _resourceManager.Init();
             _photonManager.Init();
