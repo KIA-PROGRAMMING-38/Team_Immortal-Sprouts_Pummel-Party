@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem.Android;
 using Object = UnityEngine.Object;
@@ -22,7 +23,8 @@ public class UIManager
             name = typeof(T).Name;  
         }
 
-        GameObject prefab = Managers.Resource.Instantiate<GameObject>(name);
+        
+        GameObject prefab = Managers.Resource.Instantiate<GameObject>(Path.Combine("UI", name));
 
         T UI = prefab.GetComponent<T>();
 

@@ -18,6 +18,7 @@ public class DataManager
     public List<HatData> Hats { get; private set; }
     public List<MiniGameData> MiniGames { get; private set; }
     public List<AwardData> Awards { get; private set; }
+    
        
 
     private readonly string csvPath = Path.Combine("Assets", "Resources", "CSVs");
