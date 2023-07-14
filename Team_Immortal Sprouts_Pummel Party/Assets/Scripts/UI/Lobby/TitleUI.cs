@@ -48,7 +48,8 @@ public class TitleUI : UIBase
 
     private void ClickInitButton()
     {
-        Debug.Log("버튼 누름");
+        Managers.UI.CloseUI();
+        Managers.UI.PopUI<MultiUI>(parent : Managers.UI.RootTransform);
     }
 
 }
