@@ -21,6 +21,7 @@ public class Testui : UIBase
         TestText
     }
 
+    private Test2 secondUI;
     public override void Init()
     {
         Bind<Button>(typeof(Buttons));
@@ -33,6 +34,16 @@ public class Testui : UIBase
         Get<TMP_Text>(Texts.Title).text = "Game Title";
         Get<TMP_Text>(Texts.TouchGuide).text = "Touch to Start!";
         Get<TMP_Text>(Texts.TestText).text = "TestText";
+
+        secondUI = Managers.UI.PopUI<Test2>();
+    }
+    
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Managers.UI.CloseUI();
+        }
     }
 
     private void SayHey() => Debug.Log("Hey");

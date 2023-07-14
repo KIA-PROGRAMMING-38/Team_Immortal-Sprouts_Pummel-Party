@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 
 
@@ -32,16 +33,18 @@ public class ResourceManager
         return cache;
     }
 
-    public T Load<T>(string filename) where T : UnityEngine.Object => Resources.Load<T>(filename);
+    public T Load<T>(string filename) where T : Object => Resources.Load<T>(filename);
 
-    public T Instantiate<T>(string filename) where T : UnityEngine.Object
+    public T Instantiate<T>(string filename) where T : Object
     {
         var resource = Load<T>(filename);
-        return UnityEngine.Object.Instantiate(resource);
+        return Object.Instantiate(resource);
     }
-    
-    public void Destroy(Object obj) => UnityEngine.Object.Destroy(obj);
 
+    public void Destroy(Object obj)
+    {
+        if (obj == null) { return; }
 
-
+        Object.Destroy(obj);
+    }
 }

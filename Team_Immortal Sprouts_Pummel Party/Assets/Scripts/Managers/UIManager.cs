@@ -2,32 +2,65 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Android;
+using Object = UnityEngine.Object;
 
 public class UIManager
 {
     
     public void Init()
     {
-
+        
     }
 
-    public Dictionary<Type, UnityEngine.Object[]> ObjectDict = new Dictionary<Type, UnityEngine.Object[]>();
-    public Stack<UIBase> UIStack { get; private set; } = new Stack<UIBase>();
+    public Stack<UIBase> UIStack = new Stack<UIBase>();
 
-    public T PopUI<T>(Enum key) where T : UIBase
+    public T PopUI<T>(string name = null, Transform parent = null) where T : UIBase
     {
-        int index = Convert.ToInt32(key);
-        UnityEngine.Object chosenUI = ObjectDict[key.GetType()][index];
+        if (string.IsNullOrEmpty(name))
+        {
+            name = typeof(T).Name;  
+        }
 
-        return chosenUI as T;
+        GameObject prefab = Managers.Resource.Instantiate<GameObject>(name);
+
+        T UI = prefab.GetComponent<T>();
+
+        UIStack.Push(UI);
+
+        if (parent != null)
+        {
+            prefab.transform.SetParent(parent);
+        }
+
+        prefab.transform.localScale = Vector3.one;
+        prefab.transform.localPosition = prefab.transform.position;
+
+        return UI;
     }
-    
 
-    public void CloseUI(Enum key)
+
+    public void CloseUI(UIBase UI = null)
     {
-        int index = Convert.ToInt32(key);
-        UnityEngine.Object chosenUI = ObjectDict[key.GetType()][index];
+        if (UIStack.Count <= 0)
+        {
+            return;
+        }
 
-        Managers.Resource.Destroy(chosenUI);
+        if (UI != null)
+        {
+            Debug.Assert(UI == UIStack.Peek());
+        }
+
+        UIBase chosenUI = UIStack.Pop();
+        Managers.Resource.Destroy(chosenUI.gameObject);
+    }
+
+    public void CloseAllUI()
+    {
+        while (0 < UIStack.Count)
+        {
+            CloseUI();
+        }
     }
 }

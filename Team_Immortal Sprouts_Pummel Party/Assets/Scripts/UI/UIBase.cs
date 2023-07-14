@@ -18,6 +18,7 @@ public abstract class UIBase : MonoBehaviour
 
     }
 
+    public Dictionary<Type, Object[]> ObjectDict = new Dictionary<Type, Object[]>();
 
     /// <summary>
     /// enum 값과 오브젝트를 묶어주는 함수
@@ -29,11 +30,11 @@ public abstract class UIBase : MonoBehaviour
         string[] keyNames = Enum.GetNames(type);
 
         Object[] objs = new Object[keyNames.Length];
-        Managers.UI.ObjectDict.Add(typeof(T), objs);
+        ObjectDict.Add(typeof(T), objs);
 
         T[] components = gameObject.GetComponentsInChildren<T>();
 
-        Debug.Assert(components.Length == keyNames.Length);
+        Debug.Assert(components.Length == keyNames.Length); // enum 개수와 실제 컴포넌트의 개수가 일치해야함
 
         for (int i = 0; i < components.Length; ++i)
         {
@@ -46,13 +47,20 @@ public abstract class UIBase : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// T 컴포넌트를 반환하는 함수
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="what"></param>
+    /// <returns></returns>
     protected T Get<T>(Enum what) where T : Object
     {
         Object[] objectList = null;
 
         int index = Convert.ToInt32(what);
 
-        bool isObjectPresent = Managers.UI.ObjectDict.TryGetValue(typeof(T), out objectList);
+        bool isObjectPresent = ObjectDict.TryGetValue(typeof(T), out objectList);
 
         if (!isObjectPresent)
         {
