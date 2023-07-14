@@ -14,6 +14,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private int repeatTime = 1;
 
     public Dictionary<Player, PlayerData> Players { get; private set; } = new Dictionary<Player, PlayerData>();
+    public Dictionary<string, RoomInfo> Rooms { get; private set; } = new Dictionary<string, RoomInfo>();
 
     public void Init()
     {
@@ -21,6 +22,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         BindEvent(ref OnDisconnectedFromMasterServer, () => PhotonNetwork.ConnectUsingSettings(), true);
         BindEvent(ref OnJoinedTheLobby, RefreshServer, true);
         BindEvent(ref OnLeftTheLobby, () => PhotonNetwork.JoinLobby(), true);
+        OnRoomListUpdated -= UpdateRoomInfo;
+        OnRoomListUpdated += UpdateRoomInfo;
 
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = GAME_VERSION;
@@ -33,6 +36,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         BindEvent(ref OnDisconnectedFromMasterServer, () => PhotonNetwork.ConnectUsingSettings(), false);
         BindEvent(ref OnJoinedTheLobby, RefreshServer, false);
         BindEvent(ref OnLeftTheLobby, () => PhotonNetwork.JoinLobby(), false);
+        OnRoomListUpdated -= UpdateRoomInfo;
     }
 
     #region EVENTS
@@ -40,6 +44,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public event Action OnDisconnectedFromMasterServer;
     public event Action OnJoinedTheLobby;
     public event Action OnLeftTheLobby;
+    public event Action<List<RoomInfo>> OnRoomListUpdated;
     public event Action OnJoinedTheRoom;
     public event Action OnLeftTheRoom;
     public event Action<Player> OnPlayerEnteredTheRoom;
@@ -53,6 +58,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby() => OnJoinedTheLobby?.Invoke();
     public override void OnLeftLobby() => OnLeftTheLobby?.Invoke();
     public override void OnJoinedRoom() => OnJoinedTheRoom?.Invoke();
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList) => OnRoomListUpdated?.Invoke(roomList);
+    
     public override void OnPlayerEnteredRoom(Player newPlayer) => OnPlayerEnteredTheRoom?.Invoke(newPlayer);
     public override void OnPlayerLeftRoom(Player otherPlayer) => OnPlayerLeftTheRoom?.Invoke(otherPlayer);
     public override void OnMasterClientSwitched(Player newMasterClient) => OnMasterSwitched?.Invoke(newMasterClient);
@@ -79,6 +87,24 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             repeatTime -= 1;
             PhotonNetwork.LeaveLobby();
             PhotonNetwork.CurrentLobby.Name = LOBBY_NAME;
+        }
+    }
+
+    private void UpdateRoomInfo(List<RoomInfo> roomList)
+    {
+        foreach (RoomInfo roomInfo in roomList)
+        {
+            if (roomInfo.RemovedFromList) // 삭제가 된다면
+            {
+                Rooms.Remove(roomInfo.Name);
+            }
+            else
+            {
+                if (!Rooms.ContainsKey(roomInfo.Name)) // 새로 생성된 방이라면
+                {
+                    Rooms.Add(roomInfo.Name, roomInfo);
+                }
+            }
         }
     }
 }
