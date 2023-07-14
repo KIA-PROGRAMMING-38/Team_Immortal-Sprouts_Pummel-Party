@@ -24,7 +24,7 @@ public class TitleUI : UIBase
         Bind<TMP_Text>(typeof(Texts));
 
         initButton = Get<Button>(Buttons.Init);
-        Get<TMP_Text>(Texts.Title).text = "<color=\"yellow\">Duck</color> <color=\"orange\">Duck</color> <color=\"blue\">Party</color>";
+        Get<TMP_Text>(Texts.Title).text = Managers.Data.GetText(Define.GameTitleText, Language.Eng);
 
         BindButtonEvent(Get<Button>(Buttons.Init), ClickInitButton);
     }
@@ -43,7 +43,7 @@ public class TitleUI : UIBase
     private void InitGame()
     {
         initButton.interactable = true;
-        Get<TMP_Text>(Texts.TouchGuide).text = "Touch Anywhere to Get Started!";
+        Get<TMP_Text>(Texts.TouchGuide).text = Managers.Data.GetText(Define.TouchGuideText, Language.Eng);
     }
 
     private void ClickInitButton()

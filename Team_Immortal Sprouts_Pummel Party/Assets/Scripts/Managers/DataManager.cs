@@ -18,8 +18,7 @@ public class DataManager
     public List<HatData> Hats { get; private set; }
     public List<MiniGameData> MiniGames { get; private set; }
     public List<AwardData> Awards { get; private set; }
-    
-       
+    public Dictionary<int, TextData> Texts { get; private set; }   
 
     private readonly string csvPath = Path.Combine("Assets", "Resources", "CSVs");
     public void Init()
@@ -29,10 +28,24 @@ public class DataManager
         Hats = ParseToList<HatData>(Path.Combine(csvPath, "HatTable.csv"));
         MiniGames = ParseToList<MiniGameData>(Path.Combine(csvPath, "MiniGameTable.csv"));
         Awards = ParseToList<AwardData>(Path.Combine(csvPath, "AwardTable.csv"));
+        Texts = ParseToDict<int, TextData>(Path.Combine(csvPath, "TextTable.csv"), data => data.ID );
     }
 
 
-    
+    public string GetText(int ID, Language lang)
+    {
+        string line = null;
+        if (lang == Language.Kor)
+        {
+            line = Texts[ID].KOR;
+        }
+        else
+        {
+            line = Texts[ID].ENG;
+        }
+
+        return line;
+    }
     public List<T> ParseToList<T>([NotNull] string path)
     {
         using (var reader = new StreamReader(path))
