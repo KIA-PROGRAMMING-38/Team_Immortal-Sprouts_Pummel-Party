@@ -10,23 +10,29 @@ public class Testui : UIBase
     
     enum Buttons
     {
-        Touch
+        Touch,
+        TestButton
     }
 
     enum Texts
     {
         Title,
-        TouchGuide
+        TouchGuide,
+        TestText
     }
 
     public override void Init()
     {
-        Debug.Log(Managers.Data);
-        Bind<TMP_Text>(typeof(Texts));
         Bind<Button>(typeof(Buttons));
+        Bind<TMP_Text>(typeof(Texts));
 
-        List<UnityAction> functionList = CreateFunctionList(SayHey, SayWhat, SayBoom);
-        BindEventsWithButtons<Buttons>(functionList);
+        BindButtonEvent(Get<Button>(Buttons.Touch), SayHey);
+        BindButtonEvent(Get<Button>(Buttons.TestButton), SayWhat);
+        BindButtonEvent(Get<Button>(Buttons.TestButton), SayBoom);
+
+        Get<TMP_Text>(Texts.Title).text = "Game Title";
+        Get<TMP_Text>(Texts.TouchGuide).text = "Touch to Start!";
+        Get<TMP_Text>(Texts.TestText).text = "TestText";
     }
 
     private void SayHey() => Debug.Log("Hey");

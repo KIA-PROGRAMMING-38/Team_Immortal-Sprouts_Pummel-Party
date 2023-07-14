@@ -16,7 +16,7 @@ public class Managers : MonoBehaviour
     private static PhotonManager _photonManager = null;
     public static PhotonManager Photon { get { InitManagers(); return _photonManager; } }
 
-    private static UIManager _uiManager = null;
+    private static UIManager _uiManager = new UIManager();
     public static UIManager UI { get { InitManagers(); return _uiManager; } }   
 
     public static void InitManagers()

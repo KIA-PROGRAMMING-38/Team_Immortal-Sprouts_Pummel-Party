@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 public abstract class UIBase : MonoBehaviour
 {
@@ -14,41 +15,42 @@ public abstract class UIBase : MonoBehaviour
 
     public virtual void Init()
     {
-        
+
     }
-    
+
 
     /// <summary>
     /// enum 값과 오브젝트를 묶어주는 함수
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="type"></param>
-    protected void Bind<T>(Type type) where T : UnityEngine.Object
+    protected void Bind<T>(Type type) where T : Object
     {
         string[] keyNames = Enum.GetNames(type);
-        int lengthOfKeyNames = keyNames.Length;
 
-        UnityEngine.Object[] objs = new UnityEngine.Object[lengthOfKeyNames];
-
+        Object[] objs = new Object[keyNames.Length];
         Managers.UI.ObjectDict.Add(typeof(T), objs);
 
-        for (int i = 0; i < lengthOfKeyNames; ++i)
-        {
-            objs[i] = transform.Find(keyNames[i]);
+        T[] components = gameObject.GetComponentsInChildren<T>();
 
-            Debug.Assert(objs[i] != null);
+        Debug.Assert(components.Length == keyNames.Length);
+
+        for (int i = 0; i < components.Length; ++i)
+        {
+            T component = components[i];
+            if (component.name == keyNames[i])
+            {
+                objs[i] = component;
+                Debug.Assert(objs[i] != null);
+            }
         }
     }
 
-    /// <summary>
-    /// enum값에 해당하는 오브젝트들중 index에 해당하는 데이터를 반환하는 함수 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="index"></param>
-    /// <returns></returns>
-    protected T Get<T>(int index) where T : UnityEngine.Object
+    protected T Get<T>(Enum what) where T : Object
     {
-        UnityEngine.Object[] objectList = null;
+        Object[] objectList = null;
+
+        int index = Convert.ToInt32(what);
 
         bool isObjectPresent = Managers.UI.ObjectDict.TryGetValue(typeof(T), out objectList);
 
@@ -57,8 +59,11 @@ public abstract class UIBase : MonoBehaviour
             return null;
         }
 
-        return objectList as T;
+        T desiredObj = objectList[index] as T;
+
+        return desiredObj;
     }
+
 
     /// <summary>
     /// 버튼과 함수를 연동하는 함수
@@ -69,30 +74,5 @@ public abstract class UIBase : MonoBehaviour
     {
         button.onClick.RemoveListener(function);
         button.onClick.AddListener(function);
-    }
-
-    protected List<UnityAction> CreateFunctionList(params UnityAction[] functionSet)
-    {
-        List<UnityAction> functionList = new List<UnityAction>();
-        foreach (UnityAction element in functionSet)
-        {
-            functionList.Add(element);
-        }
-        return functionList;
-    }
-
-    protected void BindEventsWithButtons<T>(List<UnityAction> functionList) where T : Enum
-    {
-        int arrayLength = Enum.GetValues(typeof(T)).Length;
-
-        Debug.Assert(arrayLength == functionList.Count);
-
-        T[] array = (T[])Enum.GetValues(typeof(T));
-
-        for (int i = 0; i < array.Length; ++i)
-        {
-            Button button = Get<Button>(Convert.ToInt32(array[i]));
-            BindButtonEvent(button, functionList[i]);
-        }
     }
 }
