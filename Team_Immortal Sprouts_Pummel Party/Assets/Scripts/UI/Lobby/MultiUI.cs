@@ -8,7 +8,7 @@ public class MultiUI : UIBase
 {
     enum Buttons
     {
-        GameStart,
+        JoinRandom,
         CreateRoom,
         FindRoom,
         LeaveGame
@@ -32,8 +32,15 @@ public class MultiUI : UIBase
         Get<TMP_Text>(Texts.Find).text = Managers.Data.GetText(Define.FindRoomText, Language.Eng);
         Get<TMP_Text>(Texts.Quit).text = Managers.Data.GetText(Define.QuitGameText, Language.Eng);
 
+        BindButtonEvent(Get<Button>(Buttons.JoinRandom), ShowCodeInputUI);
+        BindButtonEvent(Get<Button>(Buttons.CreateRoom), ShowCodeInputUI);
     }
 
+
+    private void ShowCodeInputUI()
+    {
+        Managers.UI.PopUI<RoomCodeUI>(parent: Managers.UI.RootTransform);
+    }
 
 
 

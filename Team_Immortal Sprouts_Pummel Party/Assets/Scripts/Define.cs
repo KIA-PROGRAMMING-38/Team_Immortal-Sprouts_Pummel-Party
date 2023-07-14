@@ -16,5 +16,8 @@ public class Define
     public const int CreateRoomText = 4;
     public const int FindRoomText = 5;
     public const int QuitGameText = 6;
-
+    public const int CodeText = 7;
+    public const int CodeGuideText = 8;
+    public const int OKText = 9;
+    public const int CancelText = 10;
 }

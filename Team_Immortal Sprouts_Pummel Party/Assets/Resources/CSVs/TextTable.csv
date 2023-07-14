@@ -1,7 +1,11 @@
 ID,KOR,ENG
 1,<color=yellow>Duck</color> <color=orange>Duck</color> <color=blue>Party</color>,<color=yellow>Duck</color> <color=orange>Duck</color> <color=blue>Party</color>
-2,ì•„ë¬´ê³³ì´ë‚˜ í„°ì¹˜í•˜ì—¬ ì‹œì‘í•˜ì„¸ìš”!,Touch Anywhere to Get Started!
-3,ëœë¤ ì…ì¥,Join Random
-4,ë°© ë§Œë“¤ê¸°,Create Room
-5,ë°© ì°¾ê¸°,Find Room
-6,ê²Œì„ì¢…ë£Œ,Quit Game
+2,¾Æ¹«°÷ÀÌ³ª ÅÍÄ¡ÇÏ¿© ½ÃÀÛÇÏ¼¼¿ä!,Touch Anywhere to Get Started!
+3,·£´ı ÀÔÀå,Join Random
+4,¹æ ¸¸µé±â,Create Room
+5,¹æ Ã£±â,Find Room
+6,°ÔÀÓÁ¾·á,Quit Game
+7,ÄÚµå,CODE
+8,ÄÚµå¸¦ ÀÔ·ÂÇÏ¼¼¿ä . . .,Enter Room Code . . .
+9,È®ÀÎ,OK
+10,Ãë¼Ò,Cancel
