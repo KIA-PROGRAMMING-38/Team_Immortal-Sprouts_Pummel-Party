@@ -8,11 +8,9 @@ public class LobbyCanvases : MonoBehaviourPunCallbacks
 {
     [SerializeField] private MultiGameCanvas _multiGameCanvas;
     [SerializeField] private Create_Or_Find_RoomCanvas _create_Or_Find_RoomCanvas;
-    [SerializeField] private FailedJoinRoomCanvas _failedJoinRoomCanvas;
 
     public MultiGameCanvas MultiGameCanvas { get { return _multiGameCanvas; } }
     public Create_Or_Find_RoomCanvas Create_Or_Find_RoomCanvas { get { return _create_Or_Find_RoomCanvas; } }
-    public FailedJoinRoomCanvas FailedJoinRoomCanvas { get { return _failedJoinRoomCanvas; } }
 
     
 
@@ -25,11 +23,10 @@ public class LobbyCanvases : MonoBehaviourPunCallbacks
     {
         MultiGameCanvas.CanvasInitialize(this);
         Create_Or_Find_RoomCanvas.CanvasInitialize(this);
-        FailedJoinRoomCanvas.CanvasInitialize(this);
     }
 
     /// <summary>
-    /// Lobby CanvasµéÀ» ¸ğµÎ ºñÈ°¼ºÈ­
+    /// Lobby Canvasë“¤ì„ ëª¨ë‘ ë¹„í™œì„±í™”
     /// </summary>
     public void DeactiveLobbyCanvases()
     {
@@ -58,13 +55,13 @@ public class LobbyCanvases : MonoBehaviourPunCallbacks
 
         foreach (RoomInfo roomInfo in roomList)
         {
-            if (roomInfo.RemovedFromList) // »èÁ¦°¡ µÈ´Ù¸é
+            if (roomInfo.RemovedFromList) // ì‚­ì œê°€ ëœë‹¤ë©´
             {
                 entireRooms.Remove(roomInfo.Name);
             }
             else
             {
-                if (!entireRooms.ContainsKey(roomInfo.Name)) // »õ·Î »ı¼ºµÈ ¹æÀÌ¶ó¸é
+                if (!entireRooms.ContainsKey(roomInfo.Name)) // ìƒˆë¡œ ìƒì„±ëœ ë°©ì´ë¼ë©´
                 {
                     entireRooms.Add(roomInfo.Name, roomInfo);
                 }

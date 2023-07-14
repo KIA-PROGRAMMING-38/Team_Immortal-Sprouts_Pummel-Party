@@ -59,7 +59,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom() => OnLeftTheRoom?.Invoke();
     #endregion
 
-    public void BindEvent(ref Action onEvent, Action function, bool isAdding)
+    private void BindEvent(ref Action onEvent, Action function, bool isAdding)
     {
         if (isAdding)
         {
