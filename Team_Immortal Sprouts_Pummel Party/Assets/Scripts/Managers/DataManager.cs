@@ -35,6 +35,7 @@ public class DataManager
     public string GetText(int ID, Language lang)
     {
         string line = null;
+
         if (lang == Language.Kor)
         {
             line = Texts[ID].KOR;

@@ -6,7 +6,7 @@ public class Initializer : MonoBehaviour
 {
     private void Start()
     {
-        Managers.UI.PopUI<TitleUI>();
+        Managers.UI.PopUI<TitleUI>(parent : Managers.UI.RootTransform);
     }
 
 }

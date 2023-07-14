@@ -11,9 +11,12 @@ public class UIManager
     
     public void Init()
     {
-        
+        GameObject UIRoot = new GameObject("UIRoot");
+        RootTransform = UIRoot.transform;
+        RootTransform.SetParent(Managers.Photon.transform.root);
     }
 
+    public Transform RootTransform { get; private set; }
     public Stack<UIBase> UIStack = new Stack<UIBase>();
 
     public T PopUI<T>(string name = null, Transform parent = null) where T : UIBase
